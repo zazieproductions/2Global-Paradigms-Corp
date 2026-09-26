@@ -17,6 +17,7 @@ import {
   Compass,
   Wrench,
   Link2Off,
+  AudioWaveform,
   ChevronRight,
   ShieldAlert,
   HardDrive
@@ -124,6 +125,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
           icon: Wrench,
           badge: '5 Tools',
           badgeColor: 'bg-emerald-950 text-emerald-400 border-emerald-800'
+        },
+        {
+          id: 'signals' as ActiveTab,
+          label: 'Signals & Intercepts',
+          icon: AudioWaveform,
+          badge: '3 Keys',
+          badgeColor: 'bg-amber-950 text-amber-300 border-amber-800'
         }
       ]
     },

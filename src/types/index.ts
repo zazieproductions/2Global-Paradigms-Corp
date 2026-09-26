@@ -260,6 +260,65 @@ export interface DeadLink {
   archiveDate: string;
 }
 
+// ── SIGNAL CHAIN (ARG PUZZLE LADDER) ───────────────────────────────────────
+
+export interface GanderBeaconSignal {
+  id: string;
+  code: string;
+  title: string;
+  stationName: string;
+  registerNote: string;
+  coordinates: string;
+  keyerFrequencyHz: number;
+  transmissionWindow: string;
+  defaultWpm: number;
+  preamble: string; // the word the preamble spells in Morse (KEY ONE)
+  houseName: string;
+  houseLocation: string;
+  operatorNotes: string[];
+  interceptLog: string[];
+}
+
+export interface NumbersIntercept {
+  id: string;
+  code: string;
+  title: string;
+  stationName: string;
+  interceptDate: string;
+  carrierFrequency: string;
+  modulation: string;
+  groupSize: number;
+  cipher: 'Vigenere (tabula recta, A-Z only)';
+  keyHint: string;
+  keySource: string;
+  trafficGroups: string[];
+  operatorNotes: string[];
+}
+
+export interface SpectralPrintSignal {
+  id: string;
+  code: string;
+  title: string;
+  sourceName: string;
+  continuousSince: string;
+  carrierFrequencyHz: number;
+  binFrequenciesHz: number[];
+  glyphColumns: number;
+  glyphRows: number;
+  message: string; // the word painted by the waterfall (KEY THREE)
+  operatorNotes: string[];
+}
+
+export interface SealedDisclosure {
+  id: string;
+  code: string;
+  title: string;
+  classificationStamp: string;
+  filedBy: string;
+  filedDate: string;
+  body: string[];
+}
+
 export type ActiveTab =
   | 'dashboard'
   | 'documents'
@@ -277,4 +336,5 @@ export type ActiveTab =
   | 'careers'
   | 'values'
   | 'tools'
-  | 'deadlinks';
+  | 'deadlinks'
+  | 'signals';

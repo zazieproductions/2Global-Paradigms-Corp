@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Terminal as TerminalIcon, X, Maximize2, Minimize2, Trash2 } from 'lucide-react';
 import { DocumentRecord, ClearanceLevel } from '../types';
 import { gpcAudio } from '../lib/audioEngine';
+import { useSignalChain } from '../lib/signalChainContext';
+import { GANDER_BEACON, RAVENSPORT_INTERCEPT, SPIRAL_PRINT } from '../data/signalPuzzles';
 
 interface TerminalModalProps {
   isOpen: boolean;
@@ -29,6 +31,7 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
   documents,
   onSelectDocument
 }) => {
+  const chain = useSignalChain();
   const [inputVal, setInputVal] = useState('');
   const [history, setHistory] = useState<CommandHistory[]>([
     {
@@ -42,6 +45,11 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
           <p>AUTHENTICATED AS: GUEST_INVESTIGATOR // {clearance.toUpperCase()}</p>
           <p className="text-amber-400">
             Type <span className="text-cyan-300 font-bold">"help"</span> for command index or <span className="text-cyan-300 font-bold">"override 432-88"</span> for administrative bypass.
+          </p>
+          <p className="text-amber-400">
+            Off-book carriers held at Station 23. Run <span className="text-cyan-300 font-bold">"signals"</span> for
+            the chain status and <span className="text-cyan-300 font-bold">"key &lt;word&gt;"</span> to transmit a
+            recovered pass-phrase.
           </p>
         </div>
       )
@@ -92,6 +100,9 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
               <div><span className="text-cyan-300 font-bold">stop</span> — Stop all active audio streams</div>
               <div><span className="text-cyan-300 font-bold">leak-dump</span> — Access Dr. Aris Thorne's leak directory</div>
               <div><span className="text-cyan-300 font-bold">override 432-88</span> — Admin bypass for Level 5 Black Dossier</div>
+              <div><span className="text-amber-300 font-bold">signals</span> — Off-book signal chain status (Station 23)</div>
+              <div><span className="text-amber-300 font-bold">key &lt;word&gt;</span> — Transmit a recovered pass-phrase</div>
+              <div><span className="text-amber-300 font-bold">gander</span> — Gander beacon preamble intercept data</div>
               <div><span className="text-cyan-300 font-bold">status</span> — Display field stations & telemetry state</div>
               <div><span className="text-cyan-300 font-bold">exit</span> — Close terminal backdoor</div>
             </div>
@@ -286,6 +297,113 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
         break;
       }
 
+      case 'signals': {
+        const stageLine = (n: 1 | 2 | 3, code: string, desc: string, sealedHint: string) => (
+          <p key={code}>
+            <span className="text-cyan-300 font-mono">{code}</span>{' '}
+            {chain.isStageOpen(n) ? (
+              <span className="text-emerald-400 font-bold">[OPEN]</span>
+            ) : (
+              <span className="text-rose-400 font-bold">[SEALED]</span>
+            )}{' '}
+            <span className="text-slate-400">{desc}</span>
+            {!chain.isStageOpen(n) && <span className="text-amber-300"> — sealed with {sealedHint}</span>}
+          </p>
+        );
+        outputNode = (
+          <div className="text-slate-300 space-y-1">
+            <p className="text-amber-400 font-bold">=== OFF-BOOK SIGNAL CHAIN // STATION 23 ===</p>
+            {stageLine(
+              1,
+              'SIG-01-GANDER',
+              '620 Hz hand keyer. The preamble spells the name of the house.',
+              'nothing — transmit the keyer yourself'
+            )}
+            {stageLine(
+              2,
+              'SIG-02-RAVENSPORT',
+              `${RAVENSPORT_INTERCEPT.trafficGroups.length} five-letter groups. Live Vigenère decryptor workbench.`,
+              'key one — the house name'
+            )}
+            {stageLine(
+              3,
+              'SIG-03-HOLDTONE',
+              'Perpetual Hold-Tone Spiral → real-time waterfall spectrogram (5×7 dot matrix).',
+              'key two — the authorisation word named inside the decrypt'
+            )}
+            <p className="text-slate-500">
+              RECOVERED: {chain.discovered.length}/3 · TRANSMITTED: {chain.accepted.length}/3 · PRINT OBSERVED:{' '}
+              {chain.printObserved ? 'YES' : 'NO'}
+            </p>
+            <p>
+              Work the carriers in the <span className="text-amber-300 font-bold">SIGNALS & INTERCEPTS</span>{' '}
+              tab. Transmit a recovered word with{' '}
+              <span className="text-cyan-300 font-bold">key &lt;word&gt;</span>.
+            </p>
+            {chain.attemptLog.length > 0 && (
+              <p className="text-slate-600">GATE LOG: {chain.attemptLog.slice(0, 3).join('  |  ')}</p>
+            )}
+          </div>
+        );
+        break;
+      }
+
+      case 'key':
+      case 'unseal': {
+        if (!arg) {
+          outputNode = (
+            <p className="text-slate-400">
+              Usage: <span className="text-cyan-300 font-bold">key &lt;word&gt;</span> — transmit a recovered
+              pass-phrase at the gate.
+            </p>
+          );
+          break;
+        }
+        const res = chain.submitKey(arg);
+        gpcAudio.playUiSound(res.ok ? 'grant' : 'deny');
+        outputNode = (
+          <div className={res.ok ? 'text-emerald-300' : 'text-rose-400'}>
+            <p className="font-bold">{res.message}</p>
+            {res.ok && res.unlocked === 2 && (
+              <p className="text-slate-400">
+                Open SIGNALS &amp; INTERCEPTS → 02 RAVENSPORT CARRIER and load the key into the workbench.
+              </p>
+            )}
+            {res.ok && res.unlocked === 3 && (
+              <p className="text-slate-400">
+                Open SIGNALS &amp; INTERCEPTS → 03 HOLD-TONE PRINT and start the carrier to paint the print.
+              </p>
+            )}
+            {res.ok && res.unlocked === 'final' && (
+              <p className="text-slate-400">
+                Final hold-tone disclosure unsealed — read it at the foot of SIGNALS &amp; INTERCEPTS → 03.
+              </p>
+            )}
+          </div>
+        );
+        break;
+      }
+
+      case 'gander':
+      case 'beacon': {
+        gpcAudio.playUiSound('scan');
+        const hint = chain.isSolved(1)
+          ? `PREAMBLE ALREADY RESOLVED: ${GANDER_BEACON.houseName.split(' ')[0]} — TRANSMITTED.`
+          : 'Preamble unresolved. Trigger the keyer in SIGNALS & INTERCEPTS → 01 GANDER BEACON.';
+        outputNode = (
+          <div className="text-slate-300 space-y-1">
+            <p className="text-amber-400 font-bold">=== {GANDER_BEACON.code} // GANDER BEACON PREAMBLE ===</p>
+            <p>STATION: {GANDER_BEACON.stationName}</p>
+            <p>REGISTER: {GANDER_BEACON.registerNote}</p>
+            <p>COORDINATES: {GANDER_BEACON.coordinates}</p>
+            <p>KEYING TONE: {GANDER_BEACON.keyerFrequencyHz.toFixed(1)} Hz · WINDOW: {GANDER_BEACON.transmissionWindow}</p>
+            <p>PAYLOAD: {SPIRAL_PRINT.glyphColumns}×{SPIRAL_PRINT.glyphRows} dot-matrix print carried since {SPIRAL_PRINT.continuousSince.slice(0, 10)}</p>
+            <p className="text-cyan-300">{hint}</p>
+          </div>
+        );
+        break;
+      }
+
       case 'status':
         outputNode = (
           <div className="text-slate-300 space-y-1">
@@ -319,7 +437,10 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-2 md:p-6 select-none font-mono text-xs">
+    <div
+      data-gpc-modal="true"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-2 md:p-6 select-none font-mono text-xs"
+    >
       <div
         className={`bg-[#05070c] border border-cyan-500/50 rounded-lg flex flex-col shadow-[0_0_60px_rgba(0,240,255,0.2)] overflow-hidden transition-all ${
           isFullscreen ? 'w-full h-full' : 'max-w-4xl w-full h-[600px] max-h-[90vh]'
@@ -388,7 +509,7 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
                 handleCommand(inputVal);
               }
             }}
-            placeholder="Type 'help', 'scan', 'leak-dump', 'cat DOC-2019-PALIMPSEST-LEAK', or 'override 432-88'..."
+            placeholder="Type 'help', 'signals', 'key <word>', 'scan', 'leak-dump', or 'override 432-88'..."
             className="flex-1 bg-transparent border-none text-cyan-300 placeholder-slate-600 text-xs focus:outline-none font-mono"
             autoFocus
           />

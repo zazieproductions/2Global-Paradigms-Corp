@@ -5,6 +5,7 @@ class GpcAudioEngine {
   private ctx: AudioContext | null = null;
   private masterGain: GainNode | null = null;
   private analyser: AnalyserNode | null = null;
+  private spectroAnalyser: AnalyserNode | null = null;
   private activeOscillators: (OscillatorNode | AudioBufferSourceNode)[] = [];
   private activeGains: GainNode[] = [];
   private noiseNode: AudioBufferSourceNode | null = null;
@@ -18,6 +19,20 @@ class GpcAudioEngine {
     filter?: BiquadFilterNode;
     gain?: GainNode;
   } = {};
+  // Signal-chain: hand keyer (Gander beacon)
+  private keyerNodes: { osc: OscillatorNode; gain: GainNode } | null = null;
+  private morseBurstNodes: { osc: OscillatorNode; gain: GainNode }[] = [];
+  // Signal-chain: perpetual hold-tone spiral + dot-matrix burst scheduler
+  private spiralVoice: {
+    nodes: (OscillatorNode | AudioBufferSourceNode)[];
+    gains: GainNode[];
+    timer: number | null;
+    startTime: number;
+    columnDuration: number;
+    pattern: (number[] | null)[];
+    bins: number[];
+    scheduledColumn: number;
+  } | null = null;
 
   constructor() {
     // Lazy initialize on first interaction
@@ -34,8 +49,31 @@ class GpcAudioEngine {
     this.analyser.fftSize = 1024;
     this.analyser.smoothingTimeConstant = 0.85;
 
+    // Waterfall spectrogram tap (SIGNALS // Hold-Tone Spectral Print).
+    // 1024-point FFT = 21ms window: enough frequency resolution to separate the
+    // seven 160Hz-spaced tone bins, short enough in time to keep the dot-matrix
+    // columns crisp. Chained in series so both taps see the full mix without
+    // doubling the output level.
+    this.spectroAnalyser = this.ctx.createAnalyser();
+    this.spectroAnalyser.fftSize = 1024;
+    this.spectroAnalyser.smoothingTimeConstant = 0.35;
+
     this.masterGain.connect(this.analyser);
-    this.analyser.connect(this.ctx.destination);
+    this.analyser.connect(this.spectroAnalyser);
+    this.spectroAnalyser.connect(this.ctx.destination);
+  }
+
+  /** Current AudioContext time (0 if not yet initialised). */
+  public now(): number {
+    return this.ctx ? this.ctx.currentTime : 0;
+  }
+
+  public getSampleRate(): number {
+    return this.ctx ? this.ctx.sampleRate : 48000;
+  }
+
+  public isAudioRunning(): boolean {
+    return !!this.ctx && this.ctx.state === 'running';
   }
 
   public async resume() {
@@ -420,6 +458,7 @@ class GpcAudioEngine {
   }
 
   public stopAllArtifacts() {
+    this.stopSpiral();
     this.activeOscillators.forEach((osc) => {
       try {
         osc.stop();
@@ -516,6 +555,252 @@ class GpcAudioEngine {
       } catch {}
     }
     this.liveSynthNodes = {};
+  }
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // SIGNAL CHAIN // GANDER BEACON — 620 Hz HAND KEYER
+  // ═════════════════════════════════════════════════════════════════════════
+
+  /** Key down: sound a continuous tone at the beacon's keying frequency. */
+  public startMorseKey(freq: number, volume = 0.22) {
+    this.stopMorseKey();
+    this.resume();
+    if (!this.ctx || !this.masterGain) return;
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, t);
+
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(volume, t + 0.006);
+
+    osc.connect(gain);
+    gain.connect(this.masterGain);
+    osc.start(t);
+
+    this.keyerNodes = { osc, gain };
+  }
+
+  /** Key up: release the tone with a short click-free ramp. */
+  public stopMorseKey() {
+    if (!this.keyerNodes || !this.ctx) return;
+    const { osc, gain } = this.keyerNodes;
+    const t = this.ctx.currentTime;
+    try {
+      gain.gain.cancelScheduledValues(t);
+      gain.gain.setValueAtTime(gain.gain.value, t);
+      gain.gain.linearRampToValueAtTime(0, t + 0.012);
+      osc.stop(t + 0.04);
+    } catch {
+      // already stopped
+    }
+    this.keyerNodes = null;
+  }
+
+  /**
+   * Schedule an entire Morse timeline (offsets in seconds, relative to "now").
+   * Returns the absolute AudioContext time of element zero, or null.
+   */
+  public scheduleMorseBursts(
+    elements: { start: number; dur: number }[],
+    freq: number,
+    volume = 0.22,
+    leadIn = 0.25
+  ): number | null {
+    this.stopMorseKey();
+    this.stopMorseBursts();
+    this.resume();
+    if (!this.ctx || !this.masterGain) return null;
+
+    const base = this.ctx.currentTime + leadIn;
+    elements.forEach((el) => this.toneBurst(freq, base + el.start, el.dur, volume, this.morseBurstNodes));
+    return base;
+  }
+
+  /** Cut short any scheduled (not yet sounded) Morse transmission. */
+  public stopMorseBursts() {
+    this.morseBurstNodes.forEach(({ osc, gain }) => {
+      try {
+        gain.gain.cancelScheduledValues(this.ctx ? this.ctx.currentTime : 0);
+        osc.stop();
+        osc.disconnect();
+        gain.disconnect();
+      } catch {
+        // already finished
+      }
+    });
+    this.morseBurstNodes = [];
+  }
+
+  /** One keyed sine burst with a soft attack/release (no key clicks). */
+  private toneBurst(
+    freq: number,
+    at: number,
+    dur: number,
+    volume: number,
+    sink?: { osc: OscillatorNode; gain: GainNode }[]
+  ) {
+    if (!this.ctx || !this.masterGain) return;
+    const ramp = Math.min(0.008, dur * 0.25);
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, at);
+
+    gain.gain.setValueAtTime(0, at);
+    gain.gain.linearRampToValueAtTime(volume, at + ramp);
+    gain.gain.setValueAtTime(volume, at + Math.max(ramp, dur - ramp));
+    gain.gain.linearRampToValueAtTime(0, at + dur);
+
+    osc.connect(gain);
+    gain.connect(this.masterGain);
+    osc.start(at);
+    osc.stop(at + dur + 0.02);
+
+    if (sink) sink.push({ osc, gain });
+  }
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // SIGNAL CHAIN // PERPETUAL HOLD-TONE SPIRAL + DOT-MATRIX BURST PAINTER
+  // ═════════════════════════════════════════════════════════════════════════
+
+  /**
+   * Start the spiral. `pattern` is one entry per waterfall column: null = silent,
+   * otherwise the lit glyph rows (row 0 = top row = highest frequency bin).
+   */
+  public startSpiral(
+    pattern: (number[] | null)[],
+    bins: number[],
+    columnDuration: number,
+    carrierFreq: number
+  ) {
+    this.stopSpiral();
+    this.resume();
+    if (!this.ctx || !this.masterGain || pattern.length === 0) return;
+
+    const t = this.ctx.currentTime;
+
+    // Carrier: slow drifting "spiral" tone that has been up since 2006.
+    const carrier = this.ctx.createOscillator();
+    const carrierGain = this.ctx.createGain();
+    const drift = this.ctx.createOscillator();
+    const driftGain = this.ctx.createGain();
+    const harmonic = this.ctx.createOscillator();
+    const harmonicGain = this.ctx.createGain();
+
+    carrier.type = 'sine';
+    carrier.frequency.setValueAtTime(carrierFreq, t);
+
+    drift.type = 'sine';
+    drift.frequency.setValueAtTime(0.045, t);
+    driftGain.gain.setValueAtTime(6, t);
+    drift.connect(driftGain);
+    driftGain.connect(carrier.frequency);
+
+    harmonic.type = 'triangle';
+    harmonic.frequency.setValueAtTime(carrierFreq * 3, t);
+    harmonicGain.gain.setValueAtTime(0.012, t);
+
+    carrierGain.gain.setValueAtTime(0, t);
+    carrierGain.gain.linearRampToValueAtTime(0.05, t + 0.4);
+
+    carrier.connect(carrierGain);
+    carrierGain.connect(this.masterGain);
+    harmonic.connect(harmonicGain);
+    harmonicGain.connect(this.masterGain);
+
+    carrier.start(t);
+    drift.start(t);
+    harmonic.start(t);
+
+    this.spiralVoice = {
+      nodes: [carrier, drift, harmonic],
+      gains: [carrierGain, driftGain, harmonicGain],
+      timer: window.setInterval(() => this.pumpSpiral(), 30),
+      startTime: t + 0.35,
+      columnDuration: columnDuration,
+      pattern,
+      bins,
+      scheduledColumn: -1
+    };
+  }
+
+  /** Look-ahead scheduler for the dot-matrix tone bursts. */
+  private pumpSpiral() {
+    const v = this.spiralVoice;
+    if (!v || !this.ctx) return;
+    const horizon = this.ctx.currentTime + 0.4;
+    let guard = 0;
+
+    while (v.startTime + (v.scheduledColumn + 1) * v.columnDuration < horizon && guard++ < 400) {
+      v.scheduledColumn += 1;
+      const column = v.pattern[v.scheduledColumn % v.pattern.length];
+      const at = v.startTime + v.scheduledColumn * v.columnDuration;
+      if (at < this.ctx.currentTime || !column || column.length === 0) continue;
+      column.forEach((row) => {
+        const freq = v.bins[v.bins.length - 1 - row];
+        if (freq) this.toneBurst(freq, at, v.columnDuration * 0.86, 0.055);
+      });
+    }
+  }
+
+  public stopSpiral() {
+    const v = this.spiralVoice;
+    if (!v) return;
+    if (v.timer !== null) window.clearInterval(v.timer);
+    v.gains.forEach((g) => {
+      try {
+        g.disconnect();
+      } catch {
+        // ignore
+      }
+    });
+    v.nodes.forEach((n) => {
+      try {
+        n.stop();
+        n.disconnect();
+      } catch {
+        // ignore
+      }
+    });
+    this.spiralVoice = null;
+  }
+
+  public isSpiralRunning(): boolean {
+    return !!this.spiralVoice;
+  }
+
+  /** Seconds since the spiral's first column was scheduled. */
+  public spiralElapsed(): number {
+    if (!this.spiralVoice || !this.ctx) return 0;
+    return Math.max(0, this.ctx.currentTime - this.spiralVoice.startTime);
+  }
+
+  /** Change sweep speed without dropping the carrier. */
+  public updateSpiralColumnDuration(columnDuration: number) {
+    if (!this.spiralVoice) return;
+    const v = this.spiralVoice;
+    const elapsed = this.spiralElapsed();
+    v.columnDuration = columnDuration;
+    v.startTime = this.now() + 0.05;
+    v.scheduledColumn = Math.floor(elapsed / columnDuration) - 1;
+  }
+
+  /** Live FFT magnitudes from the high-resolution spectrogram tap. */
+  public getSpectrogramData(array: Uint8Array<ArrayBuffer>) {
+    if (this.spectroAnalyser) {
+      this.spectroAnalyser.getByteFrequencyData(array);
+      return;
+    }
+    for (let i = 0; i < array.length; i++) array[i] = 0;
+  }
+
+  public getSpectrogramBinCount(): number {
+    return this.spectroAnalyser ? this.spectroAnalyser.frequencyBinCount : 1024;
   }
 
   // Get real-time audio analysis data

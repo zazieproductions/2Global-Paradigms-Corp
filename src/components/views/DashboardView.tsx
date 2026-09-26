@@ -337,6 +337,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
               <button
                 onClick={() => {
+                  gpcAudio.playUiSound('scan');
+                  onNavigateTab('signals');
+                }}
+                className="w-full p-2 bg-[#121927] hover:bg-[#192336] border border-[#22304d] hover:border-amber-500/50 rounded text-left flex items-center justify-between text-amber-300 cursor-pointer"
+              >
+                <span>Signals & Intercepts (3 Sealed Carriers)</span>
+                <span className="text-[9px] px-1.5 py-0.5 bg-slate-800 rounded text-slate-400">STATION 23</span>
+              </button>
+
+              <button
+                onClick={() => {
                   gpcAudio.playUiSound('click');
                   onOpenSecretSafe();
                 }}

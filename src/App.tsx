@@ -29,6 +29,8 @@ import { CareersView } from './components/views/CareersView';
 import { CompanyValuesView } from './components/views/CompanyValuesView';
 import { ToolsLabView } from './components/views/ToolsLabView';
 import { DeadLinksView } from './components/views/DeadLinksView';
+import { SignalsView } from './components/views/SignalsView';
+import { SignalChainProvider } from './lib/signalChain';
 
 // Data
 import { DOCUMENTS } from './data/documents';
@@ -60,6 +62,14 @@ import { gpcAudio } from './lib/audioEngine';
 import { HelpCircle, Play, Pause, Square, Radio, ShieldAlert } from 'lucide-react';
 
 export function App() {
+  return (
+    <SignalChainProvider>
+      <AppShell />
+    </SignalChainProvider>
+  );
+}
+
+function AppShell() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
   const [clearance, setClearance] = useState<ClearanceLevel>('Level 2 - Confidential');
   const [isUnredacted, setIsUnredacted] = useState<boolean>(false);
@@ -277,6 +287,16 @@ export function App() {
               onOpenDeadLinkModal={(link) => setSelectedDeadLink(link)}
             />
           )}
+
+          {activeTab === 'signals' && (
+            <SignalsView
+              onOpenTerminal={() => setIsTerminalOpen(true)}
+              onGrantBlackDossier={() => {
+                setClearance('Level 5 - Black Dossier');
+                setIsUnredacted(true);
+              }}
+            />
+          )}
         </main>
       </div>
 
@@ -382,6 +402,7 @@ export function App() {
                 <div>• <span className="text-white font-bold">Redaction De-Scrambler:</span> Toggle the top bar eye button to decrypt and reveal hidden cleartext across all files.</div>
                 <div>• <span className="text-white font-bold">Command Terminal Backdoor:</span> Click <span className="text-cyan-400 font-mono">GPC://CLI</span> or press <kbd className="px-1 py-0.5 bg-slate-800 rounded">~</kbd> to access command line tools (<span className="text-cyan-300 font-mono">scan</span>, <span className="text-cyan-300 font-mono">leak-dump</span>, <span className="text-cyan-300 font-mono">override 432-88</span>).</div>
                 <div>• <span className="text-white font-bold">Audio Lab & DSP Synthesizer:</span> Play real procedural Web Audio captures of the 14.8Hz planetary carrier, Project Vesper chimes, and deep trench pulses.</div>
+                <div>• <span className="text-white font-bold">Signals & Intercepts (3-Key ARG Ladder):</span> Key the 620 Hz Gander beacon in Morse, run the Vigenère workbench over the Ravensport numbers traffic, then read the hold-tone waterfall spectrogram — each carrier yields the key that unseals the next. Transmit words at the terminal with <span className="text-amber-300 font-mono">key &lt;word&gt;</span>.</div>
                 <div>• <span className="text-white font-bold">Whistleblower Safe:</span> Open the key icon in the top header and enter the 4-digit code (<span className="text-amber-400 font-mono">1480</span>, <span className="text-amber-400 font-mono">1989</span>, or <span className="text-amber-400 font-mono">0432</span>) to elevate clearance to Level 5.</div>
                 <div>• <span className="text-white font-bold">Employee Modules & Careers:</span> Take interactive compliance quizzes with printable certificates or submit job applications.</div>
               </div>
