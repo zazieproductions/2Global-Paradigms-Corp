@@ -7,19 +7,23 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 import { useProgression } from '@/hooks/use-progression';
 import { Modal } from '@/components/ui/modal';
 import { cn } from '@/lib/utils/cn';
+import { OrderSigil } from '@/components/ui/sigils';
 
 interface ArchiveGuideModalProps {
   open: boolean;
   onClose: () => void;
   onOpenSafe: () => void;
+  onOpenSanctum?: () => void;
 }
 
 const Kbd = ({ children }: { children: string }) => (
   <kbd className="px-1 py-px bg-slate-800 rounded border border-slate-700 text-slate-300">{children}</kbd>
 );
 
+const Code = ({ children }: { children: string }) => <code className="text-cyan-300">{children}</code>;
+
 /** Help, operator settings, investigation progress and reset — plus the out-of-world notice. */
-export function ArchiveGuideModal({ open, onClose, onOpenSafe }: ArchiveGuideModalProps) {
+export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: ArchiveGuideModalProps) {
   const p = useProgression();
   const { crt, sound } = p.state.preferences;
   const [confirmReset, setConfirmReset] = useState(false);
@@ -58,47 +62,101 @@ export function ArchiveGuideModal({ open, onClose, onOpenSafe }: ArchiveGuideMod
           {FICTION_NOTICE.long}
         </p>
 
+        <div className="flex gap-4 items-start">
+          <span className="text-fuchsia-300 shrink-0 hidden sm:block" aria-hidden>
+            <OrderSigil size={64} />
+          </span>
+          <p>
+            On the surface: a corporation. Underneath: the{' '}
+            <strong className="text-fuchsia-300">Ordo Vocis Profundae</strong>, an occult order that has
+            steered the company around a 14.8 Hz signal under the Earth. A whistleblower,{' '}
+            <strong className="text-white">Dr. Aris Thorne</strong>, has left you a trail.
+          </p>
+        </div>
+
+        <section
+          className="p-3 bg-fuchsia-950/20 border border-fuchsia-900/50 rounded space-y-1.5 text-caption"
+          aria-labelledby="guide-how-to-play"
+        >
+          <h3 id="guide-how-to-play" className="text-fuchsia-300 font-bold tracking-wider">
+            HOW TO PLAY — THE SEVEN SEALS
+          </h3>
+          <ol className="space-y-1 list-decimal list-inside">
+            <li>
+              Open <span className="text-white font-bold">The Seven Seals</span> (top of the sidebar). Each
+              seal is one puzzle, with a clear objective.
+            </li>
+            <li>
+              Answers are hidden across this archive: documents, dossiers, stations, audio transcripts,
+              emails, even the public &ldquo;corporate&rdquo; pages. Every clue can be read as text.
+            </li>
+            <li>
+              Breaking seals raises your <span className="text-amber-300">clearance</span>. Records above your
+              clearance show as <span className="text-rose-300">SEALED</span> until earned.
+            </li>
+            <li>
+              Each seal gives a <span className="text-white font-bold">Seal-Word</span>. Keep them — together
+              they point to the final answer.
+            </li>
+            <li>
+              Stuck? Every seal has 3 escalating hints (the last one gives the answer) and an assisted route.
+              No penalty.
+            </li>
+            <li>Progress saves automatically in this browser only. You can purge it below.</li>
+          </ol>
+          {onOpenSanctum && (
+            <button
+              type="button"
+              onClick={onOpenSanctum}
+              className="mt-1 px-3 py-1 rounded border border-fuchsia-700 text-fuchsia-300 hover:bg-fuchsia-950/50 cursor-pointer font-bold"
+            >
+              GO TO THE SEVEN SEALS →
+            </button>
+          )}
+        </section>
+
         <section className="p-3 bg-inset border border-line rounded space-y-1.5 text-caption">
-          <h3 className="text-cyan-300 font-bold">KEY FEATURES & ARG INVESTIGATION SECRETS:</h3>
+          <h3 className="text-cyan-300 font-bold">YOUR INSTRUMENTS:</h3>
           <p>
-            • <span className="text-white font-bold">Cold Boot Terminal:</span> Every reload starts inside a
-            live BIOS-style boot. Type hidden <span className="text-cyan-300">Channel 9</span> commands while
-            it runs (<span className="text-cyan-300">help</span>,{' '}
-            <span className="text-cyan-300">vesper</span>, <span className="text-cyan-300">thorne</span>,{' '}
-            <span className="text-cyan-300">skip</span>) — executive codes grant Level 5 on session init.{' '}
-            <Kbd>ESC</Kbd> or the SKIP button fast-forwards.
+            • <span className="text-white font-bold">Search</span> <Kbd>/</Kbd> or <Kbd>Ctrl K</Kbd> —
+            full-text search across {DOCUMENTS.length} records, personnel, stations and programs.
           </p>
           <p>
-            • <span className="text-white font-bold">{DOCUMENTS.length} Unique Records:</span> Dossiers,
-            meeting minutes, technical schematics, incident logs, and leaked memos.
+            • <span className="text-white font-bold">Terminal</span> <Kbd>~</Kbd> — <Code>help</Code>,{' '}
+            <Code>cat</Code>, <Code>seals</Code>, <Code>gematria</Code>, <Code>invoke</Code>,{' '}
+            <Code>hint</Code>… and some commands it won&apos;t list.
           </p>
           <p>
-            • <span className="text-white font-bold">Redaction De-Scrambler:</span> Toggle the top bar eye
-            button (or press <Kbd>U</Kbd>) to decrypt and reveal hidden cleartext across all files.
+            • <span className="text-white font-bold">Redaction De-Scrambler</span> <Kbd>U</Kbd> — lifts
+            Palimpsest&apos;s black bars. Unlocks at Level 3.
           </p>
           <p>
-            • <span className="text-white font-bold">Command Terminal Backdoor:</span> Click{' '}
-            <span className="text-cyan-400">GPC://CLI</span> or press <Kbd>~</Kbd> to access command line
-            tools (<span className="text-cyan-300">scan</span>,{' '}
-            <span className="text-cyan-300">leak-dump</span>, <span className="text-cyan-300">override</span>,{' '}
-            <span className="text-cyan-300">hint</span>).
+            • <span className="text-white font-bold">Audio Lab</span> — procedural Web Audio captures and a
+            live synthesizer. Nothing plays until you press play, and every capture has a full transcript.
           </p>
           <p>
-            • <span className="text-white font-bold">Audio Lab & DSP Synthesizer:</span> Play procedural Web
-            Audio captures of the 14.8Hz planetary carrier, Project Vesper chimes, and deep trench pulses.
-            Nothing plays until you press play, and every recording has a full text transcript.
+            • <span className="text-white font-bold">Whistleblower Safe</span> (brass key, top bar) —
+            Thorne&apos;s safe. You will learn the combination.
           </p>
           <p>
-            • <span className="text-white font-bold">Whistleblower Safe:</span> Open the key icon in the top
-            header and enter Dr. Thorne's 4-digit code to elevate clearance to Level 5.
+            • <span className="text-white font-bold">Cold Boot</span> — during the boot you can type on
+            Channel 9. Try <Code>help</Code>. <Kbd>ESC</Kbd> or SKIP fast-forwards.
           </p>
           <p>
-            • <span className="text-white font-bold">Employee Modules & Careers:</span> Take interactive
-            compliance quizzes with printable certificates or submit (fictional) job applications.
+            • <span className="text-white font-bold">▸ Transmission</span> (top bar) — a guided beginner trail
+            that opens the case: three easy keys (Vesper Sequence → The Signal → The Waveform) with field
+            notes on every step. It cannot raise your clearance — only the seals can.
           </p>
           <p>
-            • <span className="text-white font-bold">Keyboard:</span> <Kbd>/</Kbd> or <Kbd>Ctrl K</Kbd> search
-            · <Kbd>~</Kbd> terminal · <Kbd>U</Kbd> de-scrambler · <Kbd>Esc</Kbd> closes the top-most window.
+            • <span className="text-white font-bold">Employee Modules &amp; Careers:</span> interactive
+            compliance quizzes with printable certificates, and (fictional) job applications.
+          </p>
+          <p>
+            • <span className="text-white font-bold">Keyboard:</span> <Kbd>Esc</Kbd> closes the top-most
+            window.
+          </p>
+          <p className="text-slate-500 italic">
+            Look closely at the public pages. The Order signs its work faintly.
           </p>
         </section>
 

@@ -24,6 +24,7 @@ const CareersPage = lazy(() => import('@/pages/careers-page'));
 const CompanyValuesPage = lazy(() => import('@/pages/company-values-page'));
 const ToolsLabPage = lazy(() => import('@/pages/tools-lab-page'));
 const DeadLinksPage = lazy(() => import('@/pages/dead-links-page'));
+const SanctumPage = lazy(() => import('@/pages/sanctum-page'));
 const NotFoundPage = lazy(() => import('@/pages/not-found-page'));
 
 export const routes: RouteObject[] = [
@@ -49,6 +50,7 @@ export const routes: RouteObject[] = [
       { path: 'values', element: <CompanyValuesPage /> },
       { path: 'tools', element: <ToolsLabPage /> },
       { path: 'deadlinks', element: <DeadLinksPage /> },
+      { path: 'sanctum', element: <SanctumPage /> },
       ...Object.entries(LEGACY_REDIRECTS).map(([from, to]) => ({
         path: from.replace(/^\//, ''),
         element: <LegacyRedirect to={to} />

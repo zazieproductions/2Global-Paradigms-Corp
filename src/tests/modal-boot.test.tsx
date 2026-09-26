@@ -74,6 +74,6 @@ describe('Boot sequence', () => {
     }
     vi.useRealTimers();
     expect(onComplete).toHaveBeenCalled();
-    expect(onComplete.mock.calls[0][1]).toBe(false);
+    expect(typeof onComplete.mock.calls[0][0]).toBe('string');
   });
 });

@@ -1,7 +1,14 @@
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
-import type { ClearanceLevel, CompletionMethod, Preferences, ProgressionState } from '@/types';
+import type { ClearanceLevel, CompletionMethod, JournalKind, Preferences, ProgressionState } from '@/types';
 import { progressionStore, type ProgressionStore } from '@/lib/puzzles/progression';
 import { validatePuzzleAnswer } from '@/lib/puzzles/validate';
+import {
+  earnedLevel,
+  effectiveClearance,
+  isDescramblerUnlocked,
+  isUnredacted,
+  levelFromRank
+} from '@/lib/puzzles/investigation';
 
 /**
  * Centralised access to player progression. Every component that reads or
@@ -50,6 +57,18 @@ export function useProgression(store: ProgressionStore = progressionStore) {
     (callsign: string) => dispatch({ type: 'set-callsign', callsign }),
     [dispatch]
   );
+  const collectFragment = useCallback(
+    (fragmentId: string) => dispatch({ type: 'collect-fragment', fragmentId }),
+    [dispatch]
+  );
+  const markPrologueSeen = useCallback(() => dispatch({ type: 'mark-prologue-seen' }), [dispatch]);
+  const completeFinale = useCallback(() => dispatch({ type: 'complete-finale' }), [dispatch]);
+  const addJournal = useCallback(
+    (text: string, kind: JournalKind = 'system') => dispatch({ type: 'journal', text, kind }),
+    [dispatch]
+  );
+  /** Close the seals again (keeps discovered files, callsign and preferences). */
+  const purgeCase = useCallback(() => dispatch({ type: 'purge-case' }), [dispatch]);
   const reset = useCallback(
     (keepPreferences = true) => dispatch({ type: 'reset', keepPreferences }),
     [dispatch]
@@ -57,7 +76,16 @@ export function useProgression(store: ProgressionStore = progressionStore) {
 
   const derived = useMemo(() => {
     const completions = Object.values(state.completed);
+    const earned = earnedLevel(state);
     return {
+      /** Highest clearance rank earned through the seals (1–5). */
+      earnedLevel: earned,
+      maxClearance: levelFromRank(earned),
+      /** Level the archive filters by (chosen level, capped at earned). */
+      clearance: effectiveClearance(state),
+      descramblerUnlocked: isDescramblerUnlocked(state),
+      /** De-scrambler requested AND earned. */
+      unredacted: isUnredacted(state),
       isCompleted: (puzzleId: string) => !!state.completed[puzzleId],
       isDiscovered: (recordId: string) => !!state.discovered[recordId],
       isRouteUnlocked: (path: string) => state.unlockedRoutes.includes(path),
@@ -80,6 +108,11 @@ export function useProgression(store: ProgressionStore = progressionStore) {
     setUnredacted,
     setPreference,
     setCallsign,
+    collectFragment,
+    markPrologueSeen,
+    completeFinale,
+    addJournal,
+    purgeCase,
     reset
   };
 }

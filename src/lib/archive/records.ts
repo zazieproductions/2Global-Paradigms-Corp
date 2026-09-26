@@ -39,6 +39,7 @@ import type {
   RegionalStation
 } from '@/types';
 import { isoDateOf, yearOf } from '@/lib/utils/text';
+import { stripRedactions } from '@/lib/archive/redaction';
 
 // ---------------------------------------------------------------------------
 // Lookups
@@ -156,8 +157,9 @@ function entry(input: EntryInput): ArchiveEntry {
     related,
     links: meta?.links ?? [],
     route: rest.route,
-    summary: rest.summary ?? '',
-    body: rest.body ?? '',
+    // Hidden words behind [REDACTED: …] never enter the index (see docs/PUZZLE_SYSTEM.md).
+    summary: stripRedactions(rest.summary ?? ''),
+    body: stripRedactions(rest.body ?? ''),
     filename: rest.filename,
     author: rest.author,
     department: rest.department,
@@ -193,7 +195,9 @@ function buildEntries(): ArchiveEntry[] {
         ],
         route: `/documents?doc=${encodeURIComponent(d.id)}`,
         summary: d.summary,
-        body: d.content,
+        // The Order's own records are searchable by title/abstract only, so
+        // snippets cannot quote a record that is still sealed.
+        body: d.tags.includes('Order') ? '' : d.content,
         filename: d.downloadableFilename,
         author: d.author,
         department: d.departmentName,

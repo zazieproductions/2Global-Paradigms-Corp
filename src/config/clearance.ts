@@ -7,8 +7,6 @@ export interface ClearanceTier {
   description: string;
   /** Design-system tone used by badges (see components/ui/badge.tsx). */
   tone: 'neutral' | 'info' | 'signal' | 'warning' | 'danger';
-  /** Requires a puzzle (master key / override) to select. */
-  locked?: boolean;
 }
 
 /** The five selectable clearance tiers, lowest first. */
@@ -51,9 +49,12 @@ export const CLEARANCE_TIERS: ClearanceTier[] = [
     label: 'Level 5 // Black Dossier / Sanitized',
     description:
       'Project Monolith mantle beacon telemetry, Dr. Arthur Vance-Vane disavowal files, and Palimpsest raw leaks.',
-    tone: 'danger',
-    locked: true
+    tone: 'danger'
   }
 ];
 
-export const DEFAULT_CLEARANCE: ClearanceLevel = 'Level 2 - Confidential';
+/**
+ * Clearance every new operator starts with. Higher tiers are EARNED by
+ * breaking the Seven Seals (see `earnedLevel()` in lib/puzzles/investigation.ts).
+ */
+export const DEFAULT_CLEARANCE: ClearanceLevel = 'Level 1 - General';

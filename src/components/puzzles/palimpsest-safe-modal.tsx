@@ -1,44 +1,54 @@
 import { useState } from 'react';
 import { CheckCircle2, Download, Key, ShieldAlert } from 'lucide-react';
-import { PUZZLE_DOWNLOADS } from '@/content';
+import { PUZZLE_DOWNLOADS, SAFE_DECOYS } from '@/content/puzzles/downloads';
+import { getSeal } from '@/content/puzzles/seals';
 import { PUZZLE_SETTINGS } from '@/config/puzzles';
 import { gpcAudio } from '@/lib/audio/audio-engine';
-import { getPuzzle } from '@/lib/puzzles/validate';
 import { downloadJson } from '@/lib/utils/download';
 import { useProgression } from '@/hooks/use-progression';
+import { useInvestigation } from '@/hooks/use-investigation';
 import { Modal } from '@/components/ui/modal';
-import { HintPanel } from './hint-panel';
+import { OrderSigil } from '@/components/ui/sigils';
 import { cn } from '@/lib/utils/cn';
 
-const PUZZLE_ID = 'palimpsest-safe';
 const PIN_LENGTH = 4;
 const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'CLR', '0', 'ENTER'] as const;
+const MERCURY = getSeal(6);
 
 interface PalimpsestSafeModalProps {
   open: boolean;
   onClose: () => void;
+  /** Route to the Seven Seals case file. */
+  onGoToSanctum: () => void;
 }
 
-export function PalimpsestSafeModal({ open, onClose }: PalimpsestSafeModalProps) {
-  const puzzle = getPuzzle(PUZZLE_ID)!;
-  const { attempt, isCompleted, isDownloadUnlocked } = useProgression();
+/**
+ * Thorne's whistleblower safe. Its combination is the answer to Seal VI
+ * (The Mercury Wheel) and is validated by digest through the investigation
+ * layer; it only turns once Seal V has been broken.
+ */
+export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: PalimpsestSafeModalProps) {
+  const { isDownloadUnlocked } = useProgression();
+  const { attemptSeal, isCorrect, isSolved } = useInvestigation();
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
-  const unlocked = isCompleted(PUZZLE_ID);
+  const unlocked = isSolved(6);
 
   const verify = (code: string) => {
-    const result = attempt(PUZZLE_ID, code);
-    if (result.ok) {
-      gpcAudio.playUiSound('grant');
+    if (attemptSeal(6, code).ok) {
+      gpcAudio.playSealBreak();
       setError('');
+    } else if (isCorrect(6, code)) {
+      gpcAudio.playUiSound('deny');
+      setError('THE TUMBLERS TURN… THEN BIND. A VOICE IN THE MECHANISM: "NOT YET. VENUS FIRST."');
     } else {
       gpcAudio.playUiSound('deny');
-      setError('CRYPTOGRAPHIC AUTHENTICATION FAILED. ACCESS LOGGED.');
+      setError(SAFE_DECOYS[code] ?? 'CRYPTOGRAPHIC AUTHENTICATION FAILED. ACCESS LOGGED.');
     }
     setPin('');
   };
 
-  const press = (key: (typeof KEYS)[number] | string) => {
+  const press = (key: (typeof KEYS)[number]) => {
     if (key === 'CLR') {
       gpcAudio.playUiSound('click');
       setPin('');
@@ -49,7 +59,7 @@ export function PalimpsestSafeModal({ open, onClose }: PalimpsestSafeModalProps)
       if (pin.length) verify(pin);
       return;
     }
-    if (!/^\d$/.test(key) || pin.length >= PIN_LENGTH) return;
+    if (pin.length >= PIN_LENGTH) return;
     gpcAudio.playUiSound('keystroke');
     const next = pin + key;
     setPin(next);
@@ -72,7 +82,8 @@ export function PalimpsestSafeModal({ open, onClose }: PalimpsestSafeModalProps)
         <div className="flex flex-col items-center gap-4">
           <div className="p-3 bg-amber-950/20 border border-amber-500/40 rounded text-label text-amber-200 text-center leading-relaxed">
             <span className="font-bold block mb-1">RESTRICTED BACKDOOR ENCLAVE</span>
-            {puzzle.narrative}
+            Dr. Aris Thorne's secure backdoor. Enter the 4-digit authorization sequence to extract the
+            unredacted whistleblower package.
           </div>
 
           {/* PIN entry: works with the keypad, a physical keyboard, or a screen reader. */}
@@ -121,9 +132,9 @@ export function PalimpsestSafeModal({ open, onClose }: PalimpsestSafeModalProps)
             <p
               id="safe-error"
               role="alert"
-              className="text-caption text-rose-400 font-bold flex items-center gap-1.5"
+              className="text-caption text-rose-400 font-bold flex items-start gap-1.5"
             >
-              <ShieldAlert className="w-3.5 h-3.5" aria-hidden />
+              <ShieldAlert className="w-3.5 h-3.5 shrink-0 mt-px" aria-hidden />
               <span>{error}</span>
             </p>
           )}
@@ -142,14 +153,42 @@ export function PalimpsestSafeModal({ open, onClose }: PalimpsestSafeModalProps)
             ))}
           </div>
 
-          <HintPanel puzzle={puzzle} className="w-full" />
+          <p className="mt-1 flex items-center gap-2 text-caption text-slate-500 text-center leading-tight">
+            <span className="text-amber-500/60" aria-hidden>
+              {'☿\uFE0E'}
+            </span>
+            <span>
+              The combination is the answer to{' '}
+              <button
+                type="button"
+                onClick={onGoToSanctum}
+                className="underline text-amber-400/80 hover:text-amber-300 cursor-pointer"
+              >
+                Seal {MERCURY.numeral} — {MERCURY.title}
+              </button>
+              .
+            </span>
+          </p>
         </div>
       ) : (
         <div className="flex flex-col gap-4 text-center" role="status">
           <div className="p-4 bg-emerald-950/30 border border-emerald-500/50 rounded flex flex-col items-center gap-2">
-            <CheckCircle2 className="w-8 h-8 text-emerald-400 animate-bounce" aria-hidden />
-            <h3 className="text-sm font-bold text-emerald-300">{puzzle.success.heading}</h3>
-            <p className="text-label text-slate-300">{puzzle.success.body}</p>
+            <CheckCircle2 className="w-8 h-8 text-emerald-400" aria-hidden />
+            <h3 className="text-sm font-bold text-emerald-300 font-occult tracking-widest">
+              THE SAFE IS OPEN — SEAL VI BROKEN
+            </h3>
+            <p className="text-label text-slate-300">
+              Inside: a lead tablet with a seven-pointed star, a cassette labelled{' '}
+              <span className="text-white">"BH4 — 05:15"</span>, and a note in Thorne's hand:{' '}
+              <em>"Umbra. The shadow behind the record. You're a Magister now — read the Black files."</em>
+            </p>
+            <p className="text-label text-slate-300">
+              Clearance elevated to <span className="text-rose-400 font-bold">LEVEL 5 — BLACK DOSSIER</span>.
+              De-Scrambler engaged.
+            </p>
+          </div>
+          <div className="flex justify-center text-rose-300/70" aria-hidden>
+            <OrderSigil size={56} />
           </div>
           {download && isDownloadUnlocked(download.id) && (
             <button
@@ -164,6 +203,13 @@ export function PalimpsestSafeModal({ open, onClose }: PalimpsestSafeModalProps)
               <span>DOWNLOAD WHISTLEBLOWER DATA DUMP (.JSON)</span>
             </button>
           )}
+          <button
+            type="button"
+            onClick={onGoToSanctum}
+            className="py-2 px-4 border border-fuchsia-700 text-fuchsia-300 hover:bg-fuchsia-950/50 rounded cursor-pointer font-occult tracking-widest"
+          >
+            RETURN TO THE SEVEN SEALS
+          </button>
         </div>
       )}
     </Modal>

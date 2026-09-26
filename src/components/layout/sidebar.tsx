@@ -1,10 +1,12 @@
 import { NavLink } from 'react-router-dom';
 import { HardDrive, ShieldAlert } from 'lucide-react';
-import { NAV_SECTIONS } from '@/config/navigation';
+import { NAV_SECTIONS, SANCTUM_NAV } from '@/config/navigation';
+import { DEGREES, LEVEL_CORRESPONDENCE, getSeal } from '@/content/puzzles/seals';
 import { gpcAudio } from '@/lib/audio/audio-engine';
-import { shortClearance } from '@/lib/archive/clearance';
-import { useProgression } from '@/hooks/use-progression';
+import { clearanceTier, shortClearance } from '@/lib/archive/clearance';
+import { useInvestigation } from '@/hooks/use-investigation';
 import { Badge } from '@/components/ui/badge';
+import { OrderSigil, PlanetGlyph } from '@/components/ui/sigils';
 import { FictionNotice } from '@/components/ui/fiction-notice';
 import { cn } from '@/lib/utils/cn';
 
@@ -15,7 +17,9 @@ interface SidebarProps {
 }
 
 export function Sidebar({ open, onNavigate }: SidebarProps) {
-  const { state } = useProgression();
+  const { clearance, earnedLevel, currentSeal, solved } = useInvestigation();
+  const rank = clearanceTier(clearance);
+  const active = currentSeal ? getSeal(currentSeal) : null;
 
   return (
     <>
@@ -55,13 +59,61 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
             </div>
             <div className="flex justify-between">
               <dt className="text-slate-500">CLEARANCE:</dt>
-              <dd className="text-amber-400 font-bold">{shortClearance(state.access.clearance)}</dd>
+              <dd className="text-amber-400 font-bold">{shortClearance(clearance)}</dd>
+            </div>
+            <div className="flex justify-between" title="Degree of initiation (Liber Carrier §IV)">
+              <dt className="text-slate-500">DEGREE:</dt>
+              <dd className="text-fuchsia-300/80 flex items-center gap-1">
+                {earnedLevel >= 3 ? (
+                  DEGREES[rank]
+                ) : (
+                  <span role="img" aria-label="Redacted until Level 3">
+                    ████████
+                  </span>
+                )}
+                <PlanetGlyph glyph={LEVEL_CORRESPONDENCE[rank].glyph} />
+              </dd>
             </div>
           </dl>
         </div>
 
         {/* Navigation */}
         <nav className="flex flex-col p-2 gap-3.5" aria-label="Primary">
+          {/* THE CASE — Ordo Vocis Profundae */}
+          <NavLink
+            to={SANCTUM_NAV.path}
+            onClick={() => {
+              gpcAudio.playUiSound('click');
+              onNavigate();
+            }}
+            className={({ isActive }) =>
+              cn(
+                'w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded border transition-all text-left',
+                isActive
+                  ? 'bg-fuchsia-500/15 border-fuchsia-500/60 shadow-glow-sm shadow-order/25'
+                  : 'bg-fuchsia-950/10 border-fuchsia-900/50 hover:border-fuchsia-600/60'
+              )
+            }
+          >
+            <span className={cn('text-fuchsia-300 shrink-0', active && 'ovp-breathe')} aria-hidden>
+              <OrderSigil size={26} />
+            </span>
+            <span className="flex-1 min-w-0">
+              <span className="block font-occult text-xs text-fuchsia-200 tracking-wider">
+                {SANCTUM_NAV.label}
+              </span>
+              <span className="block text-micro text-fuchsia-400/70 truncate">
+                {active ? `Active: Seal ${active.numeral} — ${active.title}` : 'Case closed · Silentium'}
+              </span>
+            </span>
+            <span
+              className="text-micro px-1.5 py-0.5 rounded border border-fuchsia-800 bg-fuchsia-950 text-fuchsia-300 font-bold shrink-0"
+              aria-label={`${solved.length} of 7 seals broken`}
+            >
+              {solved.length}/7
+            </span>
+          </NavLink>
+
           {NAV_SECTIONS.map((section) => (
             <div key={section.title} className="flex flex-col gap-1">
               <h2 className="px-2 py-1 text-micro font-bold tracking-widest text-slate-500 uppercase">

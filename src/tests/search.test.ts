@@ -1,11 +1,33 @@
 import { describe, expect, it } from 'vitest';
 import { getArchiveEntries } from '@/lib/archive/records';
 import { getFacets, searchArchive, tokenize } from '@/lib/search/search-index';
+import { DOCUMENTS } from '@/content';
+import { REDACTION_PATTERN } from '@/lib/archive/redaction';
 
 const ids = (text: string, filters = {}) =>
   searchArchive({ text, filters, limit: 20 }).map((r) => r.entry.id);
 
 describe('archive search', () => {
+  it('never indexes words hidden behind a redaction bar', () => {
+    const entries = new Map(getArchiveEntries().map((e) => [e.id, e]));
+    let checked = 0;
+    for (const d of DOCUMENTS) {
+      for (const m of d.content.matchAll(REDACTION_PATTERN)) {
+        if (!m[1]) continue;
+        const e = entries.get(d.id)!;
+        expect(`${e.summary} ${e.body}`, d.id).not.toContain(m[1]);
+        checked++;
+      }
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
+
+  it('does not quote the body of the Order records', () => {
+    for (const d of DOCUMENTS.filter((x) => x.tags.includes('Order'))) {
+      expect(getArchiveEntries().find((e) => e.id === d.id)?.body, d.id).toBe('');
+    }
+  });
+
   it('indexes every collection', () => {
     const kinds = new Set(getArchiveEntries().map((e) => e.kind));
     for (const k of ['document', 'personnel', 'office', 'project', 'audio', 'email'])

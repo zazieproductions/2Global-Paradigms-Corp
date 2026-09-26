@@ -9,20 +9,58 @@ import {
   TERMINAL_SCAN,
   TERMINAL_STATUS
 } from '@/content';
-import type { TerminalLine, TerminalTone } from '@/content/puzzles/terminal-text';
+import {
+  COMMUNE_LINES,
+  GEMATRIA_NOTES,
+  type TerminalLine,
+  type TerminalTone
+} from '@/content/puzzles/terminal-text';
+import {
+  DEGREES,
+  FRAGMENTS,
+  MERCURY_CIPHERTEXT,
+  SEALS,
+  SEAL_FOR_RANK,
+  getSeal
+} from '@/content/puzzles/seals';
 import { PUZZLE_SETTINGS } from '@/config/puzzles';
 import { SITE } from '@/config/site';
 import { gpcAudio } from '@/lib/audio/audio-engine';
-import { clearanceForTier, shortClearance } from '@/lib/archive/clearance';
-import { getPuzzle, nextHint } from '@/lib/puzzles/validate';
-import { hasEarnedClearance } from '@/lib/puzzles/progression';
+import { clearanceForTier, clearanceTier, shortClearance } from '@/lib/archive/clearance';
+import { ordinalGematria, vigenereDecrypt } from '@/lib/puzzles/cipher';
 import { useProgression } from '@/hooks/use-progression';
+import { useInvestigation } from '@/hooks/use-investigation';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { Modal } from '@/components/ui/modal';
+import { ChoirGlyph } from '@/components/ui/sigils';
+import { RedactedText } from '@/components/archive/redacted-text';
 import { cn } from '@/lib/utils/cn';
 
-const PUZZLE_ID = 'terminal-override';
-const LS_LIMIT = 15;
+const LS_PAGE_SIZE = 15;
+
+/** The planchette spells its line one letter at a time (instantly under reduced motion). */
+function Planchette({ text }: { text: string }) {
+  const reduced = useReducedMotion();
+  const [n, setN] = useState(reduced ? text.length : 0);
+  useEffect(() => {
+    if (n >= text.length) return;
+    const id = setTimeout(() => {
+      setN((v) => v + 1);
+      gpcAudio.playTone(180 + Math.random() * 60, 0.25, 'sine', 0.05);
+    }, 260);
+    return () => clearTimeout(id);
+  }, [n, text.length]);
+  return (
+    <div className="space-y-1">
+      <p className="text-fuchsia-400/70 text-caption tracking-widest">THE PLANCHETTE MOVES…</p>
+      <p className="sr-only">{text}</p>
+      <p className="font-occult text-lg tracking-[0.5em] text-fuchsia-200" aria-hidden>
+        {text.slice(0, n)}
+        {n < text.length && <span className="boot-caret">▮</span>}
+      </p>
+    </div>
+  );
+}
 
 const TONE_CLASS: Record<TerminalTone, string> = {
   heading: 'text-cyan-400 font-bold',
@@ -61,19 +99,28 @@ interface TerminalModalProps {
   open: boolean;
   onClose: () => void;
   onOpenDocument: (id: string) => void;
+  /** Speaking the Name (seal VII) — the shell swaps this dialog for the finale. */
+  onInvoke: () => void;
 }
 
-export function TerminalModal({ open, onClose, onOpenDocument }: TerminalModalProps) {
+export function TerminalModal({ open, ...rest }: TerminalModalProps) {
   if (!open) return null;
-  return <Terminal onClose={onClose} onOpenDocument={onOpenDocument} />;
+  return <Terminal {...rest} />;
 }
 
-function Terminal({ onClose, onOpenDocument }: Omit<TerminalModalProps, 'open'>) {
+function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps, 'open'>) {
   const progression = useProgression();
-  const { state, attempt, setClearance, setUnredacted, revealHint } = progression;
-  const { clearance, unredacted } = state.access;
+  const investigation = useInvestigation();
+  const { state, setClearance, setUnredacted } = progression;
+  const { clearance, unredacted, earnedLevel, descramblerUnlocked } = progression;
   const reducedMotion = useReducedMotion();
-  const puzzle = getPuzzle(PUZZLE_ID)!;
+  const invokeTimer = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (invokeTimer.current) window.clearTimeout(invokeTimer.current);
+    },
+    []
+  );
 
   const nextId = useRef(1);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -95,9 +142,8 @@ function Terminal({ onClose, onOpenDocument }: Omit<TerminalModalProps, 'open'>)
             AUTHENTICATED AS: {state.callsign.toUpperCase()} // {clearance.toUpperCase()}
           </p>
           <p className="text-amber-400">
-            Type <span className="text-cyan-300 font-bold">"help"</span> for command index or{' '}
-            <span className="text-cyan-300 font-bold">"override &lt;code&gt;"</span> for administrative
-            bypass.
+            Type <span className="text-cyan-300 font-bold">"help"</span> for command index, or{' '}
+            <span className="text-fuchsia-300 font-bold">"seals"</span> for the case file.
           </p>
         </div>
       )
@@ -131,7 +177,9 @@ function Terminal({ onClose, onOpenDocument }: Omit<TerminalModalProps, 'open'>)
             <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 text-label">
               {TERMINAL_HELP.map((h) => (
                 <div key={h.cmd}>
-                  <dt className="inline text-cyan-300 font-bold">{h.cmd}</dt>{' '}
+                  <dt className={cn('inline font-bold', h.order ? 'text-fuchsia-300' : 'text-cyan-300')}>
+                    {h.cmd}
+                  </dt>{' '}
                   <dd className="inline">— {h.desc}</dd>
                 </div>
               ))}
@@ -150,7 +198,19 @@ function Terminal({ onClose, onOpenDocument }: Omit<TerminalModalProps, 'open'>)
             <p>USER: {state.callsign.toUpperCase()}</p>
             <p>SESSION ORIGIN: COLD BOOT TERMINAL // CH9</p>
             <p>
-              CLEARANCE: <span className="text-amber-400 font-bold">{clearance}</span>
+              CLEARANCE: <span className="text-amber-400 font-bold">{clearance}</span> (EARNED: LEVEL{' '}
+              {earnedLevel})
+            </p>
+            <p>
+              DEGREE:{' '}
+              <span className="text-fuchsia-300">
+                {earnedLevel >= 3
+                  ? DEGREES[clearanceTier(clearance)].toUpperCase()
+                  : '████████ (requires Level 3)'}
+              </span>
+            </p>
+            <p>
+              SEALS BROKEN: <span className="text-fuchsia-300">{investigation.solved.length}/7</span>
             </p>
             <p>
               REDACTION DE-SCRAMBLER:{' '}
@@ -171,82 +231,70 @@ function Terminal({ onClose, onOpenDocument }: Omit<TerminalModalProps, 'open'>)
           gpcAudio.playUiSound('deny');
           return print(trimmed, <p className="text-rose-400">Usage: clearance &lt;1-5&gt;</p>);
         }
-        if (tier === 5 && !hasEarnedClearance(state, level)) {
+        if (tier > earnedLevel) {
           gpcAudio.playUiSound('deny');
           return print(
             trimmed,
             <p className="text-rose-400">
-              LEVEL 5 REQUIRES EXECUTIVE AUTHORITY. Usage: override &lt;code&gt;
+              DENIED. Level {tier} has not been earned. Your degree ceiling is LEVEL {earnedLevel}. Break the
+              next seal (type <span className="text-fuchsia-300">seals</span>).
             </p>
           );
         }
         setClearance(level);
         gpcAudio.playUiSound('grant');
-        const tone = [
-          'text-emerald-400',
-          'text-blue-400',
-          'text-cyan-400',
-          'text-amber-400',
-          'text-rose-400 font-bold'
-        ][tier - 1];
-        return print(trimmed, <p className={tone}>Clearance adjusted to: {level.toUpperCase()}</p>);
+        return print(trimmed, <p className="text-emerald-400">Clearance set to: {level.toUpperCase()}</p>);
       }
 
-      case 'override': {
-        const result = attempt(PUZZLE_ID, arg);
-        if (result.ok) {
-          gpcAudio.playUiSound('grant');
-          return print(
-            `override ${'•'.repeat(Math.min(arg.length, 8))}`,
-            <div className="text-rose-300 font-bold space-y-1" role="status">
-              <p>{puzzle.success.heading}</p>
-              <p>{puzzle.success.body}</p>
-              <p>SECURITY LEVEL ELEVATED: LEVEL 5 - BLACK DOSSIER</p>
-              <p>REDACTION DE-SCRAMBLER: FORCED ON</p>
-              <p className="text-slate-300">
-                All {DOCUMENTS.length} historical dossiers, casualty settlement files, and unredacted Svalbard
-                telemetry records are now fully decrypted.
-              </p>
-            </div>
-          );
-        }
+      case 'override':
         gpcAudio.playUiSound('deny');
         return print(
           arg ? `override ${'•'.repeat(Math.min(arg.length, 8))}` : trimmed,
-          <p className="text-rose-400">
-            {arg
-              ? 'INVALID OVERRIDE CODE. ATTEMPT LOGGED TO TOPN SECURITY.'
-              : 'Usage: override <code>. Type "hint" if you are stuck.'}
-          </p>
+          <div className="text-rose-300 space-y-1" role="status">
+            <p className="font-bold">*** OVERRIDE REJECTED ***</p>
+            <p>MASTER KEY 01 (DAME E. CROSS) — REVOKED 1989-11-04 05:14 UTC.</p>
+            <p className="text-slate-400">
+              Reason on file: "The Order does not open for keys. It opens for voices."
+            </p>
+            <p className="text-fuchsia-300">
+              Clearance is earned through the Seven Seals. Type <span className="font-bold">seals</span>.
+            </p>
+          </div>
         );
-      }
 
       case 'hint': {
-        const tier = state.hintsRevealed[PUZZLE_ID] ?? 0;
-        const next = nextHint(puzzle, tier);
-        if (!next) {
-          const last = puzzle.hints[puzzle.hints.length - 1];
+        const id = investigation.currentSeal;
+        if (!id) {
+          return print(
+            trimmed,
+            <p className="text-slate-400">No seal is waiting. Thorne has nothing more to say.</p>
+          );
+        }
+        const seal = getSeal(id);
+        const tier = investigation.hintsRevealed[id] ?? 0;
+        const last = seal.hints.length - 1;
+        if (tier > last) {
           return print(
             trimmed,
             <p className="text-amber-400">
-              {last.label}: {last.text}
+              SEAL {seal.numeral} — III.: {seal.hints[last]}
             </p>
           );
         }
-        if (next.revealsAnswer && arg.toLowerCase() !== 'confirm') {
+        if (tier === last && arg.toLowerCase() !== 'confirm') {
           return print(
             trimmed,
             <p className="text-slate-400">
-              The next hint gives the answer and marks this override as assisted. Type{' '}
+              The next hint gives the answer and marks Seal {seal.numeral} as assisted. Type{' '}
               <span className="text-cyan-300">hint confirm</span> to continue.
             </p>
           );
         }
-        revealHint(PUZZLE_ID, next.tier);
+        investigation.revealHint(id);
         return print(
           trimmed,
-          <p className={next.revealsAnswer ? 'text-amber-400' : 'text-cyan-300'}>
-            {next.label}: {next.text}
+          <p className={tier === last ? 'text-amber-400' : 'text-cyan-300'}>
+            SEAL {seal.numeral} — {['I.', 'II.', 'III.'][tier]}: {seal.hints[tier]}
           </p>
         );
       }
@@ -260,15 +308,27 @@ function Terminal({ onClose, onOpenDocument }: Omit<TerminalModalProps, 'open'>)
             <p>
               PUZZLES SOLVED: {progression.completedCount} ({progression.assistedCount} assisted)
             </p>
+            <p>SEALS BROKEN: {investigation.solved.length}/7</p>
+            <p>
+              CHOIR FRAGMENTS: {investigation.fragments.length}/{FRAGMENTS.length}
+            </p>
             <p className="text-slate-500">
-              Progress is stored in this browser only. Reset it from the Archive Guide.
+              Progress is stored in this browser only. Reset it from the Archive Guide or purge the case in
+              the Sanctum.
             </p>
           </div>
         );
 
       case 'decrypt':
       case 'unredact':
-        setUnredacted(!unredacted);
+        if (!descramblerUnlocked) {
+          gpcAudio.playUiSound('deny');
+          return print(
+            trimmed,
+            <p className="text-rose-400">DE-SCRAMBLER LOCKED — requires LEVEL 3 ({SEAL_FOR_RANK[3]}).</p>
+          );
+        }
+        setUnredacted(!state.access.unredacted);
         gpcAudio.playUiSound('unredact');
         return print(
           trimmed,
@@ -332,6 +392,15 @@ function Terminal({ onClose, onOpenDocument }: Omit<TerminalModalProps, 'open'>)
             <p className="text-rose-400">Error: Document "{arg}" not found in local index.</p>
           );
         }
+        if (clearanceTier(doc.clearance) > clearanceTier(clearance)) {
+          gpcAudio.playUiSound('deny');
+          return print(
+            trimmed,
+            <p className="text-rose-400">
+              {doc.code}: SEALED. Classified {doc.clearance}; you hold {clearance}. The wax holds.
+            </p>
+          );
+        }
         gpcAudio.playUiSound('print');
         progression.discover(doc.id);
         return print(
@@ -342,9 +411,9 @@ function Terminal({ onClose, onOpenDocument }: Omit<TerminalModalProps, 'open'>)
               <span className="text-amber-400">{doc.classificationStamp}</span>
             </div>
             <h4 className="font-bold text-white">{doc.title}</h4>
-            <p className="text-slate-400">{doc.summary}</p>
+            <p className="text-slate-400">{unredacted ? doc.summary : <RedactedText text={doc.summary} />}</p>
             <div className="bg-panel p-2 rounded border border-slate-800 text-slate-300 whitespace-pre-line font-mono text-caption">
-              {unredacted && doc.redactedContent ? doc.redactedContent : doc.content}
+              {unredacted && doc.redactedContent ? doc.redactedContent : <RedactedText text={doc.content} />}
             </div>
             <button
               type="button"
@@ -357,24 +426,198 @@ function Terminal({ onClose, onOpenDocument }: Omit<TerminalModalProps, 'open'>)
         );
       }
 
-      case 'ls':
-        if (arg && arg !== 'docs') return print(trimmed, <p className="text-slate-400">Usage: ls docs</p>);
+      case 'ls': {
+        const [sub, pageArg] = arg.split(/\s+/);
+        if (sub && sub !== 'docs') {
+          return print(trimmed, <p className="text-slate-400">Usage: ls docs [page]</p>);
+        }
+        const pages = Math.max(1, Math.ceil(DOCUMENTS.length / LS_PAGE_SIZE));
+        const page = Math.min(pages, Math.max(1, Number.parseInt(pageArg ?? '1', 10) || 1));
+        const slice = DOCUMENTS.slice((page - 1) * LS_PAGE_SIZE, page * LS_PAGE_SIZE);
         return print(
           trimmed,
           <div className="space-y-1 text-label text-slate-300">
-            <p className="text-cyan-400 font-bold">INDEXED REPOSITORY RECORDS (Top {LS_LIMIT} shown):</p>
-            {DOCUMENTS.slice(0, LS_LIMIT).map((d) => (
-              <div key={d.id} className="flex justify-between gap-2">
-                <span className="text-cyan-300 font-mono">{d.code}</span>
-                <span className="truncate text-slate-400 max-w-[340px]">{d.title}</span>
-                <span className="text-caption text-slate-500">{shortClearance(d.clearance)}</span>
-              </div>
-            ))}
+            <p className="text-cyan-400 font-bold">
+              INDEXED REPOSITORY RECORDS — PAGE {page}/{pages}:
+            </p>
+            {slice.map((d) => {
+              const sealed = clearanceTier(d.clearance) > clearanceTier(clearance);
+              return (
+                <div key={d.id} className={cn('flex justify-between gap-2', sealed && 'opacity-60')}>
+                  <span className="text-cyan-300 font-mono">
+                    {sealed ? '[SEALED] ' : ''}
+                    {d.code}
+                  </span>
+                  <span className="truncate text-slate-400 max-w-[340px]">{d.title}</span>
+                  <span className="text-caption text-slate-500">{shortClearance(d.clearance)}</span>
+                </div>
+              );
+            })}
             <p className="text-slate-500 text-caption">
-              ...and {DOCUMENTS.length - LS_LIMIT} more records in database.
+              {page < pages ? `Next page: ls docs ${page + 1}` : 'End of index.'} · Order records: search
+              "Order" (press /)
             </p>
           </div>
         );
+      }
+
+      case 'seals':
+        return print(
+          trimmed,
+          <div className="space-y-1 text-label">
+            <p className="text-fuchsia-300 font-bold">THE SEVEN SEALS — ORDO VOCIS PROFUNDAE</p>
+            {SEALS.map((sd) => {
+              const done = investigation.isSolved(sd.id);
+              const active = investigation.currentSeal === sd.id;
+              return (
+                <p
+                  key={sd.id}
+                  className={cn(
+                    'whitespace-pre-wrap',
+                    done ? 'text-slate-300' : active ? 'text-amber-300' : 'text-slate-500'
+                  )}
+                >
+                  {sd.glyph + '\uFE0E'} {sd.numeral.padEnd(4, ' ')} {sd.title.padEnd(28, ' ')}{' '}
+                  {done
+                    ? `BROKEN · ${sd.sealWord}${investigation.isAssisted(sd.id) ? ' (assisted)' : ''}`
+                    : active
+                      ? '◀ ACTIVE'
+                      : 'SEALED'}
+                </p>
+              );
+            })}
+            {investigation.currentSeal && (
+              <p className="text-slate-400 pt-1">OBJECTIVE: {getSeal(investigation.currentSeal).objective}</p>
+            )}
+          </div>
+        );
+
+      case 'codex': {
+        const known = [...investigation.knownLetters].sort();
+        return print(
+          trimmed,
+          <div className="space-y-2 text-label">
+            <p className="text-rose-300 font-bold">
+              CHOIR SCRIPT CODEX — {known.length} GLYPHS KNOWN ({investigation.fragments.length}/
+              {FRAGMENTS.length} FRAGMENTS)
+            </p>
+            {known.length === 0 ? (
+              <p className="text-slate-500">
+                You know no glyphs yet. The Order signs its public pages faintly.
+              </p>
+            ) : (
+              <ul className="flex flex-wrap gap-2" aria-label="Known Choir Script glyphs">
+                {known.map((l) => (
+                  <li
+                    key={l}
+                    className="flex flex-col items-center border border-rose-900/50 rounded px-1 py-0.5"
+                  >
+                    <ChoirGlyph letter={l} size={22} color="#fb7185" />
+                    <span className="font-occult text-rose-200">{l}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        );
+      }
+
+      case 'gematria': {
+        if (!arg.trim()) {
+          return print(
+            trimmed,
+            <p className="text-slate-400">Usage: gematria &lt;text&gt; (ordinal: A=1 … Z=26)</p>
+          );
+        }
+        const v = ordinalGematria(arg);
+        return print(
+          trimmed,
+          <p className="text-fuchsia-200">
+            ORDINAL GEMATRIA of "{arg.toUpperCase()}" = <span className="font-bold text-white">{v}</span>
+            {GEMATRIA_NOTES[v] && <span className="text-fuchsia-400/80"> — {GEMATRIA_NOTES[v]}</span>}
+          </p>
+        );
+      }
+
+      case 'wheel': {
+        if (!arg.trim()) {
+          return print(
+            trimmed,
+            <div className="text-label text-slate-300">
+              <p>
+                COURIER LINE: <span className="text-purple-300">{MERCURY_CIPHERTEXT}</span>
+              </p>
+              <p className="text-slate-500">Usage: wheel &lt;keyword&gt;</p>
+            </div>
+          );
+        }
+        const plain = vigenereDecrypt(MERCURY_CIPHERTEXT, arg);
+        // The courier key is the Venus seal's answer; check it by digest.
+        const ok = investigation.isCorrect(5, arg);
+        if (ok) gpcAudio.playUiSound('grant');
+        return print(
+          trimmed,
+          <p className={ok ? 'text-purple-200 font-bold' : 'text-slate-500'}>
+            <span aria-hidden>{'☿\uFE0E'} </span>
+            {plain}
+          </p>
+        );
+      }
+
+      case 'commune': {
+        const idx = investigation.finaleComplete ? 7 : (investigation.currentSeal ?? 7) - 1;
+        return print(trimmed, <Planchette text={COMMUNE_LINES[idx]} />);
+      }
+
+      case 'ordo':
+      case 'vox':
+        return print(
+          trimmed,
+          <div className="text-fuchsia-200 text-label space-y-1">
+            <p className="font-occult tracking-widest">ORDO VOCIS PROFUNDAE</p>
+            <p className="italic text-slate-400">
+              "There is a Voice beneath the world. It speaks at fourteen and eight-tenths. We did not make it.
+              We have heard it."
+            </p>
+            <p className="text-slate-500">— Liber Carrier, I. (DOC-1972-LIBER-CARRIER, Level 3)</p>
+          </div>
+        );
+
+      case 'invoke': {
+        const name = arg.trim();
+        if (!name) return print(trimmed, <p className="text-slate-400">Usage: invoke &lt;name&gt;</p>);
+        if (!investigation.isCorrect(7, name)) {
+          gpcAudio.playUiSound('deny');
+          return print(
+            trimmed,
+            <p className="text-slate-500 italic">
+              You speak "{name.toUpperCase()}" into the carrier. 14.802 Hz. Nothing turns around.
+            </p>
+          );
+        }
+        if (!investigation.isSealOpen(7)) {
+          gpcAudio.playUiSound('deny');
+          return print(
+            trimmed,
+            <p className="text-fuchsia-300">
+              The name leaves your mouth and goes nowhere. Six seals still bind the carrier. Nothing below can
+              hear you yet.
+            </p>
+          );
+        }
+        if (investigation.finaleComplete) {
+          return print(
+            trimmed,
+            <p className="text-slate-300 italic">
+              You say his name. There is no answer. Only quiet — the good kind.
+            </p>
+          );
+        }
+        investigation.attemptSeal(7, name);
+        gpcAudio.playUiSound('alarm');
+        invokeTimer.current = window.setTimeout(onInvoke, reducedMotion ? 0 : 900);
+        return print(trimmed, <p className="text-white font-bold">THE CARRIER FALTERS…</p>);
+      }
 
       case 'status':
         return print(trimmed, <Lines lines={TERMINAL_STATUS(REGIONAL_STATIONS.length)} />);

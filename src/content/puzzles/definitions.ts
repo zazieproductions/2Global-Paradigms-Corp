@@ -1,5 +1,6 @@
-import type { PuzzleDefinition } from '@/types';
+import type { Clue, PuzzleDefinition, PuzzleReward, PuzzleSurface } from '@/types';
 import { DOCUMENTS } from '@/content/documents';
+import { SEALS, sealPuzzleId, type SealDef, type SealId } from './seals';
 
 /**
  * ARG puzzle definitions.
@@ -7,215 +8,221 @@ import { DOCUMENTS } from '@/content/documents';
  * ANSWERS ARE NEVER STORED HERE IN PLAIN TEXT. `digests` holds SHA-256 hashes
  * of each accepted answer after the listed `normalize` steps. Generate one with:
  *
- *   npm run puzzle:digest -- "your answer"
+ *   npm run puzzle:digest -- -n alnum-upper "your answer"
  *
  * Tier-3 hints may state an answer outright — that is the deliberate assisted
  * route, and opening it marks the completion as "assisted".
  * See docs/PUZZLE_SYSTEM.md before adding or editing a puzzle.
+ *
+ * Two chains live here:
+ *  - THE SEVEN SEALS (`seal-1` … `seal-7`) — the main investigation. Narrative
+ *    lives in `seals.ts`; clearance is EARNED only through these.
+ *  - GATEWAY TRANSMISSION (`gateway-*`) — a guided beginner trail. It opens
+ *    the case file but can never raise clearance.
  */
-export const PUZZLES: PuzzleDefinition[] = [
+
+/** Seal answer digests (normalised with `alnum-upper`). */
+const SEAL_DIGESTS: Record<SealId, string[]> = {
+  // Seal I: the nine cells of the square, row by row.
+  1: ['6cb844f906c350939c31fafe7807295abf1028f0cd54e89fe4107d465a2f6574'],
+  2: ['7b159589ee17e67deb9d966558c768d520d3dad0fd5c4735f14fe367e8a4b843'],
+  3: ['b4b509c92f7439244a6ca3bbb01e5fcbcf0278d65f5c787227c09e3344a2a830'],
+  // Seal IV: the three dial values joined with `|`.
+  4: ['04177b11ed18ff0f4fa33b74e9e1ac823c488355fc923d709dd1e80f32ed1897'],
+  5: ['de1f7613d4da464f19ee81219f1d990bad6d9508ed48be2f84b346a0d0279125'],
+  // Seal VI: the Whistleblower Safe combination.
+  6: ['e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07'],
+  7: ['6cd91639e54781dd790d1cccdb9dabe2094bc1fb9cebaee9ce02e8556958113e']
+};
+
+const SURFACE: Record<SealId, PuzzleSurface> = {
+  1: 'sanctum',
+  2: 'sanctum',
+  3: 'sanctum',
+  4: 'sanctum',
+  5: 'document-viewer',
+  6: 'palimpsest-safe',
+  7: 'sanctum'
+};
+
+const docIdForCode = (code: string) => DOCUMENTS.find((d) => d.code === code)?.id;
+
+function sealClues(seal: SealDef): Clue[] {
+  return seal.pointers.map((p, i): Clue => {
+    const id = `seal-${seal.id}-clue-${i + 1}`;
+    if (p.docCode) {
+      const docId = docIdForCode(p.docCode);
+      return docId
+        ? { id, text: p.label, location: { type: 'record', ref: { kind: 'document', id: docId } } }
+        : { id, text: p.label, location: { type: 'ui', label: p.docCode } };
+    }
+    if (p.tab) return { id, text: p.label, location: { type: 'route', path: `/${p.tab}` } };
+    return { id, text: p.label, location: { type: 'ui', label: p.label } };
+  });
+}
+
+function sealRewards(seal: SealDef): PuzzleReward[] {
+  const rewards: PuzzleReward[] = [];
+  if (seal.rewardLevel) {
+    const level = (
+      {
+        2: 'Level 2 - Confidential',
+        3: 'Level 3 - Secret',
+        4: 'Level 4 - Top Secret',
+        5: 'Level 5 - Black Dossier'
+      } as const
+    )[seal.rewardLevel];
+    rewards.push({ type: 'clearance', level });
+  }
+  if (seal.id === 6) {
+    // Thorne's safe: the de-scrambler switches on and the leak dump is released.
+    rewards.push({ type: 'unredact' }, { type: 'download', id: 'palimpsest-master-dump' });
+  }
+  return rewards;
+}
+
+const SEAL_PUZZLES: PuzzleDefinition[] = SEALS.map((seal) => ({
+  id: sealPuzzleId(seal.id),
+  title: `Seal ${seal.numeral} — ${seal.title}`,
+  narrative: seal.objective,
+  surface: SURFACE[seal.id],
+  clues: sealClues(seal),
+  validation: { method: 'sha256', normalize: ['alnum-upper'], digests: SEAL_DIGESTS[seal.id] },
+  hints: [
+    { tier: 1, label: 'ASK THORNE', text: seal.hints[0] },
+    { tier: 2, label: 'ASK AGAIN', text: seal.hints[1] },
+    { tier: 3, label: 'TELL ME', text: seal.hints[2], revealsAnswer: true }
+  ],
+  success: { heading: `SEAL ${seal.numeral} BROKEN — ${seal.sealWord}`, body: seal.rewardText },
+  rewards: sealRewards(seal),
+  requires:
+    seal.id === 1
+      ? undefined
+      : [{ type: 'puzzle-completed', puzzleId: sealPuzzleId((seal.id - 1) as SealId) }],
+  journal: `Seal ${seal.numeral} (${seal.planet} ${seal.glyph}) broken — Seal-Word recovered: ${seal.sealWord}. ${seal.rewardText}`
+}));
+
+const GATEWAY_PUZZLES: PuzzleDefinition[] = [
   {
-    id: 'palimpsest-safe',
-    title: 'Palimpsest Cryptographic Safe',
+    id: 'gateway-sequence',
+    title: 'Gateway Transmission — The Vesper Sequence',
     narrative:
-      "Enter Dr. Aris Thorne's 4-digit authorization sequence to decrypt all Level 5 Black Dossiers and disable corporate redaction masks.",
-    surface: 'palimpsest-safe',
+      'Six iron rungs were re-hung out of order after a fire. Hang them by the years they were installed.',
+    surface: 'gateway-transmission',
     clues: [
       {
-        id: 'carrier-readout',
-        text: 'The planetary carrier readout in the archive header never stops repeating its number.',
-        location: { type: 'ui', label: 'Top bar — PLANETARY CARRIER' }
-      },
-      {
-        id: 'baseline-paper',
-        text: 'The 1974 Cambridge baseline paper names the frequency to three decimal places.',
-        location: { type: 'record', ref: { kind: 'document', id: 'doc-002' } }
-      },
-      {
-        id: 'station-07-event',
-        text: 'Station 07 went dark in a year the company would rather forget.',
-        location: { type: 'record', ref: { kind: 'document', id: 'doc-007' } }
+        id: 'gateway-rungs',
+        text: 'Every rung still wears its installation year (1971–1976).',
+        location: { type: 'ui', label: 'Gateway Transmission — mausoleum marquee' }
       }
     ],
     validation: {
       method: 'sha256',
-      normalize: ['trim'],
+      normalize: ['alnum-upper'],
       digests: [
-        '22b954454cfc20ef4813c70018c81004795496191338841e0ca4b9ed6e04e81a',
-        '9113b98df80f877c7a2ee5d865a04c9514b4e9bf25a49d315b0b15f115d2f0d2',
-        '93759af6f455b1610e615483cf5ea847b0b7248055c16be328c9f292d8695a9c',
-        'e2628662818f57a41c342653ab5abacba7be97c3dacf6af99a6a0799212902ed'
+        '541faadc96241a28cdb6792e04a91b16805c05307727605f65d41af370964651',
+        'c90eee318972e73cbb50f9978f30364a42f8f99425a0aed621dac7666e82974d'
       ]
     },
     hints: [
       {
         tier: 1,
-        label: 'NUDGE',
-        text: 'Thorne chose numbers the archive cannot stop repeating. Watch the carrier readout in the header.'
+        label: 'FIELD NOTES',
+        text: 'Put the years in increasing order and read their letters; the scorched plate is still legible.'
       },
-      {
-        tier: 2,
-        label: 'POINTER',
-        text: 'Four digits: the carrier frequency with the decimal point removed — or the year Station 07 went dark (see DOC-1989-SVALBARD-EVENT).'
-      },
-      {
-        tier: 3,
-        label: 'ARG LORE HINT',
-        text: 'The planetary carrier frequency (14.8Hz = 1480), founding breach year (1989), or Solfeggio carrier (0432).',
-        revealsAnswer: true
-      }
+      { tier: 3, label: 'REVEAL', text: 'VESPAR', revealsAnswer: true }
     ],
-    success: {
-      heading: 'CRYPTOGRAPHIC BYPASS SUCCESSFUL',
-      body: `You have authenticated as PALIMPSEST_OBSERVER. Clearance elevated to LEVEL 5 - BLACK DOSSIER. All ${DOCUMENTS.length} documents are now permanently de-scrambled.`
-    },
-    bypass: {
-      label: 'REQUEST ASSISTED DECRYPTION',
-      description:
-        'Skip the keypad and open the safe with restoration-team credentials. Your progress will be marked as assisted.'
-    },
-    rewards: [
-      { type: 'clearance', level: 'Level 5 - Black Dossier' },
-      { type: 'unredact' },
-      { type: 'download', id: 'palimpsest-master-dump' }
-    ]
+    success: { heading: '✓ VESPER SEQUENCE ACCEPTED', body: 'MARQUEE RE-HUNG // SIGNAL RELAY OPENING…' },
+    rewards: []
   },
   {
-    id: 'executive-master-key',
-    title: 'Executive Master Key Authorization',
-    narrative: 'Level 5 requires the executive master key code (or a terminal override).',
-    surface: 'clearance-profiler',
+    id: 'gateway-signal',
+    title: 'Gateway Transmission — The Signal',
+    narrative: 'Six devices dialled the carrier in sequence. Chain their badges in tap order.',
+    surface: 'gateway-transmission',
     clues: [
       {
-        id: 'cross-master-key',
-        text: 'Dame Eleanor Cross holds Master Key 01. Her personnel notes are worth reading.',
-        location: { type: 'record', ref: { kind: 'personnel', id: 'p-002' } }
-      },
-      {
-        id: 'founder',
-        text: 'The founder who vanished at Station 07 left his surname on everything.',
-        location: { type: 'record', ref: { kind: 'document', id: 'doc-001' } }
+        id: 'gateway-voices',
+        text: 'Each device remembers only its own place in the queue.',
+        location: { type: 'ui', label: 'Gateway Transmission — voice logs' }
       }
     ],
     validation: {
       method: 'sha256',
-      normalize: ['trim', 'lowercase'],
+      normalize: ['alnum-upper'],
+      digests: ['2eb0ba6ad3b5f45a4441fc5dfa1ca1496cf34ca42789b981e4fbfb2ed4136708']
+    },
+    hints: [
+      {
+        tier: 1,
+        label: 'FIELD NOTES',
+        text: 'Wake every badge and read each voice. They will tell you “I tapped first…” through “…sixth.”'
+      },
+      { tier: 3, label: 'REVEAL', text: '987316', revealsAnswer: true }
+    ],
+    success: { heading: '✓ SIGNAL INTERPRETED', body: 'CARRIER UNLOCKED // WAVEFORM DECODING…' },
+    rewards: [],
+    requires: [{ type: 'puzzle-completed', puzzleId: 'gateway-sequence' }]
+  },
+  {
+    id: 'gateway-waveform',
+    title: 'Gateway Transmission — The Waveform',
+    narrative: 'Four lattice rows carry exactly one carrier pulse. Wire them to the ledger, top to bottom.',
+    surface: 'gateway-transmission',
+    clues: [
+      {
+        id: 'gateway-lattice',
+        text: 'Live rows have exactly one carrier pulse (+).',
+        location: { type: 'ui', label: 'Gateway Transmission — carrier lattice' }
+      }
+    ],
+    validation: {
+      method: 'sha256',
+      normalize: ['alnum-upper'],
+      digests: ['9f842867a9a08b928696c6ee282ddf9f679d5522fede1495529c44ac86e8348b']
+    },
+    hints: [
+      {
+        tier: 1,
+        label: 'FIELD NOTES',
+        text: 'Live rows = exactly one pulse: H1, H2, H3, H4. Read their ledger glyphs top to bottom.'
+      },
+      { tier: 3, label: 'REVEAL', text: 'COLD', revealsAnswer: true }
+    ],
+    success: { heading: '✓ WAVEFORM UNDERSTOOD', body: 'GATE INTERLOCK OPENING — FINAL VERIFICATION…' },
+    rewards: [],
+    requires: [{ type: 'puzzle-completed', puzzleId: 'gateway-signal' }]
+  },
+  {
+    id: 'gateway-transmission',
+    title: 'Gateway Transmission — The Gate',
+    narrative: 'The interlock console re-asks all three keys, joined in order.',
+    surface: 'gateway-transmission',
+    clues: [],
+    validation: {
+      method: 'sha256',
+      normalize: ['alnum-upper'],
       digests: [
-        '22b954454cfc20ef4813c70018c81004795496191338841e0ca4b9ed6e04e81a',
-        'da507b76f23ff80465530c4e48954b5e14c95532ee93add17e3ffec55ecd667e',
-        '0a5cec0b348b57fed596878cf03760d9475f3d2a84e62c61bf139945cea9389f',
-        '9113b98df80f877c7a2ee5d865a04c9514b4e9bf25a49d315b0b15f115d2f0d2',
-        '7c43ed48929b891f893a8e8bca0265d2d46f2507d374944ceb9bcd174466101f'
+        'bf0b3172e5b2ab712eea4cec9110b2054e8f86101f98ba8c5273d07cc41b4478',
+        '5579e43d6294e7c1a2954069e270a6e9f25c793ddd5f33e4ae3b9cc82c73acce'
       ]
     },
     hints: [
       {
         tier: 1,
-        label: 'NUDGE',
-        text: 'Executives reuse what they know: frequencies, project names, founders.'
-      },
-      {
-        tier: 2,
-        label: 'POINTER',
-        text: "Try the name of the leak-counter project, or the founding director's surname."
-      },
-      {
-        tier: 3,
-        label: 'ASSISTED ROUTE',
-        text: 'Accepted master keys include 1480, 1989, 432-88, palimpsest and vance.',
-        revealsAnswer: true
+        label: 'REMIND ME',
+        text: 'Nothing new is asked here: re-enter the keys you already kept — sequence, signal, waveform — in that order.'
       }
     ],
     success: {
-      heading: 'MASTER KEY AUTHENTICATED',
-      body: 'MASTER KEY AUTHENTICATED: LEVEL 5 BLACK CLEARANCE GRANTED'
+      heading: 'ORIGIN PROTOCOL',
+      body: 'Three keys kept: VESPAR · 987316 · COLD. The case file is open — begin with Saturn.'
     },
-    bypass: {
-      label: 'USE RESTORATION CREDENTIALS',
-      description: 'Grant Level 5 without the key. Your progress will be marked as assisted.'
-    },
-    rewards: [{ type: 'clearance', level: 'Level 5 - Black Dossier' }, { type: 'unredact' }]
-  },
-  {
-    id: 'terminal-override',
-    title: 'Terminal Supervisor Override',
-    narrative: 'Legacy supervisor override on the GPC://CLI backdoor. Usage: override <code>',
-    surface: 'terminal',
-    clues: [
-      {
-        id: 'backdoor-email',
-        text: 'Systems staff warned TOPN that the terminal still accepts a legacy override.',
-        location: { type: 'record', ref: { kind: 'email', id: 'eml-14' } }
-      }
-    ],
-    validation: {
-      method: 'sha256',
-      normalize: ['trim', 'lowercase'],
-      digests: [
-        'da507b76f23ff80465530c4e48954b5e14c95532ee93add17e3ffec55ecd667e',
-        '22b954454cfc20ef4813c70018c81004795496191338841e0ca4b9ed6e04e81a',
-        '0a5cec0b348b57fed596878cf03760d9475f3d2a84e62c61bf139945cea9389f'
-      ]
-    },
-    hints: [
-      {
-        tier: 1,
-        label: 'NUDGE',
-        text: 'Someone in Systems complained about this backdoor by email. Check the communications archive.'
-      },
-      {
-        tier: 2,
-        label: 'POINTER',
-        text: 'Read EML-2024-TERMINAL-BACKDOOR in Emails & Meeting Minutes.'
-      },
-      {
-        tier: 3,
-        label: 'ASSISTED ROUTE',
-        text: 'Type: override 432-88',
-        revealsAnswer: true
-      }
-    ],
-    success: {
-      heading: '*** EXECUTIVE OVERRIDE ACCEPTED ***',
-      body: 'AUTHORITY: DAME ELEANOR CROSS // MASTER KEY 01'
-    },
-    rewards: [{ type: 'clearance', level: 'Level 5 - Black Dossier' }, { type: 'unredact' }]
-  },
-  {
-    id: 'boot-override',
-    title: 'Channel 9 Executive Override',
-    narrative:
-      'While the cold boot runs, a hidden Channel 9 listener accepts typed directives. Executive codes grant Level 5 on session init.',
-    surface: 'boot-sequence',
-    clues: [
-      {
-        id: 'ch9-help',
-        text: 'Type "help" during the boot sequence to list Channel 9 directives.',
-        location: { type: 'ui', label: 'Cold boot terminal — CH9 LISTENING' }
-      }
-    ],
-    validation: {
-      method: 'sha256',
-      normalize: ['trim', 'lowercase'],
-      digests: [
-        'da507b76f23ff80465530c4e48954b5e14c95532ee93add17e3ffec55ecd667e',
-        '22b954454cfc20ef4813c70018c81004795496191338841e0ca4b9ed6e04e81a',
-        '93759af6f455b1610e615483cf5ea847b0b7248055c16be328c9f292d8695a9c'
-      ]
-    },
-    hints: [
-      { tier: 1, label: 'NUDGE', text: 'The boot log is listening. Type "help" while it runs.' },
-      {
-        tier: 3,
-        label: 'ASSISTED ROUTE',
-        text: 'Executive override codes: 432-88 | 1480 | 0432',
-        revealsAnswer: true
-      }
-    ],
-    success: {
-      heading: '*** EXECUTIVE OVERRIDE ACCEPTED ***',
-      body: 'LEVEL 5 — BLACK DOSSIER WILL BE GRANTED ON SESSION INIT.'
-    },
-    rewards: [{ type: 'clearance', level: 'Level 5 - Black Dossier' }, { type: 'unredact' }]
+    // Deliberately no clearance: only the seals raise it.
+    rewards: [],
+    requires: [{ type: 'puzzle-completed', puzzleId: 'gateway-waveform' }],
+    journal: 'Gateway Transmission solved: VESPAR · 987316 · COLD. The well is open — the Seven Seals await.'
   }
 ];
+
+export const PUZZLES: PuzzleDefinition[] = [...SEAL_PUZZLES, ...GATEWAY_PUZZLES];

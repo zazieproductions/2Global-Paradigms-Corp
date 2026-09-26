@@ -24,11 +24,15 @@ import {
 } from '@/content';
 import { pathForTab, TOOLS_LAB_COUNT } from '@/config/navigation';
 import { clearanceTier } from '@/lib/archive/clearance';
+import { cn } from '@/lib/utils/cn';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { useArchiveUi } from '@/app/archive-ui-context';
 import { useProgression } from '@/hooks/use-progression';
 import { ArchivePage } from '@/components/ui/archive-page';
 import { ClassificationStamp } from '@/components/ui/classification-stamp';
+import { CaseBanner } from '@/components/puzzles/case-banner';
+import { SealMark } from '@/components/archive/seal-mark';
+import { stripRedactions } from '@/lib/archive/redaction';
 
 const documents = DOCUMENTS;
 const personnel = PERSONNEL;
@@ -76,7 +80,8 @@ function JumpLink({
 
 export default function DashboardPage() {
   const { openDocument, openDialog, navigateToTab } = useArchiveUi();
-  const { discoveredCount, completedCount } = useProgression();
+  const { discoveredCount, completedCount, clearance, unredacted, state } = useProgression();
+  const finaleComplete = state.investigation.finaleComplete;
   const [carrierHz, setCarrierHz] = useState(CARRIER_BASE_HZ);
   const [bootTime] = useState(() => new Date().toISOString().split('T')[1].slice(0, 8));
 
@@ -89,6 +94,12 @@ export default function DashboardPage() {
 
   return (
     <ArchivePage className="space-y-6">
+      <CaseBanner
+        onOpen={() => {
+          gpcAudio.playUiSound('click');
+          navigateToTab('sanctum');
+        }}
+      />
       {/* Top Banner / Executive Alert */}
       <div className="p-4 bg-gradient-to-r from-rose-950/40 via-hover to-raised border border-rose-500/40 rounded-lg shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
@@ -137,10 +148,19 @@ export default function DashboardPage() {
             <span>PLANETARY CARRIER</span>
             <Activity className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
           </div>
-          <div className="text-lg md:text-xl font-bold text-cyan-300 font-mono">{carrierHz} Hz</div>
-          <div className="text-caption text-emerald-400 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>99.94% Phase-Locked</span>
+          <div className="text-lg md:text-xl font-bold text-cyan-300 font-mono">
+            {finaleComplete ? '0.000' : carrierHz} Hz
+          </div>
+          <div
+            className={cn(
+              'text-caption flex items-center gap-1',
+              finaleComplete ? 'text-slate-400' : 'text-emerald-400'
+            )}
+          >
+            <span
+              className={cn('w-1.5 h-1.5 rounded-full', finaleComplete ? 'bg-slate-500' : 'bg-emerald-400')}
+            />
+            <span>{finaleComplete ? 'NO SIGNAL — SILENTIUM' : '99.94% Phase-Locked'}</span>
           </div>
         </div>
 
@@ -211,8 +231,11 @@ export default function DashboardPage() {
                       <span className="text-micro px-1.5 py-px rounded bg-slate-800 text-amber-400 border border-slate-700 shrink-0">
                         {doc.code}
                       </span>
+                      <SealMark doc={doc} clearance={clearance} />
                     </span>
-                    <span className="block text-caption text-slate-400 line-clamp-1">{doc.summary}</span>
+                    <span className="block text-caption text-slate-400 line-clamp-1">
+                      {unredacted ? doc.summary : stripRedactions(doc.summary)}
+                    </span>
                     <span className="flex items-center gap-3 text-micro text-slate-500">
                       <span>Author: {doc.author}</span>
                       <span>•</span>

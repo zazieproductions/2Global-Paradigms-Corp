@@ -4,6 +4,9 @@
  */
 import { describe, expect, it } from 'vitest';
 import { AUDIO_ARTIFACTS, DOCUMENTS, PERSONNEL, PUZZLES } from '@/content';
+import { FRAGMENTS, SEALS } from '@/content/puzzles/seals';
+import { NAV_ITEMS, pathForTab } from '@/config/navigation';
+import { REDACTION_PATTERN } from '@/lib/archive/redaction';
 import { getArchiveEntries } from '@/lib/archive/records';
 import { validateContent } from '@/lib/archive/validate-content';
 
@@ -66,5 +69,35 @@ describe('content integrity', () => {
       }
     }
     expect(PERSONNEL.length).toBeGreaterThan(0);
+  });
+
+  it('points seal clues at routes and document codes that exist', () => {
+    const paths = new Set(NAV_ITEMS.map((i) => i.path));
+    for (const p of PUZZLES) {
+      for (const c of p.clues) {
+        if (c.location.type === 'route')
+          expect(paths.has(c.location.path), `${p.id} → ${c.location.path}`).toBe(true);
+        // A pointer that names a record code must resolve to a record, not fall back to a label.
+        if (c.location.type === 'ui') expect(c.location.label, p.id).not.toMatch(/^(DOC|OVP)-/);
+      }
+    }
+    for (const f of FRAGMENTS) expect(pathForTab(f.tab), f.id).toBeTruthy();
+    expect(SEALS).toHaveLength(7);
+  });
+
+  it('keeps the Order records tagged and above the public tier', () => {
+    const order = DOCUMENTS.filter((d) => d.id.startsWith('ovp-'));
+    expect(order.length).toBeGreaterThan(0);
+    for (const d of order) {
+      expect(d.tags, d.id).toContain('Order');
+      expect(d.clearance, d.id).not.toMatch(/^Level 1/);
+    }
+  });
+
+  it('only hides words where a de-scrambled version exists', () => {
+    for (const d of DOCUMENTS) {
+      const hides = [...d.content.matchAll(REDACTION_PATTERN)].some((m) => m[1]);
+      if (hides) expect(d.redactedContent, d.id).toBeTruthy();
+    }
   });
 });

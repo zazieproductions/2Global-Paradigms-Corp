@@ -14,6 +14,7 @@ import {
   Newspaper,
   PackageX,
   Radio,
+  Sparkles,
   Users,
   Wrench,
   type LucideIcon
@@ -216,7 +217,21 @@ export const NAV_SECTIONS: NavSection[] = [
   }
 ];
 
-export const NAV_ITEMS: NavItem[] = NAV_SECTIONS.flatMap((s) => s.items);
+/**
+ * The Seven Seals case file. Rendered as its own highlighted entry above the
+ * repositories in the sidebar rather than inside a section.
+ */
+export const SANCTUM_NAV: NavItem = {
+  id: 'sanctum',
+  path: '/sanctum',
+  label: 'The Seven Seals',
+  icon: Sparkles,
+  badge: '7',
+  badgeTone: 'purple'
+};
+
+/** Every routed section, including the case file. */
+export const NAV_ITEMS: NavItem[] = [SANCTUM_NAV, ...NAV_SECTIONS.flatMap((s) => s.items)];
 
 const PATH_BY_TAB = Object.fromEntries(NAV_ITEMS.map((i) => [i.id, i.path])) as Record<ActiveTab, string>;
 

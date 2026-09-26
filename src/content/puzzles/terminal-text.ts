@@ -12,24 +12,55 @@ export interface TerminalLine {
   code?: string;
 }
 
-export const TERMINAL_HELP: Array<{ cmd: string; desc: string }> = [
+export const TERMINAL_HELP: Array<{ cmd: string; desc: string; order?: boolean }> = [
   { cmd: 'help', desc: 'Display command manual' },
   { cmd: 'clear', desc: 'Clear terminal screen' },
-  { cmd: 'whoami', desc: 'Display clearance & terminal identity' },
-  { cmd: 'clearance <1-5>', desc: 'Switch clearance level' },
-  { cmd: 'ls docs', desc: 'List indexed documents' },
-  { cmd: 'cat <doc_code>', desc: 'Print raw classified document' },
+  { cmd: 'whoami', desc: 'Identity, clearance & degree' },
+  { cmd: 'clearance <1-5>', desc: 'Switch to an earned clearance' },
+  { cmd: 'ls docs [n]', desc: 'List indexed documents (page n)' },
+  { cmd: 'cat <doc_code>', desc: 'Print a document you are cleared for' },
   { cmd: 'scan', desc: 'Run planetary 14.8Hz harmonic scan' },
-  { cmd: 'decrypt', desc: 'Toggle Redaction De-Scrambler' },
+  { cmd: 'decrypt', desc: 'Toggle Redaction De-Scrambler (L3+)' },
   { cmd: 'play <1-6>', desc: 'Play audio artifact preset' },
   { cmd: 'stop', desc: 'Stop all active audio streams' },
-  { cmd: 'leak-dump', desc: "Access Dr. Aris Thorne's leak directory" },
-  { cmd: 'override <code>', desc: 'Admin bypass for Level 5 Black Dossier' },
-  { cmd: 'hint', desc: 'Request investigator assistance for the override' },
+  { cmd: 'leak-dump', desc: "Thorne's exfiltration directory" },
+  { cmd: 'status', desc: 'Field stations & telemetry state' },
+  { cmd: 'hint [confirm]', desc: 'Ask Thorne about the active seal' },
   { cmd: 'progress', desc: 'Show investigation progress' },
-  { cmd: 'status', desc: 'Display field stations & telemetry state' },
+  { cmd: 'seals', desc: 'Progress of the Seven Seals', order: true },
+  { cmd: 'codex', desc: 'Your Choir Script key', order: true },
+  { cmd: 'gematria <text>', desc: 'Ordinal letter-sum (A=1…Z=26)', order: true },
+  { cmd: 'wheel <keyword>', desc: "Turn the Mercury Wheel on Thorne's courier line", order: true },
+  { cmd: 'commune', desc: 'Place your hand on the planchette', order: true },
+  { cmd: 'invoke <name>', desc: 'Speak a name into the carrier', order: true },
   { cmd: 'exit', desc: 'Close terminal backdoor' }
 ];
+
+/**
+ * The planchette: an in-world hint voice that changes as the case advances.
+ * Index = active seal − 1; the last line plays after the finale.
+ */
+export const COMMUNE_LINES: string[] = [
+  'THE SQUARE IS OLDER THAN THE COMPANY',
+  'WALK THE STAR FROM THE SUN',
+  'THE PUBLIC FACE IS SIGNED IN RED',
+  'EARTH EVENING CHILD',
+  'READ THE HEAD OF EVERY VERSE',
+  'THE WHEEL WANTS THE NAME OF THE CAVES',
+  'O R P H E U  WHO',
+  'THANK YOU'
+];
+
+/** Numbers the `gematria` command annotates. */
+export const GEMATRIA_NOTES: Record<number, string> = {
+  15: "Saturn's constant. The Square completes at fifteen.",
+  45: 'The sum of the Square of Saturn (1 through 9).',
+  53: 'CHOIR.',
+  102: 'The name that must not be spoken in the Voice’s hearing.',
+  148: 'The carrier, written without its point.',
+  432: 'The evening voice.',
+  741: 'The child’s voice.'
+};
 
 export const TERMINAL_SCAN: TerminalLine[] = [
   { text: '--- PLANETARY INFRASONIC TELEMETRY SCAN ---', tone: 'heading' },

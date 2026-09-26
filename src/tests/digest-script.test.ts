@@ -11,5 +11,7 @@ describe('puzzle:digest script', () => {
     expect(run('-n', 'trim,lowercase', 'Some Answer')).toContain(
       digestAnswer('some answer', ['trim', 'lowercase'])
     );
+    expect(run('-n', 'alnum-upper', ' li-turgy ')).toContain(digestAnswer('LITURGY', ['alnum-upper']));
+    expect(run('-n', 'alnum-upper', '14.8 | 432')).toContain(digestAnswer('14.8|432', ['alnum-upper']));
   });
 });

@@ -8,6 +8,8 @@ import { ArchivePage } from '@/components/ui/archive-page';
 import { ViewHeader } from '@/components/ui/view-header';
 import { DocumentStamp } from '@/components/ui/document-stamp';
 import { SystemNotice } from '@/components/ui/system-notice';
+import { SealMark } from '@/components/archive/seal-mark';
+import { stripRedactions } from '@/lib/archive/redaction';
 
 const documents = DOCUMENTS;
 type SortKey = 'date-desc' | 'date-asc' | 'code';
@@ -17,7 +19,8 @@ const departments = ['all', ...new Set(documents.map((d) => d.departmentName))];
 
 export default function DocumentsPage() {
   const { openDocument } = useArchiveUi();
-  const { isDiscovered } = useProgression();
+  const { isDiscovered, clearance, unredacted } = useProgression();
+  const abstractOf = (summary: string) => (unredacted ? summary : stripRedactions(summary));
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedClearance, setSelectedClearance] = useState<string>('all');
@@ -38,7 +41,7 @@ export default function DocumentsPage() {
             doc.title.toLowerCase().includes(q) ||
             doc.code.toLowerCase().includes(q) ||
             doc.author.toLowerCase().includes(q) ||
-            doc.summary.toLowerCase().includes(q) ||
+            (unredacted ? doc.summary : stripRedactions(doc.summary)).toLowerCase().includes(q) ||
             doc.tags.some((t) => t.toLowerCase().includes(q));
           if (!matches) return false;
         }
@@ -50,7 +53,7 @@ export default function DocumentsPage() {
         if (sortBy === 'date-asc') return a.date.localeCompare(b.date);
         return a.code.localeCompare(b.code);
       });
-  }, [selectedCategory, selectedClearance, selectedDept, searchQuery, sortBy]);
+  }, [selectedCategory, selectedClearance, selectedDept, searchQuery, sortBy, unredacted]);
 
   return (
     <ArchivePage>
@@ -232,6 +235,7 @@ export default function DocumentsPage() {
                           )}
                         </span>
                         <DocumentStamp stamp={doc.classificationStamp} />
+                        <SealMark doc={doc} clearance={clearance} />
                       </div>
                     </td>
                     <td className="p-3">
@@ -247,7 +251,7 @@ export default function DocumentsPage() {
                           )}
                         </div>
                         <span className="text-caption text-slate-500 block truncate max-w-[340px]">
-                          {doc.summary}
+                          {abstractOf(doc.summary)}
                         </span>
                       </div>
                     </td>
@@ -293,7 +297,10 @@ export default function DocumentsPage() {
               <span className="block space-y-2">
                 <span className="flex items-center justify-between border-b border-line pb-2">
                   <span className="font-bold text-cyan-300 font-mono text-xs">{doc.code}</span>
-                  <DocumentStamp stamp={doc.classificationStamp} />
+                  <span className="flex items-center gap-1">
+                    <SealMark doc={doc} clearance={clearance} />
+                    <DocumentStamp stamp={doc.classificationStamp} />
+                  </span>
                 </span>
 
                 <span className="block font-bold text-slate-200 group-hover:text-cyan-300 transition-colors text-xs leading-snug">
@@ -301,7 +308,7 @@ export default function DocumentsPage() {
                 </span>
 
                 <span className="block text-caption text-slate-400 line-clamp-2 leading-relaxed">
-                  {doc.summary}
+                  {abstractOf(doc.summary)}
                 </span>
               </span>
 

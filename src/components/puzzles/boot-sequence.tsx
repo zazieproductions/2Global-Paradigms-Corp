@@ -2,9 +2,11 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { DOCUMENTS, REGIONAL_STATIONS } from '@/content';
 import { SITE } from '@/config/site';
 import { gpcAudio } from '@/lib/audio/audio-engine';
-import { validatePuzzleAnswer } from '@/lib/puzzles/validate';
+import { REVOKED_CODES } from '@/config/puzzles';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
+import { useInvestigation } from '@/hooks/use-investigation';
 import { FictionNotice } from '@/components/ui/fiction-notice';
+import { OrderSigil } from '@/components/ui/sigils';
 
 // ============================================================================
 // GPC COLD BOOT TERMINAL — ARG-style interactive boot / loading sequence
@@ -12,20 +14,21 @@ import { FictionNotice } from '@/components/ui/fiction-notice';
 //   * CRT power-on → BIOS-style POST → staged boot log with progress bars
 //   * Scramble-in corporate title, random signal glitches, intercepted packets
 //   * LIVE hidden "Channel 9" command line — type while the boot runs:
-//       help / skip / vesper / thorne / carrier / palimpsest / <executive code>
+//       help / skip / vesper / thorne / carrier / palimpsest / ordo / seals /
+//       orpheus / gateway / caller
 //   * Operator callsign prompt — your name is carried into the whole session
-//   * Executive override codes (puzzle `boot-override`, validated by digest)
-//     grant Level 5 + de-scrambler on session init
+//   * Legacy executive override codes are REVOKED in-world — clearance is
+//     earned through the Seven Seals (nothing typed here grants access)
 //   * ESC or the SKIP button fast-forwards; CRT power-off wipe into the archive
 //   * Channel 9 also has a real input so touch devices can transmit
 // ============================================================================
 
 interface BootSequenceProps {
-  /** Called after the power-off wipe. `executiveOverride` is true if a valid Channel 9 code was sent. */
-  onComplete: (callsign: string, executiveOverride: boolean) => void;
+  /** Called after the power-off wipe with the operator's callsign. */
+  onComplete: (callsign: string) => void;
 }
 
-const isExecutiveCode = (cmd: string) => validatePuzzleAnswer(BOOT_PUZZLE_ID, cmd).ok;
+const LEVEL_NAMES = ['', 'GENERAL', 'CONFIDENTIAL', 'SECRET', 'TOP SECRET', 'BLACK DOSSIER'];
 
 type Tone = 'dim' | 'info' | 'ok' | 'warn' | 'err' | 'accent' | 'secret' | 'cmd';
 
@@ -40,12 +43,26 @@ type Phase = 'power' | 'boot' | 'callsign' | 'granted' | 'exit';
 
 const SCRAMBLE_CHARS = '█▓▒░#%&@$?01ABCDEF';
 
-const BOOT_PUZZLE_ID = 'boot-override';
 const DEFAULT_CALLSIGN = SITE.defaultCallsign;
 const CH9_MAX = 32;
 
-/** Plain-text directives. Executive codes are checked separately by digest. */
-const SECRET_COMMANDS = ['help', 'skip', 'abort', 'vesper', 'thorne', 'carrier', '14.8', 'palimpsest'];
+/** Plain-text directives recognised on Channel 9 (revoked codes are matched separately). */
+const SECRET_COMMANDS = [
+  'help',
+  'skip',
+  'abort',
+  'vesper',
+  'thorne',
+  'carrier',
+  '14.8',
+  'palimpsest',
+  'ordo',
+  'orpheus',
+  'seals',
+  'gateway',
+  'transmission',
+  'caller'
+];
 
 const TONE_CLASS: Record<Tone, string> = {
   dim: 'text-slate-500',
@@ -105,7 +122,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
   const [uplink, setUplink] = useState(87);
   const [sessionId] = useState(() => `${hexChunk(4)}-${hexChunk(4)}`);
   const [grantedOperator, setGrantedOperator] = useState<string>(DEFAULT_CALLSIGN);
-  const [overrideUsed, setOverrideUsed] = useState(false);
+  const investigation = useInvestigation();
 
   // --- engine refs -----------------------------------------------------------
   // Token system: each mount of the effect claims a token; cleanup invalidates
@@ -115,7 +132,11 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
   const idRef = useRef(0);
   const bufRef = useRef('');
   const callsignResolveRef = useRef<((v: string) => void) | null>(null);
-  const overrideRef = useRef(false);
+  // Read inside the (memoised) Channel 9 handler without re-creating it.
+  const caseRef = useRef({ solved: 0, earned: 1 });
+  useEffect(() => {
+    caseRef.current = { solved: investigation.solved.length, earned: investigation.earnedLevel };
+  }, [investigation.solved.length, investigation.earnedLevel]);
   const callsignRef = useRef<string>(DEFAULT_CALLSIGN);
   const phaseRef = useRef<Phase>('power');
   const progressRef = useRef(0);
@@ -177,16 +198,14 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
     (raw: string) => {
       const cmd = raw.trim().toLowerCase();
       if (!cmd) return;
-      if (isExecutiveCode(cmd)) {
+      if (REVOKED_CODES.includes(cmd)) {
         addLine(`ch9> ${'•'.repeat(Math.min(cmd.length, 8))}`, 'cmd');
-        overrideRef.current = true;
-        setOverrideUsed(true);
         sfx('alarm');
         triggerGlitch(420);
-        addLine('*** EXECUTIVE OVERRIDE ACCEPTED ***', 'err');
-        addLine('AUTHORITY: DAME ELEANOR CROSS // MASTER KEY 01', 'err');
-        addLine('LEVEL 5 — BLACK DOSSIER WILL BE GRANTED ON SESSION INIT.', 'secret');
-        addLine('REDACTION DE-SCRAMBLER WILL BE FORCED ON.', 'secret');
+        addLine('*** EXECUTIVE OVERRIDE REJECTED ***', 'err');
+        addLine('MASTER KEY 01 (D. CROSS) REVOKED 1989-11-04 05:14 UTC', 'err');
+        addLine('"THE ORDER DOES NOT OPEN FOR KEYS. IT OPENS FOR VOICES."', 'secret');
+        addLine('CLEARANCE IS EARNED. SEVEN SEALS. BEGIN WITH SATURN.', 'secret');
         return;
       }
       addLine(`ch9> ${raw.trim()}`, 'cmd');
@@ -201,7 +220,9 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
           addLine('  thorne ............ A. Thorne exfil log fragment', 'dim');
           addLine('  carrier ........... planetary 14.802 Hz telemetry', 'dim');
           addLine('  palimpsest ........ Project Palimpsest burst decode', 'dim');
-          addLine('  <exec code> ....... executive override (master key holders only)', 'warn');
+          addLine('  gateway ........... buffered Gateway Transmission intercept', 'dim');
+          addLine('  seals ............. status of the seven seals', 'secret');
+          addLine('  <exec code> ....... executive override (REVOKED)', 'warn');
           break;
 
         case 'skip':
@@ -241,6 +262,43 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
           sfx('unredact');
           addLine('PALIMPSEST TELEMETRY BURST — DECODED STUB:', 'secret');
           addLine('>> THEY BUILT THE ARCHIVE TO REMEMBER. IT LEARNED TO PREDICT.', 'secret');
+          break;
+
+        case 'gateway':
+        case 'transmission':
+          sfx('unredact');
+          addLine('GATEWAY TRANSMISSION — BUFFERED INTERCEPT READY.', 'secret');
+          addLine('A SIX-VOICE SIGNAL WANTS TO BE TAPPED IN THE RIGHT ORDER.', 'secret');
+          addLine('OPEN IT VIA THE ✦ TRANSMISSION BUTTON AFTER THE BOOT, OR SEND "CALLER".', 'dim');
+          break;
+
+        case 'caller':
+          sfx('scan');
+          addLine('CALLER-ID: UNKNOWN // CH9 // SHARED NIGHTMARE RELAY', 'secret');
+          addLine('THREE TASKS BEFORE THE GATE: SEQUENCE → SIGNAL → WAVEFORM.', 'warn');
+          break;
+
+        case 'ordo':
+          sfx('unredact');
+          triggerGlitch(260);
+          addLine('ORDO VOCIS PROFUNDAE — CHAPTER ROLL INTERCEPT', 'secret');
+          addLine('♄ NEOPHYTE  ♃ ZELATOR  ♂ PRACTICUS  ☉ PHILOSOPHUS  ☿ MAGISTER UMBRAE', 'secret');
+          addLine('THE COMPANY IS THE OUTER COURT. — LIBER CARRIER II', 'dim');
+          break;
+
+        case 'seals':
+          sfx('scan');
+          addLine(
+            `SEALS BROKEN: ${caseRef.current.solved}/7 // EARNED CLEARANCE: LEVEL ${caseRef.current.earned}`,
+            'secret'
+          );
+          break;
+
+        case 'orpheus':
+          sfx('deny');
+          triggerGlitch(600);
+          addLine('…', 'secret');
+          addLine('NOT HERE. NOT YET. HE CANNOT HEAR YOU THROUGH SEVEN SEALS.', 'err');
           break;
 
         default:
@@ -348,7 +406,15 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
       sfx('deny', 250);
       await guard(380);
       triggerGlitch(300);
-      await typeLine('RETRYING WITH FALLBACK KEY 01 . . . . . . . . . . . . . OK', 'ok');
+      await typeLine('FALLBACK KEY 01 . . . . . . . . . . . . . . . . . . . REVOKED', 'err');
+      await typeLine('LITURGICAL KEY ♄♃♂☉♀☿☽ . . . . . . . . . . . . . . . . . OK', 'secret');
+
+      await guard(240);
+      triggerGlitch(160);
+      await typeLine('·-·-· SIGNAL ACQUIRED — UNTRUSTED CARRIER BUFFERED FOR OPERATOR', 'secret', {
+        instant: true
+      });
+      addLine('CH9 // "GATEWAY TRANSMISSION" — REPLAY FROM THE TOP BAR AFTER INIT', 'dim');
 
       await animBar(
         74,
@@ -454,7 +520,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
     if (phaseRef.current === 'exit') return;
     setPhase('exit');
     gpcAudio.playUiSound('unredact');
-    setTimeout(() => onComplete(callsignRef.current, overrideRef.current), 620);
+    setTimeout(() => onComplete(callsignRef.current), 620);
   }, [onComplete]);
 
   const skipAhead = useCallback(() => {
@@ -521,7 +587,10 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
 
   const submitCallsign = (raw: string) => {
     const value = raw.trim();
-    if (value && (SECRET_COMMANDS.includes(value.toLowerCase()) || isExecutiveCode(value))) {
+    if (
+      value &&
+      (SECRET_COMMANDS.includes(value.toLowerCase()) || REVOKED_CODES.includes(value.toLowerCase()))
+    ) {
       runSecret(value);
       setCallsignVal('');
       return;
@@ -681,15 +750,16 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
               {/* Access granted plate */}
               {phase === 'granted' && (
                 <div className="mt-4 flex flex-col items-center gap-3 py-2">
+                  <div className="text-fuchsia-400/60 ovp-breathe" aria-hidden>
+                    <OrderSigil size={54} spin={!reducedMotion} />
+                  </div>
                   <div className="border-2 border-emerald-400/70 bg-emerald-950/20 px-4 sm:px-8 py-3 text-center shadow-glow-lg shadow-emerald-400/35">
                     <div className="text-emerald-300 font-black text-base sm:text-2xl tracking-[0.3em] whitespace-nowrap">
                       ACCESS GRANTED
                     </div>
                     <div className="text-emerald-500/80 text-nano sm:text-caption tracking-[0.35em] mt-1">
-                      OPERATOR: {grantedOperator.toUpperCase()} // LEVEL 2 CONFIDENTIAL
-                      {overrideUsed && (
-                        <span className="text-rose-400 font-bold"> → OVERRIDDEN: LEVEL 5</span>
-                      )}
+                      OPERATOR: {grantedOperator.toUpperCase()} // LEVEL {investigation.earnedLevel}{' '}
+                      {LEVEL_NAMES[investigation.earnedLevel]}
                     </div>
                   </div>
                   <button

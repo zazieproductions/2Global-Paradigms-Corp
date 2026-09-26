@@ -3,15 +3,14 @@ import { AlertOctagon, CheckCircle2, Key, Lock, Shield } from 'lucide-react';
 import type { ClearanceLevel } from '@/types';
 import { CLEARANCE_TIERS } from '@/config/clearance';
 import { PUZZLE_SETTINGS } from '@/config/puzzles';
+import { DEGREES, EARNED_BY, LEVEL_CORRESPONDENCE, getSeal } from '@/content/puzzles/seals';
+import { MASTER_KEY_CODE } from '@/content/puzzles/gateway';
 import { gpcAudio } from '@/lib/audio/audio-engine';
-import { getPuzzle } from '@/lib/puzzles/validate';
-import { hasEarnedClearance } from '@/lib/puzzles/progression';
 import { useProgression } from '@/hooks/use-progression';
+import { useInvestigation } from '@/hooks/use-investigation';
 import { Modal } from '@/components/ui/modal';
-import { HintPanel } from './hint-panel';
+import { PlanetGlyph } from '@/components/ui/sigils';
 import { cn } from '@/lib/utils/cn';
-
-const PUZZLE_ID = 'executive-master-key';
 
 const TIER_BORDER: Record<number, string> = {
   1: 'border-slate-600 text-slate-300',
@@ -24,12 +23,18 @@ const TIER_BORDER: Record<number, string> = {
 interface ClearanceModalProps {
   open: boolean;
   onClose: () => void;
+  /** Route to the Seven Seals case file. */
+  onOpenSanctum: () => void;
 }
 
-export function ClearanceModal({ open, onClose }: ClearanceModalProps) {
-  const puzzle = getPuzzle(PUZZLE_ID)!;
-  const { state, attempt, setClearance } = useProgression();
-  const current = state.access.clearance;
+/**
+ * Clearance is EARNED by breaking the seals: the operator may choose any tier
+ * up to the one they have earned (to browse "as" a lower clearance), and the
+ * legacy master-key field only ever answers in-world that keys are revoked.
+ */
+export function ClearanceModal({ open, onClose, onOpenSanctum }: ClearanceModalProps) {
+  const { clearance: current, earnedLevel, setClearance } = useProgression();
+  const { currentSeal } = useInvestigation();
   const [passcode, setPasscode] = useState('');
   const [authError, setAuthError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -44,10 +49,11 @@ export function ClearanceModal({ open, onClose }: ClearanceModalProps) {
     return () => clearTimeout(id);
   }, [successMsg, onClose]);
 
-  const select = (level: ClearanceLevel, locked?: boolean) => {
-    if (locked && !hasEarnedClearance(state, level)) {
+  const select = (level: ClearanceLevel, tier: number) => {
+    if (tier > earnedLevel) {
       gpcAudio.playUiSound('deny');
-      setAuthError('LEVEL 5 REQUIRES EXECUTIVE MASTER KEY CODE (OR TERMINAL OVERRIDE).');
+      setSuccessMsg('');
+      setAuthError(`DEGREE NOT YET EARNED. ${EARNED_BY[tier].toUpperCase()}.`);
       return;
     }
     gpcAudio.playUiSound('grant');
@@ -58,19 +64,16 @@ export function ClearanceModal({ open, onClose }: ClearanceModalProps) {
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const result = attempt(PUZZLE_ID, passcode);
-    if (result.ok) {
-      gpcAudio.playUiSound('grant');
-      setAuthError('');
-      setSuccessMsg(puzzle.success.body);
-    } else {
-      gpcAudio.playUiSound('deny');
-      setAuthError(
-        result.reason === 'empty' ? 'ENTER A MASTER KEY CODE.' : 'INVALID MASTER KEY CODE. SECURITY NOTIFIED.'
-      );
-      setPasscode('');
-    }
+    gpcAudio.playUiSound('deny');
+    setAuthError(
+      passcode.trim() === MASTER_KEY_CODE
+        ? 'MASTER KEY 01 (D. CROSS) WAS REVOKED ON 1989-11-04, THE NIGHT OF THE DESCENT. THE ORDER DOES NOT OPEN FOR KEYS.'
+        : 'NO MASTER KEYS REMAIN IN SERVICE. DEGREES ARE EARNED THROUGH THE SEALS.'
+    );
+    setPasscode('');
   };
+
+  const seal = currentSeal ? getSeal(currentSeal) : null;
 
   return (
     <Modal
@@ -93,24 +96,32 @@ export function ClearanceModal({ open, onClose }: ClearanceModalProps) {
           <legend className="text-caption text-slate-400 font-bold mb-2">SELECT AUTHORIZATION LEVEL:</legend>
           {CLEARANCE_TIERS.map((item) => {
             const isCurrent = current === item.level;
-            const locked = item.locked && !hasEarnedClearance(state, item.level);
+            const earned = item.tier <= earnedLevel;
             return (
               <button
                 type="button"
                 key={item.level}
-                onClick={() => select(item.level, item.locked)}
+                onClick={() => select(item.level, item.tier)}
                 aria-pressed={isCurrent}
+                aria-disabled={!earned}
                 className={cn(
                   'w-full text-left p-3 rounded border cursor-pointer transition-all',
                   TIER_BORDER[item.tier],
-                  isCurrent ? 'bg-slate-800/80 font-bold ring-1 ring-cyan-400' : 'bg-canvas hover:bg-hover'
+                  isCurrent ? 'bg-slate-800/80 font-bold ring-1 ring-cyan-400' : 'bg-canvas hover:bg-hover',
+                  !earned && 'opacity-60'
                 )}
               >
-                <span className="flex items-center justify-between">
+                <span className="flex items-center justify-between gap-2">
                   <span className="font-bold text-xs flex items-center gap-1.5">
-                    {locked && <Lock className="w-3 h-3" aria-label="Locked" />}
+                    <PlanetGlyph glyph={LEVEL_CORRESPONDENCE[item.tier].glyph} />
                     {item.label}
+                    {earned && earnedLevel >= 3 && (
+                      <span className="text-micro font-normal text-fuchsia-300/70 font-occult">
+                        · {DEGREES[item.tier]}
+                      </span>
+                    )}
                   </span>
+                  {!earned && <Lock className="w-3 h-3 text-slate-500" aria-label="Not yet earned" />}
                   {isCurrent && (
                     <span className="text-micro px-1.5 py-px rounded bg-cyan-950 text-cyan-400 border border-cyan-800">
                       ACTIVE
@@ -119,6 +130,15 @@ export function ClearanceModal({ open, onClose }: ClearanceModalProps) {
                 </span>
                 <span className="block text-caption text-slate-400 mt-1 leading-normal font-normal">
                   {item.description}
+                </span>
+                <span
+                  className={cn(
+                    'block text-micro mt-1 font-normal',
+                    earned ? 'text-emerald-500/80' : 'text-slate-500'
+                  )}
+                >
+                  {earned ? '✓ ' : '✕ '}
+                  {EARNED_BY[item.tier]}
                 </span>
               </button>
             );
@@ -131,7 +151,7 @@ export function ClearanceModal({ open, onClose }: ClearanceModalProps) {
             className="text-caption text-slate-400 font-bold flex items-center gap-1.5"
           >
             <Key className="w-3.5 h-3.5 text-amber-400" aria-hidden />
-            EXECUTIVE MASTER KEY AUTHORIZATION (LEVEL 5 BYPASS):
+            LEGACY EXECUTIVE MASTER KEY (DEPRECATED):
           </label>
           <div className="flex gap-2">
             <input
@@ -141,7 +161,7 @@ export function ClearanceModal({ open, onClose }: ClearanceModalProps) {
               maxLength={PUZZLE_SETTINGS.maxInputLength}
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
-              placeholder="Enter master key code..."
+              placeholder="Enter master key..."
               aria-describedby={authError ? 'master-key-error' : undefined}
               className="field flex-1 min-w-0 px-3 text-slate-100 focus-visible:border-amber-500"
             />
@@ -154,13 +174,21 @@ export function ClearanceModal({ open, onClose }: ClearanceModalProps) {
           </div>
         </form>
 
+        <button
+          type="button"
+          onClick={onOpenSanctum}
+          className="w-full py-2 rounded border border-fuchsia-800 text-fuchsia-300 hover:bg-fuchsia-950/40 cursor-pointer font-occult tracking-widest text-label"
+        >
+          {seal ? `CONTINUE AT SEAL ${seal.numeral} — ${seal.title.toUpperCase()}` : 'VIEW THE CASE FILE'}
+        </button>
+
         <div aria-live="polite">
           {authError && (
             <p
               id="master-key-error"
               className="text-caption text-rose-400 font-bold flex items-center gap-1.5"
             >
-              <AlertOctagon className="w-3.5 h-3.5" aria-hidden />
+              <AlertOctagon className="w-3.5 h-3.5 shrink-0" aria-hidden />
               <span>{authError}</span>
             </p>
           )}
@@ -171,8 +199,6 @@ export function ClearanceModal({ open, onClose }: ClearanceModalProps) {
             </p>
           )}
         </div>
-
-        <HintPanel puzzle={puzzle} onBypass={() => setSuccessMsg(puzzle.success.body)} />
       </div>
     </Modal>
   );

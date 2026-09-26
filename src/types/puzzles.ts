@@ -8,7 +8,13 @@
 import type { ClearanceLevel, RecordRef } from './records';
 
 /** Normalisation steps applied to player input before hashing. Order matters. */
-export type NormalizeStep = 'trim' | 'lowercase' | 'collapse-spaces' | 'strip-spaces';
+export type NormalizeStep =
+  | 'trim'
+  | 'lowercase'
+  | 'collapse-spaces'
+  | 'strip-spaces'
+  /** Uppercase, then drop everything except A–Z, 0–9, `.` and `|` (the Order's seal inputs). */
+  | 'alnum-upper';
 
 /**
  * How an answer is checked.
@@ -57,7 +63,8 @@ export type PuzzleReward =
   | { type: 'record'; recordId: string };
 
 /** UI surface that hosts the puzzle input. */
-export type PuzzleSurface = 'boot-sequence' | 'terminal' | 'palimpsest-safe' | 'clearance-profiler';
+export type PuzzleSurface =
+  'sanctum' | 'terminal' | 'palimpsest-safe' | 'document-viewer' | 'gateway-transmission';
 
 export interface PuzzleDefinition {
   id: string;
@@ -75,6 +82,8 @@ export interface PuzzleDefinition {
   rewards: PuzzleReward[];
   /** Conditions before the puzzle is offered. Defaults to always available. */
   requires?: UnlockCondition[];
+  /** Investigation-journal line written on first completion. */
+  journal?: string;
 }
 
 export type CompletionMethod = 'answer' | 'bypass';
@@ -86,11 +95,39 @@ export interface PuzzleCompletion {
   assisted: boolean;
 }
 
-/** What the operator may currently see. */
+/**
+ * What the operator has asked to see. Clearance is EARNED (see
+ * `earnedLevel()` in lib/puzzles/investigation.ts); `clearance` is only the
+ * operator's chosen level at or below it.
+ */
 export interface AccessState {
   clearance: ClearanceLevel;
-  /** Redaction de-scrambler on/off. */
+  /**
+   * The earned rank at the moment `clearance` was chosen. When a seal raises
+   * the earned rank, the stale choice is ignored and the new maximum applies.
+   * 0 = never chosen.
+   */
+  chosenAt: number;
+  /** Redaction de-scrambler requested (only effective once earned). */
   unredacted: boolean;
+}
+
+export type JournalKind = 'seal' | 'fragment' | 'system' | 'finale';
+
+export interface JournalEntry {
+  /** ISO timestamp. */
+  t: string;
+  text: string;
+  kind: JournalKind;
+}
+
+/** The Seven Seals case file (ARG investigation layer). */
+export interface InvestigationState {
+  /** Choir Script fragment ids found on the public pages. */
+  fragments: string[];
+  prologueSeen: boolean;
+  finaleComplete: boolean;
+  journal: JournalEntry[];
 }
 
 export interface Preferences {
@@ -100,7 +137,7 @@ export interface Preferences {
 
 /** Persisted player progression. Bump `version` when the shape changes. */
 export interface ProgressionState {
-  version: 1;
+  version: 2;
   callsign: string;
   /** recordId → ISO timestamp of first discovery. */
   discovered: Record<string, string>;
@@ -111,6 +148,7 @@ export interface ProgressionState {
   unlockedDownloads: string[];
   access: AccessState;
   preferences: Preferences;
+  investigation: InvestigationState;
 }
 
 export type ValidationResult =

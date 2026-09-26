@@ -10,6 +10,7 @@ import { NAV_ITEMS, tabForPath } from '@/config/navigation';
 import { SITE } from '@/config/site';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { useProgression } from '@/hooks/use-progression';
+import { notify, useDescrambler } from '@/hooks/use-investigation';
 import { TopHeader } from '@/components/layout/top-header';
 import { Sidebar } from '@/components/layout/sidebar';
 import { AudioPlayerBar } from '@/components/audio/audio-player-bar';
@@ -21,6 +22,12 @@ import { TerminalModal } from '@/components/puzzles/terminal-modal';
 import { PalimpsestSafeModal } from '@/components/puzzles/palimpsest-safe-modal';
 import { ClearanceModal } from '@/components/puzzles/clearance-modal';
 import { BootSequence } from '@/components/puzzles/boot-sequence';
+import { PrologueModal } from '@/components/puzzles/prologue-modal';
+import { FinaleOverlay } from '@/components/puzzles/finale-overlay';
+import { GatewayModal } from '@/components/puzzles/gateway/gateway-modal';
+import { HiddenSigilLayer } from '@/components/puzzles/hidden-sigil-layer';
+import { RevelationToasts } from '@/components/puzzles/revelation-toasts';
+import { SigilWatermark } from '@/components/ui/sigils';
 import { TrainingModuleModal } from '@/components/corporate/training-module-modal';
 import { ApplicationModal } from '@/components/corporate/application-modal';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
@@ -47,10 +54,19 @@ export function ArchiveShell() {
   const [params] = useSearchParams();
   const ui = useArchiveUi();
   const { dialog, openDialog, closeDialog, toggleDialog } = ui;
-  const { state, setUnredacted, discover, complete, setCallsign } = useProgression();
+  const progression = useProgression();
+  const { state, discover, setCallsign, markPrologueSeen, completeFinale } = progression;
+  const { unredacted, toggle: toggleDescrambler } = useDescrambler();
+  const solvedSeals = Object.keys(state.completed).filter((id) => id.startsWith('seal-')).length;
+  const goToSanctum = () => {
+    closeDialog();
+    ui.navigateToTab('sanctum');
+  };
+
   const [bootDone, setBootDone] = useState(!FEATURES.bootSequence);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
+  const toggleDescramblerRef = useRef(() => {});
   const firstRoute = useRef(true);
   const [lastPath, setLastPath] = useState(pathname);
 
@@ -59,6 +75,10 @@ export function ArchiveShell() {
     setLastPath(pathname);
     setSidebarOpen(false);
   }
+
+  useEffect(() => {
+    toggleDescramblerRef.current = toggleDescrambler;
+  });
 
   // Keep the audio engine's UI-sound switch in sync with the saved preference.
   useEffect(() => {
@@ -99,13 +119,12 @@ export function ArchiveShell() {
         toggleDialog('terminal');
       } else if ((e.key === 'u' || e.key === 'U') && !e.ctrlKey && !e.metaKey && !e.altKey) {
         e.preventDefault();
-        gpcAudio.playUiSound('unredact');
-        setUnredacted(!state.access.unredacted);
+        toggleDescramblerRef.current();
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [bootDone, openDialog, toggleDialog, setUnredacted, state.access.unredacted]);
+  }, [bootDone, openDialog, toggleDialog]);
 
   const record = params.get('record') ?? '';
 
@@ -113,11 +132,12 @@ export function ArchiveShell() {
     <>
       {!bootDone && (
         <BootSequence
-          onComplete={(callsign, executiveOverride) => {
+          onComplete={(callsign) => {
             setCallsign(callsign);
-            if (executiveOverride) complete('boot-override', 'answer');
             setBootDone(true);
             gpcAudio.playUiSound('grant');
+            // First visit: Thorne's dead-drop breaks in right after the boot.
+            if (!state.investigation.prologueSeen) openDialog({ type: 'prologue' });
           }}
         />
       )}
@@ -147,6 +167,8 @@ export function ArchiveShell() {
             tabIndex={-1}
             className="flex-1 flex flex-col min-w-0 h-full bg-canvas overflow-hidden relative outline-none"
           >
+            <SigilWatermark intensity={0.012 + 0.006 * solvedSeals} />
+            <HiddenSigilLayer activeTab={tabForPath(pathname)} />
             <ErrorBoundary resetKey={pathname}>
               <Suspense fallback={<PageLoading />}>
                 {/* Remount a page when its ?record= deep link changes (not when ?doc= changes). */}
@@ -170,13 +192,49 @@ export function ArchiveShell() {
         open={dialog?.type === 'terminal'}
         onClose={closeDialog}
         onOpenDocument={ui.openDocument}
+        onInvoke={() => openDialog({ type: 'finale' })}
       />
-      <PalimpsestSafeModal open={dialog?.type === 'safe'} onClose={closeDialog} />
-      <ClearanceModal open={dialog?.type === 'clearance'} onClose={closeDialog} />
+      <PalimpsestSafeModal open={dialog?.type === 'safe'} onClose={closeDialog} onGoToSanctum={goToSanctum} />
+      <ClearanceModal open={dialog?.type === 'clearance'} onClose={closeDialog} onOpenSanctum={goToSanctum} />
+      <PrologueModal
+        open={dialog?.type === 'prologue'}
+        callsign={state.callsign}
+        onBegin={() => {
+          markPrologueSeen();
+          goToSanctum();
+        }}
+        onDismiss={() => {
+          markPrologueSeen();
+          closeDialog();
+        }}
+      />
+      <GatewayModal
+        open={dialog?.type === 'gateway'}
+        onClose={closeDialog}
+        onComplete={() => {
+          gpcAudio.playUiSound('grant');
+          notify(
+            'GATEWAY TRANSMISSION COMPLETE',
+            'Three keys kept. The case file is open — begin with Saturn.',
+            '✦',
+            '#d946ef'
+          );
+          goToSanctum();
+        }}
+      />
+      <FinaleOverlay
+        open={dialog?.type === 'finale'}
+        callsign={state.callsign}
+        onComplete={() => {
+          completeFinale();
+          goToSanctum();
+        }}
+      />
       <ArchiveGuideModal
         open={dialog?.type === 'help'}
         onClose={closeDialog}
         onOpenSafe={() => openDialog({ type: 'safe' })}
+        onOpenSanctum={goToSanctum}
       />
       <TrainingModuleModal
         module={dialog?.type === 'training' ? dialog.module : null}
@@ -191,9 +249,10 @@ export function ArchiveShell() {
         requestedId={ui.documentParam}
         document={ui.openDocumentRecord}
         onClose={ui.closeDocument}
-        isGlobalUnredacted={state.access.unredacted}
-        onToggleUnredacted={() => setUnredacted(!state.access.unredacted)}
+        isGlobalUnredacted={unredacted}
+        onToggleUnredacted={toggleDescrambler}
       />
+      <RevelationToasts />
     </>
   );
 }

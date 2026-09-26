@@ -18,6 +18,12 @@ export type ArchiveDialog =
   | { type: 'safe' }
   | { type: 'clearance' }
   | { type: 'help' }
+  /** Thorne's dead-drop — shown once after the first boot. */
+  | { type: 'prologue' }
+  /** The Counter-Rite (Seal VII). */
+  | { type: 'finale' }
+  /** Gateway Transmission — the guided beginner trail. */
+  | { type: 'gateway' }
   | { type: 'training'; module: TrainingModule }
   | { type: 'job'; job: JobPosting }
   | { type: 'dead-link'; link: DeadLink };

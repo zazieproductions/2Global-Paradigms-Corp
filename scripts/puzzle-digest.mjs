@@ -4,6 +4,7 @@
  *
  *   npm run puzzle:digest -- "answer one" "answer two"
  *   npm run puzzle:digest -- --normalize trim,lowercase "Vance"
+ *   npm run puzzle:digest -- -n alnum-upper "Liturgy"      # seal answers
  *
  * Normalisation must match the puzzle's `validation.normalize` list and
  * mirrors normalizeAnswer() in src/lib/puzzles/validate.ts (inputs are cut to
@@ -15,7 +16,7 @@
 import { createHash } from 'node:crypto';
 
 const MAX_INPUT_LENGTH = 32; // keep in sync with src/config/puzzles.ts
-const STEPS = new Set(['trim', 'lowercase', 'collapse-spaces', 'strip-spaces']);
+const STEPS = new Set(['trim', 'lowercase', 'collapse-spaces', 'strip-spaces', 'alnum-upper']);
 
 function normalize(input, steps) {
   let out = input.slice(0, MAX_INPUT_LENGTH);
@@ -24,6 +25,7 @@ function normalize(input, steps) {
     else if (step === 'lowercase') out = out.toLowerCase();
     else if (step === 'collapse-spaces') out = out.replace(/\s+/g, ' ');
     else if (step === 'strip-spaces') out = out.replace(/\s+/g, '');
+    else if (step === 'alnum-upper') out = out.toUpperCase().replace(/[^A-Z0-9.|]/g, '');
   }
   return out;
 }

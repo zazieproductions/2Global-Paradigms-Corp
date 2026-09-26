@@ -18,8 +18,8 @@ const stack: symbol[] = [];
 const FOCUSABLE =
   'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), iframe, [tabindex]:not([tabindex="-1"]), [contenteditable="true"]';
 
-export type ModalTone = 'signal' | 'warning' | 'success' | 'danger' | 'neutral' | 'purple';
-export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '5xl';
+export type ModalTone = 'signal' | 'warning' | 'success' | 'danger' | 'neutral' | 'purple' | 'order';
+export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '5xl' | 'full';
 
 const TONE: Record<ModalTone, { frame: string; title: string }> = {
   signal: { frame: 'border-cyan-500/40 shadow-glow-lg shadow-signal/20', title: 'text-cyan-400' },
@@ -27,7 +27,9 @@ const TONE: Record<ModalTone, { frame: string; title: string }> = {
   success: { frame: 'border-emerald-500/40 shadow-glow-lg shadow-emerald-500/15', title: 'text-emerald-400' },
   danger: { frame: 'border-rose-500/40 shadow-glow-lg shadow-rose-500/15', title: 'text-rose-400' },
   purple: { frame: 'border-purple-500/40 shadow-glow-lg shadow-purple-500/15', title: 'text-purple-400' },
-  neutral: { frame: 'border-line-bright shadow-modal', title: 'text-slate-200' }
+  neutral: { frame: 'border-line-bright shadow-modal', title: 'text-slate-200' },
+  /** The Ordo Vocis Profundae — Thorne's transmissions, the rite. */
+  order: { frame: 'border-fuchsia-800/60 shadow-[0_0_80px_rgb(192_38_211/0.25)]', title: 'text-fuchsia-300' }
 };
 
 const SIZE: Record<ModalSize, string> = {
@@ -37,7 +39,9 @@ const SIZE: Record<ModalSize, string> = {
   xl: 'max-w-xl',
   '2xl': 'max-w-2xl',
   '4xl': 'max-w-4xl',
-  '5xl': 'max-w-5xl'
+  '5xl': 'max-w-5xl',
+  /** Edge-to-edge takeover (Gateway Transmission, the finale). */
+  full: 'max-w-none h-full'
 };
 
 export interface ModalProps {
@@ -198,7 +202,7 @@ export function Modal({
         tabIndex={-1}
         className={cn(
           'bg-panel border rounded-lg w-full text-slate-200 flex flex-col outline-none',
-          position === 'top' ? 'max-h-[80vh]' : 'max-h-[92vh]',
+          size === 'full' ? 'max-h-full' : position === 'top' ? 'max-h-[80vh]' : 'max-h-[92vh]',
           SIZE[size],
           t.frame,
           variant === 'card' && 'p-6 space-y-4 overflow-y-auto scrollbar-thin',

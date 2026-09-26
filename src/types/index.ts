@@ -24,4 +24,5 @@ export type ActiveTab =
   | 'careers'
   | 'values'
   | 'tools'
-  | 'deadlinks';
+  | 'deadlinks'
+  | 'sanctum';

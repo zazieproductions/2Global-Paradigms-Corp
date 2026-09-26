@@ -90,7 +90,11 @@ describe('shell', () => {
     expect(progressionStore.getState().access.unredacted).toBe(false);
   });
 
-  it('toggles the de-scrambler with "u"', async () => {
+  it('toggles the de-scrambler with "u" once Level 3 is earned', async () => {
+    for (const id of [1, 2]) {
+      progressionStore.dispatch({ type: 'complete', puzzleId: `seal-${id}`, method: 'answer' });
+    }
+    progressionStore.dispatch({ type: 'set-unredacted', value: false });
     const user = userEvent.setup();
     renderArchive('/');
     await screen.findAllByRole('heading', { level: 1 });

@@ -4,6 +4,7 @@ import {
   EyeOff,
   HelpCircle,
   Key,
+  Lock,
   Menu,
   Radio,
   Search,
@@ -20,6 +21,7 @@ import { SITE } from '@/config/site';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { clearanceTier } from '@/lib/archive/clearance';
 import { useProgression } from '@/hooks/use-progression';
+import { useDescrambler } from '@/hooks/use-investigation';
 import { useArchiveUi } from '@/app/archive-ui-context';
 import { cn } from '@/lib/utils/cn';
 
@@ -72,9 +74,9 @@ interface TopHeaderProps {
 }
 
 export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
-  const { state, setUnredacted, setPreference } = useProgression();
+  const { state, clearance, setPreference } = useProgression();
+  const { unredacted, unlocked: descramblerUnlocked, toggle: toggleDescrambler } = useDescrambler();
   const { openDialog } = useArchiveUi();
-  const { clearance, unredacted } = state.access;
   const { crt, sound } = state.preferences;
 
   const click =
@@ -128,6 +130,18 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
 
       {/* Controls */}
       <div className="flex items-center gap-1 md:gap-2 shrink-0">
+        {/* Gateway Transmission (beginner puzzle trail) */}
+        <button
+          type="button"
+          onClick={click(() => openDialog({ type: 'gateway' }), 'unredact')}
+          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-fuchsia-950/40 hover:bg-fuchsia-900/50 text-fuchsia-300 border border-fuchsia-500/50 hover:border-fuchsia-400 rounded transition-all cursor-pointer text-xs shadow-glow-sm shadow-order/15"
+          title="Replay the buffered Gateway Transmission"
+          aria-label="Gateway Transmission"
+        >
+          <Radio className="w-3.5 h-3.5 text-fuchsia-400 motion-safe:animate-pulse" aria-hidden />
+          <span className="hidden md:inline text-label font-bold tracking-wider">▸ TRANSMISSION</span>
+        </button>
+
         <button
           type="button"
           onClick={click(() => openDialog({ type: 'search' }))}
@@ -145,7 +159,7 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
 
         <button
           type="button"
-          onClick={click(() => setUnredacted(!unredacted), 'unredact')}
+          onClick={toggleDescrambler}
           aria-pressed={unredacted}
           aria-keyshortcuts="U"
           className={cn(
@@ -155,11 +169,19 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
               : 'bg-hover text-slate-300 hover:text-white border-line-bright'
           )}
           title={
-            unredacted ? 'De-Scrambler Active: Black Redactions Revealed' : 'Enable Redaction De-Scrambler'
+            unredacted
+              ? 'De-Scrambler Active: Black Redactions Revealed'
+              : descramblerUnlocked
+                ? 'Enable Redaction De-Scrambler'
+                : 'De-Scrambler locked — earned at Level 3'
           }
-          aria-label="Redaction de-scrambler"
+          aria-label={
+            descramblerUnlocked ? 'Redaction de-scrambler' : 'Redaction de-scrambler (locked until Level 3)'
+          }
         >
-          {unredacted ? (
+          {!descramblerUnlocked ? (
+            <Lock className="w-3.5 h-3.5 text-slate-500" aria-hidden />
+          ) : unredacted ? (
             <Eye className="w-3.5 h-3.5 text-rose-400" aria-hidden />
           ) : (
             <EyeOff className="w-3.5 h-3.5 text-slate-400" aria-hidden />

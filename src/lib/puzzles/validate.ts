@@ -39,6 +39,9 @@ export function normalizeAnswer(input: string, steps: NormalizeStep[]): string {
       case 'strip-spaces':
         out = out.replace(/\s+/g, '');
         break;
+      case 'alnum-upper':
+        out = out.toUpperCase().replace(/[^A-Z0-9.|]/g, '');
+        break;
     }
   }
   return out;
@@ -61,6 +64,16 @@ function conditionMet(cond: UnlockCondition, state?: ProgressionState): boolean 
 
 export function isPuzzleAvailable(puzzle: PuzzleDefinition, state?: ProgressionState): boolean {
   return (puzzle.requires ?? []).every((c) => conditionMet(c, state));
+}
+
+/**
+ * True if `input` is an accepted answer, ignoring unlock requirements. Used
+ * where the fiction reacts to a correct-but-premature answer ("NOT YET").
+ */
+export function checkAnswer(puzzleId: string, input: string): boolean {
+  const puzzle = getPuzzle(puzzleId);
+  if (!puzzle || !input.trim() || puzzle.validation.method !== 'sha256') return false;
+  return puzzle.validation.digests.includes(digestAnswer(input, puzzle.validation.normalize));
 }
 
 /**

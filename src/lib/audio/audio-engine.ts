@@ -585,6 +585,146 @@ class GpcAudioEngine {
     this.emit({ isSynthActive: false });
   }
 
+  // ==========================================================================
+  // ORDO VOCIS PROFUNDAE — ritual sounds for the Seven Seals
+  // All are short, user-triggered, and respect the mute switch. Every event
+  // they accompany is also shown in text — none is required to play.
+  // ==========================================================================
+
+  /** A single sustained bell-like tone. */
+  public playTone(freq: number, duration = 0.9, type: OscillatorType = 'sine', level = 0.18) {
+    if (!this.isSoundEnabled) return;
+    this.resume();
+    if (!this.ctx || !this.masterGain || this.ctx.state !== 'running') return;
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const over = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    const overGain = this.ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t);
+    over.type = 'sine';
+    over.frequency.setValueAtTime(freq * 2.76, t); // inharmonic bell partial
+    overGain.gain.setValueAtTime(level * 0.25, t);
+    overGain.gain.exponentialRampToValueAtTime(0.0001, t + duration * 0.5);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(level, t + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+    osc.connect(gain);
+    over.connect(overGain);
+    overGain.connect(this.masterGain);
+    gain.connect(this.masterGain);
+    osc.start(t);
+    over.start(t);
+    osc.stop(t + duration + 0.05);
+    over.stop(t + duration + 0.05);
+  }
+
+  /** Several audible tones amplitude-modulated by an infrasonic "carrier". */
+  public playInvocation(freqs: number[], carrierHz = 14.8, duration = 4.5) {
+    if (!this.isSoundEnabled) return;
+    this.resume();
+    if (!this.ctx || !this.masterGain || this.ctx.state !== 'running') return;
+    const t = this.ctx.currentTime;
+    const bus = this.ctx.createGain();
+    bus.gain.setValueAtTime(0.0001, t);
+    bus.gain.exponentialRampToValueAtTime(0.22, t + 0.6);
+    bus.gain.setValueAtTime(0.22, t + duration - 1.2);
+    bus.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+
+    const lfo = this.ctx.createOscillator();
+    const lfoGain = this.ctx.createGain();
+    lfo.frequency.setValueAtTime(carrierHz, t);
+    lfoGain.gain.setValueAtTime(0.09, t);
+    lfo.connect(lfoGain);
+    lfoGain.connect(bus.gain);
+
+    const ctx = this.ctx;
+    freqs.forEach((f, i) => {
+      const o = ctx.createOscillator();
+      o.type = i === 0 ? 'triangle' : 'sine';
+      o.frequency.setValueAtTime(f, t + i * 0.35);
+      o.connect(bus);
+      o.start(t + i * 0.35);
+      o.stop(t + duration + 0.05);
+    });
+    bus.connect(this.masterGain);
+    lfo.start(t);
+    lfo.stop(t + duration + 0.05);
+  }
+
+  /** The sound of a seal breaking — a low thud, a crack of noise, a rising chord. */
+  public playSealBreak() {
+    if (!this.isSoundEnabled) return;
+    this.resume();
+    if (!this.ctx || !this.masterGain || this.ctx.state !== 'running') return;
+    const t = this.ctx.currentTime;
+    const thud = this.ctx.createOscillator();
+    const tg = this.ctx.createGain();
+    thud.type = 'sine';
+    thud.frequency.setValueAtTime(90, t);
+    thud.frequency.exponentialRampToValueAtTime(30, t + 0.5);
+    tg.gain.setValueAtTime(0.4, t);
+    tg.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+    thud.connect(tg);
+    tg.connect(this.masterGain);
+    thud.start(t);
+    thud.stop(t + 0.65);
+
+    const len = Math.floor(this.ctx.sampleRate * 0.25);
+    const buf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+    const n = this.ctx.createBufferSource();
+    const ng = this.ctx.createGain();
+    const hp = this.ctx.createBiquadFilter();
+    hp.type = 'highpass';
+    hp.frequency.setValueAtTime(1800, t);
+    n.buffer = buf;
+    ng.gain.setValueAtTime(0.25, t);
+    n.connect(hp);
+    hp.connect(ng);
+    ng.connect(this.masterGain);
+    n.start(t + 0.02);
+
+    [261.63, 329.63, 392, 523.25].forEach((f, i) => {
+      setTimeout(() => this.playTone(f, 1.8, 'sine', 0.09), 180 + i * 120);
+    });
+  }
+
+  /** Finale: the counter-tone — a phase-inverted carrier sweeping down to silence. */
+  public playCounterTone(duration = 9) {
+    if (!this.isSoundEnabled) return;
+    this.resume();
+    if (!this.ctx || !this.masterGain || this.ctx.state !== 'running') return;
+    const t = this.ctx.currentTime;
+    const a = this.ctx.createOscillator();
+    const b = this.ctx.createOscillator();
+    const g = this.ctx.createGain();
+    const f = this.ctx.createBiquadFilter();
+    a.type = 'sawtooth';
+    b.type = 'sawtooth';
+    a.frequency.setValueAtTime(432, t);
+    b.frequency.setValueAtTime(432 + 14.8, t);
+    a.frequency.exponentialRampToValueAtTime(27, t + duration);
+    b.frequency.exponentialRampToValueAtTime(27.2, t + duration);
+    f.type = 'lowpass';
+    f.frequency.setValueAtTime(2400, t);
+    f.frequency.exponentialRampToValueAtTime(120, t + duration);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.16, t + 0.8);
+    g.gain.setValueAtTime(0.16, t + duration * 0.6);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+    a.connect(f);
+    b.connect(f);
+    f.connect(g);
+    g.connect(this.masterGain);
+    a.start(t);
+    b.start(t);
+    a.stop(t + duration + 0.1);
+    b.stop(t + duration + 0.1);
+  }
+
   // Get real-time audio analysis data
   public getFrequencyData(array: Uint8Array<ArrayBuffer>) {
     if (this.analyser) {
