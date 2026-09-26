@@ -37,7 +37,7 @@ import { useArchiveUi } from '@/app/archive-ui-context';
 const MARGINALIA = ['HE IS SINGING', 'THE SONG RISES', 'ORDER IS ETERNAL', 'DESCEND', 'THE CHOIR HEARS'];
 
 const TOOL_BTN =
-  'flex items-center gap-1 px-2 py-1 bg-hover hover:bg-active text-slate-300 border border-line-bright rounded text-label cursor-pointer';
+  'tap-target flex items-center gap-1 px-2 py-1.5 bg-hover hover:bg-active text-slate-300 border border-line-bright rounded text-label cursor-pointer';
 
 interface DocumentViewerModalProps {
   /** The `?doc=` value. When set but unresolved, a missing-file notice is shown. */
@@ -187,8 +187,9 @@ function DocumentSheet({
               ? 'Global de-scrambler is on'
               : 'De-scramble this record only'
         }
+        aria-label={showUnredacted ? 'Hide redactions on this record' : 'De-scramble this record'}
         className={cn(
-          'flex items-center gap-1 px-2.5 py-1 rounded text-label font-semibold border cursor-pointer transition-all',
+          'tap-target flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded text-label font-semibold border cursor-pointer transition-all',
           showUnredacted
             ? 'bg-rose-950 text-rose-300 border-rose-500 animate-pulse'
             : 'bg-hover hover:bg-active text-slate-300 border-line-bright'
@@ -199,7 +200,7 @@ function DocumentSheet({
         ) : (
           <EyeOff className="w-3.5 h-3.5 text-slate-400" aria-hidden />
         )}
-        <span>{showUnredacted ? 'DE-SCRAMBLED' : 'REDACTED'}</span>
+        <span className="hidden xs:inline">{showUnredacted ? 'DE-SCRAMBLED' : 'REDACTED'}</span>
       </button>
       <button
         type="button"
@@ -214,7 +215,7 @@ function DocumentSheet({
       <button
         type="button"
         onClick={handleDownloadJson}
-        className={TOOL_BTN}
+        className={cn(TOOL_BTN, 'hidden sm:flex')}
         title="Export Metadata (.JSON)"
         aria-label="Export metadata as JSON"
       >
@@ -266,19 +267,20 @@ function DocumentSheet({
       icon={FileText}
       title={
         <span className="text-slate-200 tracking-wider text-xs">
-          PARADIGM-OS // DOSSIER VIEWER: {document.code}
+          <span className="hidden sm:inline">PARADIGM-OS // DOSSIER VIEWER: </span>
+          {document.code}
           <span className="hidden sm:inline-block ml-2 text-caption text-slate-500 font-normal">
             [{document.category.toUpperCase()}]
           </span>
         </span>
       }
       headerActions={headerActions}
-      bodyClassName="p-4 md:p-8 bg-canvas"
+      bodyClassName="p-3 sm:p-4 md:p-8 bg-canvas"
     >
       {isSealed ? (
         <SealedRecord document={document} clearance={clearance} rank={docRank} summary={summary} />
       ) : (
-        <article className="print-visible max-w-3xl mx-auto bg-panel border border-line-bright p-6 md:p-10 rounded shadow-2xl relative">
+        <article className="print-visible max-w-3xl mx-auto bg-panel border border-line-bright p-4 sm:p-6 md:p-10 rounded shadow-2xl relative">
           {/* Watermark */}
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] select-none overflow-hidden"

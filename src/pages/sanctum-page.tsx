@@ -119,7 +119,7 @@ export default function SanctumPage() {
               type="button"
               aria-expanded={showPrologue}
               onClick={() => setShowPrologue((v) => !v)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-fuchsia-800/60 text-fuchsia-300 hover:bg-fuchsia-950/40 cursor-pointer"
+              className="tap-target flex items-center gap-1.5 px-3 py-2 sm:py-1.5 rounded border border-fuchsia-800/60 text-fuchsia-300 hover:bg-fuchsia-950/40 cursor-pointer"
             >
               <Radio className="w-3.5 h-3.5" /> {showPrologue ? 'HIDE' : 'RE-READ'} THORNE'S DEAD-DROP
             </button>

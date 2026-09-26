@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { HardDrive, ShieldAlert } from 'lucide-react';
 import { NAV_SECTIONS, SANCTUM_NAV } from '@/config/navigation';
@@ -20,12 +21,34 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
   const { clearance, earnedLevel, currentSeal, solved } = useInvestigation();
   const rank = clearanceTier(clearance);
   const active = currentSeal ? getSeal(currentSeal) : null;
+  const asideRef = useRef<HTMLElement>(null);
+
+  // Mobile drawer: Escape dismisses it, and opening it moves focus inside so
+  // keyboard/screen-reader users on a small viewport are not left behind the
+  // backdrop. `onNavigate` is the shell's close handler.
+  useEffect(() => {
+    if (!open) return;
+    const isDrawer = window.matchMedia('(max-width: 767px)').matches;
+    if (!isDrawer) return;
+    asideRef.current?.querySelector<HTMLElement>('a[href], button')?.focus({ preventScroll: true });
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onNavigate();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown, true);
+    return () => document.removeEventListener('keydown', onKeyDown, true);
+  }, [open, onNavigate]);
 
   return (
     <>
       {/* Mobile backdrop */}
       <div
-        className={cn('fixed inset-0 top-header z-30 bg-black/70 md:hidden', open ? 'block' : 'hidden')}
+        className={cn(
+          'fixed inset-0 top-header z-30 bg-black/70 backdrop-blur-[2px] md:hidden',
+          open ? 'block backdrop-enter' : 'hidden'
+        )}
         onClick={onNavigate}
         aria-hidden
       />
@@ -33,11 +56,13 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
         id="archive-sidebar"
         aria-label="Archive sections"
         className={cn(
-          'bg-inset border-r border-line flex-col overflow-y-auto font-mono text-xs text-slate-300 shrink-0 scrollbar-thin',
+          'bg-inset border-r border-line flex-col overflow-y-auto overscroll-contain font-mono text-xs text-slate-300 shrink-0 scrollbar-thin',
           'w-sidebar max-w-[85vw] md:w-64 lg:w-72',
           'fixed top-header bottom-0 left-0 z-40 md:static md:z-auto md:flex md:h-full',
-          open ? 'flex' : 'hidden'
+          'safe-l pb-[env(safe-area-inset-bottom)] md:pb-0',
+          open ? 'flex drawer-enter md:animate-none' : 'hidden'
         )}
+        ref={asideRef}
       >
         {/* Archive status box */}
         <div className="p-3 bg-gradient-to-b from-raised to-inset border-b border-line">
@@ -88,7 +113,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
             }}
             className={({ isActive }) =>
               cn(
-                'w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded border transition-all text-left',
+                'tap-row w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded border transition-all text-left',
                 isActive
                   ? 'bg-fuchsia-500/15 border-fuchsia-500/60 shadow-glow-sm shadow-order/25'
                   : 'bg-fuchsia-950/10 border-fuchsia-900/50 hover:border-fuchsia-600/60'
@@ -133,7 +158,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
                         }}
                         className={({ isActive }) =>
                           cn(
-                            'flex items-center justify-between px-2.5 py-2 rounded transition-all text-left group border',
+                            'tap-row flex items-center justify-between px-2.5 py-2 rounded transition-all text-left group border',
                             isActive
                               ? 'bg-cyan-500/15 text-cyan-300 font-bold border-cyan-500/40 shadow-glow-sm shadow-signal/20'
                               : 'hover:bg-hover text-slate-400 hover:text-slate-200 border-transparent'

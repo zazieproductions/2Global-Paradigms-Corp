@@ -69,6 +69,9 @@
   --shadow-bar: 0 4px 20px rgb(0 0 0 / 0.6);
 
   /* --- Layout ---------------------------------------------------------- */
+  /* Extra breakpoint below Tailwind's `sm`: separates small phones (360px)
+     from large ones (414px+), where a label or two fits again. */
+  --breakpoint-xs: 26rem;
   --spacing-header: 3.5rem; /* top application bar height */
   --spacing-sidebar: 18rem; /* desktop sidebar width */
 }

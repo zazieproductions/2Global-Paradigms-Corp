@@ -144,7 +144,7 @@ export function ArchiveShell() {
 
       <div
         className={cn(
-          'flex flex-col w-screen h-dvh bg-void text-slate-200 overflow-hidden font-mono',
+          'flex flex-col w-full h-dvh bg-void text-slate-200 overflow-hidden font-mono',
           state.preferences.crt && 'crt-scanlines'
         )}
         inert={!bootDone}

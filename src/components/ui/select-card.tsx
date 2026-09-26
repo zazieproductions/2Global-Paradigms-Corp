@@ -24,7 +24,7 @@ export function SelectCard({
       type="button"
       aria-pressed={selected}
       className={cn(
-        'w-full text-left border rounded transition-colors cursor-pointer',
+        'tap-row w-full text-left border rounded transition-colors cursor-pointer',
         selected ? selectedClassName : 'bg-panel border-line hover:border-line-bright hover:bg-hover',
         className
       )}

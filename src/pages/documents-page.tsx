@@ -4,6 +4,7 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 import { DOCUMENTS } from '@/content';
 import { useArchiveUi } from '@/app/archive-ui-context';
 import { useProgression } from '@/hooks/use-progression';
+import { useIsMobile } from '@/hooks/use-media-query';
 import { ArchivePage } from '@/components/ui/archive-page';
 import { ViewHeader } from '@/components/ui/view-header';
 import { DocumentStamp } from '@/components/ui/document-stamp';
@@ -25,7 +26,10 @@ export default function DocumentsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedClearance, setSelectedClearance] = useState<string>('all');
   const [selectedDept, setSelectedDept] = useState<string>('all');
-  const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
+  const isMobile = useIsMobile();
+  // A six-column vault table is unreadable at 360px — phones open on the
+  // dossier cards instead. Both views stay switchable at every size.
+  const [viewMode, setViewMode] = useState<'table' | 'grid'>(isMobile ? 'grid' : 'table');
   const [sortBy, setSortBy] = useState<SortKey>('date-desc');
 
   const filteredDocs = useMemo(() => {
@@ -69,7 +73,7 @@ export default function DocumentsPage() {
                 type="button"
                 aria-pressed={viewMode === 'table'}
                 onClick={() => setViewMode('table')}
-                className={`p-1.5 rounded transition-colors cursor-pointer ${
+                className={`tap-target p-1.5 rounded transition-colors cursor-pointer ${
                   viewMode === 'table'
                     ? 'bg-cyan-500/20 text-cyan-300'
                     : 'text-slate-400 hover:text-slate-200'
@@ -83,7 +87,7 @@ export default function DocumentsPage() {
                 type="button"
                 aria-pressed={viewMode === 'grid'}
                 onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded transition-colors cursor-pointer ${
+                className={`tap-target p-1.5 rounded transition-colors cursor-pointer ${
                   viewMode === 'grid' ? 'bg-cyan-500/20 text-cyan-300' : 'text-slate-400 hover:text-slate-200'
                 }`}
                 title="Grid Dossier View"
@@ -187,7 +191,7 @@ export default function DocumentsPage() {
       {/* Table View */}
       {filteredDocs.length === 0 ? null : viewMode === 'table' ? (
         <div className="bg-panel border border-line-strong rounded-lg overflow-hidden shadow-md">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto overscroll-x-contain">
             <table className="w-full text-left border-collapse text-xs">
               <caption className="sr-only">Document index, {filteredDocs.length} records</caption>
               <thead>
@@ -204,7 +208,7 @@ export default function DocumentsPage() {
                   <th scope="col" className="p-3 hidden lg:table-cell">
                     AUTHOR
                   </th>
-                  <th scope="col" className="p-3">
+                  <th scope="col" className="p-3 hidden sm:table-cell">
                     DATE
                   </th>
                   <th scope="col" className="p-3 text-right">
@@ -250,7 +254,7 @@ export default function DocumentsPage() {
                             </span>
                           )}
                         </div>
-                        <span className="text-caption text-slate-500 block truncate max-w-[340px]">
+                        <span className="text-caption text-slate-500 block truncate max-w-[14rem] sm:max-w-[340px]">
                           {abstractOf(doc.summary)}
                         </span>
                       </div>
@@ -259,7 +263,9 @@ export default function DocumentsPage() {
                       {doc.departmentName}
                     </td>
                     <td className="p-3 hidden lg:table-cell text-slate-400 text-label">{doc.author}</td>
-                    <td className="p-3 text-slate-400 font-mono text-label">{doc.date}</td>
+                    <td className="p-3 hidden sm:table-cell text-slate-400 font-mono text-label">
+                      {doc.date}
+                    </td>
                     <td className="p-3 text-right">
                       <button
                         type="button"
@@ -269,7 +275,7 @@ export default function DocumentsPage() {
                           gpcAudio.playUiSound('click');
                           openDocument(doc);
                         }}
-                        className="px-2 py-1 rounded bg-cyan-950 hover:bg-cyan-900/80 text-cyan-400 border border-cyan-800 text-caption font-bold cursor-pointer transition-colors"
+                        className="tap-target px-2 py-1.5 rounded bg-cyan-950 hover:bg-cyan-900/80 text-cyan-400 border border-cyan-800 text-caption font-bold cursor-pointer transition-colors"
                       >
                         VIEW
                       </button>

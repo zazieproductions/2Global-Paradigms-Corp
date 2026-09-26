@@ -2,5 +2,6 @@
 @import './tokens.css';
 @import './base.css';
 @import './archive.css';
+@import './mobile.css';
 @import './boot.css';
 @import './occult.css';

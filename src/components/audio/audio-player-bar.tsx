@@ -74,7 +74,7 @@ export function AudioPlayerBar() {
 
   return (
     <div
-      className="h-14 bg-inset border-t border-cyan-500/30 flex items-center px-3 md:px-4 gap-3 md:gap-4 shrink-0 z-40"
+      className="min-h-14 bg-inset border-t border-cyan-500/30 flex items-center px-3 md:px-4 safe-x pb-[env(safe-area-inset-bottom)] gap-3 md:gap-4 shrink-0 z-40"
       role="region"
       aria-label="Audio playback"
     >
@@ -84,7 +84,7 @@ export function AudioPlayerBar() {
           gpcAudio.playUiSound('click');
           gpcAudio.stopAll();
         }}
-        className="p-2 rounded bg-rose-900/50 hover:bg-rose-600 text-rose-200 cursor-pointer transition-colors shrink-0"
+        className="tap-target p-2 rounded bg-rose-900/50 hover:bg-rose-600 text-rose-200 cursor-pointer transition-colors shrink-0"
         title="Stop All Audio"
         aria-label="Stop all audio"
       >
@@ -97,7 +97,7 @@ export function AudioPlayerBar() {
       </div>
 
       <div
-        className="flex-1 h-8 bg-void rounded border border-line-strong overflow-hidden hidden sm:block"
+        className="flex-1 h-8 bg-void rounded border border-line-strong overflow-hidden hidden md:block"
         aria-hidden
       >
         <canvas ref={canvasRef} width={400} height={32} className="w-full h-full block" />

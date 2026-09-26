@@ -6,7 +6,7 @@ export function ArchivePage({ children, className }: { children: ReactNode; clas
   return (
     <div
       className={cn(
-        'flex-1 overflow-y-auto p-3 md:p-6 space-y-4 font-mono text-xs text-slate-200 bg-canvas scrollbar-thin',
+        'flex-1 overflow-y-auto overscroll-contain p-3 md:p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] space-y-4 font-mono text-xs text-slate-200 bg-canvas scrollbar-thin',
         className
       )}
     >

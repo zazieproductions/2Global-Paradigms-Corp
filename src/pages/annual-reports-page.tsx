@@ -113,8 +113,8 @@ export default function AnnualReportsPage() {
             <span className="text-caption text-emerald-400 font-bold block uppercase">
               DEMOGRAPHIC RESILIENCE & COMPLIANCE METRICS:
             </span>
-            <div className="border border-line rounded overflow-hidden">
-              <table className="w-full text-left text-label">
+            <div className="border border-line rounded overflow-hidden overflow-x-auto overscroll-x-contain">
+              <table className="w-full min-w-[30rem] text-left text-label">
                 <caption className="sr-only">Demographic metrics for {selectedReport.year}</caption>
                 <thead className="bg-hover text-slate-400 border-b border-line">
                   <tr>

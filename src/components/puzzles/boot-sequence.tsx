@@ -720,7 +720,9 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
                     ROOT ACCESS REQUIRED — IDENTIFY OPERATOR
                   </div>
                   <div className="flex items-center gap-2 text-label">
-                    <span className="text-cyan-400 font-bold shrink-0">gpc@vault:~$</span>
+                    <span className="text-cyan-400 font-bold shrink-0">
+                      <span className="hidden sm:inline">gpc@vault:~</span>$
+                    </span>
                     <input
                       ref={inputRef}
                       aria-label="Operator callsign"
@@ -734,12 +736,23 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
                         }
                       }}
                       placeholder="OPERATOR CALLSIGN"
-                      className="flex-1 bg-transparent border-none text-cyan-300 placeholder-slate-600 font-mono text-label focus:outline-none tracking-widest"
+                      className="flex-1 min-w-0 bg-transparent border-none text-cyan-300 placeholder-slate-600 font-mono text-label focus:outline-none tracking-widest"
                       autoFocus
                       spellCheck={false}
                       autoComplete="off"
+                      autoCorrect="off"
+                      enterKeyHint="go"
                     />
-                    <span className="boot-caret text-cyan-300">█</span>
+                    <span className="boot-caret text-cyan-300 hidden sm:inline">█</span>
+                    {/* Soft keyboards hide their Enter key behind a "go" label;
+                        give touch operators an unambiguous commit button. */}
+                    <button
+                      type="button"
+                      onClick={() => submitCallsign(callsignVal)}
+                      className="tap-target sm:hidden shrink-0 px-2.5 py-1 rounded border border-cyan-400/70 bg-cyan-950/40 text-cyan-200 text-micro font-bold tracking-widest"
+                    >
+                      ENTER
+                    </button>
                   </div>
                   <div className="text-slate-600 text-micro tracking-wider">
                     [ENTER] ACCEPT · LEAVE BLANK FOR {DEFAULT_CALLSIGN} · CH9 STILL LISTENING
@@ -766,7 +779,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
                     type="button"
                     autoFocus
                     onClick={finish}
-                    className="boot-press-pulse cursor-pointer border border-cyan-400/70 bg-cyan-950/30 hover:bg-cyan-900/40 text-cyan-200 px-5 sm:px-8 py-2.5 text-label sm:text-xs font-bold tracking-[0.25em] rounded transition-colors"
+                    className="tap-target boot-press-pulse cursor-pointer border border-cyan-400/70 bg-cyan-950/30 hover:bg-cyan-900/40 text-cyan-200 px-5 sm:px-8 py-3 sm:py-2.5 text-label sm:text-xs font-bold tracking-[0.25em] rounded transition-colors"
                   >
                     PRESS [ ENTER ] TO INITIATE SESSION
                   </button>
@@ -815,7 +828,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
                 <button
                   type="button"
                   onClick={skipAhead}
-                  className="ml-auto shrink-0 px-2 py-0.5 border border-slate-700 hover:border-cyan-500/60 text-slate-500 hover:text-cyan-300 tracking-widest rounded"
+                  className="tap-target ml-auto shrink-0 px-2 py-1 border border-slate-700 hover:border-cyan-500/60 text-slate-500 hover:text-cyan-300 tracking-widest rounded"
                   aria-keyshortcuts="Escape"
                 >
                   <span className="hidden sm:inline">ESC — </span>SKIP BOOT

@@ -200,7 +200,7 @@ export const AnswerPeek: FC<{ label: string; puzzleId: string }> = ({ label, puz
           type="button"
           onClick={() => revealHint(puzzleId, 3)}
           aria-label={`Reveal ${label.toLowerCase()} (counts as assisted)`}
-          className="px-2 py-0.5 border border-slate-700 rounded text-slate-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors cursor-pointer"
+          className="tap-target px-2 py-1 border border-slate-700 rounded text-slate-400 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors cursor-pointer"
         >
           REVEAL
         </button>
