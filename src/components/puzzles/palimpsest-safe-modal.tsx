@@ -139,14 +139,18 @@ export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: Palimpsest
             </p>
           )}
 
-          <div className="grid grid-cols-3 gap-2 w-full max-w-[240px]" role="group" aria-label="Keypad">
+          <div
+            className="grid grid-cols-3 gap-2 w-full max-w-[17rem] sm:max-w-[240px]"
+            role="group"
+            aria-label="Keypad"
+          >
             {KEYS.map((key) => (
               <button
                 type="button"
                 key={key}
                 onClick={() => press(key)}
                 aria-label={key === 'CLR' ? 'Clear' : key === 'ENTER' ? 'Submit' : key}
-                className="py-2.5 rounded bg-hover hover:bg-active border border-line-strong hover:border-amber-500/50 text-slate-200 font-bold text-sm cursor-pointer transition-colors"
+                className="py-3.5 sm:py-2.5 rounded bg-hover hover:bg-active border border-line-strong hover:border-amber-500/50 text-slate-200 font-bold text-sm cursor-pointer transition-colors"
               >
                 {key}
               </button>

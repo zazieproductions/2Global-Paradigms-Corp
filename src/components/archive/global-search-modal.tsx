@@ -148,7 +148,7 @@ function SearchPalette({ onClose, onOpenDocument }: Omit<GlobalSearchModalProps,
     setAdv((a) => ({ ...a, [k]: e.target.value }));
     setActive(0);
   };
-  const selectCls = 'field w-full text-caption py-1';
+  const selectCls = 'field w-full text-caption py-1.5 sm:py-1';
 
   return (
     <Modal
@@ -160,7 +160,7 @@ function SearchPalette({ onClose, onOpenDocument }: Omit<GlobalSearchModalProps,
       size="2xl"
       position="top"
       initialFocusRef={inputRef}
-      className="max-w-3xl shadow-glow-lg shadow-signal/25"
+      className="max-w-3xl h-[85dvh] sm:h-auto shadow-glow-lg shadow-signal/25"
       bodyClassName="flex flex-col"
     >
       {/* Search bar */}
@@ -189,7 +189,7 @@ function SearchPalette({ onClose, onOpenDocument }: Omit<GlobalSearchModalProps,
           <button
             type="button"
             onClick={() => setQuery('')}
-            className="text-slate-400 hover:text-white p-1"
+            className="tap-target text-slate-400 hover:text-white p-1.5"
             aria-label="Clear search"
           >
             <X className="w-4 h-4" aria-hidden />
@@ -223,7 +223,7 @@ function SearchPalette({ onClose, onOpenDocument }: Omit<GlobalSearchModalProps,
 
       {/* Categories */}
       <div
-        className="flex items-center gap-1.5 px-3 py-2 bg-inset border-b border-line text-caption overflow-x-auto scrollbar-none"
+        className="flex items-center gap-1.5 px-3 py-2 bg-inset border-b border-line text-caption overflow-x-auto overscroll-x-contain scrollbar-none [-webkit-overflow-scrolling:touch]"
         role="group"
         aria-label="Record type"
       >
@@ -240,7 +240,7 @@ function SearchPalette({ onClose, onOpenDocument }: Omit<GlobalSearchModalProps,
                 setActive(0);
               }}
               className={cn(
-                'px-2.5 py-1 rounded transition-colors whitespace-nowrap cursor-pointer border',
+                'tap-target px-2.5 py-1.5 sm:py-1 rounded transition-colors whitespace-nowrap cursor-pointer border',
                 category === cat.id
                   ? 'bg-cyan-500/25 text-cyan-300 border-cyan-500/50 font-bold'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border-transparent'
@@ -365,7 +365,7 @@ function SearchPalette({ onClose, onOpenDocument }: Omit<GlobalSearchModalProps,
       )}
 
       {/* Results */}
-      <div className="flex-1 overflow-y-auto p-2 scrollbar-thin min-h-[8rem]">
+      <div className="flex-1 overflow-y-auto overscroll-contain p-2 scrollbar-thin min-h-[8rem]">
         {!hasQuery ? (
           <div className="p-8 text-center text-slate-500 flex flex-col items-center justify-center gap-2">
             <Search className="w-8 h-8 text-slate-600" aria-hidden />
@@ -382,7 +382,7 @@ function SearchPalette({ onClose, onOpenDocument }: Omit<GlobalSearchModalProps,
                     setQuery(sug);
                     inputRef.current?.focus();
                   }}
-                  className="px-2 py-0.5 rounded bg-slate-800/80 hover:bg-cyan-950 text-slate-400 hover:text-cyan-300 border border-slate-700 text-caption"
+                  className="tap-target px-2 py-1 rounded bg-slate-800/80 hover:bg-cyan-950 text-slate-400 hover:text-cyan-300 border border-slate-700 text-caption"
                 >
                   {sug}
                 </button>
@@ -412,7 +412,7 @@ function SearchPalette({ onClose, onOpenDocument }: Omit<GlobalSearchModalProps,
                   onClick={() => select(e)}
                   onMouseEnter={() => setActive(i)}
                   className={cn(
-                    'p-2.5 rounded bg-raised border cursor-pointer transition-all flex items-center justify-between gap-3 group',
+                    'tap-row p-2.5 rounded bg-raised border cursor-pointer transition-all flex items-center justify-between gap-3 group',
                     isActive ? 'bg-hover border-cyan-500/50' : 'border-line-strong'
                   )}
                 >

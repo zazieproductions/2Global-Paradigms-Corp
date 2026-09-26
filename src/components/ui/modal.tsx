@@ -169,7 +169,7 @@ export function Modal({
       type="button"
       onClick={onClose}
       aria-label="Close dialog"
-      className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer"
+      className="tap-target p-1.5 -m-0.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer"
     >
       <X className="w-4 h-4" aria-hidden />
     </button>
@@ -186,8 +186,11 @@ export function Modal({
   return createPortal(
     <div
       className={cn(
-        'fixed inset-0 z-50 flex justify-center bg-black/85 backdrop-blur-md p-3 font-mono text-xs',
-        position === 'top' ? 'items-start pt-16 md:pt-24' : 'items-center'
+        'fixed inset-0 z-50 flex justify-center bg-black/85 backdrop-blur-md font-mono text-xs',
+        'p-2 sm:p-3 safe-x pb-[max(0.5rem,env(safe-area-inset-bottom))]',
+        position === 'top'
+          ? 'items-start pt-[max(3rem,env(safe-area-inset-top))] md:pt-24'
+          : 'items-end sm:items-center'
       )}
       onMouseDown={(e) => {
         if (closeOnBackdrop && e.target === e.currentTarget) onClose();
@@ -202,10 +205,14 @@ export function Modal({
         tabIndex={-1}
         className={cn(
           'bg-panel border rounded-lg w-full text-slate-200 flex flex-col outline-none',
-          size === 'full' ? 'max-h-full' : position === 'top' ? 'max-h-[80vh]' : 'max-h-[92vh]',
+          size === 'full'
+            ? 'max-h-full'
+            : position === 'top'
+              ? 'max-h-[80dvh]'
+              : 'max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh]',
           SIZE[size],
           t.frame,
-          variant === 'card' && 'p-6 space-y-4 overflow-y-auto scrollbar-thin',
+          variant === 'card' && 'p-4 sm:p-6 space-y-4 overflow-y-auto overscroll-contain scrollbar-thin',
           variant === 'window' && 'overflow-hidden',
           className
         )}
@@ -223,7 +230,7 @@ export function Modal({
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-raised border-b border-line-strong shrink-0">
+          <div className="flex items-center justify-between gap-3 px-3 sm:px-4 py-2.5 bg-raised border-b border-line-strong shrink-0">
             {heading}
             <div className="flex items-center gap-1.5 shrink-0">
               {headerActions}
@@ -238,7 +245,7 @@ export function Modal({
         )}
         <div
           className={cn(
-            variant === 'window' && 'flex-1 min-h-0 overflow-y-auto scrollbar-thin',
+            variant === 'window' && 'flex-1 min-h-0 overflow-y-auto overscroll-contain scrollbar-thin',
             bodyClassName
           )}
         >
@@ -247,8 +254,8 @@ export function Modal({
         {footer && (
           <div
             className={cn(
-              'flex justify-end gap-2',
-              variant === 'card' ? 'pt-2' : 'px-4 py-3 border-t border-line-strong bg-raised shrink-0'
+              'flex flex-wrap justify-end gap-2',
+              variant === 'card' ? 'pt-2' : 'px-3 sm:px-4 py-3 border-t border-line-strong bg-raised shrink-0'
             )}
           >
             {footer}

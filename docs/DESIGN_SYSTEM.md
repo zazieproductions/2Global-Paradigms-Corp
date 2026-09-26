@@ -16,6 +16,7 @@ variable (`var(--color-panel)`).
 | `styles/tokens.css`  | colours, fonts, type scale, shadows, layout sizes (`@theme`)                             |
 | `styles/base.css`    | document defaults, global focus ring, reduced-motion override                            |
 | `styles/archive.css` | utilities: `field`, `meta-label`, `scrollbar-thin`, `scrollbar-none`; CRT overlay; print |
+| `styles/mobile.css`  | touch targets, safe areas, mobile type scale, iOS zoom fix, drawer motion                |
 | `styles/boot.css`    | cold-boot animations                                                                     |
 | `styles/occult.css`  | Order / seal animations (`ovp-*`, `gate-*`, `puzzle-*`), `font-occult`, `font-symbol`    |
 | `styles/index.css`   | imports Tailwind + all of the above                                                      |
@@ -138,13 +139,56 @@ viewer and search). Audio controls are in `components/audio/audio-player-bar.tsx
 
 ## Responsive behaviour
 
+The archive is one layout, progressively relaxed for small screens and coarse pointers — there is no
+separate mobile build. Desktop rendering (≥ `md`, fine pointer) is unchanged by anything in
+`styles/mobile.css`.
+
+### Breakpoints
+
+| Name | Width   | What changes                                                      |
+| ---- | ------- | ----------------------------------------------------------------- |
+| `xs` | ≥ 26rem | large phones regain a label or two next to icons                  |
+| `sm` | ≥ 40rem | secondary header controls return inline; analyser labels reappear |
+| `md` | ≥ 48rem | sidebar becomes permanent; tables show secondary columns          |
+| `lg` | ≥ 64rem | three-column master/detail pages                                  |
+
+### Layout
+
 - ≥ `md`: the sidebar is always shown (16rem, 18rem at `lg`) beside the content.
-- Below `md`: the sidebar becomes an off-canvas drawer (menu button in the header) with a dimmed
-  backdrop. Header labels collapse to icons, and toggles that don't fit (CRT, sound) are mirrored in the
-  Archive Guide's _Operator console_.
-- Tables hide secondary columns (`hidden md:table-cell`) and switch to cards where needed. The document
-  vault offers grid and table views.
-- Modals are near-full-height on small screens, with scrollable bodies.
+- Below `md`: the sidebar is an off-canvas drawer (hamburger in the header) with a dimmed backdrop. It
+  slides in (`.drawer-enter`), moves focus inside, closes on Escape, on backdrop tap and on navigation.
+- Tables hide secondary columns (`hidden sm:table-cell`, `hidden md:table-cell`). The document vault
+  **defaults to its card view on phones** (`useIsMobile`) — both views stay switchable at every size.
+- Modals are bottom-anchored sheets below `sm` (`items-end`), sized with `dvh` so the iOS URL bar cannot
+  clip them, and padded `p-4 sm:p-6`. Footers wrap rather than overflow.
+
+### Touch
+
+- `tap-target` grows a control's _hit area_ to 44×44px on coarse pointers via a transparent
+  pseudo-element — nothing reflows, so the terminal's visual density survives. Use it on icon buttons.
+- `tap-row` gives full-width rows (nav links, list items, menu items) a 44px minimum height on coarse
+  pointers only.
+- Every control gets `touch-action: manipulation` (no 300ms double-tap delay) and no grey tap flash.
+
+### Reachability
+
+Nothing may be keyboard-only or hover-only. Phones have neither.
+
+- The `/`, `` ` `` and `U` shortcuts all have visible buttons.
+- Controls the narrow header drops (terminal, whistleblower safe, CRT, sound, archive guide) live in
+  `HeaderOverflowMenu` (the `⋮` button, `sm:hidden`), and are mirrored in the Archive Guide's
+  _Operator console_.
+- Text inputs that are submitted with Enter (terminal, boot callsign) carry `enterKeyHint` **and** a
+  visible commit button below `sm`; the terminal also exposes its ArrowUp history as a button.
+
+### Type & viewport
+
+- Below `md`, `--text-nano/micro/caption/label/xs` are re-declared one step larger. Every generated
+  utility is a `var()` reference, so the whole archive rescales at once.
+- Fields render at ≥16px on coarse pointers, otherwise iOS Safari zooms the page on focus. This rule is
+  **unlayered** so it outranks the `field` utility.
+- `viewport-fit=cover` plus `safe-x` / `safe-b` keep the fixed chrome clear of notch and home indicator.
+- Pinch-zoom is never disabled.
 
 ## Voice in UI states
 

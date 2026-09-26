@@ -7,7 +7,7 @@ export function RevelationToasts() {
   const { revelations, dismiss } = useRevelations();
   return (
     <div
-      className="fixed bottom-16 right-4 z-[60] flex flex-col gap-2 w-[340px] max-w-[calc(100vw-2rem)]"
+      className="fixed right-2 sm:right-4 z-[60] flex flex-col gap-2 w-[340px] max-w-[calc(100vw-1rem)] bottom-[calc(4rem+env(safe-area-inset-bottom))]"
       role="status"
       aria-live="polite"
     >

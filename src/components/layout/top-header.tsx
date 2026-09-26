@@ -23,6 +23,7 @@ import { clearanceTier } from '@/lib/archive/clearance';
 import { useProgression } from '@/hooks/use-progression';
 import { useDescrambler } from '@/hooks/use-investigation';
 import { useArchiveUi } from '@/app/archive-ui-context';
+import { HeaderOverflowMenu } from './header-overflow-menu';
 import { cn } from '@/lib/utils/cn';
 
 const CLEARANCE_PILL: Record<number, string> = {
@@ -34,7 +35,7 @@ const CLEARANCE_PILL: Record<number, string> = {
 };
 const pillFor = (lvl: ClearanceLevel) => CLEARANCE_PILL[clearanceTier(lvl)] ?? CLEARANCE_PILL[1];
 
-const ICON_BTN = 'p-1.5 rounded transition-all cursor-pointer border';
+const ICON_BTN = 'tap-target p-1.5 rounded transition-all cursor-pointer border';
 
 /** Live UTC clock + simulated 14.8 Hz carrier drift (decorative). */
 function CarrierStatus() {
@@ -87,7 +88,7 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
     };
 
   return (
-    <header className="h-header bg-shell border-b border-line-strong flex items-center justify-between gap-2 px-2 md:px-4 font-mono z-40 text-xs shrink-0 shadow-bar">
+    <header className="h-header bg-shell border-b border-line-strong flex items-center justify-between gap-1.5 md:gap-2 px-2 md:px-4 safe-x font-mono z-40 text-xs shrink-0 shadow-bar">
       {/* Brand */}
       <div className="flex items-center gap-2 min-w-0">
         <button
@@ -134,7 +135,7 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
         <button
           type="button"
           onClick={click(() => openDialog({ type: 'gateway' }), 'unredact')}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-fuchsia-950/40 hover:bg-fuchsia-900/50 text-fuchsia-300 border border-fuchsia-500/50 hover:border-fuchsia-400 rounded transition-all cursor-pointer text-xs shadow-glow-sm shadow-order/15"
+          className="tap-target flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 bg-fuchsia-950/40 hover:bg-fuchsia-900/50 text-fuchsia-300 border border-fuchsia-500/50 hover:border-fuchsia-400 rounded transition-all cursor-pointer text-xs shadow-glow-sm shadow-order/15"
           title="Replay the buffered Gateway Transmission"
           aria-label="Gateway Transmission"
         >
@@ -145,7 +146,7 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
         <button
           type="button"
           onClick={click(() => openDialog({ type: 'search' }))}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-hover hover:bg-active text-slate-200 border border-line-bright hover:border-cyan-500/50 rounded transition-all cursor-pointer text-xs"
+          className="tap-target flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 bg-hover hover:bg-active text-slate-200 border border-line-bright hover:border-cyan-500/50 rounded transition-all cursor-pointer text-xs"
           title="Global Archive Search (Ctrl+K or /)"
           aria-label="Search archive"
           aria-keyshortcuts="/ Control+K"
@@ -163,7 +164,7 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
           aria-pressed={unredacted}
           aria-keyshortcuts="U"
           className={cn(
-            'flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs font-semibold transition-all cursor-pointer border',
+            'tap-target flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded text-xs font-semibold transition-all cursor-pointer border',
             unredacted
               ? 'bg-rose-950/80 text-rose-300 border-rose-500 shadow-glow-sm shadow-alert/40 animate-pulse'
               : 'bg-hover text-slate-300 hover:text-white border-line-bright'
@@ -192,7 +193,7 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
         <button
           type="button"
           onClick={click(() => openDialog({ type: 'terminal' }), 'scan')}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-hover hover:bg-active text-cyan-300 border border-line-bright hover:border-cyan-500/60 rounded transition-all cursor-pointer text-xs"
+          className="tap-target hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-hover hover:bg-active text-cyan-300 border border-line-bright hover:border-cyan-500/60 rounded transition-all cursor-pointer text-xs"
           title="Open GPC Command Terminal (~)"
           aria-label="Open command terminal"
           aria-keyshortcuts="`"
@@ -260,7 +261,7 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
           type="button"
           onClick={click(() => openDialog({ type: 'clearance' }))}
           className={cn(
-            'flex items-center gap-1.5 px-2.5 py-1 rounded border text-caption font-bold tracking-wider cursor-pointer transition-all',
+            'tap-target flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded border text-caption font-bold tracking-wider cursor-pointer transition-all',
             pillFor(clearance)
           )}
           title="Click to authenticate or elevate Security Clearance"
@@ -275,13 +276,28 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
           onClick={click(() => openDialog({ type: 'help' }))}
           className={cn(
             ICON_BTN,
-            'bg-hover hover:bg-slate-800 text-slate-400 hover:text-white border-line-bright'
+            'hidden sm:inline-flex bg-hover hover:bg-slate-800 text-slate-400 hover:text-white border-line-bright'
           )}
           title="About Global Paradigms Corp. Archive & Architecture Guide"
           aria-label="Archive guide and progress"
         >
           <HelpCircle className="w-3.5 h-3.5" aria-hidden />
         </button>
+
+        {/* Everything the bar drops below `sm` stays reachable here. */}
+        <HeaderOverflowMenu
+          crt={crt}
+          sound={sound}
+          onToggleCrt={click(() => setPreference('crt', !crt))}
+          onToggleSound={() => {
+            setPreference('sound', !sound);
+            gpcAudio.toggleSound(!sound);
+            gpcAudio.playUiSound('click');
+          }}
+          onOpenTerminal={click(() => openDialog({ type: 'terminal' }), 'scan')}
+          onOpenSafe={click(() => openDialog({ type: 'safe' }))}
+          onOpenGuide={click(() => openDialog({ type: 'help' }))}
+        />
       </div>
     </header>
   );

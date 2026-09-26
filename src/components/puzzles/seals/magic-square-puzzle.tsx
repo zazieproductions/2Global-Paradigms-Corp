@@ -165,7 +165,7 @@ export const MagicSquarePuzzle: FC<{
                 type="button"
                 aria-label={`Inscribe ${d}${used.has(d) ? ' (already placed)' : ''}`}
                 onClick={() => place(d)}
-                className={`w-9 h-9 rounded-sm border font-occult text-base cursor-pointer transition-all ${
+                className={`w-full aspect-square min-h-[2.75rem] sm:w-9 sm:h-9 sm:min-h-0 rounded-sm border font-occult text-base cursor-pointer transition-all ${
                   used.has(d)
                     ? 'border-slate-800 text-slate-600 bg-slate-900/40'
                     : 'border-slate-600 text-slate-200 hover:bg-slate-800'
@@ -177,7 +177,7 @@ export const MagicSquarePuzzle: FC<{
             <button
               type="button"
               onClick={() => place(null)}
-              className="w-9 h-9 rounded-sm border border-slate-700 text-slate-500 hover:text-slate-200 text-[9px] cursor-pointer"
+              className="w-full aspect-square min-h-[2.75rem] sm:w-9 sm:h-9 sm:min-h-0 rounded-sm border border-slate-700 text-slate-500 hover:text-slate-200 text-[9px] cursor-pointer"
             >
               ERASE
             </button>

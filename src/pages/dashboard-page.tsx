@@ -126,14 +126,14 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 w-full md:w-auto">
           <button
             type="button"
             onClick={() => {
               gpcAudio.playUiSound('scan');
               navigateToTab('audio');
             }}
-            className="px-3.5 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded cursor-pointer transition-colors shadow-md text-xs flex items-center gap-1.5"
+            className="tap-target w-full md:w-auto justify-center px-3.5 py-2.5 md:py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded cursor-pointer transition-colors shadow-md text-xs flex items-center gap-1.5"
           >
             <Radio className="w-3.5 h-3.5" />
             <span>LAUNCH AUDIO SCANNER</span>

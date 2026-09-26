@@ -128,10 +128,13 @@ export const HeptagramPuzzle: FC<{
                     : 'cursor-pointer outline-none [&:focus-visible>circle]:stroke-cyan-300 [&:focus-visible>circle]:stroke-[3]'
                 }
               >
+                {/* Invisible 44px-equivalent finger target over the glyph. */}
+                <circle cx={x} cy={y} r={26} fill="transparent" stroke="none" />
                 <circle
                   cx={x}
                   cy={y}
                   r={17}
+                  pointerEvents="none"
                   fill="#05070c"
                   stroke={on ? (failed ? '#f43f5e' : accent) : '#475569'}
                   strokeWidth={on ? 2 : 1}
@@ -141,6 +144,7 @@ export const HeptagramPuzzle: FC<{
                   x={x}
                   y={y + 7}
                   textAnchor="middle"
+                  pointerEvents="none"
                   fontSize={20}
                   fill={on ? accent : '#cbd5e1'}
                   style={{ fontFamily: SYMBOL_FONT, pointerEvents: 'none' }}

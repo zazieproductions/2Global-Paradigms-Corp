@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { Maximize2, Minimize2, Terminal as TerminalIcon, Trash2 } from 'lucide-react';
+import { ArrowUp, Maximize2, Minimize2, Terminal as TerminalIcon, Trash2 } from 'lucide-react';
 import {
   AUDIO_ARTIFACTS,
   DOCUMENTS,
@@ -682,12 +682,12 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
       initialFocusRef={inputRef}
       className={cn(
         'bg-void border-cyan-500/50 transition-all',
-        fullscreen ? 'max-w-none h-full max-h-none' : 'h-[600px]'
+        fullscreen ? 'max-w-none h-full max-h-none' : 'h-[80dvh] sm:h-[600px]'
       )}
       bodyClassName="flex flex-col"
     >
       <div
-        className="flex-1 overflow-y-auto p-4 space-y-4 font-mono text-xs bg-void scrollbar-thin text-slate-300"
+        className="flex-1 overflow-y-auto overscroll-contain p-3 sm:p-4 space-y-4 font-mono text-xs bg-void scrollbar-thin text-slate-300 break-words"
         role="log"
         aria-live="polite"
         aria-label="Terminal output"
@@ -695,25 +695,29 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
       >
         {history.map((item) => (
           <div key={item.id} className="space-y-1">
-            <div className="flex items-center gap-2 text-cyan-400 font-bold">
-              <span className="text-slate-500">gpc@terminal:~$</span>
-              <span>{item.command}</span>
+            <div className="flex items-center gap-2 text-cyan-400 font-bold min-w-0">
+              <span className="text-slate-500 shrink-0">
+                <span className="hidden sm:inline">gpc@terminal:~</span>$
+              </span>
+              <span className="min-w-0 break-all">{item.command}</span>
             </div>
-            <div className="pl-4">{item.output}</div>
+            <div className="pl-2 sm:pl-4">{item.output}</div>
           </div>
         ))}
         <div ref={bottomRef} />
       </div>
 
       <form
-        className="p-3 bg-shell border-t border-line flex items-center gap-2 shrink-0"
+        className="p-2 sm:p-3 bg-shell border-t border-line flex items-center gap-2 shrink-0 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
         onSubmit={(e) => {
           e.preventDefault();
           run(inputVal);
         }}
       >
         <label htmlFor="gpc-terminal-input" className="text-cyan-400 font-bold shrink-0">
-          gpc@terminal:~$
+          <span className="hidden sm:inline">gpc@terminal:~</span>
+          <span className="sm:hidden sr-only">Terminal command</span>
+          <span aria-hidden>$</span>
         </label>
         <input
           id="gpc-terminal-input"
@@ -721,6 +725,9 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
           type="text"
           autoComplete="off"
           autoCapitalize="off"
+          autoCorrect="off"
+          enterKeyHint="send"
+          inputMode="text"
           spellCheck={false}
           maxLength={PUZZLE_SETTINGS.maxInputLength * 4}
           value={inputVal}
@@ -743,9 +750,33 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
               }
             }
           }}
-          placeholder="Type 'help', 'scan', 'leak-dump', or 'cat DOC-2019-PALIMPSEST-LEAK'..."
+          placeholder="Type 'help', 'scan', 'leak-dump'…"
           className="flex-1 min-w-0 bg-transparent border-none text-cyan-300 placeholder-slate-600 text-xs focus:outline-none font-mono"
         />
+
+        {/* Touch devices have no ArrowUp and no visible Enter affordance. */}
+        <button
+          type="button"
+          onClick={() => {
+            if (!recall.list.length) return;
+            const index = recall.index === -1 ? recall.list.length - 1 : Math.max(recall.index - 1, 0);
+            setRecall((r) => ({ ...r, index }));
+            setInputVal(recall.list[index]);
+            inputRef.current?.focus();
+          }}
+          disabled={!recall.list.length}
+          aria-label="Recall previous command"
+          className="tap-target sm:hidden shrink-0 px-2 py-1.5 rounded border border-line-bright bg-hover text-slate-300 disabled:opacity-40"
+        >
+          <ArrowUp className="w-4 h-4" aria-hidden />
+        </button>
+        <button
+          type="submit"
+          aria-label="Run command"
+          className="tap-target sm:hidden shrink-0 px-3 py-1.5 rounded border border-cyan-500/60 bg-cyan-950 text-cyan-300 text-label font-bold"
+        >
+          RUN
+        </button>
       </form>
     </Modal>
   );

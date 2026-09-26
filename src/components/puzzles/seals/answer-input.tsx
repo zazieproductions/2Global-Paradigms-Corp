@@ -64,13 +64,16 @@ export const AnswerInput: FC<{
           maxLength={32}
           spellCheck={false}
           autoComplete="off"
-          className="flex-1 bg-black/60 border rounded px-3 py-2 text-sm tracking-[0.2em] uppercase text-slate-100 placeholder:text-slate-600 placeholder:tracking-normal placeholder:normal-case focus:outline-none font-occult disabled:opacity-40"
+          autoCorrect="off"
+          autoCapitalize="characters"
+          enterKeyHint="go"
+          className="flex-1 min-w-0 bg-black/60 border rounded px-3 py-2.5 sm:py-2 text-sm tracking-[0.2em] uppercase text-slate-100 placeholder:text-slate-600 placeholder:tracking-normal placeholder:normal-case focus:outline-none font-occult disabled:opacity-40"
           style={{ borderColor: `${accent}66` }}
         />
         <button
           type="submit"
           disabled={disabled}
-          className="px-4 py-2 rounded font-bold text-xs tracking-widest text-black cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed font-occult"
+          className="tap-target shrink-0 px-4 py-2.5 sm:py-2 rounded font-bold text-xs tracking-widest text-black cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed font-occult"
           style={{ background: accent }}
         >
           {label}
