@@ -282,3 +282,38 @@
 .ovp-vignette {
   background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, rgba(20, 0, 20, 0.55) 100%);
 }
+
+/* ============================================================
+   ARG PUZZLE — GATEWAY TRANSMISSION effects
+   ============================================================ */
+
+/* CRT power-on for the puzzle modal frame */
+@keyframes gate-crt-on {
+  0% { transform: scaleY(0.004) scaleX(0.4); opacity: 0; filter: brightness(5) saturate(0); }
+  40% { transform: scaleY(0.006) scaleX(1); opacity: 1; filter: brightness(2.5) saturate(0.5); }
+  100% { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(1) saturate(1); }
+}
+
+/* CRT power-off for the puzzle modal frame */
+@keyframes gate-crt-off {
+  0% { transform: scaleY(1) scaleX(1); opacity: 1; filter: brightness(1); }
+  40% { transform: scaleY(0.01) scaleX(1); opacity: 1; filter: brightness(4) saturate(0); }
+  100% { transform: scaleY(0.002) scaleX(0.6); opacity: 0; filter: brightness(9); }
+}
+
+/* Slow travelling scan band inside decoder panels */
+@keyframes puzzle-scanband {
+  0% { top: -25%; opacity: 0; }
+  6% { opacity: 1; }
+  94% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Soft blinking transmission beacon */
+@keyframes puzzle-beacon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.puzzle-beacon {
+  animation: puzzle-beacon 1.2s steps(2, end) infinite;
+}

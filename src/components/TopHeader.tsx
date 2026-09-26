@@ -24,6 +24,7 @@ interface TopHeaderProps {
   onOpenClearanceModal: () => void;
   onOpenSearch: () => void;
   onOpenTerminal: () => void;
+  onOpenPuzzle: () => void;
   isUnredacted: boolean;
   onToggleUnredacted: () => void;
   isCrtEnabled: boolean;
@@ -40,6 +41,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   onOpenClearanceModal,
   onOpenSearch,
   onOpenTerminal,
+  onOpenPuzzle,
   isUnredacted,
   onToggleUnredacted,
   isCrtEnabled,
@@ -121,6 +123,19 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
 
       {/* Action Controls & Clearance Pill */}
       <div className="flex items-center gap-2">
+        {/* Gateway Transmission (ARG puzzle) */}
+        <button
+          onClick={() => {
+            gpcAudio.playUiSound('unredact');
+            onOpenPuzzle();
+          }}
+          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-fuchsia-950/40 hover:bg-fuchsia-900/50 text-fuchsia-300 border border-fuchsia-500/50 hover:border-fuchsia-400 rounded transition-all cursor-pointer text-xs shadow-[0_0_10px_rgba(217,70,239,0.15)]"
+          title="Replay the buffered Gateway Transmission"
+        >
+          <Radio className="w-3.5 h-3.5 text-fuchsia-400 animate-pulse" />
+          <span className="hidden md:inline text-[11px] font-bold tracking-wider">▸ TRANSMISSION</span>
+        </button>
+
         {/* Global Search Button */}
         <button
           onClick={() => {

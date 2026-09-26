@@ -11,6 +11,7 @@ import { ApplicationModal } from './components/ApplicationModal';
 import { DeadLinkViewerModal } from './components/DeadLinkViewerModal';
 import { AudioPlayerBar } from './components/AudioPlayerBar';
 import { BootSequence } from './components/BootSequence';
+import { PuzzleModal } from './components/arg/PuzzleModal';
 
 // Views
 import { DashboardView } from './components/views/DashboardView';
@@ -67,7 +68,7 @@ import {
   DeadLink
 } from './types';
 import { gpcAudio } from './lib/audioEngine';
-import { HelpCircle, Play, Pause, Square, Radio, ShieldAlert } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
@@ -125,6 +126,7 @@ export function App() {
   const [isSecretSafeOpen, setIsSecretSafeOpen] = useState<boolean>(false);
   const [isClearanceModalOpen, setIsClearanceModalOpen] = useState<boolean>(false);
   const [isHelpOpen, setIsHelpOpen] = useState<boolean>(false);
+  const [isPuzzleOpen, setIsPuzzleOpen] = useState<boolean>(false);
 
   // Audio engine state
   const [audioState, setAudioState] = useState<{
@@ -218,6 +220,7 @@ export function App() {
         }}
         onOpenSecretSafe={() => setIsSecretSafeOpen(true)}
         onOpenHelp={() => setIsHelpOpen(true)}
+        onOpenPuzzle={() => setIsPuzzleOpen(true)}
       />
 
       {/* Main Content Workspace Split */}
@@ -411,6 +414,26 @@ export function App() {
         onSelectDocument={(doc) => setSelectedDoc(doc)}
       />
 
+      {isPuzzleOpen && (
+        <PuzzleModal
+          onClose={() => setIsPuzzleOpen(false)}
+          onComplete={() => {
+            setActiveTab('sanctum');
+            arg.addJournal(
+              'Gateway Transmission solved: VESPAR · 987316 · COLD. The well is open — the Seven Seals await.',
+              'system'
+            );
+            arg.notify(
+              'GATEWAY TRANSMISSION COMPLETE',
+              'Three keys kept: VESPAR · 987316 · COLD. The case file is open — begin with Saturn.',
+              '✦',
+              '#d946ef'
+            );
+            gpcAudio.playUiSound('grant');
+          }}
+        />
+      )}
+
       <SecretBypassModal
         isOpen={isSecretSafeOpen}
         onClose={() => setIsSecretSafeOpen(false)}
@@ -521,6 +544,7 @@ export function App() {
                 <div>• <span className="text-white font-bold">Audio Lab</span> — procedural Web Audio captures & a live synthesizer. Some answers are heard, not read.</div>
                 <div>• <span className="text-white font-bold">Whistleblower Safe</span> (brass key, top bar) — Thorne's safe. You will learn the combination.</div>
                 <div>• <span className="text-white font-bold">Cold Boot</span> — during the boot, you can type on Channel 9. Try <span className="font-mono text-cyan-300">help</span>. <kbd className="px-1 py-0.5 bg-slate-800 rounded">ESC</kbd> fast-forwards.</div>
+                <div>• <span className="text-white font-bold">✦ Gateway Transmission</span> (top bar) — a guided beginner trail that opens the case: three easy keys (Vesper Sequence → The Signal → The Waveform) with "field notes" on every step. It cannot raise your clearance — only the seals can.</div>
               </div>
               <p className="text-[10px] text-slate-500 italic">Look closely at the public pages. The Order signs its work faintly.</p>
             </div>
