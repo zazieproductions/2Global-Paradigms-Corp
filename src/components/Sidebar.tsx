@@ -23,6 +23,12 @@ import {
 } from 'lucide-react';
 import { ActiveTab, ClearanceLevel } from '../types';
 import { gpcAudio } from '../lib/audioEngine';
+import { useArg } from '../arg/ArgContext';
+import { clearanceRank } from '../arg/levels';
+import { OrderSigil, PlanetGlyph } from '../arg/sigils';
+import { LEVEL_CORRESPONDENCE, SEALS } from '../arg/seals';
+
+const DEGREES = ['', 'Neophyte', 'Zelator', 'Practicus', 'Philosophus', 'Magister Umbrae'];
 
 interface SidebarProps {
   activeTab: ActiveTab;
@@ -53,6 +59,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   clearance,
   isOpen
 }) => {
+  const arg = useArg();
+  const rank = clearanceRank(clearance);
+  const corr = LEVEL_CORRESPONDENCE[rank];
   const navSections = [
     {
       title: 'CORE REPOSITORIES',
@@ -188,7 +197,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           id: 'deadlinks' as ActiveTab,
           label: 'Dead Links & Wayback Mirrors',
           icon: Link2Off,
-          badge: '6 Broken',
+          badge: '7 Broken',
           badgeColor: 'bg-rose-950 text-rose-400 border-rose-800'
         }
       ]
@@ -223,7 +232,44 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <span className="text-slate-500">CLEARANCE:</span>
             <span className="text-amber-400 font-bold">{clearance.split(' - ')[0]}</span>
           </div>
+          <div className="flex justify-between" title="Degree of initiation (Liber Carrier §IV)">
+            <span className="text-slate-600">DEGREE:</span>
+            <span className="text-fuchsia-300/80 flex items-center gap-1">
+              {arg.earnedLevel >= 3 ? DEGREES[rank] : '████████'}
+              <PlanetGlyph glyph={corr.glyph} />
+            </span>
+          </div>
         </div>
+      </div>
+
+      {/* THE CASE — Ordo Vocis Profundae */}
+      <div className="p-2 pb-0">
+        <button
+          onClick={() => {
+            gpcAudio.playUiSound('click');
+            onSelectTab('sanctum');
+          }}
+          className={`w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded border transition-all cursor-pointer text-left ${
+            activeTab === 'sanctum'
+              ? 'bg-fuchsia-500/15 border-fuchsia-500/60 shadow-[0_0_16px_rgba(217,70,239,0.25)]'
+              : 'bg-fuchsia-950/10 border-fuchsia-900/50 hover:border-fuchsia-600/60'
+          }`}
+        >
+          <span className={`text-fuchsia-300 shrink-0 ${arg.currentSeal ? 'ovp-breathe' : ''}`}>
+            <OrderSigil size={26} />
+          </span>
+          <span className="flex-1 min-w-0">
+            <span className="block font-occult text-[12px] text-fuchsia-200 tracking-wider">The Seven Seals</span>
+            <span className="block text-[9px] text-fuchsia-400/70 truncate">
+              {arg.currentSeal
+                ? `Active: Seal ${SEALS[arg.currentSeal - 1].numeral} — ${SEALS[arg.currentSeal - 1].title}`
+                : 'Case closed · Silentium'}
+            </span>
+          </span>
+          <span className="text-[9px] px-1.5 py-0.5 rounded border border-fuchsia-800 bg-fuchsia-950 text-fuchsia-300 font-bold shrink-0">
+            {arg.solved.length}/7
+          </span>
+        </button>
       </div>
 
       {/* Navigation Sections */}
@@ -275,13 +321,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Subterranean Sensor Alert Footer */}
       <div className="mt-auto p-3 border-t border-[#182335] bg-[#070a10]">
-        <div className="flex items-center gap-2 text-rose-400 text-[10px] font-bold mb-1">
-          <ShieldAlert className="w-3.5 h-3.5 animate-pulse" />
-          <span>STATION 07 ALERT</span>
-        </div>
-        <p className="text-[9px] text-slate-500 leading-tight">
-          Borehole 4 amplitude surge +18.4% above baseline. Executive Directive 01 standby confirmed.
-        </p>
+        {arg.finaleComplete ? (
+          <>
+            <div className="flex items-center gap-2 text-slate-300 text-[10px] font-bold mb-1">
+              <ShieldAlert className="w-3.5 h-3.5" />
+              <span>STATION 07 — NO SIGNAL</span>
+            </div>
+            <p className="text-[9px] text-slate-500 leading-tight">Carrier 0.000 Hz. Borehole 4 lift cage recovered. Frost on the inside has melted.</p>
+          </>
+        ) : (
+          <>
+            <div className="flex items-center gap-2 text-rose-400 text-[10px] font-bold mb-1">
+              <ShieldAlert className="w-3.5 h-3.5 animate-pulse" />
+              <span>STATION 07 ALERT</span>
+            </div>
+            <p className="text-[9px] text-slate-500 leading-tight">
+              Borehole 4 amplitude surge +18.4% above baseline. Executive Directive 01 standby confirmed.
+              {arg.solved.length >= 3 && <span className="text-fuchsia-400/70"> Geophones report singing beneath the carrier.</span>}
+            </p>
+          </>
+        )}
       </div>
     </aside>
   );

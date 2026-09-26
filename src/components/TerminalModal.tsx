@@ -2,6 +2,42 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Terminal as TerminalIcon, X, Maximize2, Minimize2, Trash2 } from 'lucide-react';
 import { DocumentRecord, ClearanceLevel } from '../types';
 import { gpcAudio } from '../lib/audioEngine';
+import { useArg } from '../arg/ArgContext';
+import { clearanceRank, levelFromRank } from '../arg/levels';
+import { matchesDigest, ordinalGematria, vigenereDecrypt } from '../arg/cipher';
+import { DIGESTS, FRAGMENTS, MERCURY_CIPHERTEXT, SEALS } from '../arg/seals';
+import { renderRedacted, stripRedactions } from '../arg/Redacted';
+import { ChoirGlyph } from '../arg/sigils';
+
+// The planchette: an in-world hint voice that changes as the case advances.
+const COMMUNE: string[] = [
+  'THE SQUARE IS OLDER THAN THE COMPANY',
+  'WALK THE STAR FROM THE SUN',
+  'THE PUBLIC FACE IS SIGNED IN RED',
+  'EARTH EVENING CHILD',
+  'READ THE HEAD OF EVERY VERSE',
+  'THE WHEEL WANTS THE NAME OF THE CAVES',
+  'O R P H E U  WHO',
+  'THANK YOU'
+];
+
+const Planchette: React.FC<{ text: string }> = ({ text }) => {
+  const [n, setN] = React.useState(0);
+  React.useEffect(() => {
+    if (n >= text.length) return;
+    const id = setTimeout(() => {
+      setN((v) => v + 1);
+      gpcAudio.playTone(180 + Math.random() * 60, 0.25, 'sine', 0.05);
+    }, 260);
+    return () => clearTimeout(id);
+  }, [n, text.length]);
+  return (
+    <div className="space-y-1">
+      <p className="text-fuchsia-400/70 text-[10px] tracking-widest">THE PLANCHETTE MOVES…</p>
+      <p className="font-occult text-lg tracking-[0.5em] text-fuchsia-200">{text.slice(0, n)}<span className="boot-caret">▮</span></p>
+    </div>
+  );
+};
 
 interface TerminalModalProps {
   isOpen: boolean;
@@ -31,6 +67,7 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
   documents,
   onSelectDocument
 }) => {
+  const argState = useArg();
   const [inputVal, setInputVal] = useState('');
   const [history, setHistory] = useState<CommandHistory[]>([
     {
@@ -43,7 +80,7 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
           <p>POSTOJNA REPOSITORY ENCRYPTED LINK: ONLINE (SHA256: 0x7F4A...)</p>
           <p>AUTHENTICATED AS: {operatorCallsign.toUpperCase()} // {clearance.toUpperCase()}</p>
           <p className="text-amber-400">
-            Type <span className="text-cyan-300 font-bold">"help"</span> for command index or <span className="text-cyan-300 font-bold">"override 432-88"</span> for administrative bypass.
+            Type <span className="text-cyan-300 font-bold">"help"</span> for the command index, or <span className="text-fuchsia-300 font-bold">"seals"</span> to review the investigation.
           </p>
         </div>
       )
@@ -84,17 +121,22 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 text-[11px]">
               <div><span className="text-cyan-300 font-bold">help</span> — Display command manual</div>
               <div><span className="text-cyan-300 font-bold">clear</span> — Clear terminal screen</div>
-              <div><span className="text-cyan-300 font-bold">whoami</span> — Display clearance & terminal identity</div>
-              <div><span className="text-cyan-300 font-bold">clearance &lt;1-5&gt;</span> — Switch clearance level</div>
-              <div><span className="text-cyan-300 font-bold">ls docs</span> — List all 165 indexed documents</div>
-              <div><span className="text-cyan-300 font-bold">cat &lt;doc_code&gt;</span> — Print raw classified document</div>
+              <div><span className="text-cyan-300 font-bold">whoami</span> — Identity, clearance & degree</div>
+              <div><span className="text-cyan-300 font-bold">clearance &lt;1-5&gt;</span> — Switch to an earned clearance</div>
+              <div><span className="text-cyan-300 font-bold">ls docs [n]</span> — List indexed documents (page n)</div>
+              <div><span className="text-cyan-300 font-bold">cat &lt;doc_code&gt;</span> — Print a document you are cleared for</div>
               <div><span className="text-cyan-300 font-bold">scan</span> — Run planetary 14.8Hz harmonic scan</div>
-              <div><span className="text-cyan-300 font-bold">decrypt</span> — Toggle Redaction De-Scrambler</div>
+              <div><span className="text-cyan-300 font-bold">decrypt</span> — Toggle Redaction De-Scrambler (L3+)</div>
               <div><span className="text-cyan-300 font-bold">play &lt;1-6&gt;</span> — Play audio artifact preset</div>
               <div><span className="text-cyan-300 font-bold">stop</span> — Stop all active audio streams</div>
-              <div><span className="text-cyan-300 font-bold">leak-dump</span> — Access Dr. Aris Thorne's leak directory</div>
-              <div><span className="text-cyan-300 font-bold">override 432-88</span> — Admin bypass for Level 5 Black Dossier</div>
-              <div><span className="text-cyan-300 font-bold">status</span> — Display field stations & telemetry state</div>
+              <div><span className="text-cyan-300 font-bold">leak-dump</span> — Thorne's exfiltration directory</div>
+              <div><span className="text-cyan-300 font-bold">status</span> — Field stations & telemetry state</div>
+              <div><span className="text-fuchsia-300 font-bold">seals</span> — Progress of the Seven Seals</div>
+              <div><span className="text-fuchsia-300 font-bold">codex</span> — Your Choir Script key</div>
+              <div><span className="text-fuchsia-300 font-bold">gematria &lt;text&gt;</span> — Ordinal letter-sum (A=1…Z=26)</div>
+              <div><span className="text-fuchsia-300 font-bold">wheel &lt;keyword&gt;</span> — Turn the Mercury Wheel on Thorne's courier line</div>
+              <div><span className="text-fuchsia-300 font-bold">commune</span> — Place your hand on the planchette</div>
+              <div><span className="text-fuchsia-300 font-bold">invoke &lt;name&gt;</span> — Speak a name into the carrier</div>
               <div><span className="text-cyan-300 font-bold">exit</span> — Close terminal backdoor</div>
             </div>
           </div>
@@ -111,7 +153,9 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
           <div className="text-slate-300">
             <p>USER: {operatorCallsign.toUpperCase()}</p>
             <p>SESSION ORIGIN: COLD BOOT TERMINAL // CH9</p>
-            <p>CLEARANCE: <span className="text-amber-400 font-bold">{clearance}</span></p>
+            <p>CLEARANCE: <span className="text-amber-400 font-bold">{clearance}</span> (EARNED: LEVEL {argState.earnedLevel})</p>
+            <p>DEGREE: <span className="text-fuchsia-300">{argState.earnedLevel >= 3 ? ['', 'NEOPHYTE', 'ZELATOR', 'PRACTICUS', 'PHILOSOPHUS', 'MAGISTER UMBRAE'][clearanceRank(clearance)] : '████████ (requires Level 3)'}</span></p>
+            <p>SEALS BROKEN: <span className="text-fuchsia-300">{argState.solved.length}/7</span></p>
             <p>REDACTION DE-SCRAMBLER: {isUnredacted ? <span className="text-rose-400 font-bold">ACTIVE (UNREDACTED)</span> : <span className="text-slate-400">INACTIVE</span>}</p>
             <p>NODE CONNECTION: London Tower Obsidian Proxy // Session Encrypted</p>
           </div>
@@ -120,55 +164,43 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
 
       case 'clearance': {
         const lvl = parseInt(arg, 10);
-        if (lvl === 1) {
-          onSetClearance('Level 1 - General');
-          gpcAudio.playUiSound('grant');
-          outputNode = <p className="text-emerald-400">Clearance adjusted to: LEVEL 1 - GENERAL</p>;
-        } else if (lvl === 2) {
-          onSetClearance('Level 2 - Confidential');
-          gpcAudio.playUiSound('grant');
-          outputNode = <p className="text-blue-400">Clearance adjusted to: LEVEL 2 - CONFIDENTIAL</p>;
-        } else if (lvl === 3) {
-          onSetClearance('Level 3 - Secret');
-          gpcAudio.playUiSound('grant');
-          outputNode = <p className="text-cyan-400">Clearance adjusted to: LEVEL 3 - SECRET</p>;
-        } else if (lvl === 4) {
-          onSetClearance('Level 4 - Top Secret');
-          gpcAudio.playUiSound('grant');
-          outputNode = <p className="text-amber-400">Clearance elevated to: LEVEL 4 - TOP SECRET // NOFORN</p>;
-        } else if (lvl === 5) {
-          onSetClearance('Level 5 - Black Dossier');
-          gpcAudio.playUiSound('grant');
-          outputNode = <p className="text-rose-400 font-bold">Clearance elevated to: LEVEL 5 - BLACK DOSSIER // SANITIZED</p>;
-        } else {
+        if (!(lvl >= 1 && lvl <= 5)) {
           gpcAudio.playUiSound('deny');
           outputNode = <p className="text-rose-400">Usage: clearance &lt;1-5&gt;</p>;
+        } else if (lvl > argState.earnedLevel) {
+          gpcAudio.playUiSound('deny');
+          outputNode = (
+            <p className="text-rose-400">
+              DENIED. Level {lvl} has not been earned. Your degree ceiling is LEVEL {argState.earnedLevel}. Break the next seal (type <span className="text-fuchsia-300">seals</span>).
+            </p>
+          );
+        } else {
+          onSetClearance(levelFromRank(lvl));
+          gpcAudio.playUiSound('grant');
+          outputNode = <p className="text-emerald-400">Clearance set to: {levelFromRank(lvl).toUpperCase()}</p>;
         }
         break;
       }
 
       case 'override':
-        if (arg === '432-88' || arg === '1480' || arg === 'palimpsest') {
-          onSetClearance('Level 5 - Black Dossier');
-          if (!isUnredacted) onToggleUnredacted();
-          gpcAudio.playUiSound('grant');
-          outputNode = (
-            <div className="text-rose-300 font-bold space-y-1">
-              <p>*** EXECUTIVE OVERRIDE ACCEPTED ***</p>
-              <p>AUTHORITY: DAME ELEANOR CROSS // MASTER KEY 01</p>
-              <p>SECURITY LEVEL ELEVATED: LEVEL 5 - BLACK DOSSIER</p>
-              <p>REDACTION DE-SCRAMBLER: FORCED ON</p>
-              <p className="text-slate-300">All 165 historical dossiers, casualty settlement files, and unredacted Svalbard telemetry records are now fully decrypted.</p>
-            </div>
-          );
-        } else {
-          gpcAudio.playUiSound('deny');
-          outputNode = <p className="text-rose-400">INVALID OVERRIDE CODE. ATTEMPT LOGGED TO TOPN SECURITY.</p>;
-        }
+        gpcAudio.playUiSound('deny');
+        outputNode = (
+          <div className="text-rose-300 space-y-1">
+            <p className="font-bold">*** OVERRIDE REJECTED ***</p>
+            <p>MASTER KEY 01 (DAME E. CROSS) — REVOKED 1989-11-04 05:14 UTC.</p>
+            <p className="text-slate-400">Reason on file: "The Order does not open for keys. It opens for voices."</p>
+            <p className="text-fuchsia-300">Clearance is earned through the Seven Seals. Type <span className="font-bold">seals</span>.</p>
+          </div>
+        );
         break;
 
       case 'decrypt':
       case 'unredact':
+        if (!argState.descramblerUnlocked) {
+          gpcAudio.playUiSound('deny');
+          outputNode = <p className="text-rose-400">DE-SCRAMBLER LOCKED — requires LEVEL 3 (Seal II: The Wheel of Days).</p>;
+          break;
+        }
         onToggleUnredacted();
         gpcAudio.playUiSound('unredact');
         outputNode = (
@@ -246,7 +278,14 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
             d.id.toLowerCase() === arg.toLowerCase() ||
             d.title.toLowerCase().includes(arg.toLowerCase())
         );
-        if (targetDoc) {
+        if (targetDoc && clearanceRank(targetDoc.clearance) > clearanceRank(clearance)) {
+          gpcAudio.playUiSound('deny');
+          outputNode = (
+            <p className="text-rose-400">
+              {targetDoc.code}: SEALED. Classified {targetDoc.clearance}; you hold {clearance}. The wax holds.
+            </p>
+          );
+        } else if (targetDoc) {
           gpcAudio.playUiSound('print');
           outputNode = (
             <div className="bg-[#06080e] p-3 border border-slate-700 rounded text-slate-200 space-y-2 text-[11px]">
@@ -257,7 +296,9 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
               <h4 className="font-bold text-white">{targetDoc.title}</h4>
               <p className="text-slate-400">{targetDoc.summary}</p>
               <div className="bg-[#0b0e17] p-2 rounded border border-slate-800 text-slate-300 whitespace-pre-line font-mono text-[10px]">
-                {isUnredacted && targetDoc.redactedContent ? targetDoc.redactedContent : targetDoc.content}
+                {isUnredacted && argState.descramblerUnlocked && targetDoc.redactedContent
+                  ? targetDoc.redactedContent
+                  : renderRedacted(stripRedactions(targetDoc.content))}
               </div>
             </div>
           );
@@ -269,22 +310,157 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
       }
 
       case 'ls': {
-        if (arg === 'docs' || !arg) {
+        const [sub, pageArg] = arg.split(' ');
+        if (sub === 'docs' || !sub) {
+          const page = Math.max(1, parseInt(pageArg || '1', 10) || 1);
+          const per = 15;
+          const pages = Math.ceil(documents.length / per);
+          const slice = documents.slice((page - 1) * per, page * per);
           outputNode = (
             <div className="space-y-1 text-[11px] text-slate-300">
-              <p className="text-cyan-400 font-bold">INDEXED REPOSITORY RECORDS (Top 15 shown):</p>
-              {documents.slice(0, 15).map((d) => (
-                <div key={d.id} className="flex justify-between gap-2">
-                  <span className="text-cyan-300 font-mono">{d.code}</span>
-                  <span className="truncate text-slate-400 max-w-[340px]">{d.title}</span>
-                  <span className="text-[10px] text-slate-500">{d.clearance.split(' - ')[0]}</span>
-                </div>
-              ))}
-              <p className="text-slate-500 text-[10px]">...and 150 more records in database.</p>
+              <p className="text-cyan-400 font-bold">INDEXED REPOSITORY RECORDS — PAGE {page}/{pages}:</p>
+              {slice.map((d) => {
+                const sealed = clearanceRank(d.clearance) > clearanceRank(clearance);
+                return (
+                  <div key={d.id} className={`flex justify-between gap-2 ${sealed ? 'opacity-50' : ''}`}>
+                    <span className="text-cyan-300 font-mono">{sealed ? '[SEALED] ' : ''}{d.code}</span>
+                    <span className="truncate text-slate-400 max-w-[340px]">{d.title}</span>
+                    <span className="text-[10px] text-slate-500">{d.clearance.split(' - ')[0]}</span>
+                  </div>
+                );
+              })}
+              <p className="text-slate-500 text-[10px]">Next page: ls docs {Math.min(pages, page + 1)}  ·  Order records: search "Order" (press /)</p>
             </div>
           );
         } else {
-          outputNode = <p className="text-slate-400">Usage: ls docs</p>;
+          outputNode = <p className="text-slate-400">Usage: ls docs [page]</p>;
+        }
+        break;
+      }
+
+      case 'seals':
+        outputNode = (
+          <div className="space-y-1 text-[11px]">
+            <p className="text-fuchsia-300 font-bold">THE SEVEN SEALS — ORDO VOCIS PROFUNDAE</p>
+            {SEALS.map((sd) => {
+              const done = argState.isSolved(sd.id);
+              const active = argState.currentSeal === sd.id;
+              return (
+                <p key={sd.id} className={`whitespace-pre ${done ? 'text-slate-300' : active ? 'text-amber-300' : 'text-slate-600'}`}>
+                  {sd.glyph + '\uFE0E'} {sd.numeral.padEnd(4, ' ')} {sd.title.padEnd(28, ' ')} {done ? `BROKEN · ${sd.sealWord}` : active ? '◀ ACTIVE' : 'SEALED'}
+                </p>
+              );
+            })}
+            {argState.currentSeal && (
+              <p className="text-slate-400 pt-1">OBJECTIVE: {SEALS[argState.currentSeal - 1].objective}</p>
+            )}
+          </div>
+        );
+        break;
+
+      case 'codex': {
+        const known = [...argState.knownLetters].sort();
+        outputNode = (
+          <div className="space-y-2 text-[11px]">
+            <p className="text-rose-300 font-bold">CHOIR SCRIPT CODEX — {known.length} GLYPHS KNOWN ({FRAGMENTS.filter((f) => argState.fragments.includes(f.id)).length}/7 FRAGMENTS)</p>
+            {known.length === 0 ? (
+              <p className="text-slate-500">You know no glyphs yet. The Order signs its public pages faintly.</p>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {known.map((l) => (
+                  <span key={l} className="flex flex-col items-center border border-rose-900/50 rounded px-1 py-0.5">
+                    <ChoirGlyph letter={l} size={22} color="#fb7185" />
+                    <span className="font-occult text-rose-200">{l}</span>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+        break;
+      }
+
+      case 'gematria': {
+        if (!arg.trim()) {
+          outputNode = <p className="text-slate-400">Usage: gematria &lt;text&gt;  (ordinal: A=1 … Z=26)</p>;
+          break;
+        }
+        const v = ordinalGematria(arg);
+        const notes: Record<number, string> = {
+          15: "Saturn's constant. The Square completes at fifteen.",
+          45: 'The sum of the Square of Saturn (1 through 9).',
+          53: 'CHOIR.',
+          102: 'The name that must not be spoken in the Voice’s hearing.',
+          148: 'The carrier, written without its point.',
+          432: 'The evening voice.',
+          741: 'The child’s voice.'
+        };
+        outputNode = (
+          <p className="text-fuchsia-200">
+            ORDINAL GEMATRIA of "{arg.toUpperCase()}" = <span className="font-bold text-white">{v}</span>
+            {notes[v] && <span className="text-fuchsia-400/80"> — {notes[v]}</span>}
+          </p>
+        );
+        break;
+      }
+
+      case 'wheel': {
+        if (!arg.trim()) {
+          outputNode = (
+            <div className="text-[11px] text-slate-300">
+              <p>COURIER LINE: <span className="text-purple-300">{MERCURY_CIPHERTEXT}</span></p>
+              <p className="text-slate-500">Usage: wheel &lt;keyword&gt;</p>
+            </div>
+          );
+          break;
+        }
+        const plain = vigenereDecrypt(MERCURY_CIPHERTEXT, arg);
+        const ok = plain.startsWith('THE SAFE');
+        if (ok) gpcAudio.playUiSound('grant');
+        outputNode = <p className={ok ? 'text-purple-200 font-bold' : 'text-slate-500'}>{'☿\uFE0E'} {plain}</p>;
+        break;
+      }
+
+      case 'commune': {
+        const idx = argState.finaleComplete ? 7 : (argState.currentSeal ?? 7) - 1;
+        outputNode = <Planchette text={COMMUNE[idx]} />;
+        break;
+      }
+
+      case 'ordo':
+      case 'vox':
+        outputNode = (
+          <div className="text-fuchsia-200 text-[11px] space-y-1">
+            <p className="font-occult tracking-widest">ORDO VOCIS PROFUNDAE</p>
+            <p className="italic text-slate-400">"There is a Voice beneath the world. It speaks at fourteen and eight-tenths. We did not make it. We have heard it."</p>
+            <p className="text-slate-500">— Liber Carrier, I. (DOC-1972-LIBER-CARRIER, Level 3)</p>
+          </div>
+        );
+        break;
+
+      case 'invoke': {
+        const name = arg.trim();
+        if (!name) {
+          outputNode = <p className="text-slate-400">Usage: invoke &lt;name&gt;</p>;
+          break;
+        }
+        if (matchesDigest(name, DIGESTS.seal7)) {
+          if (!argState.isSolved(6)) {
+            gpcAudio.playUiSound('deny');
+            outputNode = <p className="text-fuchsia-300">The name leaves your mouth and goes nowhere. Six seals still bind the carrier. Nothing below can hear you yet.</p>;
+          } else if (argState.finaleComplete) {
+            outputNode = <p className="text-slate-300 italic">You say his name. There is no answer. Only quiet — the good kind.</p>;
+          } else {
+            gpcAudio.playUiSound('alarm');
+            outputNode = <p className="text-white font-bold">THE CARRIER FALTERS…</p>;
+            setTimeout(() => {
+              onClose();
+              argState.setFinaleActive(true);
+            }, 900);
+          }
+        } else {
+          gpcAudio.playUiSound('deny');
+          outputNode = <p className="text-slate-500 italic">You speak "{name.toUpperCase()}" into the carrier. 14.802 Hz. Nothing turns around.</p>;
         }
         break;
       }
@@ -391,7 +567,7 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
                 handleCommand(inputVal);
               }
             }}
-            placeholder="Type 'help', 'scan', 'leak-dump', 'cat DOC-2019-PALIMPSEST-LEAK', or 'override 432-88'..."
+            placeholder="Type 'help', 'seals', 'commune', 'cat DOC-2019-THORNE-NOTEBOOK'..."
             className="flex-1 bg-transparent border-none text-cyan-300 placeholder-slate-600 text-xs focus:outline-none font-mono"
             autoFocus
           />

@@ -30,6 +30,15 @@ import { CareersView } from './components/views/CareersView';
 import { CompanyValuesView } from './components/views/CompanyValuesView';
 import { ToolsLabView } from './components/views/ToolsLabView';
 import { DeadLinksView } from './components/views/DeadLinksView';
+import { SanctumView } from './components/views/SanctumView';
+
+// Ordo Vocis Profundae — ARG layer
+import { useArg } from './arg/ArgContext';
+import { clearanceRank } from './arg/levels';
+import { HiddenSigilLayer, RevelationToasts } from './arg/HiddenSigils';
+import { PrologueModal } from './arg/PrologueModal';
+import { FinaleOverlay } from './arg/FinaleOverlay';
+import { OrderSigil, SigilWatermark } from './arg/sigils';
 
 // Data
 import { DOCUMENTS } from './data/documents';
@@ -62,8 +71,42 @@ import { HelpCircle, Play, Pause, Square, Radio, ShieldAlert } from 'lucide-reac
 
 export function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
-  const [clearance, setClearance] = useState<ClearanceLevel>('Level 2 - Confidential');
-  const [isUnredacted, setIsUnredacted] = useState<boolean>(false);
+  const arg = useArg();
+  // A manually lowered clearance is remembered only for the degree it was chosen at;
+  // when a seal raises the earned level, the operator is elevated automatically.
+  const [clearanceChoice, setClearanceChoice] = useState<{ level: ClearanceLevel; at: number } | null>(null);
+  const clearance: ClearanceLevel =
+    clearanceChoice && clearanceChoice.at === arg.earnedLevel ? clearanceChoice.level : arg.maxClearance;
+  const [unredactedWanted, setIsUnredactedRaw] = useState<boolean>(false);
+  const isUnredacted = unredactedWanted && arg.descramblerUnlocked;
+
+  // Clearance is EARNED by breaking seals — it can be lowered, never raised past the earned degree.
+  const setClearance = (lvl: ClearanceLevel) => {
+    if (clearanceRank(lvl) > arg.earnedLevel) {
+      gpcAudio.playUiSound('deny');
+      arg.notify('CLEARANCE NOT EARNED', `Your degree is Level ${arg.earnedLevel}. Break the next seal to rise further.`, '🔒\uFE0E', '#f43f5e');
+      return;
+    }
+    setClearanceChoice({ level: lvl, at: arg.earnedLevel });
+  };
+
+  // The Redaction De-Scrambler only works from Level 3 (Seal II).
+  const setIsUnredacted = (v: boolean | ((p: boolean) => boolean)) => {
+    const next = typeof v === 'function' ? v(isUnredacted) : v;
+    if (next && !arg.descramblerUnlocked) {
+      gpcAudio.playUiSound('deny');
+      arg.notify('DE-SCRAMBLER LOCKED', 'Palimpsest\'s cover can only be lifted from Level 3. Break Seal II — The Wheel of Days.', '♃', '#60a5fa');
+      return;
+    }
+    setIsUnredactedRaw(next);
+  };
+
+  const [showPrologue, setShowPrologue] = useState<boolean>(false);
+
+  const openDocByCode = (code: string) => {
+    const doc = DOCUMENTS.find((d) => d.code === code);
+    if (doc) setSelectedDoc(doc);
+  };
   const [isCrtEnabled, setIsCrtEnabled] = useState<boolean>(false);
   const [isSoundMuted, setIsSoundMuted] = useState<boolean>(false);
 
@@ -129,13 +172,14 @@ export function App() {
       } else if (e.key === 'u' || e.key === 'U') {
         e.preventDefault();
         gpcAudio.playUiSound('unredact');
-        setIsUnredacted((prev) => !prev);
+        setIsUnredacted((prev: boolean) => !prev);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [bootDone, isSearchOpen, isTerminalOpen, isSecretSafeOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bootDone, isSearchOpen, isTerminalOpen, isSecretSafeOpen, isUnredacted, arg.descramblerUnlocked]);
 
   return (
     <div
@@ -146,14 +190,11 @@ export function App() {
       {/* Cold Boot Terminal — ARG boot / loading sequence */}
       {!bootDone && (
         <BootSequence
-          onComplete={(callsign, executiveOverride) => {
+          onComplete={(callsign) => {
             setOperatorCallsign(callsign || 'GUEST_INVESTIGATOR');
-            if (executiveOverride) {
-              setClearance('Level 5 - Black Dossier');
-              setIsUnredacted(true);
-            }
             setBootDone(true);
             gpcAudio.playUiSound('grant');
+            if (!arg.prologueSeen) setTimeout(() => setShowPrologue(true), 700);
           }}
         />
       )}
@@ -166,7 +207,7 @@ export function App() {
         onOpenSearch={() => setIsSearchOpen(true)}
         onOpenTerminal={() => setIsTerminalOpen(true)}
         isUnredacted={isUnredacted}
-        onToggleUnredacted={() => setIsUnredacted(!isUnredacted)}
+        onToggleUnredacted={() => setIsUnredacted((p) => !p)}
         isCrtEnabled={isCrtEnabled}
         onToggleCrt={() => setIsCrtEnabled(!isCrtEnabled)}
         isSoundMuted={isSoundMuted}
@@ -199,6 +240,23 @@ export function App() {
 
         {/* Dynamic Viewport Container */}
         <main className="flex-1 flex flex-col min-w-0 h-full bg-[#06080e] overflow-hidden relative">
+          {/* The Order's sigil — grows more visible the deeper you go */}
+          <div className="pointer-events-none absolute inset-0 z-20 mix-blend-screen">
+            <SigilWatermark intensity={arg.finaleComplete ? 0.01 : 0.012 + arg.solved.length * 0.006} />
+          </div>
+          {/* Choir Script fragment hidden on this page (Seal III) */}
+          <HiddenSigilLayer activeTab={activeTab} />
+
+          {activeTab === 'sanctum' && (
+            <SanctumView
+              onNavigateTab={(t) => setActiveTab(t)}
+              onOpenDocCode={openDocByCode}
+              onOpenSafe={() => setIsSecretSafeOpen(true)}
+              isUnredacted={isUnredacted}
+              onToggleUnredacted={() => setIsUnredacted((p) => !p)}
+            />
+          )}
+
           {activeTab === 'dashboard' && (
             <DashboardView
               documents={DOCUMENTS}
@@ -316,7 +374,12 @@ export function App() {
         document={selectedDoc}
         onClose={() => setSelectedDoc(null)}
         isGlobalUnredacted={isUnredacted}
-        onToggleUnredacted={() => setIsUnredacted(!isUnredacted)}
+        onToggleUnredacted={() => setIsUnredacted((p) => !p)}
+        clearance={clearance}
+        onOpenSanctum={() => {
+          setSelectedDoc(null);
+          setActiveTab('sanctum');
+        }}
       />
 
       <GlobalSearchModal
@@ -343,7 +406,7 @@ export function App() {
         clearance={clearance}
         onSetClearance={(lvl) => setClearance(lvl)}
         isUnredacted={isUnredacted}
-        onToggleUnredacted={() => setIsUnredacted(!isUnredacted)}
+        onToggleUnredacted={() => setIsUnredacted((p) => !p)}
         documents={DOCUMENTS}
         onSelectDocument={(doc) => setSelectedDoc(doc)}
       />
@@ -351,9 +414,39 @@ export function App() {
       <SecretBypassModal
         isOpen={isSecretSafeOpen}
         onClose={() => setIsSecretSafeOpen(false)}
-        onSetClearance={(lvl) => setClearance(lvl)}
-        onEnableUnredacted={() => setIsUnredacted(true)}
+        onEnableUnredacted={() => setIsUnredactedRaw(true)}
+        onGoToSanctum={() => {
+          setIsSecretSafeOpen(false);
+          setActiveTab('sanctum');
+        }}
       />
+
+      {/* ORDO VOCIS PROFUNDAE overlays */}
+      <RevelationToasts />
+      {bootDone && showPrologue && (
+        <PrologueModal
+          callsign={operatorCallsign}
+          onBegin={() => {
+            arg.markPrologueSeen();
+            setShowPrologue(false);
+            setActiveTab('sanctum');
+          }}
+          onDismiss={() => {
+            arg.markPrologueSeen();
+            setShowPrologue(false);
+          }}
+        />
+      )}
+      {arg.finaleActive && (
+        <FinaleOverlay
+          callsign={operatorCallsign}
+          onComplete={() => {
+            arg.completeFinale();
+            arg.setFinaleActive(false);
+            setActiveTab('sanctum');
+          }}
+        />
+      )}
 
       <ClearanceModal
         isOpen={isClearanceModalOpen}
@@ -361,6 +454,10 @@ export function App() {
         currentClearance={clearance}
         onSetClearance={(lvl) => setClearance(lvl)}
         onEnableUnredacted={() => setIsUnredacted(true)}
+        onOpenSanctum={() => {
+          setIsClearanceModalOpen(false);
+          setActiveTab('sanctum');
+        }}
       />
 
       <TrainingModuleModal
@@ -385,7 +482,7 @@ export function App() {
             <div className="flex items-center justify-between border-b border-[#1c273c] pb-3">
               <div className="flex items-center gap-2 text-cyan-400 font-bold">
                 <HelpCircle className="w-5 h-5" />
-                <span>GLOBAL PARADIGMS CORP. // ARCHIVE INVESTIGATION GUIDE</span>
+                <span>ARCHIVE INVESTIGATION GUIDE // HOW TO PLAY</span>
               </div>
               <button
                 onClick={() => setIsHelpOpen(false)}
@@ -395,20 +492,37 @@ export function App() {
               </button>
             </div>
 
-            <div className="space-y-3 text-[11px] leading-relaxed text-slate-300">
-              <p>
-                Welcome to the complete interactive web archive of <strong className="text-white">Global Paradigms Corporation (GPC)</strong>, an international strategic-forecasting, civic-continuity, and environmental-psychoacoustics consultancy operating from 1971 to 2026.
-              </p>
-              <div className="p-3 bg-[#070b13] border border-[#182335] rounded space-y-1.5 text-[10px]">
-                <strong className="text-cyan-300 block">KEY FEATURES & ARG INVESTIGATION SECRETS:</strong>
-                <div>• <span className="text-white font-bold">Cold Boot Terminal:</span> Every reload starts inside a live BIOS-style boot. Type hidden <span className="text-cyan-300 font-mono">Channel 9</span> commands while it runs (<span className="text-cyan-300 font-mono">help</span>, <span className="text-cyan-300 font-mono">vesper</span>, <span className="text-cyan-300 font-mono">thorne</span>, <span className="text-cyan-300 font-mono">skip</span>, <span className="text-amber-400 font-mono">432-88</span>) — executive codes grant Level 5 on session init. <kbd className="px-1 py-0.5 bg-slate-800 rounded">ESC</kbd> fast-forwards.</div>
-                <div>• <span className="text-white font-bold">165 Unique Records:</span> Dossiers, meeting minutes, technical schematics, incident logs, and leaked memos.</div>
-                <div>• <span className="text-white font-bold">Redaction De-Scrambler:</span> Toggle the top bar eye button to decrypt and reveal hidden cleartext across all files.</div>
-                <div>• <span className="text-white font-bold">Command Terminal Backdoor:</span> Click <span className="text-cyan-400 font-mono">GPC://CLI</span> or press <kbd className="px-1 py-0.5 bg-slate-800 rounded">~</kbd> to access command line tools (<span className="text-cyan-300 font-mono">scan</span>, <span className="text-cyan-300 font-mono">leak-dump</span>, <span className="text-cyan-300 font-mono">override 432-88</span>).</div>
-                <div>• <span className="text-white font-bold">Audio Lab & DSP Synthesizer:</span> Play real procedural Web Audio captures of the 14.8Hz planetary carrier, Project Vesper chimes, and deep trench pulses.</div>
-                <div>• <span className="text-white font-bold">Whistleblower Safe:</span> Open the key icon in the top header and enter the 4-digit code (<span className="text-amber-400 font-mono">1480</span>, <span className="text-amber-400 font-mono">1989</span>, or <span className="text-amber-400 font-mono">0432</span>) to elevate clearance to Level 5.</div>
-                <div>• <span className="text-white font-bold">Employee Modules & Careers:</span> Take interactive compliance quizzes with printable certificates or submit job applications.</div>
+            <div className="space-y-3 text-[11px] leading-relaxed text-slate-300 max-h-[65vh] overflow-y-auto scrollbar-thin pr-1">
+              <div className="flex gap-4 items-start">
+                <div className="text-fuchsia-300 shrink-0 hidden sm:block"><OrderSigil size={64} /></div>
+                <p>
+                  You have connected to the leaked internal archive of <strong className="text-white">Global Paradigms Corporation</strong> — a
+                  "strategic forecasting & civic continuity" consultancy, 1971–2026. On the surface: a corporation. Underneath: the
+                  <strong className="text-fuchsia-300"> Ordo Vocis Profundae</strong>, an occult order that has steered the company around a
+                  mysterious 14.8 Hz signal under the Earth. A whistleblower, <strong className="text-white">Dr. Aris Thorne</strong>, has left you a trail.
+                </p>
               </div>
+
+              <div className="p-3 bg-fuchsia-950/20 border border-fuchsia-900/50 rounded space-y-1.5 text-[10px]">
+                <strong className="text-fuchsia-300 block tracking-wider">HOW TO PLAY — THE SEVEN SEALS</strong>
+                <div>1. Open <span className="text-white font-bold">The Seven Seals</span> (top of the sidebar). Each seal is one puzzle, with a clear objective.</div>
+                <div>2. Answers are hidden across this archive: documents, dossiers, stations, audio, emails, even the public "corporate" pages.</div>
+                <div>3. Breaking seals raises your <span className="text-amber-300">clearance</span>. Records above your clearance show as <span className="text-rose-300">SEALED</span> until earned.</div>
+                <div>4. Each seal gives a <span className="text-white font-bold">Seal-Word</span>. Keep them — together they spell the final answer.</div>
+                <div>5. Stuck? Every seal has 3 escalating hints (the last one gives the answer). No penalty.</div>
+                <div>6. Progress saves automatically in this browser. You can purge it from the case file.</div>
+              </div>
+
+              <div className="p-3 bg-[#070b13] border border-[#182335] rounded space-y-1.5 text-[10px]">
+                <strong className="text-cyan-300 block tracking-wider">YOUR INSTRUMENTS</strong>
+                <div>• <span className="text-white font-bold">Search</span> <kbd className="px-1 py-0.5 bg-slate-800 rounded">/</kbd> — full-text search across 174 records, personnel, stations, programs.</div>
+                <div>• <span className="text-white font-bold">Terminal</span> <kbd className="px-1 py-0.5 bg-slate-800 rounded">~</kbd> — <span className="font-mono text-cyan-300">help</span>, <span className="font-mono text-cyan-300">cat</span>, <span className="font-mono text-cyan-300">seals</span>, <span className="font-mono text-cyan-300">gematria</span>, <span className="font-mono text-cyan-300">invoke</span>… and some commands it won't list.</div>
+                <div>• <span className="text-white font-bold">Redaction De-Scrambler</span> <kbd className="px-1 py-0.5 bg-slate-800 rounded">U</kbd> — lifts Palimpsest's black bars. Unlocks at Level 3.</div>
+                <div>• <span className="text-white font-bold">Audio Lab</span> — procedural Web Audio captures & a live synthesizer. Some answers are heard, not read.</div>
+                <div>• <span className="text-white font-bold">Whistleblower Safe</span> (brass key, top bar) — Thorne's safe. You will learn the combination.</div>
+                <div>• <span className="text-white font-bold">Cold Boot</span> — during the boot, you can type on Channel 9. Try <span className="font-mono text-cyan-300">help</span>. <kbd className="px-1 py-0.5 bg-slate-800 rounded">ESC</kbd> fast-forwards.</div>
+              </div>
+              <p className="text-[10px] text-slate-500 italic">Look closely at the public pages. The Order signs its work faintly.</p>
             </div>
 
             <div className="flex justify-end pt-2">

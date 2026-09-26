@@ -347,7 +347,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search 165+ documents, 45 personnel, 22 stations, project dossiers, frequency codes..."
+            placeholder="Search 174 documents, 45 personnel, 22 stations, project dossiers, frequency codes..."
             className="flex-1 bg-transparent border-none text-slate-100 placeholder-slate-500 text-sm focus:outline-none"
             autoFocus
           />
@@ -371,7 +371,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         <div className="flex items-center gap-1.5 px-3 py-2 bg-[#080b12] border-b border-[#182335] text-[10px] overflow-x-auto scrollbar-none">
           {[
             { id: 'all', label: 'All Records' },
-            { id: 'documents', label: 'Documents (165)' },
+            { id: 'documents', label: 'Documents (174)' },
             { id: 'personnel', label: 'Personnel (45)' },
             { id: 'stations', label: 'Stations (22)' },
             { id: 'programs', label: 'Programs (14)' },

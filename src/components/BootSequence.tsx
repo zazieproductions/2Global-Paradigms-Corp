@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { gpcAudio } from '../lib/audioEngine';
+import { useArg } from '../arg/ArgContext';
+import { OrderSigil } from '../arg/sigils';
 
 // ============================================================================
 // GPC COLD BOOT TERMINAL — ARG-style interactive boot / loading sequence
@@ -9,7 +11,7 @@ import { gpcAudio } from '../lib/audioEngine';
 //   * LIVE hidden "Channel 9" command line — type while the boot runs:
 //       help / skip / vesper / thorne / carrier / palimpsest / 432-88 / 1480 / 0432
 //   * Operator callsign prompt — your name is carried into the whole session
-//   * Executive override codes grant Level 5 + de-scrambler on session init
+//   * Legacy executive override codes are REVOKED — clearance is earned via the Seven Seals
 //   * ESC fast-forwards; CRT power-off wipe into the archive
 // ============================================================================
 
@@ -28,10 +30,15 @@ interface LogLine {
 
 type Phase = 'power' | 'boot' | 'callsign' | 'granted' | 'exit';
 
+const LEVEL_NAMES = ['', 'GENERAL', 'CONFIDENTIAL', 'SECRET', 'TOP SECRET', 'BLACK DOSSIER'];
+
 const SCRAMBLE_CHARS = '█▓▒░#%&@$?01ABCDEF';
 
 const SECRET_COMMANDS = [
   'help',
+  'ordo',
+  'orpheus',
+  'seals',
   'skip',
   'abort',
   '432-88',
@@ -103,7 +110,10 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
   const [uplink, setUplink] = useState(87);
   const [sessionId] = useState(() => `${hexChunk(4)}-${hexChunk(4)}`);
   const [grantedOperator, setGrantedOperator] = useState('GUEST_INVESTIGATOR');
-  const [overrideUsed, setOverrideUsed] = useState(false);
+  const arg = useArg();
+  const earnedRef = useRef(arg.earnedLevel);
+  const solvedRef = useRef(arg.solved.length);
+  const finaleRef = useRef(arg.finaleComplete);
 
   // --- engine refs -----------------------------------------------------------
   // Token system: each mount of the effect claims a token; cleanup invalidates
@@ -190,7 +200,8 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
           addLine('  thorne ............ A. Thorne exfil log fragment', 'dim');
           addLine('  carrier ........... planetary 14.802 Hz telemetry', 'dim');
           addLine('  palimpsest ........ Project Palimpsest burst decode', 'dim');
-          addLine('  432-88 | 1480 | 0432 ... executive override codes', 'warn');
+          addLine('  seals ............. status of the seven seals', 'secret');
+          addLine('  432-88 ............ legacy executive override (status unknown)', 'warn');
           break;
 
         case 'skip':
@@ -235,14 +246,32 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
         case '432-88':
         case '1480':
         case '0432':
-          overrideRef.current = true;
-          setOverrideUsed(true);
           sfx('alarm');
           triggerGlitch(420);
-          addLine('*** EXECUTIVE OVERRIDE ACCEPTED ***', 'err');
-          addLine('AUTHORITY: DAME ELEANOR CROSS // MASTER KEY 01', 'err');
-          addLine('LEVEL 5 — BLACK DOSSIER WILL BE GRANTED ON SESSION INIT.', 'secret');
-          addLine('REDACTION DE-SCRAMBLER WILL BE FORCED ON.', 'secret');
+          addLine('*** EXECUTIVE OVERRIDE REJECTED ***', 'err');
+          addLine('MASTER KEY 01 (D. CROSS) REVOKED 1989-11-04 05:14 UTC', 'err');
+          addLine('"THE ORDER DOES NOT OPEN FOR KEYS. IT OPENS FOR VOICES."', 'secret');
+          addLine('CLEARANCE IS EARNED. SEVEN SEALS. BEGIN WITH SATURN.', 'secret');
+          break;
+
+        case 'ordo':
+          sfx('unredact');
+          triggerGlitch(260);
+          addLine('ORDO VOCIS PROFUNDAE — CHAPTER ROLL INTERCEPT', 'secret');
+          addLine('♄ NEOPHYTE  ♃ ZELATOR  ♂ PRACTICUS  ☉ PHILOSOPHUS  ☿ MAGISTER UMBRAE', 'secret');
+          addLine('THE COMPANY IS THE OUTER COURT. — LIBER CARRIER II', 'dim');
+          break;
+
+        case 'seals':
+          sfx('scan');
+          addLine(`SEALS BROKEN: ${solvedRef.current}/7 // EARNED CLEARANCE: LEVEL ${earnedRef.current}`, 'secret');
+          break;
+
+        case 'orpheus':
+          sfx('deny');
+          triggerGlitch(600);
+          addLine('…', 'secret');
+          addLine('NOT HERE. NOT YET. HE CANNOT HEAR YOU THROUGH SEVEN SEALS.', 'err');
           break;
 
         default:
@@ -340,7 +369,7 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       });
 
       await animBar(16, 'MOUNTING /dev/vault0 → POSTOJNA REPOSITORY', 480);
-      await typeLine('VOLUME VAULT0 MOUNTED — 165 RECORDS INDEXED', 'ok');
+      await typeLine('VOLUME VAULT0 MOUNTED — 174 RECORDS INDEXED', 'ok');
       await typeLine('SHA-256 INDEX 0x7F4A...B21C VERIFIED', 'ok', { instant: true });
       await typeLine('HANDSHAKE: LONDON TOWER // OBSIDIAN PROXY . . . . . ONLINE', 'ok');
 
@@ -348,8 +377,15 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       await typeLine('STATION 07 SVALBARD: 14.802 Hz @ 94.2 dB', 'info', { instant: true });
       await typeLine('!! CARRIER SURGE +18.4% — DRIFT TOWARD 15.000 Hz — LOGGED', 'warn');
 
+      if (finaleRef.current) {
+        await typeLine('!! CORRECTION: STATION 07 CARRIER — 0.000 Hz — NO SIGNAL SINCE LAST SESSION', 'accent');
+      }
       await guard(200);
-      showFlash('ANOMALOUS PACKET CH-9: "DO NOT TRUST THE ARCHIVE"');
+      showFlash(
+        finaleRef.current
+          ? 'ANOMALOUS PACKET CH-9: "THANK YOU, OPERATOR. — A.T."'
+          : 'ANOMALOUS PACKET CH-9: "DO NOT TRUST THE ARCHIVE. TRUST THE SEALS."'
+      );
       sfx('deny', 400);
       await guard(950);
       await typeLine('PACKET DISCARDED — SOURCE UNTRACEABLE', 'dim', { instant: true });
@@ -359,7 +395,8 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       sfx('deny', 250);
       await guard(380);
       triggerGlitch(300);
-      await typeLine('RETRYING WITH FALLBACK KEY 01 . . . . . . . . . . . . . OK', 'ok');
+      await typeLine('FALLBACK KEY 01 . . . . . . . . . . . . . . . . . . . REVOKED', 'err');
+      await typeLine('LITURGICAL KEY ♄♃♂☉♀☿☽ . . . . . . . . . . . . . . . . . OK', 'secret');
 
       await animBar(74, 'BINDING 22 / 22 FIELD STATIONS', 460);
       await typeLine('AETHELGARD REDOUBTS: 14 CERTIFIED // 720-DAY AUTONOMOUS', 'info', {
@@ -387,7 +424,14 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       setGrantedOperator(operator);
 
       await typeLine(`AUTHENTICATING OPERATOR: ${operator.toUpperCase()} . . . . . . . OK`, 'accent');
-      await typeLine('CLEARANCE PROVISIONAL: LEVEL 2 — CONFIDENTIAL', 'ok', { instant: true });
+      await typeLine(
+        `CLEARANCE: LEVEL ${earnedRef.current} — ${LEVEL_NAMES[earnedRef.current]} (${solvedRef.current}/7 SEALS BROKEN)`,
+        'ok',
+        { instant: true }
+      );
+      if (solvedRef.current === 0) {
+        await typeLine('NEW OPERATOR — UNSCHEDULED CHANNEL 9 TRAFFIC QUEUED FOR DELIVERY', 'secret', { instant: true });
+      }
       await typeLine('SESSION LOGGED // TOPN MONITORING ACTIVE', 'warn', { instant: true });
 
       await animBar(92, 'BINDING BIOMETRIC GHOST PRINT', 380);
@@ -684,15 +728,15 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
               {/* Access granted plate */}
               {phase === 'granted' && (
                 <div className="mt-4 flex flex-col items-center gap-3 py-2">
+                  <div className="text-fuchsia-400/60 ovp-breathe">
+                    <OrderSigil size={54} spin />
+                  </div>
                   <div className="border-2 border-emerald-400/70 bg-emerald-950/20 px-4 sm:px-8 py-3 text-center shadow-[0_0_35px_rgba(52,211,153,0.35)]">
                     <div className="text-emerald-300 font-black text-base sm:text-2xl tracking-[0.3em] whitespace-nowrap">
                       ACCESS GRANTED
                     </div>
                     <div className="text-emerald-500/80 text-[8px] sm:text-[10px] tracking-[0.35em] mt-1">
-                      OPERATOR: {grantedOperator.toUpperCase()} // LEVEL 2 CONFIDENTIAL
-                      {overrideUsed && (
-                        <span className="text-rose-400 font-bold"> → OVERRIDDEN: LEVEL 5</span>
-                      )}
+                      OPERATOR: {grantedOperator.toUpperCase()} // LEVEL {arg.earnedLevel} {LEVEL_NAMES[arg.earnedLevel]}
                     </div>
                   </div>
                   <button

@@ -16,6 +16,35 @@ import {
 } from 'lucide-react';
 import { DocumentRecord, ClearanceLevel } from '../../types';
 import { gpcAudio } from '../../lib/audioEngine';
+import { clearanceRank } from '../../arg/levels';
+import { LEVEL_CORRESPONDENCE } from '../../arg/seals';
+import { stripRedactions } from '../../arg/Redacted';
+
+/** Sealed / Order markers shown beside each record. */
+const SealMark: React.FC<{ doc: DocumentRecord; rank: number }> = ({ doc, rank }) => {
+  const need = clearanceRank(doc.clearance);
+  const isOrder = doc.tags?.includes('Order');
+  return (
+    <>
+      {need > rank && (
+        <span
+          title={`Sealed — requires Level ${need} (${LEVEL_CORRESPONDENCE[need]?.planet}). Break more seals in THE SEVEN SEALS.`}
+          className="inline-flex items-center gap-0.5 text-[9px] px-1.5 rounded border border-fuchsia-700/60 bg-fuchsia-950/40 text-fuchsia-300 font-bold w-fit"
+        >
+          🔒{'\uFE0E'} {LEVEL_CORRESPONDENCE[need]?.glyph}{'\uFE0E'} L{need}
+        </span>
+      )}
+      {isOrder && (
+        <span
+          title="Ordo Vocis Profundae — inner-order material"
+          className="text-[9px] px-1.5 rounded border border-amber-600/50 bg-amber-950/30 text-amber-300 font-bold w-fit"
+        >
+          ✶ ORDO
+        </span>
+      )}
+    </>
+  );
+};
 
 interface DocumentsViewProps {
   documents: DocumentRecord[];
@@ -30,6 +59,7 @@ export const DocumentsView: React.FC<DocumentsViewProps> = ({
   isUnredacted,
   clearance
 }) => {
+  const rank = clearanceRank(clearance);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedClearance, setSelectedClearance] = useState<string>('all');
@@ -99,7 +129,7 @@ export const DocumentsView: React.FC<DocumentsViewProps> = ({
             </h1>
           </div>
           <p className="text-[11px] text-slate-400 mt-0.5">
-            165 Index Records // Postojna Caverns Repository Synchronized
+            174 Index Records // Postojna Caverns Repository Synchronized
           </p>
         </div>
 
@@ -237,6 +267,7 @@ export const DocumentsView: React.FC<DocumentsViewProps> = ({
                         >
                           {doc.classificationStamp}
                         </span>
+                        <SealMark doc={doc} rank={rank} />
                       </div>
                     </td>
                     <td className="p-3">
@@ -252,7 +283,7 @@ export const DocumentsView: React.FC<DocumentsViewProps> = ({
                           )}
                         </div>
                         <span className="text-[10px] text-slate-500 block truncate max-w-[340px]">
-                          {doc.summary}
+                          {isUnredacted ? doc.summary : stripRedactions(doc.summary)}
                         </span>
                       </div>
                     </td>
@@ -307,12 +338,15 @@ export const DocumentsView: React.FC<DocumentsViewProps> = ({
                   </span>
                 </div>
 
+                <div className="flex flex-wrap gap-1">
+                  <SealMark doc={doc} rank={rank} />
+                </div>
                 <h3 className="font-bold text-slate-200 group-hover:text-cyan-300 transition-colors text-xs leading-snug">
                   {doc.title}
                 </h3>
 
                 <p className="text-[10px] text-slate-400 line-clamp-2 leading-relaxed">
-                  {doc.summary}
+                  {isUnredacted ? doc.summary : stripRedactions(doc.summary)}
                 </p>
               </div>
 

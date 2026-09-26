@@ -18,6 +18,20 @@ import {
 } from 'lucide-react';
 import { DocumentRecord, ClearanceLevel } from '../types';
 import { gpcAudio } from '../lib/audioEngine';
+import { useArg } from '../arg/ArgContext';
+import { clearanceRank } from '../arg/levels';
+import { renderRedacted, stripRedactions } from '../arg/Redacted';
+import { ChoirGlyph, OrderSigil } from '../arg/sigils';
+import { LEVEL_CORRESPONDENCE } from '../arg/seals';
+
+// Choir Script marginalia on the Order's own documents (only codex letters used)
+const MARGINALIA = ['HE IS SINGING', 'THE SONG RISES', 'ORDER IS ETERNAL', 'DESCEND', 'THE CHOIR HEARS'];
+const EARNED_BY: Record<number, string> = {
+  2: 'Seal I — The Square of Lead',
+  3: 'Seal II — The Wheel of Days',
+  4: 'Seal IV — The Three Voices',
+  5: 'Seal VI — The Mercury Wheel'
+};
 
 interface DocumentViewerModalProps {
   document: DocumentRecord | null;
@@ -27,6 +41,8 @@ interface DocumentViewerModalProps {
   onNavigateToPersonnel?: (personnelId: string) => void;
   onNavigateToStation?: (stationId: string) => void;
   onNavigateToProgram?: (programId: string) => void;
+  clearance: ClearanceLevel;
+  onOpenSanctum: () => void;
 }
 
 export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
@@ -36,17 +52,30 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
   onToggleUnredacted,
   onNavigateToPersonnel,
   onNavigateToStation,
-  onNavigateToProgram
+  onNavigateToProgram,
+  clearance,
+  onOpenSanctum
 }) => {
+  const arg = useArg();
   const [localUnredact, setLocalUnredact] = useState(false);
   const [copied, setCopied] = useState(false);
 
   if (!document) return null;
 
-  const showUnredacted = isGlobalUnredacted || localUnredact;
-  const contentToDisplay = showUnredacted && document.redactedContent ? document.redactedContent : document.content;
+  const docRank = clearanceRank(document.clearance);
+  const isSealed = docRank > clearanceRank(clearance);
+  const isOrderDoc = document.tags.includes('Order');
+  const showUnredacted = arg.descramblerUnlocked && (isGlobalUnredacted || localUnredact);
+  const contentToDisplay = showUnredacted && document.redactedContent ? document.redactedContent : stripRedactions(document.content);
+  const marginalia = MARGINALIA[document.code.length % MARGINALIA.length];
+
+  const sealedDeny = () => {
+    gpcAudio.playUiSound('deny');
+    arg.notify('RECORD SEALED', 'You cannot export what you are not permitted to read.', '🜔', '#f43f5e');
+  };
 
   const handleDownloadTxt = () => {
+    if (isSealed) return sealedDeny();
     gpcAudio.playUiSound('print');
     const blob = new Blob([
       `GLOBAL PARADIGMS CORPORATION // ARCHIVE RECORD\n` +
@@ -71,8 +100,12 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
   };
 
   const handleDownloadJson = () => {
+    if (isSealed) return sealedDeny();
     gpcAudio.playUiSound('print');
-    const blob = new Blob([JSON.stringify(document, null, 2)], { type: 'application/json' });
+    const exported = showUnredacted
+      ? document
+      : { ...document, content: stripRedactions(document.content), redactedContent: '[WITHHELD — DE-SCRAMBLER REQUIRED]' };
+    const blob = new Blob([JSON.stringify(exported, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = window.document.createElement('a');
     a.href = url;
@@ -82,11 +115,13 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
   };
 
   const handlePrint = () => {
+    if (isSealed) return sealedDeny();
     gpcAudio.playUiSound('print');
     window.print();
   };
 
   const handleCopy = () => {
+    if (isSealed) return sealedDeny();
     gpcAudio.playUiSound('click');
     navigator.clipboard.writeText(contentToDisplay);
     setCopied(true);
@@ -131,6 +166,15 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
             {/* Redact toggle */}
             <button
               onClick={() => {
+                if (!arg.descramblerUnlocked) {
+                  gpcAudio.playUiSound('deny');
+                  arg.notify('DE-SCRAMBLER LOCKED', 'Available from Level 3. Break Seal II — The Wheel of Days.', '♃', '#60a5fa');
+                  return;
+                }
+                if (isGlobalUnredacted && localUnredact === false) {
+                  onToggleUnredacted();
+                  return;
+                }
                 gpcAudio.playUiSound('unredact');
                 setLocalUnredact(!localUnredact);
               }}
@@ -195,14 +239,50 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
           </div>
         </div>
 
-        {/* Fake PDF Paper Document Viewer Canvas */}
+        {isSealed ? (
+          <div className="flex-1 overflow-y-auto p-6 md:p-12 bg-[#07090e] text-slate-200 scrollbar-thin flex items-center justify-center">
+            <div className="max-w-lg text-center space-y-4">
+              <div className="mx-auto w-fit text-rose-400/80 ovp-breathe">
+                <OrderSigil size={110} showText />
+              </div>
+              <p className="font-occult text-2xl text-slate-100">This record is sealed.</p>
+              <p className="text-[11px] text-slate-400">
+                <span className="text-cyan-300">{document.code}</span> — “{document.title}”
+              </p>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                It is classified <span className="text-amber-300 font-bold">{document.clearance}</span>
+                {' '}({LEVEL_CORRESPONDENCE[docRank].planet} · {LEVEL_CORRESPONDENCE[docRank].metal}). Your clearance is{' '}
+                <span className="text-amber-300">{clearance}</span>.
+              </p>
+              <p className="text-[11px] text-slate-300">
+                The wax holds until you break <span className="text-fuchsia-300 font-bold">{EARNED_BY[docRank]}</span>.
+              </p>
+              <div className="p-3 rounded bg-black/50 border border-slate-800 text-[10px] text-slate-500 italic">
+                Abstract (unclassified): {document.summary}
+              </div>
+              <button
+                onClick={onOpenSanctum}
+                className="px-5 py-2 rounded border border-fuchsia-700 text-fuchsia-300 hover:bg-fuchsia-950/50 cursor-pointer font-occult tracking-widest text-xs"
+              >
+                GO TO THE SEVEN SEALS
+              </button>
+            </div>
+          </div>
+        ) : (
+        /* Fake PDF Paper Document Viewer Canvas */
         <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-[#07090e] text-slate-200 scrollbar-thin">
           <div className="max-w-3xl mx-auto bg-[#0a0d16] border border-[#222e44] p-6 md:p-10 rounded shadow-2xl relative">
             {/* Watermark */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] select-none">
-              <span className="text-8xl font-black rotate-[-35deg] tracking-widest text-slate-100">
-                GLOBAL PARADIGMS
-              </span>
+              {isOrderDoc ? (
+                <span className="text-slate-100">
+                  <OrderSigil size={460} showText strokeWidth={0.6} />
+                </span>
+              ) : (
+                <span className="text-8xl font-black rotate-[-35deg] tracking-widest text-slate-100">
+                  GLOBAL PARADIGMS
+                </span>
+              )}
             </div>
 
             {/* Top Official Letterhead */}
@@ -279,8 +359,27 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
 
             {/* Full Document Body (with highlighted redactions) */}
             <div className="mb-8 font-mono text-[11px] text-slate-200 leading-relaxed space-y-4 whitespace-pre-line border-t border-b border-slate-800/80 py-6">
-              {contentToDisplay}
+              {showUnredacted ? contentToDisplay : renderRedacted(contentToDisplay)}
             </div>
+
+            {/* Choir Script marginalia — only the Order's own records carry it */}
+            {isOrderDoc && (
+              <div className="mb-6 p-3 rounded border border-rose-900/40 bg-rose-950/10">
+                <p className="text-[9px] tracking-[0.3em] text-rose-400/70 mb-2">MARGINALIA · CHOIR SCRIPT (HAND-INKED)</p>
+                <div className="flex flex-wrap gap-x-4 gap-y-2">
+                  {marginalia.split(' ').map((w, wi) => (
+                    <span key={wi} className="flex gap-0.5">
+                      {w.split('').map((ch, ci) => (
+                        <span key={ci} className="flex flex-col items-center">
+                          <ChoirGlyph letter={ch} size={20} color="#fb7185" />
+                          <span className="text-[9px] font-occult text-rose-300/80 h-3">{arg.knownLetters.has(ch) ? ch : ''}</span>
+                        </span>
+                      ))}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Related Entities Links */}
             <div className="border-t border-[#1a2538] pt-4 mt-6">
@@ -317,6 +416,7 @@ export const DocumentViewerModal: React.FC<DocumentViewerModalProps> = ({
             </div>
           </div>
         </div>
+        )}
       </div>
     </div>
   );
