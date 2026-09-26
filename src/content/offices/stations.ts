@@ -1,0 +1,489 @@
+import type { RegionalStation } from '@/types';
+
+export const REGIONAL_STATIONS: RegionalStation[] = [
+  {
+    id: 'st-01',
+    code: 'LON-01-HQ',
+    name: 'Global HQ - Tower Obsidian',
+    region: 'Western Europe (United Kingdom)',
+    coordinates: '51.5155° N, 0.0825° W',
+    latitude: 51.5155,
+    longitude: -0.0825,
+    facilityType: 'Corporate Tower',
+    status: 'Operational',
+    personnelCount: 1420,
+    leadPersonnelId: 'p-003',
+    leadPersonnelName: 'CEO Alistair Sterling',
+    establishedDate: '1971-04-12',
+    frequencyBand: '22.0 Hz (Architectural Anti-Resonance)',
+    description:
+      'A 54-story monolithic black-glass corporate headquarters in Bishopsgate. Features six subterranean basement levels housing master server clusters, executive crisis suites, and acoustic absorption dampeners.',
+    incidentHistory: [
+      '1987: Sub-Basement 4 electrical fire masked installation of primary carrier broadcast antenna.',
+      '2014: Structural vibration during London Crossrail excavation revealed unmapped acoustic dampers.',
+      '2023: Unauthorized recording of sub-audible HVAC drone leaked on internet forums.'
+    ],
+    activeProjects: ['Project Echo-State', 'Project Palimpsest', 'Project Vitruvian']
+  },
+  {
+    id: 'st-02',
+    code: 'VA-02-HUB',
+    name: 'North American Operational Hub - Rosslyn Sub-Complex',
+    region: 'North America (Virginia, USA)',
+    coordinates: '38.8961° N, 77.0719° W',
+    latitude: 38.8961,
+    longitude: -77.0719,
+    facilityType: 'Subterranean Bunker',
+    status: 'Operational',
+    personnelCount: 840,
+    leadPersonnelId: 'p-007',
+    leadPersonnelName: 'Dr. Naomi Chen',
+    establishedDate: '1982-08-15',
+    frequencyBand: '14.8 Hz / 432 Hz Dual Modulated',
+    description:
+      'Massive subterranean research and government consultation complex buried 45 meters beneath Rosslyn, VA. Directly connected to federal continuity networks and military acoustic research links.',
+    incidentHistory: [
+      '1994: Recall coordination center for the Reson-8 sleep device disaster.',
+      '2011: Central command node for the Oakhaven municipal acoustic trial.',
+      '2024: Low-frequency acoustic leak causes persistent hum complaints across North Arlington.'
+    ],
+    activeProjects: ['Project Vesper', 'Project Hypnos', 'Project Chime']
+  },
+  {
+    id: 'st-03',
+    code: 'TYO-03-PAC',
+    name: 'Pacific Basin Analytics - Tokyo Chiyoda Deep Tower',
+    region: 'East Asia (Japan)',
+    coordinates: '35.6895° N, 139.6917° E',
+    latitude: 35.6895,
+    longitude: 139.6917,
+    facilityType: 'Corporate Tower',
+    status: 'Operational',
+    personnelCount: 620,
+    leadPersonnelId: 'p-014',
+    leadPersonnelName: 'Dr. Kaelen Voss',
+    establishedDate: '1989-03-01',
+    frequencyBand: '60.0 Hz Power-Grid Injected Sub-Harmonic',
+    description:
+      'Towering commercial and quantitative intelligence center in Chiyoda Ward. Deep sub-levels conduct real-time behavioral sentiment mapping and power-grid harmonic entrainment for the Pacific Rim.',
+    incidentHistory: [
+      '2011: Tōhoku Earthquake telemetry captured 14.8Hz pre-seismic acoustic precursor 18 minutes prior to rupture.',
+      '2018: Pilot municipal crowd-pacification audio test in Shinjuku transit corridor.'
+    ],
+    activeProjects: ['Project Hypnos', 'Project Echo-State', 'Project Cicada']
+  },
+  {
+    id: 'st-04',
+    code: 'SVA-04-ARR',
+    name: 'Nordic Acoustic Array - Station 07',
+    region: 'Arctic (Spitsbergen, Svalbard)',
+    coordinates: '78.2232° N, 15.6267° E',
+    latitude: 78.2232,
+    longitude: 15.6267,
+    facilityType: 'Permafrost Vault',
+    status: 'Elevated Alert',
+    personnelCount: 38,
+    leadPersonnelId: 'p-018',
+    leadPersonnelName: 'Dr. Henrik Lindqvist',
+    establishedDate: '1986-11-10',
+    frequencyBand: '14.8 Hz Sub-Permafrost Harmonic Baseline',
+    description:
+      'Sub-permafrost deep research bunker and borehole array 12 km north of Longyearbyen. Intercepts anomalous planetary infrasound propagating through the Eurasian tectonic shelf.',
+    incidentHistory: [
+      '1989: Borehole 4 drill bit melted by anomalous localized thermal-acoustic resonance; Dr. Arthur Vance-Vane disavowed.',
+      '2019: Research Fellow Dr. Aris Thorne leaks 48GB classified telemetry (Project Palimpsest).',
+      '2024: Seismic amplitude surge exceeds baseline threshold by 18.4%.'
+    ],
+    activeProjects: ['Project Boreas', 'Project Palimpsest', 'Project Monolith']
+  },
+  {
+    id: 'st-05',
+    code: 'CHI-05-ALT',
+    name: 'High-Altitude Infrasound Array - Atacama Trench Station',
+    region: 'South America (Atacama, Chile)',
+    coordinates: '23.8634° S, 69.1328° W',
+    latitude: -23.8634,
+    longitude: -69.1328,
+    facilityType: 'High-Altitude Sensor',
+    status: 'Operational',
+    personnelCount: 45,
+    leadPersonnelId: 'p-019',
+    leadPersonnelName: 'Dr. Soraya Morales',
+    establishedDate: '1995-04-12',
+    frequencyBand: '4.2 Hz Atmospheric Standing Pillar',
+    description:
+      'Cryogenic microbarometer array located at 4,800m elevation in the Atacama Desert. Tracks planetary acoustic refraction in the upper stratosphere and seismic infrasound.',
+    incidentHistory: [
+      '2003: Discovered the "Atacama Pillar", a stationary 4.2Hz atmospheric column.',
+      '2021: Optical micro-refractions from the array disrupted adjacent astronomical observatories.'
+    ],
+    activeProjects: ['Project Boreas', 'Project Stentor']
+  },
+  {
+    id: 'st-06',
+    code: 'UT-06-CNT',
+    name: 'Sub-Basin Containment Facility - Site 19',
+    region: 'North America (Utah, USA)',
+    coordinates: '41.1158° N, 112.8711° W',
+    latitude: 41.1158,
+    longitude: -112.8711,
+    facilityType: 'Subterranean Bunker',
+    status: 'Under Containment',
+    personnelCount: 310,
+    leadPersonnelId: 'p-012',
+    leadPersonnelName: 'Chief Engineer Sarah Lin',
+    establishedDate: '1979-09-20',
+    frequencyBand: '32.4 Hz Heavy Structural Containment Tone',
+    description:
+      'A 600-meter deep subterranean containment complex constructed in the salt flats west of the Great Salt Lake. Houses heavy acoustic damping jacks and deep-crust seismic dampeners.',
+    incidentHistory: [
+      '1998: Chamber 02 acoustic breach caused spontaneous structural liquefaction in test bedrock.',
+      '2023: Sub-Level 6 micro-fracture required 40,000 tons of acoustic dampening polymer injection.'
+    ],
+    activeProjects: ['Project Janitor', 'Project Stentor', 'Project Stillwater']
+  },
+  {
+    id: 'st-07',
+    code: 'YK-07-BOR',
+    name: 'Sub-Boreal Propagation Array - Yellowknife Sub-Permafrost Lab',
+    region: 'North America (Northwest Territories, Canada)',
+    coordinates: '62.4540° N, 114.3718° W',
+    latitude: 62.454,
+    longitude: -114.3718,
+    facilityType: 'Permafrost Vault',
+    status: 'Operational',
+    personnelCount: 88,
+    leadPersonnelId: 'p-020',
+    leadPersonnelName: 'Dr. Marcus Vance-Saito',
+    establishedDate: '1992-06-18',
+    frequencyBand: '18.2 Hz Boreal Waveguide',
+    description:
+      'Subterranean bio-acoustic research facility and medical quarantine center constructed within an abandoned gold mine shaft in the Canadian Shield.',
+    incidentHistory: [
+      '2020: Enforced 30-day quarantine of Station 07 transfer personnel exhibiting Stage-3 acoustic dissociation.',
+      '2022: Developed Compound 88-T pharmaceutical ear-drops.'
+    ],
+    activeProjects: ['Project Morpheus', 'Project Boreas']
+  },
+  {
+    id: 'st-08',
+    code: 'SWI-08-RED',
+    name: 'European Civic Continuity Bunker - Swiss Alps Redoubt',
+    region: 'Western Europe (Grimsel Pass, Switzerland)',
+    coordinates: '46.5721° N, 8.3340° E',
+    latitude: 46.5721,
+    longitude: 8.334,
+    facilityType: 'Subterranean Bunker',
+    status: 'Operational',
+    personnelCount: 160,
+    leadPersonnelId: 'p-010',
+    leadPersonnelName: 'Mara Finch',
+    establishedDate: '1984-10-05',
+    frequencyBand: '528 Hz Harmonic Stabilization Field',
+    description:
+      'Primary European executive redoubt tunneled 1,200 meters into solid granite beneath Grimsel Pass. Self-sustaining for 720 days with sovereign continuity communications arrays.',
+    incidentHistory: [
+      '2021: Completed the 90-day "Silent Cohort" complete isolation test without external air exchange.',
+      '2024: Completed transfer of Tier-1 Heritage Cohort biometric seed vaults.'
+    ],
+    activeProjects: ['Project Aethelgard', 'Project Stillwater']
+  },
+  {
+    id: 'st-09',
+    code: 'DG-09-HYD',
+    name: 'Indian Ocean Submerged Monitor - Diego Garcia Hydrophone 12',
+    region: 'Indian Ocean (Diego Garcia Trench)',
+    coordinates: '7.3195° S, 72.4229° E',
+    latitude: -7.3195,
+    longitude: 72.4229,
+    facilityType: 'Seabed Hydrophone',
+    status: 'Operational',
+    personnelCount: 24,
+    leadPersonnelId: 'p-025',
+    leadPersonnelName: 'Dr. Tariq Al-Mansoor',
+    establishedDate: '2001-12-04',
+    frequencyBand: '54.0 Hz Abyssal Trench Pulse',
+    description:
+      'Abyssal hydrophone listening platform anchored at 5,400 meters depth in the Chagos Trench. Monitors deep oceanic acoustic channels and submerged lithospheric resonance.',
+    incidentHistory: [
+      '2014: Hydrophone 12 captured unexplained 18-minute rhythmic acoustic pulse from the mantle.',
+      '2023: Signal source confirmed at 8,400 meters sub-seabed strata.'
+    ],
+    activeProjects: ['Project Monolith', 'Project Stentor']
+  },
+  {
+    id: 'st-10',
+    code: 'SLO-10-ARC',
+    name: 'Balkan Harmonic Calibration Center - Postojna Caverns',
+    region: 'Eastern Europe (Slovenia)',
+    coordinates: '45.7828° N, 14.2045° E',
+    latitude: 45.7828,
+    longitude: 14.2045,
+    facilityType: 'Subterranean Bunker',
+    status: 'Operational',
+    personnelCount: 95,
+    leadPersonnelId: 'p-023',
+    leadPersonnelName: 'Cassian Drake',
+    establishedDate: '1998-03-22',
+    frequencyBand: '7.83 Hz Schumann Resonator Array',
+    description:
+      'Deep limestone cavern repository housing GPC’s physical historical archive vaults, analog master tapes, and acoustic frequency calibration chambers.',
+    incidentHistory: [
+      '2019: Archivist Julian Thorne purged following unauthorized access to 1989 Station 07 master logs.',
+      '2020: Installed automated document hash re-encoders for real-time redaction enforcement.'
+    ],
+    activeProjects: ['Project Palimpsest', 'Project Janitor']
+  },
+  {
+    id: 'st-11',
+    code: 'KEN-11-EQU',
+    name: 'Equatorial Infrasonic Array - Mount Kenya Observatory',
+    region: 'Sub-Saharan Africa (Kenya)',
+    coordinates: '0.1521° S, 37.3084° E',
+    latitude: -0.1521,
+    longitude: 37.3084,
+    facilityType: 'High-Altitude Sensor',
+    status: 'Operational',
+    personnelCount: 32,
+    leadPersonnelId: 'p-018',
+    leadPersonnelName: 'Dr. Henrik Lindqvist',
+    establishedDate: '2006-05-18',
+    frequencyBand: '11.4 Hz Equatorial Ducting',
+    description:
+      'High-altitude equatorial acoustic array monitoring the Great Rift Valley fracture corridor and global acoustic ducting.',
+    incidentHistory: [
+      '2017: Recorded acoustic coupling between Rift Valley tectonic shift and ionospheric plasma density.'
+    ],
+    activeProjects: ['Project Stentor', 'Project Boreas']
+  },
+  {
+    id: 'st-12',
+    code: 'SWE-12-BAL',
+    name: 'Baltic Infrasonic Array - Gotland Deep Sensor 4',
+    region: 'Northern Europe (Gotland, Sweden)',
+    coordinates: '57.4992° N, 18.5074° E',
+    latitude: 57.4992,
+    longitude: 18.5074,
+    facilityType: 'Subterranean Bunker',
+    status: 'Operational',
+    personnelCount: 42,
+    leadPersonnelId: 'p-018',
+    leadPersonnelName: 'Dr. Henrik Lindqvist',
+    establishedDate: '1999-07-14',
+    frequencyBand: '19.8 Hz Baltic Baseline',
+    description:
+      'Subterranean bedrock listening sensor monitoring Baltic basin acoustic vibrations and regional municipal grid harmonics.',
+    incidentHistory: ['2015: Detected clandestine acoustic probe testing in international waters.'],
+    activeProjects: ['Project Vesper', 'Project Boreas']
+  },
+  {
+    id: 'st-13',
+    code: 'AUS-13-RED',
+    name: 'Australasian Continuity Depot - Woomera Redoubt',
+    region: 'Oceania (South Australia)',
+    coordinates: '31.1999° S, 136.8258° E',
+    latitude: -31.1999,
+    longitude: 136.8258,
+    facilityType: 'Subterranean Bunker',
+    status: 'Operational',
+    personnelCount: 110,
+    leadPersonnelId: 'p-010',
+    leadPersonnelName: 'Mara Finch',
+    establishedDate: '1991-11-20',
+    frequencyBand: '432 Hz Southern Hemisphere Harmonic',
+    description:
+      'Deep-desert subterranean continuity depot and hardware manufacturing vault located within the Woomera Prohibited Area.',
+    incidentHistory: ['2002: Testing of high-power acoustic crowd dispersal arrays.'],
+    activeProjects: ['Project Aethelgard', 'Project Cicada']
+  },
+  {
+    id: 'st-14',
+    code: 'TDC-14-OCN',
+    name: 'South Atlantic Hydrophone Array - Tristan da Cunha Post 02',
+    region: 'South Atlantic (Tristan da Cunha)',
+    coordinates: '37.1052° S, 12.2777° W',
+    latitude: -37.1052,
+    longitude: -12.2777,
+    facilityType: 'Seabed Hydrophone',
+    status: 'Operational',
+    personnelCount: 18,
+    leadPersonnelId: 'p-025',
+    leadPersonnelName: 'Dr. Tariq Al-Mansoor',
+    establishedDate: '2008-02-11',
+    frequencyBand: '8.1 Hz Deep Atlantic Resonator',
+    description:
+      'Most isolated ocean acoustic sensor station on Earth. Monitors deep South Atlantic ocean channels and South Atlantic Magnetic Anomaly coupling.',
+    incidentHistory: [
+      '2019: Recorded spontaneous synchronization of oceanic hydrophones across 6,000 km baseline.'
+    ],
+    activeProjects: ['Project Monolith']
+  },
+  {
+    id: 'st-15',
+    code: 'NV-15-MOJ',
+    name: 'Mojave Acoustic Propagation Corridor - Sector 44',
+    region: 'North America (Nevada, USA)',
+    coordinates: '36.8282° N, 115.9840° W',
+    latitude: 36.8282,
+    longitude: -115.984,
+    facilityType: 'Subterranean Bunker',
+    status: 'Operational',
+    personnelCount: 140,
+    leadPersonnelId: 'p-012',
+    leadPersonnelName: 'Chief Engineer Sarah Lin',
+    establishedDate: '1985-09-08',
+    frequencyBand: '14.8 Hz High-Power Carrier Array',
+    description:
+      'Surface transducer corridor and underground testing grid spanning 80 miles of desert basin. Testbed for Project Vesper and Stentor.',
+    incidentHistory: [
+      '1991: Full-power broadcast test triggered localized wildlife disorientation across 400 square miles.'
+    ],
+    activeProjects: ['Project Vesper', 'Project Stentor']
+  },
+  {
+    id: 'st-16',
+    code: 'WV-16-APP',
+    name: 'Appalachian Seismic-Acoustic Station - Black Ridge',
+    region: 'North America (West Virginia, USA)',
+    coordinates: '38.1245° N, 81.3481° W',
+    latitude: 38.1245,
+    longitude: -81.3481,
+    facilityType: 'Subterranean Bunker',
+    status: 'Operational',
+    personnelCount: 65,
+    leadPersonnelId: 'p-029',
+    leadPersonnelName: 'Dr. Clara Zimmerman',
+    establishedDate: '2004-10-18',
+    frequencyBand: '42.0 Hz Coal Seam Resonant Node',
+    description:
+      'Subterranean seismic and acoustic monitoring lab built into a decommissioned deep coal mine complex in the Appalachian Mountains.',
+    incidentHistory: [
+      '2020: Captured the "Black Ridge Singing Seam" audio recording during deep hydraulic fracturing.'
+    ],
+    activeProjects: ['Project Stentor', 'Project Stillwater']
+  },
+  {
+    id: 'st-17',
+    code: 'SIB-17-TIK',
+    name: 'Siberian Boundary Station - Tiksi Sub-Zero Post',
+    region: 'Northern Asia (Siberia)',
+    coordinates: '71.6872° N, 128.8694° E',
+    latitude: 71.6872,
+    longitude: 128.8694,
+    facilityType: 'Permafrost Vault',
+    status: 'Operational',
+    personnelCount: 52,
+    leadPersonnelId: 'p-024',
+    leadPersonnelName: 'Mikhail Volkov',
+    establishedDate: '2012-11-05',
+    frequencyBand: '14.8 Hz Polar East Baseline',
+    description:
+      'Extreme-environment permafrost research station on the shore of the Laptev Sea. Houses 12,000m deep seismic sensor strings.',
+    incidentHistory: ['2025: Subterranean thermal surge recorded in Borehole 8.'],
+    activeProjects: ['Project Boreas', 'Project Monolith']
+  },
+  {
+    id: 'st-18',
+    code: 'CAY-18-TRO',
+    name: 'Caribbean Acoustic Depth Laboratory - Cayman Trough Platform 9',
+    region: 'Caribbean (Cayman Trench)',
+    coordinates: '18.9822° N, 81.4211° W',
+    latitude: 18.9822,
+    longitude: -81.4211,
+    facilityType: 'Seabed Hydrophone',
+    status: 'Operational',
+    personnelCount: 35,
+    leadPersonnelId: 'p-025',
+    leadPersonnelName: 'Dr. Tariq Al-Mansoor',
+    establishedDate: '2015-01-20',
+    frequencyBand: '72.0 Hz Deep Trench Chime',
+    description:
+      'Submerged deep-water laboratory moored at 6,000m depth in the Cayman Trench. Researches sound velocity profiles and thermal acoustic anomalies.',
+    incidentHistory: ['2021: Discovered acoustic focusing lens effect created by underwater thermal vents.'],
+    activeProjects: ['Project Stillwater', 'Project Monolith']
+  },
+  {
+    id: 'st-19',
+    code: 'AZO-19-MAR',
+    name: 'Mid-Atlantic Ridge Array Node 14 - Azores Seabed Station',
+    region: 'Atlantic Ocean (Azores)',
+    coordinates: '38.5321° N, 28.6210° W',
+    latitude: 38.5321,
+    longitude: -28.621,
+    facilityType: 'Seabed Hydrophone',
+    status: 'Operational',
+    personnelCount: 28,
+    leadPersonnelId: 'p-038',
+    leadPersonnelName: 'Kasper Vang',
+    establishedDate: '2017-06-20',
+    frequencyBand: '16.4 Hz Spreading Ridge Harmonic',
+    description:
+      'Seafloor fiber-optic monitoring station attached to the Mid-Atlantic spreading ridge. Measures low-frequency acoustic coupling with continental power systems.',
+    incidentHistory: [
+      '2022: Recorded transatlantic harmonic resonance loop linking European and North American power grids.'
+    ],
+    activeProjects: ['Project Monolith', 'Project Stentor']
+  },
+  {
+    id: 'st-20',
+    code: 'JEJ-20-VAU',
+    name: 'East Asian Continuity Facility - Jeju Island Deep Vault',
+    region: 'East Asia (South Korea)',
+    coordinates: '33.4996° N, 126.5312° E',
+    latitude: 33.4996,
+    longitude: 126.5312,
+    facilityType: 'Subterranean Bunker',
+    status: 'Operational',
+    personnelCount: 190,
+    leadPersonnelId: 'p-014',
+    leadPersonnelName: 'Dr. Kaelen Voss',
+    establishedDate: '2016-08-14',
+    frequencyBand: '432 Hz Regional Stabilizer',
+    description:
+      'Subterranean volcanic lava tube redoubt engineered for regional continuity and executive preservation during Pacific Rim crises.',
+    incidentHistory: ['2023: Completed integration of East Asian high-speed demographic data pipelines.'],
+    activeProjects: ['Project Aethelgard', 'Project Hypnos']
+  },
+  {
+    id: 'st-21',
+    code: 'KGL-21-DEM',
+    name: 'Sub-Saharan Demographic Monitor - Kigali Urban Lab',
+    region: 'Sub-Saharan Africa (Rwanda)',
+    coordinates: '1.9441° S, 30.0619° E',
+    latitude: -1.9441,
+    longitude: 30.0619,
+    facilityType: 'Corporate Tower',
+    status: 'Operational',
+    personnelCount: 75,
+    leadPersonnelId: 'p-039',
+    leadPersonnelName: 'Dr. Rebecca Osei',
+    establishedDate: '2016-01-18',
+    frequencyBand: '24.8 Hz Urban Baseline',
+    description:
+      'Urban demographic research and mobile network frequency analysis center monitoring high-density population movements across East Africa.',
+    incidentHistory: [
+      '2022: Tested ambient mobile carrier frequency acoustic alerts during public health simulations.'
+    ],
+    activeProjects: ['Project Echo-State', 'Project Chime']
+  },
+  {
+    id: 'st-22',
+    code: 'PAT-22-FJD',
+    name: 'South American Continuity Center - Patagonia Fjord Station',
+    region: 'South America (Patagonia, Chile)',
+    coordinates: '45.8920° S, 73.6540° W',
+    latitude: -45.892,
+    longitude: -73.654,
+    facilityType: 'Subterranean Bunker',
+    status: 'Operational',
+    personnelCount: 50,
+    leadPersonnelId: 'p-010',
+    leadPersonnelName: 'Mara Finch',
+    establishedDate: '2018-09-12',
+    frequencyBand: '528 Hz Fjord Acoustic Trap',
+    description:
+      'Deep fjord subterranean bunker constructed into coastal granite in southern Chile. Serves as Tier-1 Southern Hemisphere biological seed repository.',
+    incidentHistory: ['2024: Completed installation of deep-water hydro-acoustic tidal generator.'],
+    activeProjects: ['Project Aethelgard', 'Project Stillwater']
+  }
+];

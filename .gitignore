@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 .vite-source-tags.js
 .vercel
+
+coverage
+.env
+.env.*
+!.env.example
