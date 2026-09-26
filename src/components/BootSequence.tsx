@@ -48,7 +48,10 @@ const SECRET_COMMANDS = [
   'thorne',
   'carrier',
   '14.8',
-  'palimpsest'
+  'palimpsest',
+  'gateway',
+  'transmission',
+  'caller'
 ];
 
 const TONE_CLASS: Record<Tone, string> = {
@@ -200,6 +203,7 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
           addLine('  thorne ............ A. Thorne exfil log fragment', 'dim');
           addLine('  carrier ........... planetary 14.802 Hz telemetry', 'dim');
           addLine('  palimpsest ........ Project Palimpsest burst decode', 'dim');
+          addLine('  gateway ........... buffered Gateway Transmission intercept', 'dim');
           addLine('  seals ............. status of the seven seals', 'secret');
           addLine('  432-88 ............ legacy executive override (status unknown)', 'warn');
           break;
@@ -214,6 +218,20 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
             callsignResolveRef.current = null;
             resolve(callsignVal.trim() || 'GUEST_INVESTIGATOR');
           }
+          break;
+
+        case 'gateway':
+        case 'transmission':
+          sfx('unredact');
+          addLine('GATEWAY TRANSMISSION — BUFFERED INTERCEPT READY.', 'secret');
+          addLine('A SIX-VOICE SIGNAL WANTS TO BE TAPPED IN THE RIGHT ORDER.', 'secret');
+          addLine('OPEN IT VIA THE ✦ TRANSMISSION BUTTON AFTER THE BOOT, OR SEND "CALLER".', 'dim');
+          break;
+
+        case 'caller':
+          sfx('scan');
+          addLine('CALLER-ID: UNKNOWN // CH9 // SHARED NIGHTMARE RELAY', 'secret');
+          addLine('THREE TASKS BEFORE THE GATE: SEQUENCE → SIGNAL → WAVEFORM.', 'warn');
           break;
 
         case 'vesper':
@@ -397,6 +415,13 @@ export const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       triggerGlitch(300);
       await typeLine('FALLBACK KEY 01 . . . . . . . . . . . . . . . . . . . REVOKED', 'err');
       await typeLine('LITURGICAL KEY ♄♃♂☉♀☿☽ . . . . . . . . . . . . . . . . . OK', 'secret');
+
+      await guard(240);
+      triggerGlitch(160);
+      await typeLine('·-·-· SIGNAL ACQUIRED — UNTRUSTED CARRIER BUFFERED FOR OPERATOR', 'secret', {
+        instant: true
+      });
+      addLine('CH9 // "GATEWAY TRANSMISSION" — REPLAY FROM THE TOP BAR AFTER INIT', 'dim');
 
       await animBar(74, 'BINDING 22 / 22 FIELD STATIONS', 460);
       await typeLine('AETHELGARD REDOUBTS: 14 CERTIFIED // 720-DAY AUTONOMOUS', 'info', {
