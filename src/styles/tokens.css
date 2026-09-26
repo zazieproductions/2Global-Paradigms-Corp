@@ -1,0 +1,57 @@
+/* ============================================================
+   GLOBAL PARADIGMS CORP. — DESIGN TOKENS
+   Tailwind v4 theme variables. Every token becomes a utility:
+   --color-panel → bg-panel / border-panel / text-panel, etc.
+   See docs/DESIGN_SYSTEM.md before adding a token.
+   ============================================================ */
+
+@theme {
+  /* --- Surfaces (darkest → lightest) ------------------------------------ */
+  --color-void: #04060a; /* terminal wells, canvases, boot backdrop */
+  --color-canvas: #06080e; /* page background, inputs */
+  --color-inset: #070b13; /* recessed wells inside panels */
+  --color-panel: #0a0e18; /* default panel / card */
+  --color-raised: #0d131f; /* toolbars, headers, pills */
+  --color-hover: #0e1524; /* hover state of panels / rows */
+  --color-active: #182338; /* pressed / selected surfaces */
+  --color-shell: #090d14; /* top header + sidebar chrome */
+  --color-crt: #01020a; /* cold-boot CRT backdrop */
+
+  /* --- Hairlines -------------------------------------------------------- */
+  --color-line-subtle: #151f30; /* dividers inside panels */
+  --color-line: #182335; /* default panel border */
+  --color-line-strong: #1b263b; /* outer panel border, table heads */
+  --color-line-bright: #22304d; /* buttons, modal frames */
+
+  /* --- Signal colours (phosphor accents) ------------------------------- */
+  --color-signal: #00f0ff; /* primary cyan carrier */
+  --color-phosphor: #39ff14; /* status OK glow */
+  --color-alert: #ff0055; /* breach / de-scrambler active */
+
+  /* --- Contrast-tuned neutrals ------------------------------------------
+     The stock slate-500/600 fail WCAG AA on these near-black panels at
+     9–11px. Overriding the scale keeps every existing class but lifts
+     contrast: slate-500 ≥ 4.5:1 on panel & slate-800; slate-600 ≥ 4.5:1 on
+     every surface token (void → raised). */
+  --color-slate-500: #8190a5;
+  --color-slate-600: #738299;
+
+  /* --- Type scale (dense archive UI) ----------------------------------- */
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --text-nano: 8px; /* decorative HUD only — never for content */
+  --text-micro: 9px; /* badges, stamps, metadata labels */
+  --text-caption: 10px; /* metadata values, table meta, helper text */
+  --text-label: 11px; /* body copy inside panels */
+
+  /* --- Glows & elevation ----------------------------------------------- */
+  --shadow-glow-sm: 0 0 10px rgb(0 240 255 / 0.2);
+  --shadow-glow: 0 0 15px rgb(0 240 255 / 0.25);
+  --shadow-glow-lg: 0 0 50px rgb(0 240 255 / 0.2);
+  --shadow-modal: 0 0 60px rgb(0 0 0 / 0.85);
+  --shadow-bar: 0 4px 20px rgb(0 0 0 / 0.6);
+
+  /* --- Layout ---------------------------------------------------------- */
+  --spacing-header: 3.5rem; /* top application bar height */
+  --spacing-sidebar: 18rem; /* desktop sidebar width */
+}

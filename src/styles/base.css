@@ -1,0 +1,56 @@
+/* ============================================================
+   BASE — document defaults & accessibility guarantees
+   ============================================================ */
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-slate-200);
+    font-family: var(--font-mono);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Visible focus ring everywhere (inputs refine this via the `field` utility) */
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 2px;
+  }
+
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  summary {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Reduced motion: stop pulses, glitches, CRT wipes and smooth scrolling.
+   Nothing in the archive conveys information through motion alone. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .boot-scanbar,
+  .boot-glitching {
+    animation: none !important;
+  }
+}

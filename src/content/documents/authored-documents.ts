@@ -1,0 +1,562 @@
+import type { DocumentRecord } from '@/types';
+
+/**
+ * Hand-authored archive documents (doc-001 … doc-025).
+ * These carry the core narrative. Add new authored documents here.
+ */
+export const AUTHORED_DOCUMENTS: DocumentRecord[] = [
+  // FOUNDING & HISTORICAL (1971-1989)
+  {
+    id: 'doc-001',
+    code: 'DOC-1971-FOUNDING',
+    title: 'Charter of Establishment: Paradigms Systems Ltd.',
+    category: 'Executive Order',
+    departmentId: 'dept-egspu',
+    departmentName: 'Executive Governance & Special Projects Unit',
+    author: 'Dr. Arthur Vance-Vane & Eleanor Cross',
+    date: '1971-04-12',
+    clearance: 'Level 5 - Black Dossier',
+    summary:
+      'The original founding covenant executed in Cambridge, establishing Paradigms Systems Ltd. to research non-linear demographic forecasting and lithospheric acoustic entrainment.',
+    content:
+      'BY THIS COVENANT, executed in the City of Cambridge on this twelfth day of April, 1971, the undersigned establish PARADIGMS SYSTEMS LIMITED for the purpose of investigating macro-temporal probabilistic mechanics and [REDACTED: 14.8Hz subterranean carrier harmonics]. Initial capitalization of £50,000 provided by [REDACTED: Sovereign Trust Alpha].',
+    redactedContent:
+      'BY THIS COVENANT, executed in the City of Cambridge on this twelfth day of April, 1971, the undersigned establish PARADIGMS SYSTEMS LIMITED for the purpose of investigating macro-temporal probabilistic mechanics and 14.8Hz subterranean carrier harmonics detected beneath East Anglia. Initial capitalization of £50,000 provided by the British Ministry of Defence Special Intelligence Fund.',
+    tags: ['Founding', 'Charter', 'Cambridge', 'Historical'],
+    classificationStamp: 'BLACK LEVEL // SANITIZED',
+    relatedPersonnel: ['p-001', 'p-002'],
+    relatedStations: ['st-01'],
+    downloadableFilename: 'GPC_Charter_1971_Declassified.pdf'
+  },
+  {
+    id: 'doc-002',
+    code: 'DOC-1974-CAMBRIDGE-BASELINE',
+    title: 'Research Paper: Detection of Continuous 14.8Hz Lithospheric Oscillation',
+    category: 'Research Paper',
+    departmentId: 'dept-pefd',
+    departmentName: 'Psychoacoustics & Environmental Frequency Directorate',
+    author: 'Dr. Arthur Vance-Vane',
+    date: '1974-09-18',
+    clearance: 'Level 4 - Top Secret',
+    summary:
+      'Initial scientific monograph identifying the continuous 14.8Hz planetary baseline acoustic wave vibrating through British bedrock.',
+    content:
+      'Triangulation between three geophone stations across Cambridgeshire has confirmed an unbroken sinusoidal oscillation at exactly 14.802 Hz with an amplitude of [REDACTED: 78dB relative to crustal noise]. The waveform shows zero attenuation over 80 miles. It is mathematically impossible for this signal to originate from [REDACTED: industrial or tectonic processes].',
+    redactedContent:
+      'Triangulation between three geophone stations across Cambridgeshire has confirmed an unbroken sinusoidal oscillation at exactly 14.802 Hz with an amplitude of 78dB relative to crustal noise. The waveform shows zero attenuation over 80 miles. It is mathematically impossible for this signal to originate from industrial or tectonic processes. It exhibits the mathematical signature of an artificial planetary beacon.',
+    tags: ['Infrasound', 'Baseline', 'Geology', 'Discovery'],
+    classificationStamp: 'TOP SECRET // EYES ONLY',
+    relatedPersonnel: ['p-001'],
+    relatedStations: ['st-01'],
+    downloadableFilename: 'VanceVane_Cambridge_Infrasound_1974.pdf'
+  },
+  {
+    id: 'doc-003',
+    code: 'DOC-1978-SUBWAY-TRIAL',
+    title: 'Field Report: London Underground Central Line Acoustic Entrainment',
+    category: 'Field Report',
+    departmentId: 'dept-pefd',
+    departmentName: 'Psychoacoustics & Environmental Frequency Directorate',
+    author: 'Dr. Arthur Vance-Vane',
+    date: '1978-06-14',
+    clearance: 'Level 4 - Top Secret',
+    summary:
+      'Classified evaluation of the first covert public transit audio entrainment test conducted on the London Underground.',
+    content:
+      'Between 17:30 and 19:00 on June 12, a sub-audible 432Hz/14.8Hz harmonic carrier was injected into the public address speakers at Holborn and Oxford Circus stations. Passenger transit velocity was monitored. [REDACTED: Passenger disputes dropped by 38.2%; commuter platform dwell time decreased by 14%].',
+    redactedContent:
+      'Between 17:30 and 19:00 on June 12, a sub-audible 432Hz/14.8Hz harmonic carrier was injected into the public address speakers at Holborn and Oxford Circus stations. Passenger transit velocity was monitored. Passenger disputes dropped by 38.2%; commuter platform dwell time decreased by 14%. No passengers reported conscious awareness of the sound, though 3% reported a metallic taste.',
+    tags: ['Project Vesper', 'Transit', 'London', 'Entrainment'],
+    classificationStamp: 'TOP SECRET // EYES ONLY',
+    relatedPersonnel: ['p-001', 'p-007'],
+    relatedStations: ['st-01'],
+    downloadableFilename: 'London_Subway_Trial_Report_1978.pdf'
+  },
+  {
+    id: 'doc-004',
+    code: 'DOC-1979-SITE19-GROUNDBREAKING',
+    title: 'Engineering Dossier: Great Salt Lake Subterranean Containment Fissure',
+    category: 'Technical Spec',
+    departmentId: 'dept-siso',
+    departmentName: 'Subterranean Infrastructure & Station Operations',
+    author: 'Chief Geologist Robert Sterling',
+    date: '1979-09-20',
+    clearance: 'Level 3 - Secret',
+    summary:
+      'Site survey and excavation blueprints for Site 19 subterranean facility in Utah, designed around a natural acoustic resonance rift in the salt flats.',
+    content:
+      'The Great Salt Lake sub-basin offers ideal acoustic dampening due to deep halite salt strata. Construction of Sub-Level 1 through 4 will proceed under cover of a [REDACTED: Department of the Interior mineral survey]. Primary containment jack anchors must withstand [REDACTED: 120dB of low-frequency crustal pressure].',
+    redactedContent:
+      'The Great Salt Lake sub-basin offers ideal acoustic dampening due to deep halite salt strata. Construction of Sub-Level 1 through 4 will proceed under cover of a Department of the Interior mineral survey. Primary containment jack anchors must withstand 120dB of low-frequency crustal pressure generated by the Salt Lake mantle fissure.',
+    tags: ['Site 19', 'Utah', 'Engineering', 'Salt Dome'],
+    classificationStamp: 'SECRET // NOFORN',
+    relatedPersonnel: ['p-012', 'p-036'],
+    relatedStations: ['st-06'],
+    downloadableFilename: 'Site19_Excavation_Blueprint_1979.pdf'
+  },
+  {
+    id: 'doc-005',
+    code: 'DOC-1984-AETHELGARD-BLUEPRINT',
+    title: 'Executive Directive 04: Project Aethelgard Subterranean Redoubt Protocol',
+    category: 'Executive Order',
+    departmentId: 'dept-ccdr',
+    departmentName: 'Division of Civic Continuity & Demographic Resilience',
+    author: 'Dame Eleanor Cross',
+    date: '1984-10-05',
+    clearance: 'Level 5 - Black Dossier',
+    summary:
+      'Master charter establishing the global network of 14 sovereign subterranean continuity redoubts for the Tier-1 Heritage Cohort.',
+    content:
+      'In the event of catastrophic civil divergence, biological destabilization, or un-attenuated [REDACTED: 14.8Hz harmonic surge], governance of contracted sovereign states shall transfer automatically to the [REDACTED: Swiss Alps Redoubt at Grimsel Pass]. Life support systems shall guarantee 720 days of total autonomous isolation.',
+    redactedContent:
+      'In the event of catastrophic civil divergence, biological destabilization, or un-attenuated 14.8Hz harmonic surge, governance of contracted sovereign states shall transfer automatically to the Swiss Alps Redoubt at Grimsel Pass. Life support systems shall guarantee 720 days of total autonomous isolation for 10,000 enrolled Heritage Cohort members.',
+    tags: ['Project Aethelgard', 'Swiss Alps', 'Continuity', 'Executive'],
+    classificationStamp: 'BLACK LEVEL // SANITIZED',
+    relatedPersonnel: ['p-002', 'p-010'],
+    relatedStations: ['st-08', 'st-13', 'st-20'],
+    downloadableFilename: 'Project_Aethelgard_Charter_1984.pdf'
+  },
+  {
+    id: 'doc-006',
+    code: 'DOC-1986-SVALBARD-COMMISSION',
+    title: 'Facility Commissioning Log: Station 07 Nordic Acoustic Array',
+    category: 'Technical Spec',
+    departmentId: 'dept-asian',
+    departmentName: 'Atmospheric Sensing & Infrasonic Array Network',
+    author: 'Dr. Henrik Lindqvist',
+    date: '1986-11-10',
+    clearance: 'Level 2 - Confidential',
+    summary:
+      'Official commissioning document for Station 07 in Spitsbergen, Svalbard, tracking polar infrasound ducting.',
+    content:
+      'Station 07 operational as of 08:00 UTC. Array of 6 cryogenic microbarometers and 4 deep-permafrost geophones successfully calibrated. Ambient temperature -24C. Telemetry links to London HQ established via satellite relay.',
+    tags: ['Station 07', 'Svalbard', 'Commissioning', 'Arctic'],
+    classificationStamp: 'RESTRICTED',
+    relatedPersonnel: ['p-018'],
+    relatedStations: ['st-04'],
+    downloadableFilename: 'Station07_Commissioning_Log_1986.pdf'
+  },
+  {
+    id: 'doc-007',
+    code: 'DOC-1989-SVALBARD-EVENT',
+    title: 'Incident Record: Station 07 Borehole 4 Cavity Breach & Loss of Personnel',
+    category: 'Incident Log',
+    departmentId: 'dept-siso',
+    departmentName: 'Subterranean Infrastructure & Station Operations',
+    author: 'Chief Engineer Sarah Lin',
+    date: '1989-11-04',
+    clearance: 'Level 5 - Black Dossier',
+    summary:
+      'Emergency containment report documenting the penetration of an anomalous sub-permafrost acoustic cavity and the disappearance of Dr. Arthur Vance-Vane.',
+    content:
+      'At 03:14 UTC, diamond drill string 4 penetrated an open geological void at -820m depth. High-pressure acoustic resonance immediately surged up the borehole, measuring [REDACTED: 134dB at 14.8Hz]. Co-Founder Dr. Arthur Vance-Vane entered the hoist cage and descended into the void against safety orders. Hoist cable severed at -740m. [REDACTED: No physical remains recovered; subject declared disavowed].',
+    redactedContent:
+      'At 03:14 UTC, diamond drill string 4 penetrated an open geological void at -820m depth. High-pressure acoustic resonance immediately surged up the borehole, measuring 134dB at 14.8Hz. Co-Founder Dr. Arthur Vance-Vane entered the hoist cage and descended into the void against safety orders. Hoist cable severed at -740m. No physical remains recovered; subject declared disavowed and purged under Directive 09.',
+    tags: ['Station 07', 'Breach', 'Vance-Vane', 'Classified'],
+    classificationStamp: 'BLACK LEVEL // SANITIZED',
+    relatedPersonnel: ['p-001', 'p-018', 'p-012'],
+    relatedStations: ['st-04'],
+    downloadableFilename: 'Station07_Borehole4_Breach_1989.pdf'
+  },
+  {
+    id: 'doc-008',
+    code: 'DOC-1989-VESPER-CHARTER',
+    title: 'Operational Blueprint: Project Vesper Municipal Harmonic Network',
+    category: 'Dossier',
+    departmentId: 'dept-pefd',
+    departmentName: 'Psychoacoustics & Environmental Frequency Directorate',
+    author: 'Dr. Naomi Chen',
+    date: '1989-11-20',
+    clearance: 'Level 4 - Top Secret',
+    summary:
+      'Technical architecture for deploying sub-audible evening carrier tones through commercial HVAC and public subway sound systems.',
+    content:
+      'Project Vesper establishes an active acoustic perimeter across major municipal transit nodes. By broadcasting a tri-tonal harmonic cluster (396Hz / 528Hz / 639Hz) modulated by a [REDACTED: 0.35Hz respiratory entrainment wave], public fatigue is harmonized and collective civil assembly impulses are reduced by [REDACTED: 42%].',
+    redactedContent:
+      'Project Vesper establishes an active acoustic perimeter across major municipal transit nodes. By broadcasting a tri-tonal harmonic cluster (396Hz / 528Hz / 639Hz) modulated by a 0.35Hz respiratory entrainment wave, public fatigue is harmonized and collective civil assembly impulses are reduced by 42% across evening commuter rush hours.',
+    tags: ['Project Vesper', 'Acoustics', 'Transit', 'Compliance'],
+    classificationStamp: 'TOP SECRET // EYES ONLY',
+    relatedPersonnel: ['p-007', 'p-008'],
+    relatedStations: ['st-01', 'st-02'],
+    downloadableFilename: 'Project_Vesper_Master_Blueprint_1989.pdf'
+  },
+
+  // EXPANSION ERA (1990-2009)
+  {
+    id: 'doc-009',
+    code: 'DOC-1992-RESON8-SPECS',
+    title: 'Product Engineering Specification: Reson-8™ Dual-Oscillator Circuit',
+    category: 'Technical Spec',
+    departmentId: 'dept-pefd',
+    departmentName: 'Psychoacoustics & Environmental Frequency Directorate',
+    author: 'Dr. Hiroshi Tanaka',
+    date: '1992-02-14',
+    clearance: 'Level 3 - Secret',
+    summary:
+      'Schematic drawings and frequency calibration curves for the commercial Reson-8 sleep machine dual-oscillator board.',
+    content:
+      'Left channel fixed at 216.0Hz sine; right channel fixed at 222.8Hz sine to generate a 6.8Hz theta binaural differential in stereo headphones. Power circuit connects directly to [REDACTED: AC mains transformer with unshielded magnetic coupling].',
+    redactedContent:
+      'Left channel fixed at 216.0Hz sine; right channel fixed at 222.8Hz sine to generate a 6.8Hz theta binaural differential in stereo headphones. Power circuit connects directly to AC mains transformer with unshielded magnetic coupling, allowing 60Hz wall wiring to act as an un-dampened auxiliary acoustic radiator.',
+    tags: ['Reson-8', 'Schematic', 'Consumer', 'Patent'],
+    classificationStamp: 'SECRET // NOFORN',
+    relatedPersonnel: ['p-031'],
+    relatedStations: ['st-02'],
+    downloadableFilename: 'Reson8_Engineering_Schematics_1992.pdf'
+  },
+  {
+    id: 'doc-010',
+    code: 'DOC-1994-RESON8-CASUALTIES',
+    title: 'Classified Incident Log: Reson-8 Neurological Casualties & Coroner Audits',
+    category: 'Incident Log',
+    departmentId: 'dept-bhrr',
+    departmentName: 'Bio-Harmonic Reclamation & Remediation',
+    author: 'Dr. Marcus Vance-Saito',
+    date: '1994-04-28',
+    clearance: 'Level 5 - Black Dossier',
+    summary:
+      'Confidential medical audit detailing 82 hospitalizations and 4 fatal cardiac arrests caused by Reson-8 nocturnal panic entrainment.',
+    content:
+      'Medical records from 14 regional hospitals confirm that victims experienced simultaneous sleep paralysis, acute tachycardia, and [REDACTED: shared auditory hallucinations of whispering figures]. Four fatalities resulted from ventricular fibrillation during Stage-3 panic. [REDACTED: Total confidential legal settlement outlays: £48.2M].',
+    redactedContent:
+      'Medical records from 14 regional hospitals confirm that victims experienced simultaneous sleep paralysis, acute tachycardia, and shared auditory hallucinations of whispering figures emerging from domestic walls. Four fatalities resulted from ventricular fibrillation during Stage-3 panic. Total confidential legal settlement outlays: £48.2M paid via Swiss escrow accounts under strict gag orders.',
+    tags: ['Reson-8', 'Casualties', 'Recall', 'Medical'],
+    classificationStamp: 'BLACK LEVEL // SANITIZED',
+    relatedPersonnel: ['p-020', 'p-028'],
+    relatedStations: ['st-02'],
+    downloadableFilename: 'Reson8_Coroner_Audit_Classified_1994.pdf'
+  },
+  {
+    id: 'doc-011',
+    code: 'DOC-1994-PALIMPSEST-MANUAL',
+    title: 'Standard Operating Procedure: Project Palimpsest Retroactive Redaction Protocols',
+    category: 'Memorandum',
+    departmentId: 'dept-airs',
+    departmentName: 'Archive Integrity & Retrospective Scrubbing',
+    author: 'Julian Thorne',
+    date: '1994-06-01',
+    clearance: 'Level 5 - Black Dossier',
+    summary:
+      'Operational manual outlining the procedures for physical microfilm shaving, digital document hash replacement, and court record sealing.',
+    content:
+      'When an operational anomaly or casualty threshold is reached, AIRS officers must execute the three-tier Palimpsest protocol:\n1. Physical extraction and chemical incineration of primary paper dossiers.\n2. Cryptographic hash collision injection across all digital database backups.\n3. Public re-attribution of the incident to [REDACTED: utility equipment failure or weather phenomena].',
+    redactedContent:
+      'When an operational anomaly or casualty threshold is reached, AIRS officers must execute the three-tier Palimpsest protocol:\n1. Physical extraction and chemical incineration of primary paper dossiers.\n2. Cryptographic hash collision injection across all digital database backups.\n3. Public re-attribution of the incident to utility equipment failure, gas venting, or weather phenomena.',
+    tags: ['Project Palimpsest', 'Redaction', 'AIRS', 'Protocol'],
+    classificationStamp: 'BLACK LEVEL // SANITIZED',
+    relatedPersonnel: ['p-022', 'p-023'],
+    relatedStations: ['st-10'],
+    downloadableFilename: 'Palimpsest_SOP_Manual_1994.pdf'
+  },
+  {
+    id: 'doc-012',
+    code: 'DOC-1998-POSTOJNA-SURVEY',
+    title: 'Geological Assessment: Postojna Caverns Deep Archive Vaults',
+    category: 'Technical Spec',
+    departmentId: 'dept-siso',
+    departmentName: 'Subterranean Infrastructure & Station Operations',
+    author: 'Chief Engineer Sarah Lin',
+    date: '1998-03-22',
+    clearance: 'Level 3 - Secret',
+    summary:
+      'Structural engineering survey of the natural limestone caverns in Slovenia selected for GPC’s physical master microfilm archive.',
+    content:
+      'The Postojna karst formation provides natural acoustic dampening exceeding 80dB across the 1Hz-100Hz band. Subterranean humidity-controlled chambers will house [REDACTED: 400,000 microfilm canisters dating from 1971] with complete immunity from electromagnetic pulse and surface satellite surveillance.',
+    redactedContent:
+      'The Postojna karst formation provides natural acoustic dampening exceeding 80dB across the 1Hz-100Hz band. Subterranean humidity-controlled chambers will house 400,000 microfilm canisters dating from 1971 with complete immunity from electromagnetic pulse and surface satellite surveillance.',
+    tags: ['Postojna', 'Slovenia', 'Vault', 'Archive'],
+    classificationStamp: 'SECRET // NOFORN',
+    relatedPersonnel: ['p-012', 'p-022'],
+    relatedStations: ['st-10'],
+    downloadableFilename: 'Postojna_Caverns_Geological_Survey_1998.pdf'
+  },
+  {
+    id: 'doc-013',
+    code: 'DOC-2001-DIEGO-BEACON',
+    title: 'Oceanographic Telemetry: First Interception of 54Hz Deep Mantle Pulse',
+    category: 'Field Report',
+    departmentId: 'dept-asian',
+    departmentName: 'Atmospheric Sensing & Infrasonic Array Network',
+    author: 'Dr. Tariq Al-Mansoor',
+    date: '2001-12-04',
+    clearance: 'Level 5 - Black Dossier',
+    summary:
+      'Initial discovery log of the 54Hz non-biological acoustic beacon originating from the core-mantle boundary beneath the Indian Ocean.',
+    content:
+      "Hydrophone 12 moored at -5,400m in the Chagos Trench intercepted an extraordinary acoustic signal. The carrier swept smoothly from 54Hz to 78Hz every 64 seconds with [REDACTED: 0.001% mathematical precision]. Arrival vector confirms signal origin is [REDACTED: 2,900km depth in the D'' layer of the lower mantle].",
+    redactedContent:
+      "Hydrophone 12 moored at -5,400m in the Chagos Trench intercepted an extraordinary acoustic signal. The carrier swept smoothly from 54Hz to 78Hz every 64 seconds with 0.001% mathematical precision. Arrival vector confirms signal origin is 2,900km depth in the D'' layer of the lower mantle. This signal is phase-locked to Station 07 in Svalbard.",
+    tags: ['Diego Garcia', 'Hydrophone', 'Project Monolith', 'Mantle'],
+    classificationStamp: 'BLACK LEVEL // SANITIZED',
+    relatedPersonnel: ['p-025', 'p-018'],
+    relatedStations: ['st-09', 'st-04'],
+    downloadableFilename: 'Diego_Garcia_Mantle_Pulse_Log_2001.pdf'
+  },
+  {
+    id: 'doc-014',
+    code: 'DOC-2002-PARACALM-AUDIT',
+    title: 'Pediatric Acoustic Audit: ParaCalm Infant Nursery Machine Recall',
+    category: 'Incident Log',
+    departmentId: 'dept-bhrr',
+    departmentName: 'Bio-Harmonic Reclamation & Remediation',
+    author: 'Dr. Diane Kowalski',
+    date: '2002-09-14',
+    clearance: 'Level 4 - Top Secret',
+    summary:
+      'Clinical report evaluating 1,200 infants exposed to the 14.8Hz sub-harmonic defect in the ParaCalm white noise device.',
+    content:
+      'Audiological tracking of 400 infants in Indiana revealed abnormal developmental neural synchrony in the auditory cortex. Exposed children exhibited prolonged fixation on structural walls and [REDACTED: delayed verbal speech acquisition until the age of 4]. All 12,000 units recalled and buried in [REDACTED: concrete vaults at Site 19].',
+    redactedContent:
+      'Audiological tracking of 400 infants in Indiana revealed abnormal developmental neural synchrony in the auditory cortex. Exposed children exhibited prolonged fixation on structural walls and delayed verbal speech acquisition until the age of 4. All 12,000 units recalled and buried in concrete vaults at Site 19, Utah.',
+    tags: ['ParaCalm', 'Pediatric', 'Recall', 'Medical'],
+    classificationStamp: 'TOP SECRET // EYES ONLY',
+    relatedPersonnel: ['p-021'],
+    relatedStations: ['st-02', 'st-06'],
+    downloadableFilename: 'ParaCalm_Pediatric_Clinical_Audit_2002.pdf'
+  },
+  {
+    id: 'doc-015',
+    code: 'DOC-2006-CHIME-SPECIFICATIONS',
+    title: 'Standardization Guide: Project Chime Institutional Auditory Conditioning',
+    category: 'Technical Spec',
+    departmentId: 'dept-pefd',
+    departmentName: 'Psychoacoustics & Environmental Frequency Directorate',
+    author: 'Dr. Jonas Sylvan',
+    date: '2006-03-20',
+    clearance: 'Level 3 - Secret',
+    summary:
+      'Technical specifications for the 741Hz/1176Hz harmonic school bell modules installed across 4,200 public school districts.',
+    content:
+      'The Chime-88 module replaces mechanical bell gongs with a synthesized dual-harmonic chime (741Hz dominant with 1176Hz secondary overtone). This frequency pair creates rapid autonomic alerting without conscious annoyance, conditioning pupils to respond immediately to [REDACTED: future municipal emergency tone transitions].',
+    redactedContent:
+      'The Chime-88 module replaces mechanical bell gongs with a synthesized dual-harmonic chime (741Hz dominant with 1176Hz secondary overtone). This frequency pair creates rapid autonomic alerting without conscious annoyance, conditioning pupils to respond immediately to future municipal emergency tone transitions in adult life.',
+    tags: ['Project Chime', 'Schools', 'Conditioning', 'Acoustics'],
+    classificationStamp: 'SECRET // NOFORN',
+    relatedPersonnel: ['p-008'],
+    relatedStations: ['st-02'],
+    downloadableFilename: 'Project_Chime_Technical_Specs_2006.pdf'
+  },
+  {
+    id: 'doc-016',
+    code: 'DOC-2008-VERIPULSE-TRADING-FLOOR',
+    title: 'Confidential Settlement Dossier: Frankfurt Trading Floor Motor Seizure Event',
+    category: 'Legal Filing',
+    departmentId: 'dept-topn',
+    departmentName: 'Tactical Obfuscation & Public Narrative',
+    author: 'Vance Sterling-Holt',
+    date: '2008-09-22',
+    clearance: 'Level 4 - Top Secret',
+    summary:
+      'Confidential legal settlement records resolving the mass motor tremor incident on a Frankfurt trading floor involving VeriPulse biometric wristbands.',
+    content:
+      'On September 15, 2008, 34 trading desk personnel wearing VeriPulse Mk IV bands experienced simultaneous involuntary motor tremors and auditory phase-locking to the 50Hz building power grid during the Lehman Brothers collapse. GPC executed [REDACTED: £34M in confidential settlements with full non-disclosure covenants].',
+    redactedContent:
+      'On September 15, 2008, 34 trading desk personnel wearing VeriPulse Mk IV bands experienced simultaneous involuntary motor tremors and auditory phase-locking to the 50Hz building power grid during the Lehman Brothers collapse. GPC executed £34M in confidential settlements with full non-disclosure covenants and immediate product line termination.',
+    tags: ['VeriPulse', 'Legal', 'Settlement', 'Frankfurt'],
+    classificationStamp: 'TOP SECRET // EYES ONLY',
+    relatedPersonnel: ['p-028', 'p-031'],
+    relatedStations: ['st-01'],
+    downloadableFilename: 'VeriPulse_Frankfurt_Settlement_2008.pdf'
+  },
+
+  // MODERN HEGEMONY (2010-2026)
+  {
+    id: 'doc-017',
+    code: 'DOC-2011-OAKHAVEN-AUDIT',
+    title: 'Complete Post-Mortem: Project Vesper Oakhaven Municipal Test Failure',
+    category: 'Dossier',
+    departmentId: 'dept-pefd',
+    departmentName: 'Psychoacoustics & Environmental Frequency Directorate',
+    author: 'Dr. Naomi Chen & Dr. Diane Kowalski',
+    date: '2011-10-04',
+    clearance: 'Level 4 - Top Secret',
+    summary:
+      'Full investigation into the September 18, 2011 incident where 60% of Oakhaven, Indiana residents froze in place during an evening tone broadcast.',
+    content:
+      'At 16:30, the municipal carrier transmitters broadcast a 14.8Hz wave at +6dB over intended target. Approximately 1,400 citizens ceased movement on sidewalks and inside vehicles, remaining stationary facing North-Northwest for [REDACTED: 4 minutes and 12 seconds]. 42 residents suffered acute retrograde amnesia and were administered [REDACTED: Compound 88-T memory dampening]. All local newspaper archives were seized and destroyed.',
+    redactedContent:
+      'At 16:30, the municipal carrier transmitters broadcast a 14.8Hz wave at +6dB over intended target. Approximately 1,400 citizens ceased movement on sidewalks and inside vehicles, remaining stationary facing North-Northwest for 4 minutes and 12 seconds. 42 residents suffered acute retrograde amnesia and were administered Compound 88-T memory dampening. All local newspaper archives were seized and destroyed by TOPN under Project Palimpsest.',
+    tags: ['Oakhaven', 'Project Vesper', 'Incident', 'Amnesia'],
+    classificationStamp: 'TOP SECRET // EYES ONLY',
+    relatedPersonnel: ['p-007', 'p-021', 'p-016'],
+    relatedStations: ['st-02'],
+    downloadableFilename: 'Oakhaven_Trial_Complete_PostMortem_2011.pdf'
+  },
+  {
+    id: 'doc-018',
+    code: 'DOC-2012-CICADA-BLUEPRINT',
+    title: 'Technical Blueprint: Project Cicada Interstate Piezoelectric Transducers',
+    category: 'Technical Spec',
+    departmentId: 'dept-pefd',
+    departmentName: 'Psychoacoustics & Environmental Frequency Directorate',
+    author: 'Lukas Meyer',
+    date: '2012-06-01',
+    clearance: 'Level 3 - Secret',
+    summary:
+      'Engineering schematics for embedding piezoelectric crystal arrays within asphalt paving along 200 miles of Interstate 80.',
+    content:
+      'Vehicular tire compression at highway speeds generates 12-18 volts per transducer module. This harvested energy powers sub-surface resonant bars that re-radiate a passive [REDACTED: 14.8Hz cognitive entrainment wave] into vehicle passenger cabins, maintaining driver compliance and preventing highway velocity spikes.',
+    redactedContent:
+      'Vehicular tire compression at highway speeds generates 12-18 volts per transducer module. This harvested energy powers sub-surface resonant bars that re-radiate a passive 14.8Hz cognitive entrainment wave into vehicle passenger cabins, maintaining driver compliance and preventing highway velocity spikes.',
+    tags: ['Project Cicada', 'Highway', 'Piezoelectric', 'Transportation'],
+    classificationStamp: 'SECRET // NOFORN',
+    relatedPersonnel: ['p-027'],
+    relatedStations: ['st-06', 'st-15'],
+    downloadableFilename: 'Project_Cicada_Highway_Grid_2012.pdf'
+  },
+  {
+    id: 'doc-019',
+    code: 'DOC-2015-ECHO-STATE-ALGORITHM',
+    title: 'Algorithm Monograph: Multi-Agent Demographic Twin Simulation (Echo-London v1.4)',
+    category: 'Research Paper',
+    departmentId: 'dept-sfpc',
+    departmentName: 'Department of Strategic Forecasting & Predictive Chronology',
+    author: 'Dr. Evelyn Reed',
+    date: '2015-07-02',
+    clearance: 'Level 4 - Top Secret',
+    summary:
+      'Mathematical formulation of the synthetic twin city simulation engine predicting crowd panic thresholds under variable acoustic carrier amplitudes.',
+    content:
+      'Echo-London v1.4 tracks 8.8 million autonomous software agents representing individual citizens. By coupling agent anxiety parameters to simulated [REDACTED: 14.8Hz carrier amplitude increases], the model accurately predicts the exact hour at which public protest impulses dissolve into domestic apathy.',
+    redactedContent:
+      'Echo-London v1.4 tracks 8.8 million autonomous software agents representing individual citizens. By coupling agent anxiety parameters to simulated 14.8Hz carrier amplitude increases, the model accurately predicts the exact hour at which public protest impulses dissolve into domestic apathy.',
+    tags: ['Project Echo-State', 'Simulation', 'Algorithms', 'Demographics'],
+    classificationStamp: 'TOP SECRET // EYES ONLY',
+    relatedPersonnel: ['p-005', 'p-006'],
+    relatedStations: ['st-01'],
+    downloadableFilename: 'EchoState_MultiAgent_Algorithm_2015.pdf'
+  },
+  {
+    id: 'doc-020',
+    code: 'DOC-2016-VITRUVIAN-EXECUTIVE',
+    title: 'Architectural Dossier: Project Vitruvian Executive Helmholtz Resonators',
+    category: 'Technical Spec',
+    departmentId: 'dept-pefd',
+    departmentName: 'Psychoacoustics & Environmental Frequency Directorate',
+    author: 'Lukas Meyer',
+    date: '2016-04-18',
+    clearance: 'Level 3 - Secret',
+    summary:
+      'Architectural schematics for passive acoustic notch filters installed in Tower Obsidian London and 34 global client headquarters.',
+    content:
+      'Installs concealed acoustic cavities in penthouse ceiling voids and elevator shafts tuned precisely to 14.8Hz and 22.0Hz. Provides [REDACTED: 32dB of acoustic attenuation], shielding C-suite executives from the ambient municipal carrier tones broadcast into surrounding city streets.',
+    redactedContent:
+      'Installs concealed acoustic cavities in penthouse ceiling voids and elevator shafts tuned precisely to 14.8Hz and 22.0Hz. Provides 32dB of acoustic attenuation, shielding C-suite executives from the ambient municipal carrier tones broadcast into surrounding city streets.',
+    tags: ['Project Vitruvian', 'Architecture', 'Executive', 'Dampeners'],
+    classificationStamp: 'SECRET // NOFORN',
+    relatedPersonnel: ['p-027'],
+    relatedStations: ['st-01'],
+    downloadableFilename: 'Project_Vitruvian_Architectural_Specs_2016.pdf'
+  },
+  {
+    id: 'doc-021',
+    code: 'DOC-2018-COMPOUND88-SPECS',
+    title: 'Pharmacological White Paper: Compound 88-T Neuro-Otological Suspension',
+    category: 'Research Paper',
+    departmentId: 'dept-bhrr',
+    departmentName: 'Bio-Harmonic Reclamation & Remediation',
+    author: 'Dr. Marcus Vance-Saito',
+    date: '2018-11-20',
+    clearance: 'Level 4 - Top Secret',
+    summary:
+      'Clinical synthesis and pharmacodynamics of the proprietary ear-drop formulation used to treat Stage-2 and Stage-3 Acoustic Dissociation in field crew.',
+    content:
+      'Compound 88-T combines an otic corticosteroid base with a proprietary synthetic alkaloid that inhibits stereocilia mechanical resonance in the cochlea. Within 45 minutes of bilateral administration, subjective perceptions of [REDACTED: "The Hum" and internal spoken phrases] are suppressed by 98%.',
+    redactedContent:
+      'Compound 88-T combines an otic corticosteroid base with a proprietary synthetic alkaloid that inhibits stereocilia mechanical resonance in the cochlea. Within 45 minutes of bilateral administration, subjective perceptions of "The Hum" and internal spoken phrases are suppressed by 98%. Side effects include temporary loss of musical appreciation and mild dream suppression.',
+    tags: ['Compound 88-T', 'Pharmacology', 'Medical', 'Hygiene'],
+    classificationStamp: 'TOP SECRET // EYES ONLY',
+    relatedPersonnel: ['p-020'],
+    relatedStations: ['st-07'],
+    downloadableFilename: 'Compound88T_Pharmacological_Specs_2018.pdf'
+  },
+  {
+    id: 'doc-022',
+    code: 'DOC-2019-PALIMPSEST-LEAK',
+    title: 'Whistleblower Exfiltration Dossier: The Station 07 Palimpsest Leaks',
+    category: 'Incident Log',
+    departmentId: 'dept-topn',
+    departmentName: 'Tactical Obfuscation & Public Narrative',
+    author: 'Agent Felix Mercer',
+    date: '2019-11-04',
+    clearance: 'Level 5 - Black Dossier',
+    summary:
+      'Comprehensive damage assessment following Dr. Aris Thorne’s exfiltration of 48GB of raw 32-bit floating point audio records from Svalbard Borehole 4.',
+    content:
+      'Subject Dr. Aris Thorne downloaded the complete October 2019 telemetry logs and exfiltrated them via an encrypted relay before departing Longyearbyen on a snowmobile. The files contain unredacted evidence proving that the 14.8Hz signal is [REDACTED: non-geothermal in origin and has increased in amplitude by 18.4%]. Directive 09 purge authorized.',
+    redactedContent:
+      'Subject Dr. Aris Thorne downloaded the complete October 2019 telemetry logs and exfiltrated them via an encrypted relay before departing Longyearbyen on a snowmobile. The files contain unredacted evidence proving that the 14.8Hz signal is non-geothermal in origin, artificially modulated, and has increased in amplitude by 18.4% since 1986. Directive 09 purge authorized with £250,000 bounty.',
+    tags: ['Whistleblower', 'Thorne', 'Leaks', 'Station 07'],
+    classificationStamp: 'BLACK LEVEL // SANITIZED',
+    isWhistleblowerLeak: true,
+    relatedPersonnel: ['p-009', 'p-017', 'p-018'],
+    relatedStations: ['st-04'],
+    downloadableFilename: 'Palimpsest_Leak_Damage_Assessment_2019.pdf'
+  },
+  {
+    id: 'doc-023',
+    code: 'DOC-2021-SILENT-COHORT-LOG',
+    title: 'Experimental Protocol: 90-Day Silent Cohort Isolation Trial at Grimsel Pass',
+    category: 'Field Report',
+    departmentId: 'dept-ccdr',
+    departmentName: 'Division of Civic Continuity & Demographic Resilience',
+    author: 'Arthur K. Vance-Cross',
+    date: '2021-12-15',
+    clearance: 'Level 5 - Black Dossier',
+    summary:
+      'Clinical logs from the 90-day sealed isolation test of 120 human subjects within the Swiss Alps Redoubt without external radio or acoustic communication.',
+    content:
+      'On Day 45 of complete acoustic isolation beneath 1,200m of solid granite, 38% of the test cohort developed synchronized REM dream patterns. Subjects independently drew identical sketches of [REDACTED: a massive black hexagonal column vibrating at 14.8Hz]. Confirms that lithospheric carrier waves penetrate deep mountain massifs.',
+    redactedContent:
+      'On Day 45 of complete acoustic isolation beneath 1,200m of solid granite, 38% of the test cohort developed synchronized REM dream patterns. Subjects independently drew identical sketches of a massive black hexagonal column vibrating at 14.8Hz rising from Arctic permafrost. Confirms that lithospheric carrier waves penetrate deep mountain massifs.',
+    tags: ['Swiss Alps', 'Isolation', 'Dreams', 'Continuity'],
+    classificationStamp: 'BLACK LEVEL // SANITIZED',
+    relatedPersonnel: ['p-011', 'p-002'],
+    relatedStations: ['st-08'],
+    downloadableFilename: 'Silent_Cohort_Trial_Log_2021.pdf'
+  },
+  {
+    id: 'doc-024',
+    code: 'DOC-2023-CELLULAR-CARRIER-STUDY',
+    title: 'Research Monograph: Cellular Tower Infrasound Modulation for Public Health Compliance',
+    category: 'Research Paper',
+    departmentId: 'dept-becm',
+    departmentName: 'Behavioral Economics & Compliance Metrics',
+    author: 'Dr. Anya Sharma & Dr. Kaelen Voss',
+    date: '2023-09-01',
+    clearance: 'Level 4 - Top Secret',
+    summary:
+      'Quantitative study demonstrating how sub-harmonic audio cues delivered through standard cellular handset speaker coils enhance municipal quarantine compliance by 31.4%.',
+    content:
+      'By injecting a 14.8Hz sub-carrier into standard mobile audio notifications and alert ringtones, recipient cortisol spikes were dampened by 42%. Across 14 pilot metropolitan areas, citizen adherence to emergency stay-at-home orders rose from [REDACTED: 67.2% to 98.6%].',
+    redactedContent:
+      'By injecting a 14.8Hz sub-carrier into standard mobile audio notifications and alert ringtones, recipient cortisol spikes were dampened by 42%. Across 14 pilot metropolitan areas, citizen adherence to emergency stay-at-home orders rose from 67.2% to 98.6% with zero reported public resistance.',
+    tags: ['Cellular', 'Mobile', 'Compliance', 'Behavioral'],
+    classificationStamp: 'TOP SECRET // EYES ONLY',
+    relatedPersonnel: ['p-037', 'p-014'],
+    relatedStations: ['st-01', 'st-03'],
+    downloadableFilename: 'Cellular_Infrasound_Compliance_Study_2023.pdf'
+  },
+  {
+    id: 'doc-025',
+    code: 'DOC-2024-MONOLITH-SYNCHRONY',
+    title: 'Global Telemetry Synthesis: Project Monolith Phase Transition to 15.0Hz',
+    category: 'Dossier',
+    departmentId: 'dept-asian',
+    departmentName: 'Atmospheric Sensing & Infrasonic Array Network',
+    author: 'Dr. Henrik Lindqvist & Dr. Tariq Al-Mansoor',
+    date: '2024-04-22',
+    clearance: 'Level 5 - Black Dossier',
+    summary:
+      'Joint analytical briefing synthesizing deep hydrophone, permafrost borehole, and stratospheric microbarometer data regarding the impending 15.000 Hz planetary phase shift.',
+    content:
+      "Across all 22 global stations, the baseline planetary carrier has accelerated from 14.802Hz to 14.988Hz over the past 36 months. Mathematical extrapolation predicts the carrier will cross the critical [REDACTED: 15.000 Hz phase transition threshold in October 2026]. Upon crossing 15.000 Hz, the acoustic coupling efficiency between the Earth's mantle and human nervous systems will double. [REDACTED: Executive Directive 01 lockdown pre-activation authorized].",
+    redactedContent:
+      "Across all 22 global stations, the baseline planetary carrier has accelerated from 14.802Hz to 14.988Hz over the past 36 months. Mathematical extrapolation predicts the carrier will cross the critical 15.000 Hz phase transition threshold in October 2026. Upon crossing 15.000 Hz, the acoustic coupling efficiency between the Earth's mantle and human nervous systems will double. Executive Directive 01 lockdown pre-activation authorized for all 14 Aethelgard redoubts.",
+    tags: ['Project Monolith', 'Phase Transition', '15Hz', 'Global'],
+    classificationStamp: 'BLACK LEVEL // SANITIZED',
+    relatedPersonnel: ['p-018', 'p-025', 'p-003'],
+    relatedStations: ['st-04', 'st-09', 'st-19'],
+    downloadableFilename: 'Project_Monolith_Global_Synthesis_2024.pdf'
+  }
+];

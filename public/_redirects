@@ -1,0 +1,11 @@
+# Netlify / Cloudflare Pages style redirects. Keep in sync with
+# src/config/navigation.ts (LEGACY_REDIRECTS) and vercel.json.
+/dashboard      /           301
+/index.html     /           301
+/dead-links     /deadlinks  301
+/stations-map   /stations   301
+/projects       /programs   301
+/offices        /stations   301
+
+# SPA fallback — every other path is resolved by the client router.
+/*              /index.html 200
