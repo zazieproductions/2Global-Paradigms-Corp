@@ -3,6 +3,7 @@ import { PuzzlePanel, SmallCapsTitle } from './puzzle-bits';
 import { buildOriginPayload, MASTER_KEY_CODE, type GatewayKeys } from '@/content/puzzles/gateway';
 import { checkAnswer } from '@/lib/puzzles/validate';
 import { gpcAudio } from '@/lib/audio/audio-engine';
+import { downloadJson } from '@/lib/utils/download';
 
 interface StepGateProps {
   /** Validates (and records) the joined keys `SEQUENCE|SIGNAL|WAVEFORM`. */
@@ -94,13 +95,7 @@ export const StepGate: FC<StepGateProps> = ({ verify, onComplete }) => {
 
   const downloadArtifact = () => {
     gpcAudio.playUiSound('print');
-    const blob = new Blob([JSON.stringify(buildOriginPayload(keys), null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'OriginProtocol_Gateway_Transmission.json';
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadJson('OriginProtocol_Gateway_Transmission.json', buildOriginPayload(keys));
   };
 
   const payload = buildOriginPayload(keys);
