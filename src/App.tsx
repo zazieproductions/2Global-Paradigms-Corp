@@ -10,6 +10,7 @@ import { TrainingModuleModal } from './components/TrainingModuleModal';
 import { ApplicationModal } from './components/ApplicationModal';
 import { DeadLinkViewerModal } from './components/DeadLinkViewerModal';
 import { AudioPlayerBar } from './components/AudioPlayerBar';
+import { BootSequence } from './components/BootSequence';
 
 // Views
 import { DashboardView } from './components/views/DashboardView';
@@ -66,6 +67,10 @@ export function App() {
   const [isCrtEnabled, setIsCrtEnabled] = useState<boolean>(false);
   const [isSoundMuted, setIsSoundMuted] = useState<boolean>(false);
 
+  // Cold boot terminal (ARG boot sequence)
+  const [bootDone, setBootDone] = useState<boolean>(false);
+  const [operatorCallsign, setOperatorCallsign] = useState<string>('GUEST_INVESTIGATOR');
+
   // Modals state
   const [selectedDoc, setSelectedDoc] = useState<DocumentRecord | null>(null);
   const [selectedTrainingModule, setSelectedTrainingModule] = useState<TrainingModule | null>(null);
@@ -98,6 +103,7 @@ export function App() {
   // Global Keyboard Shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!bootDone) return;
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         return;
       }
@@ -129,7 +135,7 @@ export function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [bootDone, isSearchOpen, isTerminalOpen, isSecretSafeOpen]);
 
   return (
     <div
@@ -137,9 +143,25 @@ export function App() {
         isCrtEnabled ? 'crt-scanlines' : ''
       }`}
     >
+      {/* Cold Boot Terminal — ARG boot / loading sequence */}
+      {!bootDone && (
+        <BootSequence
+          onComplete={(callsign, executiveOverride) => {
+            setOperatorCallsign(callsign || 'GUEST_INVESTIGATOR');
+            if (executiveOverride) {
+              setClearance('Level 5 - Black Dossier');
+              setIsUnredacted(true);
+            }
+            setBootDone(true);
+            gpcAudio.playUiSound('grant');
+          }}
+        />
+      )}
+
       {/* Top Application Bar */}
       <TopHeader
         clearance={clearance}
+        callsign={operatorCallsign}
         onOpenClearanceModal={() => setIsClearanceModalOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
         onOpenTerminal={() => setIsTerminalOpen(true)}
@@ -317,6 +339,7 @@ export function App() {
       <TerminalModal
         isOpen={isTerminalOpen}
         onClose={() => setIsTerminalOpen(false)}
+        operatorCallsign={operatorCallsign}
         clearance={clearance}
         onSetClearance={(lvl) => setClearance(lvl)}
         isUnredacted={isUnredacted}
@@ -378,6 +401,7 @@ export function App() {
               </p>
               <div className="p-3 bg-[#070b13] border border-[#182335] rounded space-y-1.5 text-[10px]">
                 <strong className="text-cyan-300 block">KEY FEATURES & ARG INVESTIGATION SECRETS:</strong>
+                <div>• <span className="text-white font-bold">Cold Boot Terminal:</span> Every reload starts inside a live BIOS-style boot. Type hidden <span className="text-cyan-300 font-mono">Channel 9</span> commands while it runs (<span className="text-cyan-300 font-mono">help</span>, <span className="text-cyan-300 font-mono">vesper</span>, <span className="text-cyan-300 font-mono">thorne</span>, <span className="text-cyan-300 font-mono">skip</span>, <span className="text-amber-400 font-mono">432-88</span>) — executive codes grant Level 5 on session init. <kbd className="px-1 py-0.5 bg-slate-800 rounded">ESC</kbd> fast-forwards.</div>
                 <div>• <span className="text-white font-bold">165 Unique Records:</span> Dossiers, meeting minutes, technical schematics, incident logs, and leaked memos.</div>
                 <div>• <span className="text-white font-bold">Redaction De-Scrambler:</span> Toggle the top bar eye button to decrypt and reveal hidden cleartext across all files.</div>
                 <div>• <span className="text-white font-bold">Command Terminal Backdoor:</span> Click <span className="text-cyan-400 font-mono">GPC://CLI</span> or press <kbd className="px-1 py-0.5 bg-slate-800 rounded">~</kbd> to access command line tools (<span className="text-cyan-300 font-mono">scan</span>, <span className="text-cyan-300 font-mono">leak-dump</span>, <span className="text-cyan-300 font-mono">override 432-88</span>).</div>

@@ -61,6 +61,9 @@ class GpcAudioEngine {
     if (!this.isSoundEnabled) return;
     this.resume();
     if (!this.ctx || !this.masterGain) return;
+    // Drop sounds scheduled before the browser's autoplay gesture unlocks the
+    // context — otherwise they all stack up and blast at once on first input.
+    if (this.ctx.state !== 'running') return;
 
     const t = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
