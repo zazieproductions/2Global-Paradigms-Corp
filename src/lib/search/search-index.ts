@@ -2,7 +2,7 @@
  * Archive search.
  *
  * Indexing strategy (see docs/ARCHITECTURE.md → "Search"):
- *  1. `getArchiveEntries()` normalises every collection (~450 records).
+ *  1. `getArchiveEntries()` normalises every collection (~410 records).
  *  2. `buildSearchIndex()` precomputes one lower-cased string per searchable
  *     field for each entry. This happens once, lazily, on first search.
  *  3. A query is split into terms (quoted phrases kept together). Every term
