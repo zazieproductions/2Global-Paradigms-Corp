@@ -61,4 +61,14 @@ export const DEAD_LINKS: DeadLink[] = [
     investigatorNotes: 'Public sensor telemetry disabled in 1989 following Dr. Arthur Vance-Vane\'s borehole breach. Only encrypted GPC ASIAN data links remain active.',
     archiveDate: 'Archived snapshot: 2019-08-01 00:00:00 UTC'
   }
+  ,{
+    id: 'dead-07',
+    url: 'http://members.geocities.com/Area51/Vault/7148/choir/index.htm',
+    originalHost: 'GeoCities Personal Homepage ("The Listening Post" — anonymous)',
+    errorType: 'Wayback Mirror 1998',
+    originalTitle: 'the listening post :: for those who hear it at six',
+    cachedSnippet: '...if you found this page you already know about the hum. i am not going to say who i am. i am leaving one line here for whoever comes after me. you will need the wheel and the name of the place where they keep everything. IVW LOOR OESFL OC GHT VGNF ERSESJ LWWTS. do not look back...',
+    investigatorNotes: 'Page mirrored in 1998 but its text was edited in October 2019 — an impossibility for a static archive. The Counter-Leak unit attributes the edit to Dr. Aris Thorne. A faint seven-pointed star is visible in the page background tile.',
+    archiveDate: 'Archived snapshot: 1998-11-04 04:32:00 GMT (modified 2019-10-14)'
+  }
 ];

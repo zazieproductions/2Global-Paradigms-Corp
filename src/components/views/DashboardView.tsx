@@ -27,6 +27,8 @@ import {
   ActiveTab
 } from '../../types';
 import { gpcAudio } from '../../lib/audioEngine';
+import { CaseBanner } from '../../arg/CaseBanner';
+import { useArg } from '../../arg/ArgContext';
 
 interface DashboardViewProps {
   documents: DocumentRecord[];
@@ -55,6 +57,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 }) => {
   const [carrierHz, setCarrierHz] = useState(14.802);
   const [telemetryLogs, setTelemetryLogs] = useState<string[]>([]);
+  const { finaleComplete } = useArg();
 
   useEffect(() => {
     const logs = [
@@ -77,6 +80,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
   return (
     <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-6 font-mono text-xs text-slate-200 bg-[#06080e] scrollbar-thin">
+      {/* The Seven Seals — investigation spine */}
+      <CaseBanner onOpen={() => { gpcAudio.playUiSound('click'); onNavigateTab('sanctum'); }} />
+
       {/* Top Banner / Executive Alert */}
       <div className="p-4 bg-gradient-to-r from-rose-950/40 via-[#111726] to-[#0d1320] border border-rose-500/40 rounded-lg shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
@@ -123,11 +129,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <Activity className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
           </div>
           <div className="text-lg md:text-xl font-bold text-cyan-300 font-mono">
-            {carrierHz} Hz
+            {finaleComplete ? '0.000' : carrierHz} Hz
           </div>
           <div className="text-[10px] text-emerald-400 flex items-center gap-1">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>99.94% Phase-Locked</span>
+            <span>{finaleComplete ? 'NO SIGNAL — SILENTIUM' : '99.94% Phase-Locked'}</span>
           </div>
         </div>
 

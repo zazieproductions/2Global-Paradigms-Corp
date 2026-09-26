@@ -261,6 +261,7 @@ export interface DeadLink {
 }
 
 export type ActiveTab =
+  | 'sanctum'
   | 'dashboard'
   | 'documents'
   | 'personnel'

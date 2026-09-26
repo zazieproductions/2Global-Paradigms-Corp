@@ -1,23 +1,39 @@
 import React, { useState } from 'react';
 import { Key, X, Lock, Unlock, ShieldAlert, CheckCircle2, Download } from 'lucide-react';
-import { ClearanceLevel } from '../types';
 import { gpcAudio } from '../lib/audioEngine';
+import { useArg } from '../arg/ArgContext';
+import { matchesDigest } from '../arg/cipher';
+import { DIGESTS } from '../arg/seals';
+import { OrderSigil } from '../arg/sigils';
 
 interface SecretBypassModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSetClearance: (level: ClearanceLevel) => void;
   onEnableUnredacted: () => void;
+  onGoToSanctum: () => void;
 }
+
+// Codes players will *try* — each gets its own in-world rebuff instead of a flat error.
+const DECOYS: Record<string, string> = {
+  '1480': 'THE TUMBLERS HUM AT 14.8… AND FALL STILL. TOO OBVIOUS, THORNE WOULD SAY.',
+  '1989': 'THE YEAR OF THE DESCENT. THE SAFE DOES NOT GRIEVE.',
+  '0432': 'CONCERT PITCH. THE SAFE IS NOT A TUNING FORK.',
+  '3120': 'SPITSBERGEN OVERTONE. CLOSE IN SPIRIT, WRONG IN FACT.',
+  '4328': 'MASTER KEY 01 WAS REVOKED ON 1989-11-04.',
+  '0015': 'THE SQUARE IS NOT YET COMPLETE.',
+  '1500': 'THE SQUARE IS NOT YET COMPLETE.'
+};
 
 export const SecretBypassModal: React.FC<SecretBypassModalProps> = ({
   isOpen,
   onClose,
-  onSetClearance,
-  onEnableUnredacted
+  onEnableUnredacted,
+  onGoToSanctum
 }) => {
+  const arg = useArg();
   const [pin, setPin] = useState('');
-  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [justOpened, setJustOpened] = useState(false);
+  const isUnlocked = arg.isSolved(6) || justOpened;
   const [errorMsg, setErrorMsg] = useState('');
 
   if (!isOpen) return null;
@@ -42,19 +58,21 @@ export const SecretBypassModal: React.FC<SecretBypassModalProps> = ({
   };
 
   const verifyPin = (code: string) => {
-    // Accepted lore passcodes:
-    // 1480 (14.8Hz planetary carrier)
-    // 1989 (Station 07 breach / Arthur Vance-Vane disavowal)
-    // 0432 (432Hz Solfeggio carrier)
-    // 3120 (312Hz Spitsbergen overtone)
-    if (code === '1480' || code === '1989' || code === '0432' || code === '3120') {
-      gpcAudio.playUiSound('grant');
-      setIsUnlocked(true);
-      onSetClearance('Level 5 - Black Dossier');
-      onEnableUnredacted();
+    // Thorne's combination is sealed behind the Mercury Wheel (Seal VI).
+    if (matchesDigest(code, DIGESTS.seal6)) {
+      if (!arg.isSolved(5)) {
+        gpcAudio.playUiSound('deny');
+        setErrorMsg('THE TUMBLERS TURN… THEN BIND. A VOICE IN THE MECHANISM: "NOT YET. VENUS FIRST."');
+        setPin('');
+        return;
+      }
+      gpcAudio.playSealBreak();
+      setJustOpened(true);
+      arg.solveSeal(6);
+      setTimeout(onEnableUnredacted, 50);
     } else {
       gpcAudio.playUiSound('deny');
-      setErrorMsg('CRYPTOGRAPHIC AUTHENTICATION FAILED. ACCESS LOGGED.');
+      setErrorMsg(DECOYS[code] || 'CRYPTOGRAPHIC AUTHENTICATION FAILED. ACCESS LOGGED.');
       setPin('');
     }
   };
@@ -72,7 +90,13 @@ export const SecretBypassModal: React.FC<SecretBypassModalProps> = ({
         { station: 'Site 19 (Utah)', coords: '41.1158° N, 112.8711° W', depth: '-600m' },
         { station: 'Diego Garcia Hydrophone 12', coords: '7.3195° S, 72.4229° E', depth: '-5400m' }
       ],
-      disavowedPersonnel: ['Dr. Arthur Vance-Vane (1989)', 'Julian Thorne (2019)', 'David Vance-Wren (2024)']
+      disavowedPersonnel: ['Dr. Arthur Vance-Vane (1989)', 'Julian Thorne (2019)', 'David Vance-Wren (2024)'],
+      order: {
+        name: 'ORDO VOCIS PROFUNDAE (Order of the Deep Voice)',
+        degrees: ['Neophyte', 'Zelator', 'Practicus', 'Philosophus', 'Magister Umbrae'],
+        completionOfTheSquare: '2026-11-04T04:32:00Z (carrier projected to reach 15.000 Hz)',
+        note: 'Read DOC-1989-DESCENT-ORPHEUS. Then read the seven words aloud. — A.T.'
+      }
     };
 
     const blob = new Blob([JSON.stringify(dump, null, 2)], { type: 'application/json' });
@@ -106,8 +130,9 @@ export const SecretBypassModal: React.FC<SecretBypassModalProps> = ({
         {!isUnlocked ? (
           <div className="flex flex-col items-center gap-4">
             <div className="p-3 bg-amber-950/20 border border-amber-500/40 rounded text-[11px] text-amber-200 text-center leading-relaxed">
-              <span className="font-bold block mb-1">RESTRICTED BACKDOOR ENCLAVE</span>
-              Enter Dr. Aris Thorne's 4-digit authorization sequence to decrypt all Level 5 Black Dossiers and disable corporate redaction masks.
+              <span className="font-bold block mb-1">DR. ARIS THORNE — PRIVATE SAFE</span>
+              A brass safe hidden in the archive itself. Four digits. Thorne never wrote the combination down in plain text — he put it
+              on the Mercury Wheel.
             </div>
 
             {/* PIN Display */}
@@ -150,18 +175,28 @@ export const SecretBypassModal: React.FC<SecretBypassModalProps> = ({
               ))}
             </div>
 
-            <div className="mt-2 text-[10px] text-slate-500 text-center leading-tight">
-              <span className="font-bold text-slate-400">ARG LORE HINT:</span> The planetary carrier frequency (14.8Hz = <span className="text-amber-400 font-bold">1480</span>), founding breach year (<span className="text-amber-400 font-bold">1989</span>), or Solfeggio carrier (<span className="text-amber-400 font-bold">0432</span>).
+            <div className="mt-1 flex items-center gap-2 text-[10px] text-slate-500 text-center leading-tight">
+              <span className="text-amber-500/60">{'☿\uFE0E'}</span>
+              <span>
+                The combination is the answer to <button onClick={onGoToSanctum} className="underline text-amber-400/80 cursor-pointer">Seal VI — The Mercury Wheel</button>.
+              </span>
             </div>
           </div>
         ) : (
           <div className="flex flex-col gap-4 text-center">
             <div className="p-4 bg-emerald-950/30 border border-emerald-500/50 rounded flex flex-col items-center gap-2">
-              <CheckCircle2 className="w-8 h-8 text-emerald-400 animate-bounce" />
-              <h3 className="text-sm font-bold text-emerald-300">CRYPTOGRAPHIC BYPASS SUCCESSFUL</h3>
+              <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+              <h3 className="text-sm font-bold text-emerald-300 font-occult tracking-widest">THE SAFE IS OPEN — SEAL VI BROKEN</h3>
               <p className="text-[11px] text-slate-300">
-                You have authenticated as <span className="text-white font-bold">PALIMPSEST_OBSERVER</span>. Clearance elevated to <span className="text-rose-400 font-bold">LEVEL 5 - BLACK DOSSIER</span>. All 165 documents are now permanently de-scrambled.
+                Inside: a lead tablet with a seven-pointed star, a cassette labelled <span className="text-white">"BH4 — 05:15"</span>, and a
+                note in Thorne's hand: <em>"Umbra. The shadow behind the record. You're a Magister now — read the Black files."</em>
               </p>
+              <p className="text-[11px] text-slate-300">
+                Clearance elevated to <span className="text-rose-400 font-bold">LEVEL 5 — BLACK DOSSIER</span>. De-Scrambler engaged.
+              </p>
+            </div>
+            <div className="flex justify-center text-rose-300/70">
+              <OrderSigil size={56} />
             </div>
 
             <button
@@ -170,6 +205,12 @@ export const SecretBypassModal: React.FC<SecretBypassModalProps> = ({
             >
               <Download className="w-4 h-4" />
               <span>DOWNLOAD WHISTLEBLOWER DATA DUMP (.JSON)</span>
+            </button>
+            <button
+              onClick={onGoToSanctum}
+              className="py-2 px-4 border border-fuchsia-700 text-fuchsia-300 hover:bg-fuchsia-950/50 rounded cursor-pointer font-occult tracking-widest"
+            >
+              RETURN TO THE SEVEN SEALS
             </button>
           </div>
         )}

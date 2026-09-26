@@ -2,6 +2,19 @@ import React, { useState } from 'react';
 import { Shield, X, Lock, Unlock, CheckCircle2, AlertOctagon, Key } from 'lucide-react';
 import { ClearanceLevel } from '../types';
 import { gpcAudio } from '../lib/audioEngine';
+import { useArg } from '../arg/ArgContext';
+import { clearanceRank } from '../arg/levels';
+import { LEVEL_CORRESPONDENCE, SEALS } from '../arg/seals';
+import { PlanetGlyph } from '../arg/sigils';
+
+const DEGREES = ['', 'Neophyte', 'Zelator', 'Practicus', 'Philosophus', 'Magister Umbrae'];
+const EARNED_BY: Record<number, string> = {
+  1: 'Granted on connection',
+  2: 'Earned by breaking Seal I — The Square of Lead',
+  3: 'Earned by breaking Seal II — The Wheel of Days',
+  4: 'Earned by breaking Seal IV — The Three Voices',
+  5: 'Earned by breaking Seal VI — The Mercury Wheel'
+};
 
 interface ClearanceModalProps {
   isOpen: boolean;
@@ -9,6 +22,7 @@ interface ClearanceModalProps {
   currentClearance: ClearanceLevel;
   onSetClearance: (level: ClearanceLevel) => void;
   onEnableUnredacted: () => void;
+  onOpenSanctum: () => void;
 }
 
 export const ClearanceModal: React.FC<ClearanceModalProps> = ({
@@ -16,8 +30,9 @@ export const ClearanceModal: React.FC<ClearanceModalProps> = ({
   onClose,
   currentClearance,
   onSetClearance,
-  onEnableUnredacted
+  onOpenSanctum
 }) => {
+  const arg = useArg();
   const [passcode, setPasscode] = useState('');
   const [authError, setAuthError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -58,8 +73,9 @@ export const ClearanceModal: React.FC<ClearanceModalProps> = ({
   ];
 
   const handleSelectLevel = (lvl: ClearanceLevel) => {
-    if (lvl === 'Level 5 - Black Dossier') {
-      setAuthError('LEVEL 5 REQUIRES EXECUTIVE MASTER KEY CODE (OR TERMINAL OVERRIDE).');
+    if (clearanceRank(lvl) > arg.earnedLevel) {
+      gpcAudio.playUiSound('deny');
+      setAuthError(`DEGREE NOT YET EARNED. ${EARNED_BY[clearanceRank(lvl)].toUpperCase()}.`);
       return;
     }
     gpcAudio.playUiSound('grant');
@@ -74,22 +90,14 @@ export const ClearanceModal: React.FC<ClearanceModalProps> = ({
 
   const handleVerifyMasterKey = (e: React.FormEvent) => {
     e.preventDefault();
-    const code = passcode.trim().toLowerCase();
-    if (code === '1480' || code === '432-88' || code === 'palimpsest' || code === '1989' || code === 'vance') {
-      gpcAudio.playUiSound('grant');
-      onSetClearance('Level 5 - Black Dossier');
-      onEnableUnredacted();
-      setSuccessMsg('MASTER KEY AUTHENTICATED: LEVEL 5 BLACK CLEARANCE GRANTED');
-      setAuthError('');
-      setTimeout(() => {
-        setSuccessMsg('');
-        onClose();
-      }, 1000);
-    } else {
-      gpcAudio.playUiSound('deny');
-      setAuthError('INVALID MASTER KEY CODE. SECURITY NOTIFIED.');
-      setPasscode('');
-    }
+    gpcAudio.playUiSound('deny');
+    const code = passcode.trim();
+    setAuthError(
+      code === '432-88'
+        ? 'MASTER KEY 01 (D. CROSS) WAS REVOKED ON 1989-11-04, THE NIGHT OF THE DESCENT. THE ORDER DOES NOT OPEN FOR KEYS.'
+        : 'NO MASTER KEYS REMAIN IN SERVICE. DEGREES ARE EARNED THROUGH THE SEALS.'
+    );
+    setPasscode('');
   };
 
   return (
@@ -125,6 +133,8 @@ export const ClearanceModal: React.FC<ClearanceModalProps> = ({
             </span>
             {levels.map((item) => {
               const isCurrent = currentClearance === item.level;
+              const r = clearanceRank(item.level);
+              const earned = r <= arg.earnedLevel;
               return (
                 <div
                   key={item.level}
@@ -136,7 +146,14 @@ export const ClearanceModal: React.FC<ClearanceModalProps> = ({
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-xs">{item.label}</span>
+                    <span className={`font-bold text-xs flex items-center gap-2 ${earned ? '' : 'opacity-50'}`}>
+                      <PlanetGlyph glyph={LEVEL_CORRESPONDENCE[r].glyph} />
+                      {item.label}
+                      <span className="text-[9px] font-normal text-fuchsia-300/70 font-occult">
+                        {earned && arg.earnedLevel >= 3 ? `· ${DEGREES[r]}` : ''}
+                      </span>
+                    </span>
+                    {!earned && <Lock className="w-3 h-3 text-slate-500" />}
                     {isCurrent && (
                       <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">
                         ACTIVE
@@ -145,6 +162,9 @@ export const ClearanceModal: React.FC<ClearanceModalProps> = ({
                   </div>
                   <p className="text-[10px] text-slate-400 mt-1 leading-normal">
                     {item.desc}
+                  </p>
+                  <p className={`text-[9px] mt-1 ${earned ? 'text-emerald-500/70' : 'text-slate-500'}`}>
+                    {earned ? '✓ ' : '✕ '}{EARNED_BY[r]}
                   </p>
                 </div>
               );
@@ -155,14 +175,14 @@ export const ClearanceModal: React.FC<ClearanceModalProps> = ({
           <form onSubmit={handleVerifyMasterKey} className="pt-2 border-t border-slate-800 space-y-2">
             <span className="text-[10px] text-slate-400 font-bold block flex items-center gap-1.5">
               <Key className="w-3.5 h-3.5 text-amber-400" />
-              EXECUTIVE MASTER KEY AUTHORIZATION (LEVEL 5 BYPASS):
+              LEGACY EXECUTIVE MASTER KEY (DEPRECATED):
             </span>
             <div className="flex gap-2">
               <input
                 type="password"
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
-                placeholder="Enter 4-digit code (e.g. 1480 or 1989)..."
+                placeholder="Enter master key..."
                 className="flex-1 bg-[#06080e] border border-[#1b2538] rounded px-3 py-1.5 text-slate-100 text-xs focus:outline-none focus:border-amber-500 font-mono"
               />
               <button
@@ -173,6 +193,13 @@ export const ClearanceModal: React.FC<ClearanceModalProps> = ({
               </button>
             </div>
           </form>
+
+          <button
+            onClick={onOpenSanctum}
+            className="w-full py-2 rounded border border-fuchsia-800 text-fuchsia-300 hover:bg-fuchsia-950/40 cursor-pointer font-occult tracking-widest text-[11px]"
+          >
+            {arg.currentSeal ? `CONTINUE AT SEAL ${SEALS[arg.currentSeal - 1].numeral} — ${SEALS[arg.currentSeal - 1].title.toUpperCase()}` : 'VIEW THE CASE FILE'}
+          </button>
 
           {authError && (
             <div className="text-[10px] text-rose-400 font-bold flex items-center gap-1.5">

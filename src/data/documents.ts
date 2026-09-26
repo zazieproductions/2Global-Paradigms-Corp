@@ -1,4 +1,5 @@
 import { DocumentRecord } from '../types';
+import { OCCULT_DOCUMENTS } from './occultDocuments';
 
 export const DOCUMENTS: DocumentRecord[] = [
   // FOUNDING & HISTORICAL (1971-1989)
@@ -583,3 +584,6 @@ for (let i = 26; i <= 165; i++) {
     downloadableFilename: `${code}_Classified_Archive.pdf`
   });
 }
+
+// Ordo Vocis Profundae — the liturgical evidence trail for THE SEVEN SEALS
+DOCUMENTS.push(...OCCULT_DOCUMENTS);
