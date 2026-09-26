@@ -6,6 +6,7 @@ import { gpcAudio } from '../lib/audioEngine';
 interface TerminalModalProps {
   isOpen: boolean;
   onClose: () => void;
+  operatorCallsign?: string;
   clearance: ClearanceLevel;
   onSetClearance: (level: ClearanceLevel) => void;
   isUnredacted: boolean;
@@ -22,6 +23,7 @@ interface CommandHistory {
 export const TerminalModal: React.FC<TerminalModalProps> = ({
   isOpen,
   onClose,
+  operatorCallsign = 'ANONYMOUS_INVESTIGATOR',
   clearance,
   onSetClearance,
   isUnredacted,
@@ -39,7 +41,7 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
             GLOBAL PARADIGMS CORP. // PARADIGM-OS [CLI TERMINAL v8.4.2]
           </p>
           <p>POSTOJNA REPOSITORY ENCRYPTED LINK: ONLINE (SHA256: 0x7F4A...)</p>
-          <p>AUTHENTICATED AS: GUEST_INVESTIGATOR // {clearance.toUpperCase()}</p>
+          <p>AUTHENTICATED AS: {operatorCallsign.toUpperCase()} // {clearance.toUpperCase()}</p>
           <p className="text-amber-400">
             Type <span className="text-cyan-300 font-bold">"help"</span> for command index or <span className="text-cyan-300 font-bold">"override 432-88"</span> for administrative bypass.
           </p>
@@ -107,7 +109,8 @@ export const TerminalModal: React.FC<TerminalModalProps> = ({
       case 'whoami':
         outputNode = (
           <div className="text-slate-300">
-            <p>USER: ANONYMOUS_INVESTIGATOR</p>
+            <p>USER: {operatorCallsign.toUpperCase()}</p>
+            <p>SESSION ORIGIN: COLD BOOT TERMINAL // CH9</p>
             <p>CLEARANCE: <span className="text-amber-400 font-bold">{clearance}</span></p>
             <p>REDACTION DE-SCRAMBLER: {isUnredacted ? <span className="text-rose-400 font-bold">ACTIVE (UNREDACTED)</span> : <span className="text-slate-400">INACTIVE</span>}</p>
             <p>NODE CONNECTION: London Tower Obsidian Proxy // Session Encrypted</p>

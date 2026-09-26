@@ -20,6 +20,7 @@ import { gpcAudio } from '../lib/audioEngine';
 
 interface TopHeaderProps {
   clearance: ClearanceLevel;
+  callsign?: string;
   onOpenClearanceModal: () => void;
   onOpenSearch: () => void;
   onOpenTerminal: () => void;
@@ -35,6 +36,7 @@ interface TopHeaderProps {
 
 export const TopHeader: React.FC<TopHeaderProps> = ({
   clearance,
+  callsign,
   onOpenClearanceModal,
   onOpenSearch,
   onOpenTerminal,
@@ -92,7 +94,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             </div>
             <div className="flex items-center gap-2 text-[10px] text-slate-400">
               <span className="truncate max-w-[200px] md:max-w-none">
-                ARCHIVE NET // STRATEGIC FORECASTING & CIVIC CONTINUITY
+                ARCHIVE NET{callsign ? ` // OPERATOR: ${callsign.toUpperCase()}` : ''} // STRATEGIC FORECASTING & CIVIC CONTINUITY
               </span>
             </div>
           </div>
