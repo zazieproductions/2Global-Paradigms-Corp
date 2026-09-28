@@ -1,5 +1,12 @@
 import type { RegionalStation } from '@/types';
 
+/**
+ * Station register, maintained by SISO operations.
+ *
+ * House style: descriptions are written by the station chief at commissioning
+ * and only edited when something changes physically. Incident lines are
+ * pasted in from the station log by an administrator and are not tidied.
+ */
 export const REGIONAL_STATIONS: RegionalStation[] = [
   {
     id: 'st-01',
@@ -13,15 +20,15 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     status: 'Operational',
     personnelCount: 1420,
     leadPersonnelId: 'p-003',
-    leadPersonnelName: 'CEO Alistair Sterling',
+    leadPersonnelName: 'CEO Nigel Ashby',
     establishedDate: '1971-04-12',
     frequencyBand: '22.0 Hz (Architectural Anti-Resonance)',
     description:
-      'A 54-story monolithic black-glass corporate headquarters in Bishopsgate. Features six subterranean basement levels housing master server clusters, executive crisis suites, and acoustic absorption dampeners.',
+      'Fifty-four floors of black glass in Bishopsgate, six of them below ground and one of those unlisted. The listed floors hold server halls, the crisis suite and the anti-resonance plant. The unlisted floor is where the dampeners are driven from and it is kept on a separate key card.',
     incidentHistory: [
-      '1987: Sub-Basement 4 electrical fire masked installation of primary carrier broadcast antenna.',
-      '2014: Structural vibration during London Crossrail excavation revealed unmapped acoustic dampers.',
-      '2023: Unauthorized recording of sub-audible HVAC drone leaked on internet forums.'
+      '1987: Sub-basement 4 electrical fire. The fire report describes cable trays; the works order for the same week covers antenna installation.',
+      '2014: Crossrail excavation recorded vibration through unmapped dampers. The contractor was paid for a survey and given a second one to do elsewhere.',
+      '2023: A recording of the HVAC drone went up on a forum and was gone within a day. Two staff members were interviewed and neither of them did it.'
     ],
     activeProjects: ['Project Echo-State', 'Project Palimpsest', 'Project Vitruvian']
   },
@@ -41,11 +48,11 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '1982-08-15',
     frequencyBand: '14.8 Hz / 432 Hz Dual Modulated',
     description:
-      'Massive subterranean research and government consultation complex buried 45 meters beneath Rosslyn, VA. Directly connected to federal continuity networks and military acoustic research links.',
+      'Forty-five metres of concrete beneath Rosslyn with a staff canteen on the first level down. The complex has two links to federal continuity networks; both are documented as commercial data lines and both have been audited exactly once.',
     incidentHistory: [
-      '1994: Recall coordination center for the Reson-8 sleep device disaster.',
-      '2011: Central command node for the Oakhaven municipal acoustic trial.',
-      '2024: Low-frequency acoustic leak causes persistent hum complaints across North Arlington.'
+      '1994: Recall coordination centre for the Reson-8 recall. The room is still called the crisis room and nobody uses it for anything else.',
+      '2011: Command node for the Oakhaven trial. The trial footage is held here on a shelf and is listed in the register as training material.',
+      '2024: Low-frequency leak produced hum complaints across North Arlington for six weeks. The complaints were mapped and the map showed the shape of the duct run.'
     ],
     activeProjects: ['Project Vesper', 'Project Hypnos', 'Project Chime']
   },
@@ -61,14 +68,14 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     status: 'Operational',
     personnelCount: 620,
     leadPersonnelId: 'p-014',
-    leadPersonnelName: 'Dr. Kaelen Voss',
+    leadPersonnelName: 'Dr. Tobias Voss',
     establishedDate: '1989-03-01',
     frequencyBand: '60.0 Hz Power-Grid Injected Sub-Harmonic',
     description:
-      'Towering commercial and quantitative intelligence center in Chiyoda Ward. Deep sub-levels conduct real-time behavioral sentiment mapping and power-grid harmonic entrainment for the Pacific Rim.',
+      'Quantitative and behavioural analysis floors above ground, entrainment work below. The tower sits close enough to the 50/60Hz grid boundary to work on either side of it, which is why this site was chosen over Osaka and why the decision memo is four lines long.',
     incidentHistory: [
-      '2011: Tōhoku Earthquake telemetry captured 14.8Hz pre-seismic acoustic precursor 18 minutes prior to rupture.',
-      '2018: Pilot municipal crowd-pacification audio test in Shinjuku transit corridor.'
+      '2011: Tōhoku telemetry caught a 14.8Hz precursor 18 minutes ahead of the rupture. The finding was written up, reviewed, and filed as instrument noise.',
+      '2018: Crowd-pacification trial in a Shinjuku transit corridor. Signage messing from the trial was taken down by staff who had not been told what the trial was.'
     ],
     activeProjects: ['Project Hypnos', 'Project Echo-State', 'Project Cicada']
   },
@@ -88,11 +95,11 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '1986-11-10',
     frequencyBand: '14.8 Hz Sub-Permafrost Harmonic Baseline',
     description:
-      'Sub-permafrost deep research bunker and borehole array 12 km north of Longyearbyen. Intercepts anomalous planetary infrasound propagating through the Eurasian tectonic shelf.',
+      "Twelve kilometres north of Longyearbyen, built on ground that has been frozen for longer than there have been people to freeze it. Borehole 4 runs to 820 metres and is capped with a plate that carries the station's only inscription in the Choir Script.",
     incidentHistory: [
-      '1989: Borehole 4 drill bit melted by anomalous localized thermal-acoustic resonance; Dr. Arthur Vance-Vane disavowed.',
-      '2019: Research Fellow Dr. Aris Thorne leaks 48GB classified telemetry (Project Palimpsest).',
-      '2024: Seismic amplitude surge exceeds baseline threshold by 18.4%.'
+      '1989: Drill broke into a void at 812 m. Sedley went down alone the next morning and the cage came back without him. The bit is described in the log as having lost temper; the metallurgy report says the same thing in more words.',
+      '2019: Thorne took 48GB, including the intercom tape from 1989. He was through Longyearbyen airport before the first mirror appeared.',
+      '2024: Seismic amplitude 18.4% above baseline. Lindqvist filed the number and asked for the alarm threshold to be reviewed; the review is still open.'
     ],
     activeProjects: ['Project Boreas', 'Project Palimpsest', 'Project Monolith']
   },
@@ -112,10 +119,10 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '1995-04-12',
     frequencyBand: '4.2 Hz Atmospheric Standing Pillar',
     description:
-      'Cryogenic microbarometer array located at 4,800m elevation in the Atacama Desert. Tracks planetary acoustic refraction in the upper stratosphere and seismic infrasound.',
+      'Microbarometer array at 4,800 metres in the driest air on the planet, on an eight-week rotation with four weeks off. The cryogenic plant runs louder than the array, so the sensors sit 400 metres from the buildings on their own power.',
     incidentHistory: [
-      '2003: Discovered the "Atacama Pillar", a stationary 4.2Hz atmospheric column.',
-      '2021: Optical micro-refractions from the array disrupted adjacent astronomical observatories.'
+      '2003: Morales found the 4.2Hz column standing thirty-five kilometres high over the plateau. It has not moved since, which was the finding and not the weather.',
+      '2021: Optical micro-refraction from the array disturbed the neighbouring observatories during a commissioning window. Compensation was paid and the schedule was quietly moved to the winter.'
     ],
     activeProjects: ['Project Boreas', 'Project Stentor']
   },
@@ -135,10 +142,10 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '1979-09-20',
     frequencyBand: '32.4 Hz Heavy Structural Containment Tone',
     description:
-      'A 600-meter deep subterranean containment complex constructed in the salt flats west of the Great Salt Lake. Houses heavy acoustic damping jacks and deep-crust seismic dampeners.',
+      'Six hundred metres of shaft and gallery under the salt west of the Great Salt Lake. The containment jacks in Chamber 04 run at 114dB continuously and can be felt as vibration through the mess floor. The canteen is on Sub-Level 3 and the induction booklet explains the floor as plant movement.',
     incidentHistory: [
-      '1998: Chamber 02 acoustic breach caused spontaneous structural liquefaction in test bedrock.',
-      '2023: Sub-Level 6 micro-fracture required 40,000 tons of acoustic dampening polymer injection.'
+      '1998: Chamber 02 breached acoustically and the test bedrock liquefied. The gallery was backfilled and the incident is in the register as a drilling water inflow.',
+      '2023: Sub-Level 6 micro-fracture took 40,000 tonnes of polymer and eleven weeks to hold. The road closure notice said culvert replacement.'
     ],
     activeProjects: ['Project Janitor', 'Project Stentor', 'Project Stillwater']
   },
@@ -154,14 +161,14 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     status: 'Operational',
     personnelCount: 88,
     leadPersonnelId: 'p-020',
-    leadPersonnelName: 'Dr. Marcus Vance-Saito',
+    leadPersonnelName: 'Dr. Marcus Saito',
     establishedDate: '1992-06-18',
     frequencyBand: '18.2 Hz Boreal Waveguide',
     description:
-      'Subterranean bio-acoustic research facility and medical quarantine center constructed within an abandoned gold mine shaft in the Canadian Shield.',
+      'A bio-acoustic lab and twelve-bed clinical unit in an abandoned gold shaft, with the mine headframe kept intact because removing it costs money and because a working headframe is the best cover a shaft can have. The clinic intake is written up as occupational medicine for the resource industry.',
     incidentHistory: [
-      '2020: Enforced 30-day quarantine of Station 07 transfer personnel exhibiting Stage-3 acoustic dissociation.',
-      '2022: Developed Compound 88-T pharmaceutical ear-drops.'
+      '2020: Thirty-day quarantine of Station 07 transferees presenting Stage-3. Eleven staff, no refusals, and the intake register for the month is missing two pages.',
+      '2022: Compound 88-T moved from trial to standard issue. The original consent forms are held here rather than at Rosslyn and Saito has been asked why more than once.'
     ],
     activeProjects: ['Project Morpheus', 'Project Boreas']
   },
@@ -181,10 +188,10 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '1984-10-05',
     frequencyBand: '528 Hz Harmonic Stabilization Field',
     description:
-      'Primary European executive redoubt tunneled 1,200 meters into solid granite beneath Grimsel Pass. Self-sustaining for 720 days with sovereign continuity communications arrays.',
+      'Twelve hundred metres into granite under the Grimsel Pass, self-sustaining for 720 days with hydroponic bays on two levels. The bulkhead doors seal automatically at surge and there is no manual override; the decision to remove it was taken in 2016 and is minuted in the seventh chamber file.',
     incidentHistory: [
-      '2021: Completed the 90-day "Silent Cohort" complete isolation test without external air exchange.',
-      '2024: Completed transfer of Tier-1 Heritage Cohort biometric seed vaults.'
+      '2021: Ninety-day silent cohort drill completed with no external air exchange. Three participants withdrew from the programme afterwards and their names have been taken off the roll.',
+      '2024: Heritage Cohort biometric and seed vault transfers finished ahead of schedule, eleven berths short of the roster, which has been accepted.'
     ],
     activeProjects: ['Project Aethelgard', 'Project Stillwater']
   },
@@ -204,10 +211,10 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '2001-12-04',
     frequencyBand: '54.0 Hz Abyssal Trench Pulse',
     description:
-      'Abyssal hydrophone listening platform anchored at 5,400 meters depth in the Chagos Trench. Monitors deep oceanic acoustic channels and submerged lithospheric resonance.',
+      "An anchored listening platform at 5,400 metres with a fibre back to the island. The crew is twenty-four and rotates by supply flight, and the station's standing rule is that no one is to answer the hydrophone in writing on the day they hear something new.",
     incidentHistory: [
-      '2014: Hydrophone 12 captured unexplained 18-minute rhythmic acoustic pulse from the mantle.',
-      '2023: Signal source confirmed at 8,400 meters sub-seabed strata.'
+      '2014: Hydrophone 12 caught an eighteen-minute rhythm from below the crust. Three watches logged it independently and the three logs do not agree on where it stopped.',
+      '2023: Source fixed at 8,400 metres sub-seabed. The pulse swept upward and Azores Node 14 heard the same event fourteen minutes later, which is the part of the record that has no explanation.'
     ],
     activeProjects: ['Project Monolith', 'Project Stentor']
   },
@@ -223,14 +230,14 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     status: 'Operational',
     personnelCount: 95,
     leadPersonnelId: 'p-023',
-    leadPersonnelName: 'Cassian Drake',
+    leadPersonnelName: 'Vincent Adeyemi',
     establishedDate: '1998-03-22',
     frequencyBand: '7.83 Hz Schumann Resonator Array',
     description:
-      'Deep limestone cavern repository housing GPC’s physical historical archive vaults, analog master tapes, and acoustic frequency calibration chambers.',
+      'Climate-controlled galleries holding the physical archive, the analogue masters and the calibration rooms, sixty metres under a cave system that takes paying visitors every day of the year. The reading room is genuine, the tours are not permitted inside it, and chambers seven to eleven are not on any plan that a visitor could be shown.',
     incidentHistory: [
-      '2019: Archivist Julian Thorne purged following unauthorized access to 1989 Station 07 master logs.',
-      '2020: Installed automated document hash re-encoders for real-time redaction enforcement.'
+      '2019: Julian Thorne went into the master logs from an internal terminal and was terminated within the month. He was remediated before release and now lives in Ljubljana and does not recognise former colleagues when they see him.',
+      '2020: Automatic hash re-indexers came online across the estate. The first pass invalidated every leaked copy that had ever been compared against the master, which is what the equipment is for.'
     ],
     activeProjects: ['Project Palimpsest', 'Project Janitor']
   },
@@ -250,9 +257,9 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '2006-05-18',
     frequencyBand: '11.4 Hz Equatorial Ducting',
     description:
-      'High-altitude equatorial acoustic array monitoring the Great Rift Valley fracture corridor and global acoustic ducting.',
+      "A cluster on the mountain's north shoulder watching the Rift Valley for ducted sound. The site took four years to permit and eleven days to build, and the crew keeps a goat, which is not in the specification and has been in every photograph since.",
     incidentHistory: [
-      '2017: Recorded acoustic coupling between Rift Valley tectonic shift and ionospheric plasma density.'
+      '2017: Recorded coupling between a Rift Valley shift and ionospheric plasma density. The correlation was filed under an atmospheric heading that the station asked to have changed and did not get changed.'
     ],
     activeProjects: ['Project Stentor', 'Project Boreas']
   },
@@ -272,8 +279,10 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '1999-07-14',
     frequencyBand: '19.8 Hz Baltic Baseline',
     description:
-      'Subterranean bedrock listening sensor monitoring Baltic basin acoustic vibrations and regional municipal grid harmonics.',
-    incidentHistory: ['2015: Detected clandestine acoustic probe testing in international waters.'],
+      'A bedrock sensor in a converted coastal bunker, staffed by four with an office that was, until 1999, a submarine listening post. The handover papers are still in the cupboard and nobody has decided whether they should be destroyed.',
+    incidentHistory: [
+      '2015: Detected probe testing in international waters. The navy asked for the record and was given a copy with the time axis shifted by ninety minutes, which the station has never been able to explain in writing.'
+    ],
     activeProjects: ['Project Vesper', 'Project Boreas']
   },
   {
@@ -292,8 +301,10 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '1991-11-20',
     frequencyBand: '432 Hz Southern Hemisphere Harmonic',
     description:
-      'Deep-desert subterranean continuity depot and hardware manufacturing vault located within the Woomera Prohibited Area.',
-    incidentHistory: ['2002: Testing of high-power acoustic crowd dispersal arrays.'],
+      'A continuity depot inside the prohibited area with a machine shop on the surface that genuinely makes drilling hardware, and a vault beneath it that provisions for two years of closed operation. The lease is held through an agricultural name that does not correspond to any person.',
+    incidentHistory: [
+      '2002: Testing of high-power crowd-dispersal arrays was logged as rock-breaking trials on the range schedule. The range schedule has since been reissued twice.'
+    ],
     activeProjects: ['Project Aethelgard', 'Project Cicada']
   },
   {
@@ -312,9 +323,9 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '2008-02-11',
     frequencyBand: '8.1 Hz Deep Atlantic Resonator',
     description:
-      'Most isolated ocean acoustic sensor station on Earth. Monitors deep South Atlantic ocean channels and South Atlantic Magnetic Anomaly coupling.',
+      'The most remote installation the company operates: eighteen people, one mooring, and a supply call four times a year. The station listens to the South Atlantic Magnetic Anomaly, where compasses behave badly and every vessel that comes within range is asked to move on.',
     incidentHistory: [
-      '2019: Recorded spontaneous synchronization of oceanic hydrophones across 6,000 km baseline.'
+      '2019: Hydrophones across a 6,000km baseline synchronised spontaneously for nineteen minutes. The record is the only one in the archive where three separate instruments agree to the millisecond and nobody can say what happened.'
     ],
     activeProjects: ['Project Monolith']
   },
@@ -334,9 +345,9 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '1985-09-08',
     frequencyBand: '14.8 Hz High-Power Carrier Array',
     description:
-      'Surface transducer corridor and underground testing grid spanning 80 miles of desert basin. Testbed for Project Vesper and Stentor.',
+      'Eighty miles of surface transducer with a control bunker at the midpoint and a workshop at the north end. It is the loudest place the company owns and the only station where staff are forbidden to sleep on site during transmit windows.',
     incidentHistory: [
-      '1991: Full-power broadcast test triggered localized wildlife disorientation across 400 square miles.'
+      '1991: Full-power test disoriented wildlife across four hundred square miles. The incident report blames a transformer, and two of the plates are still under the sand because recovery was priced and declined.'
     ],
     activeProjects: ['Project Vesper', 'Project Stentor']
   },
@@ -356,9 +367,9 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '2004-10-18',
     frequencyBand: '42.0 Hz Coal Seam Resonant Node',
     description:
-      'Subterranean seismic and acoustic monitoring lab built into a decommissioned deep coal mine complex in the Appalachian Mountains.',
+      'A monitoring post in a decommissioned deep mine, four hundred and twenty metres down at Level 4 with a lift that takes four minutes and has been out of service twice this year. The galleries ring in fifths when the pumps are idling, which the crew are used to and visitors are not.',
     incidentHistory: [
-      '2020: Captured the "Black Ridge Singing Seam" audio recording during deep hydraulic fracturing.'
+      '2020: The Singing Seam recording was made when the hydraulic fluid met a quartz fissure and the wall kept sounding for three minutes after the rig stopped. Zimmerman wrote it up as resonance and has been asked about it twice by people from London.'
     ],
     activeProjects: ['Project Stentor', 'Project Stillwater']
   },
@@ -374,12 +385,14 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     status: 'Operational',
     personnelCount: 52,
     leadPersonnelId: 'p-024',
-    leadPersonnelName: 'Mikhail Volkov',
+    leadPersonnelName: 'Roman Sleptsov',
     establishedDate: '2012-11-05',
     frequencyBand: '14.8 Hz Polar East Baseline',
     description:
-      'Extreme-environment permafrost research station on the shore of the Laptev Sea. Houses 12,000m deep seismic sensor strings.',
-    incidentHistory: ['2025: Subterranean thermal surge recorded in Borehole 8.'],
+      'A permafrost station on the Laptev shore with seismic strings to 12,000 metres on the east side. Nine staff through the winter, helicopter in on Thursdays when the weather allows, and a thermal log that Sleptsov started for the borehole and that the company now uses as its input to everything else.',
+    incidentHistory: [
+      '2025: Thermal surge in Borehole 8 during a cold spell, with the temperature rising while the air temperature outside was -41C. The log is in order; the explanation is not.'
+    ],
     activeProjects: ['Project Boreas', 'Project Monolith']
   },
   {
@@ -398,8 +411,10 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '2015-01-20',
     frequencyBand: '72.0 Hz Deep Trench Chime',
     description:
-      'Submerged deep-water laboratory moored at 6,000m depth in the Cayman Trench. Researches sound velocity profiles and thermal acoustic anomalies.',
-    incidentHistory: ['2021: Discovered acoustic focusing lens effect created by underwater thermal vents.'],
+      'A moored lab at 6,000 metres over the hydrothermal field, with a surface tender on station and a crew that spends three weeks at a time on a platform that moves more than the brochure suggests. It is the deepest manned installation the company has and it was built to answer one question about vent fields.',
+    incidentHistory: [
+      '2021: Confirmed the acoustic focusing effect of the vent field, twenty-four decibels across the field. The finding changed the Monolith budget within a quarter.'
+    ],
     activeProjects: ['Project Stillwater', 'Project Monolith']
   },
   {
@@ -418,9 +433,9 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '2017-06-20',
     frequencyBand: '16.4 Hz Spreading Ridge Harmonic',
     description:
-      'Seafloor fiber-optic monitoring station attached to the Mid-Atlantic spreading ridge. Measures low-frequency acoustic coupling with continental power systems.',
+      'Sapphire transducers on the ridge at 3,200 metres, cabled back to Horta. Resolution is below a millihertz, which is finer than the installation was specified for and finer than the array has any use for, and which has already repaid the cost of the cable twice.',
     incidentHistory: [
-      '2022: Recorded transatlantic harmonic resonance loop linking European and North American power grids.'
+      '2022: Recorded the harmonic loop that runs between the European and North American grids. The loop is audible in the power supply of the station itself, which is how it was noticed before it was measured.'
     ],
     activeProjects: ['Project Monolith', 'Project Stentor']
   },
@@ -436,12 +451,14 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     status: 'Operational',
     personnelCount: 190,
     leadPersonnelId: 'p-014',
-    leadPersonnelName: 'Dr. Kaelen Voss',
+    leadPersonnelName: 'Dr. Tobias Voss',
     establishedDate: '2016-08-14',
     frequencyBand: '432 Hz Regional Stabilizer',
     description:
-      'Subterranean volcanic lava tube redoubt engineered for regional continuity and executive preservation during Pacific Rim crises.',
-    incidentHistory: ['2023: Completed integration of East Asian high-speed demographic data pipelines.'],
+      'A lava tube converted into a continuity vault behind a stainless bulkhead, provisioned for 720 days, with hydroponics and a clinic. It holds eleven fewer berths than the roster expects, which is recorded in the acceptance note and has not been resolved.',
+    incidentHistory: [
+      '2023: East Asian demographic data pipelines integrated. The integration used a live subscriber feed and the paperwork describing it as anonymised is in the archive and is wrong.'
+    ],
     activeProjects: ['Project Aethelgard', 'Project Hypnos']
   },
   {
@@ -460,9 +477,9 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '2016-01-18',
     frequencyBand: '24.8 Hz Urban Baseline',
     description:
-      'Urban demographic research and mobile network frequency analysis center monitoring high-density population movements across East Africa.',
+      'A mid-rise office block with a demographic research floor and a mobile network analysis rack, watching population movement across East Africa. The work is largely genuine research; the acoustic component rides on the same fibre and appears in the accounts under the same heading.',
     incidentHistory: [
-      '2022: Tested ambient mobile carrier frequency acoustic alerts during public health simulations.'
+      '2022: Ambient mobile carrier alerts tested during a public health exercise. The alert was sent to 400,000 handsets and the exercise was reported as a success in the local press before our own evaluation was written.'
     ],
     activeProjects: ['Project Echo-State', 'Project Chime']
   },
@@ -482,8 +499,10 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '2018-09-12',
     frequencyBand: '528 Hz Fjord Acoustic Trap',
     description:
-      'Deep fjord subterranean bunker constructed into coastal granite in southern Chile. Serves as Tier-1 Southern Hemisphere biological seed repository.',
-    incidentHistory: ['2024: Completed installation of deep-water hydro-acoustic tidal generator.'],
+      'A redoubt cut into coastal granite above the fjord with a below-water service tunnel and a seed store on the second level. It closes the twenty-two-station network the founders sketched in 1974 and has the best kitchen of any site the company operates, which the crew mention to visitors before they mention the vault.',
+    incidentHistory: [
+      "2024: Hydro-acoustic tidal generator installed and tied into the building's own supply. The generator is the first plant on the station whose telemetry is not shared with the array, on the instruction of the station chief."
+    ],
     activeProjects: ['Project Aethelgard', 'Project Stillwater']
   }
 ];

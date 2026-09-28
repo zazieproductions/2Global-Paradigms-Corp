@@ -127,7 +127,7 @@ describe('Clearance profiler', () => {
     const dialog = screen.getByRole('dialog');
     await waitFor(() => expect(dialog.contains(document.activeElement)).toBe(true));
     const input = screen.getByPlaceholderText(/master key/i);
-    await user.type(input, 'Vance{Enter}');
+    await user.type(input, 'Warrender{Enter}');
     expect(await screen.findByText(/NO MASTER KEYS REMAIN IN SERVICE/)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /Level 5/i }));
     expect(await screen.findByText(/DEGREE NOT YET EARNED/)).toBeInTheDocument();

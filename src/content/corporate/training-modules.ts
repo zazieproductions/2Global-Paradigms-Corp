@@ -1,5 +1,13 @@
 import type { TrainingModule } from '@/types';
 
+/**
+ * Mandatory e-learning modules from the internal induction portal.
+ *
+ * House style: the course text is written by the directorate that owns the
+ * risk, the safety line is written by Legal, and the quiz is written by
+ * whoever drew the short straw. The material is meant to read as something
+ * staff click through on a Friday afternoon.
+ */
 export const TRAINING_MODULES: TrainingModule[] = [
   {
     id: 'train-01',
@@ -8,63 +16,63 @@ export const TRAINING_MODULES: TrainingModule[] = [
     departmentCode: 'SFPC',
     estimatedMinutes: 25,
     overview:
-      'Foundational onboarding curriculum required for all new Global Paradigms Corporation employees. Covers the core corporate philosophy of proactive probability collapse, demographic inertia management, and the avoidance of public panic feedback loops.',
+      'Induction module, all staff, to be completed in the first two weeks. Explains what the forecasting desk does, why the numbers are not shown to clients in raw form, and where the panic feedback loop sits in the process.',
     sections: [
       {
-        title: '1. The Illusion of Historical Stochasticity',
-        text: 'Conventional economic and historical theory posits that societal crises are spontaneous, chaotic events arising from collective human free will. GPC doctrine rejects this premise. When large demographic populations are observed across macro-temporal intervals, their aggregate behavior conforms with mathematical precision to low-frequency resonant waveforms. By measuring these waveforms, future civil deviations can be forecasted with 99.4% accuracy.',
+        title: '1. Why the Model Works At All',
+        text: 'The common assumption is that a society under stress behaves unpredictably. It does not. At population scale, with the noise averaged out, behaviour follows low-frequency cycles that can be measured, and once measured, forecast. The desk has run this against four decades of unrest records and the error is small. Please note that the model is good at telling you what a population will do and poor at telling you why, and that this distinction matters when you write to a client.',
         safetyGuideline:
-          'Never present raw probabilistic crisis forecasts to un-cleared municipal officials. Always frame projections as "routine demographic capacity planning".'
+          'Raw probabilistic forecasts are never sent to uncleared municipal officials. Present projections as routine demographic capacity planning.'
       },
       {
-        title: '2. The Pre-emptive Intervention Principle',
-        text: 'Waiting for civil unrest to manifest before deploying municipal resources is an engineering failure. Under the Pre-emptive Certainty framework, subtle environmental interventions—such as micro-adjustments to public transit audio frequencies or slight shifts in cellular emergency alerts—are deployed days before public sentiment reaches the agitation threshold. The goal is not to defeat unrest, but to prevent the concept of unrest from cohering in the collective subconscious.',
+        title: '2. Acting Before the Event Exists',
+        text: 'An intervention made after the crowd has formed is a policing cost. An intervention made four days earlier, delivered through lighting, transport or the sound of a street, is an infrastructure cost and appears in no minutes at all. This is the principle you are being asked to accept as an employee: the company does not defeat disturbances, it arranges for them not to occur. Colleagues who have difficulty with that sentence should raise it with their line manager, who will have heard it before.',
         safetyGuideline:
-          'Maintain strict separation between predictive data tables and public-facing corporate PR narratives.'
+          'Predictive tables and client-facing narrative are kept on separate systems. Do not cross-reference them in correspondence.'
       },
       {
-        title: '3. Cognitive Elasticity & Institutional Trust',
-        text: 'A resilient population is one that exhibits cognitive elasticity: the capacity to absorb rapid macro-economic or regulatory shocks without questioning the underlying continuity of governance. GPC consultants work with sovereign partners to instill this elasticity through continuous, low-amplitude sensory conditioning in high-density urban environments.',
+        title: '3. Cognitive Elasticity',
+        text: 'Elasticity is the capacity of a population to absorb a shock without ceasing to trust the institutions above it. Pupils in Chime schools and commuters on Vesper routes have measurably more of it. Whether that capacity was earned or installed is not a question this module answers, and it is not a question for the induction quiz.',
         safetyGuideline:
-          'Report any personal feelings of temporal dissonance or unexplained panic to your department hygiene officer immediately.'
+          'Report any personal sense of temporal displacement, intrusive humming or unaccountable dread to the department hygiene officer. This is a welfare route.'
       }
     ],
     quiz: [
       {
-        question: 'According to GPC doctrine, what is the primary cause of societal crisis?',
+        question: 'According to the module, why does population behaviour appear unpredictable?',
         options: [
-          'Random historical accidents and uncontrollable human free will',
-          'Predictable mathematical divergence in macro-demographic resonant waveforms',
-          'Solar flares and geomagnetic solar storms',
-          'Inefficient municipal accounting software'
+          'Because the underlying cycles have not been measured at sufficient scale',
+          'Because human beings have free will and history is random',
+          'Because solar activity disturbs the measurement',
+          'Because municipal records are unreliable'
+        ],
+        correctIndex: 0,
+        explanation:
+          'At population scale the behaviour resolves into low-frequency cycles; the apparent randomness is a measurement problem.'
+      },
+      {
+        question: 'When is an intervention made under the Pre-emptive Certainty framework?',
+        options: [
+          'After the crowd has formed, to minimise cost',
+          'Days before the disturbance coheres in public sentiment',
+          'Only after ministerial approval is published',
+          'At the same time as the public announcement'
         ],
         correctIndex: 1,
         explanation:
-          'GPC views societal behavior as low-frequency resonant waveforms that can be modeled and stabilized mathematically.'
+          'Interventions are placed before an event exists, at the infrastructure stage rather than the policing stage.'
       },
       {
-        question: 'What is the primary objective of Pre-emptive Certainty interventions?',
+        question: 'How is raw predictive data presented to a municipal client?',
         options: [
-          'To suppress riots using heavy military force',
-          'To publish warning articles in academic journals',
-          'To subtly alter environmental and acoustic cues before public agitation manifests',
-          'To liquidate corporate assets into physical gold bullion'
-        ],
-        correctIndex: 2,
-        explanation:
-          'Pre-emptive Certainty focuses on preventing the concept of unrest from cohering in the public mind via subtle environmental adjustments.'
-      },
-      {
-        question: 'How should raw predictive crisis data be presented to municipal clients?',
-        options: [
-          'In full unredacted detail to encourage maximum transparency',
-          'Framed cautiously as routine demographic capacity planning',
-          'Leaked anonymously to local investigative journalists',
-          'Encoded into Morse code broadcasts'
+          'In full, for transparency',
+          'As routine demographic capacity planning',
+          'Not at all, under any circumstances',
+          'As a verbal briefing only, with no document'
         ],
         correctIndex: 1,
         explanation:
-          'Raw probabilistic collapse models must always be framed to clients as routine demographic planning to prevent panic feedback loops.'
+          'The standing instruction is to present projections as capacity planning; raw collapse models remain internal.'
       }
     ],
     certificationTitle: 'Certified Pre-emptive Certainty Practitioner (Level 1)'
@@ -76,63 +84,62 @@ export const TRAINING_MODULES: TrainingModule[] = [
     departmentCode: 'BHRR',
     estimatedMinutes: 30,
     overview:
-      'Mandatory technical safety protocol for all engineering and scientific staff assigned to subterranean field stations (Site 19, Station 07, Postojna, Swiss Alps, and Tiksi). Teaches proper deployment of Class-A acoustic headgear, Compound 88-T dosage, and prevention of Stage-3 Acoustic Dissociation.',
+      'Mandatory for all engineering and scientific staff posted to Site 19, Station 07, Postojna, Grimsel and Tiksi. Covers the use of Class-A ear protection, Compound 88-T dosing, and what to do when a colleague starts describing the walls.',
     sections: [
       {
-        title: '1. The Sub-Audible Hazard Environment',
-        text: 'Subterranean field stations operate in close proximity to high-amplitude structural containment transducers and natural lithospheric resonance fissures (14.8Hz to 32.4Hz). While these frequencies are below the typical threshold of conscious human hearing, continuous un-attenuated exposure can induce vascular micro-vibrations, eyeball resonance (18.9Hz), vestibular imbalance, and profound auditory phantom perceptions.',
+        title: '1. What You Are Working Next To',
+        text: 'The containment plant at a deep station runs between 14.8Hz and 32.4Hz at amplitudes that do not register as sound. You will not hear it. You may feel it through the floor, or in your teeth, or as a pressure behind the eyes. Vascular micro-vibration and eyeball resonance at 18.9Hz are documented effects and are the reason for the ear protection rule rather than any hearing risk.',
         safetyGuideline:
-          'Class-A active-canceling ear dampeners must be worn at all times when entering Sub-Level 2 or below.'
+          'Class-A ear dampeners at all times below Sub-Level 2. This includes short visits and includes visitors.'
       },
       {
-        title: '2. Stages of Acoustic Dissociation',
-        text: 'Prolonged exposure without adequate acoustic shielding follows a predictable clinical progression:\n- Stage 1 (Mild): Bilateral ear fullness, metallic taste, subjective perception of humming inside structural walls.\n- Stage 2 (Moderate): Loss of sleep drive, vivid waking dreams of geometric black monoliths, temporary disorientation regarding the day of the week.\n- Stage 3 (Severe): Involuntary vocalization of harmonic fifths, glossolalia, and intense desire to remove physical ear dampeners to "hear the bedrock clearly".',
+        title: '2. The Three Stages',
+        text: 'Exposure without protection follows a course that every field officer is expected to recognise in others, and typically not in themselves:\n- Stage 1: fullness in both ears, metallic taste, the impression of humming inside a wall.\n- Stage 2: loss of the need to sleep, waking dreams of black geometric shapes, uncertainty about the day of the week.\n- Stage 3: involuntary humming in fifths, speech in no known language, and a stated wish to remove the ear dampeners in order to hear the rock properly.',
         safetyGuideline:
-          'Any employee exhibiting Stage 2 symptoms must be relieved of duty immediately and escorted to the Bio-Harmonic medical bay.'
+          'Any colleague at Stage 2 is stood down immediately and walked to the medical bay by two people.'
       },
       {
-        title: '3. Application of Compound 88-T Pharmaceutical Drops',
-        text: 'Compound 88-T is a proprietary neuro-otological otic suspension formulated by GPC Bio-Harmonic Reclamation. It temporarily stabilizes cochlear hair cell micro-mechanics and inhibits auditory cortex theta entrainment. Administer two drops in each ear canal prior to entering deep containment chambers or after a suspected transducer leak.',
+        title: '3. Compound 88-T',
+        text: 'A neuro-otological suspension issued by the clinic. It steadies the hair cells and holds off theta entrainment for about twelve hours. Two drops per ear before entering a containment chamber, or after any suspected transducer leak. The drops taste of salt and there is nothing to be done about that.',
         safetyGuideline:
-          'Do not exceed 4 drops in a 24-hour period. Compound 88-T may cause mild temporary loss of high-frequency music appreciation.'
+          'Maximum four drops in twenty-four hours. Temporary flattening of high frequencies is expected and resolves.'
       }
     ],
     quiz: [
       {
-        question: 'What is the mandatory protective equipment when entering Sub-Level 2 or below?',
+        question: 'Which protection is required below Sub-Level 2?',
         options: [
-          'Standard foam earplugs from the supply closet',
-          'Class-A active-canceling ear dampeners',
-          'Heavy winter balaclava and goggles',
-          'No protection is required if the room is quiet'
+          'Foam plugs from the supply closet',
+          'Class-A active-cancelling ear dampeners',
+          'A winter balaclava and goggles',
+          'None, provided the room is quiet'
         ],
         correctIndex: 1,
         explanation:
-          'Class-A active-canceling ear dampeners are strictly mandatory to filter out dangerous sub-audible infrasonic standing waves.'
+          'Class-A dampeners are the specified protection below Sub-Level 2, for everyone including short visits.'
       },
       {
-        question: 'Which of the following is a classic symptom of Stage 2 Acoustic Dissociation?',
+        question: 'Which of these is a Stage 2 indicator?',
         options: [
-          'Sudden cravings for spicy food',
-          'Vivid dreams of geometric black monoliths and loss of sleep drive',
-          'Rapid fingernail growth',
-          'Inability to read digital clock displays'
+          'Cravings for spicy food',
+          'Loss of sleep drive and waking dreams of geometric shapes',
+          'Rapid nail growth',
+          'Difficulty reading digital clocks'
         ],
         correctIndex: 1,
-        explanation:
-          'Stage 2 dissociation is marked by insomnia, waking dreams of geometric monoliths, and temporal disorientation.'
+        explanation: 'Stage 2 is marked by insomnia, geometric waking dreams and uncertainty about the date.'
       },
       {
-        question: 'What is the primary function of Compound 88-T pharmaceutical ear drops?',
+        question: 'What does Compound 88-T do?',
         options: [
-          'To clean excessive earwax from headphones',
-          'To permanently deafen the subject',
-          'To stabilize cochlear hair cells and inhibit theta brainwave entrainment',
-          'To improve high-frequency hearing for classical music'
+          'Cleans earwax from company headsets',
+          'Permanently reduces hearing',
+          'Steadies the hair cells and holds off theta entrainment',
+          'Improves treble response for music'
         ],
         correctIndex: 2,
         explanation:
-          'Compound 88-T stabilizes the inner ear to prevent involuntary neurological entrainment to the 14.8Hz carrier wave.'
+          'It stabilises cochlear mechanics for roughly twelve hours and delays entrainment to the carrier.'
       }
     ],
     certificationTitle: 'Certified Sub-Surface Acoustic Hygiene Specialist (Level 2)'
@@ -144,63 +151,62 @@ export const TRAINING_MODULES: TrainingModule[] = [
     departmentCode: 'PEFD',
     estimatedMinutes: 35,
     overview:
-      'Classified operational training module for field researchers and station managers. Outlines the standard operating procedures when encountering localized temporal dilation, synchronized auditory hallucinations, and anomalous radio carrier wave reflections.',
+      'Restricted module for field researchers and station managers. Standard procedure for clusters of direct cortical perception, subjective temporal dilation and radio reflections that arrive before they are transmitted.',
     sections: [
       {
-        title: '1. Recognizing Non-Auditory Perception Phenomena',
-        text: 'When high-power 14.8Hz carrier transmitters interact with dense architectural granite or Arctic permafrost, localized electromagnetic-acoustic coupling can occur. In these zones, personnel may experience "direct cortical perception"—the sensation of hearing spoken words, rhythmic clicks, or musical chords inside the head with zero measurable sound pressure in the air.',
+        title: '1. Direct Cortical Perception',
+        text: 'Where a high-power carrier meets dense granite or deep permafrost, the field can couple straight into the listener. Staff report whole sentences, counting, and organ chords, with no sound pressure anywhere in the room. It is telemetry arriving through the wrong door. It is not addressed to you and it does not become addressed to you because you answer it.',
         safetyGuideline:
-          'Do not attempt to answer or engage in mental dialogue with direct cortical perceptions. Treat all internal spoken phrases as raw electromagnetic telemetry.'
+          'Do not reply to, argue with, or take dictation from anything perceived in this way. Log it as signal.'
       },
       {
-        title: '2. Temporal Dilation & Memory Distortion',
-        text: 'Sub-audible standing waves operating at the 7.83Hz Schumann fundamental can alter the firing rate of the human hippocampus, resulting in subjective temporal dilation. Personnel may perceive a 10-minute calibration sweep as having lasted several hours, or experience retrograde amnesia regarding the events of the previous afternoon.',
+        title: '2. Temporal Dilation and Memory Drift',
+        text: 'The 7.83Hz band interacts with hippocampal firing rates. A ten-minute sweep may present to the operator as several hours; the previous afternoon may be missing entirely. Neither experience is a symptom of illness and neither is reliable. The clock in the calibration room is the authority on what happened and when.',
         safetyGuideline:
-          'All field logs must be verified against digital atomic clock timestamps rather than subjective personal memory.'
+          'Field logs are reconciled against atomic clock timestamps. Personal recollection is not a record.'
       },
       {
-        title: '3. Protocol 9 Containment Sequence',
-        text: 'If a localized non-auditory perception cluster affects more than three personnel simultaneously:\n1. Power down all secondary transducer amplifiers within a 500-meter radius.\n2. Broadcast the standard 528Hz Solfeggio reset chime for 90 seconds.\n3. Isolate affected personnel in an acoustically damped Faraday room.\n4. Notify the nearest BHRR medical officer and log the event under Project Morpheus.',
+        title: '3. Cluster Response',
+        text: 'If more than three people report the same phenomenon in the same hour:\n1. Shut down secondary transducer amplifiers within 500 metres.\n2. Play the 528Hz reset chime for ninety seconds.\n3. Move those affected to the damped Faraday room.\n4. Notify the nearest BHRR medical officer and raise a Morpheus entry.',
         safetyGuideline:
-          'Never discuss the content of shared auditory perceptions with non-cleared colleagues.'
+          'Do not discuss the content of a shared perception with colleagues who lack the clearance for the site.'
       }
     ],
     quiz: [
       {
-        question: 'What is "direct cortical perception" in the context of GPC field stations?',
+        question: 'What is direct cortical perception, as defined here?',
         options: [
-          'Telepathic communication between management staff',
-          'Subjective perception of sound inside the head caused by electromagnetic-acoustic coupling with zero air sound pressure',
-          'A software bug in the intranet telephone system',
-          'Standard radio interference on analog walkie-talkies'
+          'Telepathy between cleared staff',
+          'Sound experienced inside the head with no measurable air pressure',
+          'A fault in the intranet phone system',
+          'Radio interference on handheld sets'
         ],
         correctIndex: 1,
         explanation:
-          'Direct cortical perception occurs when high-power low-frequency fields couple directly into the auditory cortex without acoustic air pressure.'
+          'It is field coupling directly into the auditory pathway with no acoustic pressure in the room.'
       },
       {
-        question: 'How should field personnel log event times during calibration sweeps?',
+        question: 'How are event times recorded during a calibration sweep?',
         options: [
-          'Based on their personal wristwatch and subjective perception',
-          'Strictly verified against digital atomic clock timestamps',
-          'By estimating the position of the sun or moon',
-          'By consulting the nearest colleague’s memory'
+          'By wristwatch and recollection',
+          'Against the atomic clock timestamps',
+          'By the position of the sun',
+          'By asking the nearest colleague afterwards'
         ],
         correctIndex: 1,
         explanation:
-          'Atomic clock timestamps are mandatory because hippocampal entrainment frequently causes subjective temporal dilation.'
+          'Atomic clock time is the only accepted record; subjective duration is unreliable in the affected band.'
       },
       {
-        question: 'What is the immediate action when a Protocol 9 perception cluster is detected?',
+        question: 'What is the first action on detecting a perception cluster?',
         options: [
-          'Evacuate the entire continent immediately',
-          'Power down secondary amplifiers, broadcast the 528Hz reset chime, and isolate affected staff',
-          'Call the local news station to report the phenomenon',
-          'Increase the broadcast power by 12dB'
+          'Evacuate the site',
+          'Power down secondary amplifiers, run the reset chime, isolate those affected',
+          'Call the local news desk',
+          'Increase broadcast power by 12dB'
         ],
         correctIndex: 1,
-        explanation:
-          'Protocol 9 requires powering down local amplifiers, playing the 528Hz reset chime, and isolating affected personnel in a Faraday room.'
+        explanation: 'Protocol 9 runs amplifier shutdown, the 528Hz chime and isolation before anything else.'
       }
     ],
     certificationTitle: 'Protocol 9 Field Operations Certified Operator (Level 3)'
@@ -212,63 +218,61 @@ export const TRAINING_MODULES: TrainingModule[] = [
     departmentCode: 'TOPN',
     estimatedMinutes: 20,
     overview:
-      'Security awareness module for all supervisory staff. Details the behavioral indicators of potential internal whistleblowers, digital exfiltration techniques, and the immediate containment measures required under Project Palimpsest.',
+      'Supervisory staff only. Behavioural indicators, exfiltration methods and the containment steps required under Palimpsest. This module was rewritten in 2020 and the earlier version has been withdrawn.',
     sections: [
       {
-        title: '1. The Anatomy of an Information Breach',
-        text: 'The primary threat to GPC’s mission is unauthorized public disclosure of raw acoustic telemetry, casualty settlement agreements, or continuity redoubt coordinates. Whistleblowers rarely act out of malicious financial intent; they are typically driven by misplaced ethical concern following their first encounter with unredacted Project Vesper or Station 07 documentation.',
+        title: '1. How a Leak Begins',
+        text: 'Leaks do not begin with money. They begin with a member of staff who has read something they were not prepared for: a casualty schedule, a settlement figure, a borehole log with a human voice on it. The individual then behaves exactly as they always have for several weeks while deciding what to do, which is the window this module exists to identify.',
         safetyGuideline:
-          'Monitor research staff who display sudden reluctance to sign annual Section 4 non-disclosure renewals.'
+          'Note staff who become reluctant to sign the annual Section 4 renewal. Do not challenge them; report it.'
       },
       {
-        title: '2. Behavioral Warning Indicators',
-        text: 'Supervisors must be alert to the following red-flag behaviors:\n- Repeated unauthorized queries on the `/terminal` command line interface for "Palimpsest", "Oakhaven", or "Borehole 4".\n- Inquiries into the legal status or whereabouts of Dr. Arthur Vance-Vane or Dr. Aris Thorne.\n- Taking physical handwritten notes or using unauthorized personal cameras near microfilm vault cabinets.\n- Expressing moral distress regarding municipal tone broadcast trials.',
+        title: '2. Indicators',
+        text: 'Supervisors should read the following as a set rather than as single events:\n- Repeated terminal queries for Palimpsest, Oakhaven or Borehole 4.\n- Questions about the legal status or whereabouts of Dr Arthur Sedley or Dr Ewan Thorne.\n- Handwritten notes or personal cameras near the microfilm cabinets.\n- Moral objections raised, in any form, to a municipal tone trial.',
         safetyGuideline:
-          'Submit an automated Security Flag via the intranet Behavioral Tracker if any staff member displays two or more indicators.'
+          'Two or more indicators together warrant a flag through the Behavioural Tracker. One indicator alone is a Monday morning.'
       },
       {
-        title: '3. Immediate Containment & Sanitization Action',
-        text: 'Upon identifying an active exfiltration attempt:\n1. Revoke the employee’s digital credentials and physical RFID access badges instantly.\n2. Dispatch Agent Felix Mercer’s TOPN response team to seize all local storage media.\n3. Transfer all records authored by the individual to AIRS for retroactive redaction and cryptographic hash re-indexing.\n4. Schedule the subject for Bio-Harmonic memory remediation under Protocol 9.',
+        title: '3. Containment',
+        text: "On an active exfiltration:\n1. Revoke digital credentials and physical access at once, without notice.\n2. TOPN response team to seize local storage. The team is instructed to be courteous and to work in view of witnesses.\n3. Transfer the individual's authored records to AIRS for retroactive redaction and hash re-indexing.\n4. Refer the subject for clinical review. Memory remediation requires a director's signature and is not a supervisory decision.",
         safetyGuideline:
-          'Under no circumstances should supervisors confront suspected whistleblowers alone. Always coordinate through TOPN Security.'
+          'No supervisor confronts a suspected whistleblower alone. Coordination runs through TOPN security, duty officer, at any hour.'
       }
     ],
     quiz: [
       {
-        question: 'What is the most common motivation of an internal GPC whistleblower?',
+        question: 'What most often starts an internal leak?',
         options: [
-          'Financial greed and selling corporate patents to rival software companies',
-          'Misplaced ethical distress following exposure to unredacted project files or trial casualties',
-          'Boredom during long polar station winter rotations',
-          'Political campaigning for local city council seats'
+          'Financial offers from competitors',
+          'Ethical distress after reading unredacted casualty or trial records',
+          'Boredom on a polar rotation',
+          'Political ambition'
         ],
         correctIndex: 1,
-        explanation:
-          'GPC security doctrine recognizes that whistleblowers are typically driven by ethical distress after reading classified casualty or frequency records.'
+        explanation: 'The pattern is exposure to unredacted material followed by weeks of ordinary behaviour.'
       },
       {
-        question: 'Which of the following is an authorized immediate action upon discovering a data leak?',
+        question: 'Which is an authorised immediate step on discovering a leak?',
         options: [
-          'Debating the employee in the cafeteria about corporate ethics',
-          'Revoking digital credentials, seizing local media, and initiating Project Palimpsest hash re-indexing',
-          'Ignoring the leak if it contains less than 10 gigabytes of data',
-          'Forwarding the leaked files to human resources via public email'
+          'Debating the employee in the canteen',
+          'Revoking credentials, seizing local media, starting AIRS hash re-indexing',
+          'Ignoring it below ten gigabytes',
+          'Forwarding the files to HR by email'
         ],
         correctIndex: 1,
-        explanation:
-          'Immediate containment requires credential revocation, media seizure, and retroactive document hash replacement through AIRS.'
+        explanation: 'Containment is credential revocation, media seizure and retroactive hash replacement.'
       },
       {
-        question: 'What should a supervisor do if an employee inquires about Dr. Aris Thorne’s 2019 leaks?',
+        question:
+          "A colleague asks what happened to Dr Ewan Thorne's 2019 disclosures. What does the module require?",
         options: [
-          'Answer their questions with unclassified historical details',
-          'Refer them to external news websites',
-          'Submit an automated Security Flag to TOPN and advise the employee that the topic is classified under Directive 09',
-          'Offer them an immediate promotion to Level 4'
+          'Answer from the public record',
+          'Point them to the newspapers',
+          'Flag it to TOPN and confirm the subject is classified under Directive 09',
+          'Offer them a promotion'
         ],
         correctIndex: 2,
-        explanation:
-          'Inquiries regarding purged personnel or leaked telemetry must be flagged to TOPN Security under Directive 09.'
+        explanation: 'The topic is classified under Directive 09 and the query itself is to be flagged.'
       }
     ],
     certificationTitle: 'Information Containment & Asset Protection Officer (Level 4)'

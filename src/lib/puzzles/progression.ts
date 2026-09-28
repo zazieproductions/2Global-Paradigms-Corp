@@ -180,7 +180,7 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
       if (state.investigation.prologueSeen) return state;
       return withJournal(
         { ...state, investigation: { ...state.investigation, prologueSeen: true } },
-        'Dead-drop received from Dr. Aris Thorne. Case opened: THE SEVEN SEALS.',
+        'Dead-drop received from Dr. Ewan Thorne. Case opened: THE SEVEN SEALS.',
         'system',
         action.at
       );

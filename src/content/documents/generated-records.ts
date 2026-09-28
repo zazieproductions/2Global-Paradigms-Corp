@@ -43,34 +43,34 @@ const STAMPS: DocumentRecord['classificationStamp'][] = [
 ];
 
 const AUTHORS = [
-  'Dr. Arthur Vance-Vane',
+  'Dr. Arthur Sedley',
   'Dame Eleanor Cross',
-  'CEO Alistair Sterling',
-  'Helena Vance-Cross',
+  'CEO Nigel Ashby',
+  'Helena Cross',
   'Dr. Thaddeus Holt',
   'Dr. Evelyn Reed',
   'Dr. Naomi Chen',
-  'Dr. Jonas Sylvan',
-  'Dr. Aris Thorne',
+  'Dr. Jonas Weiss',
+  'Dr. Ewan Thorne',
   'Mara Finch',
-  'Arthur K. Vance-Cross',
+  'Martin Sedley',
   'Chief Engineer Sarah Lin',
   'Commander J. R. Calderon',
-  'Dr. Kaelen Voss',
+  'Dr. Tobias Voss',
   'Dr. Brigitte Laroche',
   'Harrison Blake',
-  'Agent Felix Mercer',
+  'Agent Paul Kiernan',
   'Dr. Henrik Lindqvist',
   'Dr. Soraya Morales',
-  'Dr. Marcus Vance-Saito',
+  'Dr. Marcus Saito',
   'Dr. Diane Kowalski',
   'Julian Thorne',
-  'Cassian Drake',
-  'Mikhail Volkov',
+  'Vincent Adeyemi',
+  'Roman Sleptsov',
   'Dr. Tariq Al-Mansoor',
   'Eleni Kouris',
   'Lukas Meyer',
-  'Vance Sterling-Holt',
+  'Philip Warrender',
   'Dr. Clara Zimmerman',
   'Niall O’Connor',
   'Dr. Hiroshi Tanaka',
@@ -78,16 +78,16 @@ const AUTHORS = [
   'Dr. Astrid Lindberg',
   'Diego Ramirez',
   'Chloe Fontaine',
-  'Garrison Cole',
+  'Frank Bedell',
   'Dr. Anya Sharma',
   'Kasper Vang',
   'Dr. Rebecca Osei',
-  'Tessa Sterling',
-  'Commander Bruce Thorne',
-  'Evelyn Vance-Sylvan',
+  'Tessa Ashby',
+  'Commander Bruce Halloran',
+  'Nora Beaumont',
   'Dr. Ronald Abernathy',
   'Ingrid Holm',
-  'David Vance-Wren'
+  'David Wren'
 ];
 
 const TOPICS = [
@@ -129,6 +129,16 @@ export function generateOperationalRecords(from = 26, to = 165): DocumentRecord[
 
     const isWhistleblower = i % 17 === 0;
 
+    // Stubs cut at slightly different lengths, so the rebuilt bodies do not all
+    // read the same. Two of the summaries below are what the cabinet said, not
+    // what the record said; the discrepancy is in the register and dated.
+    const summaryLead =
+      i % 3 === 0
+        ? `Rebuilt stub. ${topicObj.topic}, ${dept.name.split(' ')[0]} file, ${year}.`
+        : i % 3 === 1
+          ? `${topicObj.topic}. Recorded against the ${dept.name.split(' ')[0]} series, ${year}.`
+          : `Index stub only. ${topicObj.topic}, filed ${dateStr}.`;
+
     records.push({
       id: `doc-${i.toString().padStart(3, '0')}`,
       code: code,
@@ -139,9 +149,9 @@ export function generateOperationalRecords(from = 26, to = 165): DocumentRecord[
       author: author,
       date: dateStr,
       clearance: clr,
-      summary: `Classified operational record detailing ${topicObj.topic.toLowerCase()} administered under GPC ${dept.name} mandate during fiscal cycle ${year}.`,
-      content: `OPERATIONAL CLASSIFIED RECORD ${code}\nAUTHORITY: Global Paradigms Corporation Board Directive\nDATE: ${dateStr}\nAUTHOR: ${author}\n\nSUMMARY:\nThis record establishes operational guidelines regarding ${topicObj.topic.toLowerCase()}. All telemetry indicates that the 14.8Hz baseline carrier [REDACTED: remains within 98.4% phase lock with planetary mantle sensors]. Field personnel must ensure that [REDACTED: unshielded civilians are not exposed to continuous amplitudes exceeding 84dB].\n\nDIRECTIVES:\n1. Maintain continuous logging of structural micro-vibrations across all assigned sub-basement sectors.\n2. In the event of acoustic frequency drift exceeding 0.1Hz, initiate immediate [REDACTED: secondary Helmholtz dampening jacks].\n3. All data packets must be verified against the Postojna Caverns master hash table.`,
-      redactedContent: `OPERATIONAL CLASSIFIED RECORD ${code}\nAUTHORITY: Global Paradigms Corporation Board Directive\nDATE: ${dateStr}\nAUTHOR: ${author}\n\nSUMMARY:\nThis record establishes operational guidelines regarding ${topicObj.topic.toLowerCase()}. All telemetry indicates that the 14.8Hz baseline carrier remains within 98.4% phase lock with planetary mantle sensors. Field personnel must ensure that unshielded civilians are not exposed to continuous amplitudes exceeding 84dB without prior Bio-Harmonic Compound 88-T dosing.\n\nDIRECTIVES:\n1. Maintain continuous logging of structural micro-vibrations across all assigned sub-basement sectors.\n2. In the event of acoustic frequency drift exceeding 0.1Hz, initiate immediate secondary Helmholtz dampening jacks and notify Executive Governance.\n3. All data packets must be verified against the Postojna Caverns master hash table before transmission to sovereign client ministries.`,
+      summary: `${summaryLead} Body rebuilt from stub; wording approximate.`,
+      content: `OPERATIONAL RECORD ${code}\nREF: GPC board directive file ${i}-${year}\nDATE: ${dateStr}\nSIGNED: ${author}\n\nPURPOSE:\nIssued to cover ${topicObj.topic.toLowerCase()}. Standing telemetry has the 14.8Hz baseline carrier [REDACTED: remains within 98.4% phase lock with planetary mantle sensors]. Personnel are reminded that [REDACTED: unshielded civilians are not exposed to continuous amplitudes exceeding 84dB].\n\nINSTRUCTIONS:\n1. Keep logging structural micro-vibration in all sub-basement sectors. Do not annotate the logs by hand.\n2. On drift exceeding 0.1Hz, start [REDACTED: secondary Helmholtz dampening jacks] and report by voice, not by ticket.\n3. Verify every data packet against the Postojna hash table.`,
+      redactedContent: `OPERATIONAL RECORD ${code}\nREF: GPC board directive file ${i}-${year}\nDATE: ${dateStr}\nSIGNED: ${author}\n\nPURPOSE:\nIssued to cover ${topicObj.topic.toLowerCase()}. Standing telemetry has the 14.8Hz baseline carrier remains within 98.4% phase lock with planetary mantle sensors. Personnel are reminded that unshielded civilians are not exposed to continuous amplitudes exceeding 84dB without prior Compound 88-T dosing.\n\nINSTRUCTIONS:\n1. Keep logging structural micro-vibration in all sub-basement sectors. Do not annotate the logs by hand.\n2. On drift exceeding 0.1Hz, start secondary Helmholtz dampening jacks and notify Executive Governance at once. The notification requirement is not discretionary.\n3. Verify every data packet against the Postojna hash table before anything goes to a client ministry.`,
       tags: [topicObj.tag, dept.name.split(' ')[0], `${year}s`, clr.split(' - ')[1] || 'General'],
       classificationStamp: stamp,
       isWhistleblowerLeak: isWhistleblower,

@@ -171,7 +171,7 @@ const FinaleSequence: FC<{ callsign: string; onComplete: () => void }> = ({ call
                       : 'text-[10px] tracking-[0.3em] text-amber-400'
                 }`}
               >
-                {l.tone === 'thorne' ? `— ${l.text} — A.T.` : l.text}
+                {l.tone === 'thorne' ? `— ${l.text} — E.T.` : l.text}
               </p>
             ))}
           </div>

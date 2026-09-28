@@ -2,8 +2,8 @@
 // THE SEVEN SEALS OF THE ORDO VOCIS PROFUNDAE
 // ----------------------------------------------------------------------------
 // The narrative spine of the archive. Global Paradigms Corp. is the exoteric
-// shell; the Order of the Deep Voice is the esoteric core. Dr. Aris Thorne hid
-// his evidence behind the Order's own seven planetary seals, because Project
+// shell; the Order of the Deep Voice is the esoteric core. Ewan Thorne hid his
+// evidence behind the Order's own seven planetary seals, because Project
 // Palimpsest's scrubbers are forbidden to touch liturgical material.
 //
 // Each seal = one planet, one metal, one day, one puzzle, one Seal-Word.
@@ -48,21 +48,19 @@ export interface SealDef {
 export const ORDER_NAME = 'ORDO VOCIS PROFUNDAE';
 export const ORDER_GLOSS = 'The Order of the Deep Voice';
 
-export const PROLOGUE_TRANSMISSION = `If you are reading this, the archive let you in. That means Palimpsest missed one door.
+export const PROLOGUE_TRANSMISSION = `If you're reading this, the archive let you in, which means Palimpsest missed a door.
 
-My name is Dr. Aris Thorne. Until October 2019 I was a Senior Fellow in the Psychoacoustics Directorate. Then I walked out of Station 07 with 48 gigabytes of borehole audio and a nosebleed that has not stopped.
+My name is Ewan Thorne. I was a research fellow in the Psychoacoustics Directorate until October 2019, when I walked out of Station 07 with 48 gigabytes of borehole audio and a nosebleed that hasn't stopped since.
 
-What you are looking at is a company. What it is hiding is a church.
+Here is the part nobody at head office will say out loud. Global Paradigms keeps a church in the basement and pays its clergy out of the training budget. The founders did not discover the 14.8Hz carrier under Cambridge in 1974. They were already answering it, and the order behind the boardroom — the ORDO VOCIS PROFUNDAE — has been steering this firm since the charter was signed in 1971.
 
-The founders did not "discover" the 14.8 Hz carrier under Cambridge in 1974. They were answering it. Behind the org chart there is an inner order — the ORDO VOCIS PROFUNDAE, the Order of the Deep Voice — and it has steered Global Paradigms since the charter was signed in 1971.
+The Order files its work under seven seals: seven planets, seven metals, seven days. I have put what I know behind the same seven seals, because Palimpsest's scrubbers will not touch the liturgy. It is the only hiding place they respect.
 
-The Order marks its work with seven seals: one for each of the seven old planets, one metal, one day of the week. I hid my evidence behind those same seals, because Palimpsest's scrubbers are forbidden to touch the liturgy.
+Break them in order. Each one you break raises your clearance and opens another room of this archive. Each one gives up a word. Write the words down.
 
-Break the seals in order. Each one you break will raise your clearance, and the archive will open further. Every seal gives up a word. Keep the words.
+When you have six, their first letters will give you a name. Say that name at the seventh seal, and we can turn him around.
 
-When all six words are yours, their first letters will tell you a name. Speak it at the seventh seal, and we can turn him around.
-
-— A.T.`;
+— E.T.`;
 
 export const SEALS: SealDef[] = [
   {
@@ -76,26 +74,28 @@ export const SEALS: SealDef[] = [
     title: 'The Square of Lead',
     subtitle: 'Kamea Saturni',
     sealWord: 'ORDO',
-    sealWordGloss: 'order — the arrangement that must be kept',
+    sealWordGloss: 'order — the arrangement that has to be kept',
     rewardLevel: 2,
     rewardText: 'Clearance raised to LEVEL 2 — CONFIDENTIAL',
-    transmission: `The 1971 Cambridge charter was not only signed. It was sealed — pressed into a tablet of lead, and on the lead Vance-Vane scratched a square.
+    transmission: `The Cambridge charter was not only signed in 1971. It was sealed. Arthur Sedley had a tablet of lead cut for the purpose, roughly the size of a hymn book, and on it he scratched a square.
 
-It is the oldest talisman in the Western grimoires: the Kamea of Saturn. Nine cells. The numbers one through nine, each used once. Every row, every column and both diagonals sum to the same constant.
+Nine cells. The numbers one to nine, each used once. Every row, every column, both diagonals — the same total. It is the oldest trick in the Western grimoires and he lifted it whole out of a manuscript he had no business owning.
 
-I have recovered two of the numbers. Restore the other seven. Then look at what the constant is — and look at the carrier readout in the header of this archive.`,
+I have two of the numbers from the tablet. The other seven are gone; the lead was scored and folded at some point in the eighties and the rest of the grid is illegible under the fold.
+
+Restore the square. Then look at what the constant is, and look at the carrier readout at the top of this archive, and tell me you don't get a chill.`,
     objective:
-      'Complete the 3×3 magic square: place the digits 1–9 (each once) so every row, column and diagonal has the same sum.',
+      'Complete the 3×3 magic square. Place the digits 1–9, each exactly once, so every row, column and diagonal comes to the same total.',
     hints: [
-      'In any 3×3 square using 1–9, all eight lines share the same sum. Add 1 through 9 (=45) and divide across the three rows.',
-      'Each line sums to 15. The centre cell sits on four lines at once — in every such square it must be 5. Opposite corners pair to 10.',
-      'Top row: 4 · 9 · 2. Middle row: 3 · 5 · 7. Bottom row: 8 · 1 · 6.'
+      'Add 1 to 9 and you get 45. Three rows, same total each. That is your constant. Work backwards from it.',
+      'The constant is 15. In any square of this kind the middle cell sits on four of the eight lines, so it has to be 5. Opposite corners mirror each other to 10.',
+      'Top row 4 9 2. Middle row 3 5 7. Bottom row 8 1 6.'
     ],
-    revelation: `Fifteen. Saturn's constant.
+    revelation: `Fifteen. The constant of Saturn.
 
-The carrier reads 14.802 Hz, and the Order's own status boards show it drifting upward at 0.05% a year. Their internal liturgy calls the day it reaches 15.000 "the Completion of the Square."
+Now look at the carrier in the header: 14.802 Hz. The Order's own status boards show it climbing at about 0.05% a year, and the internal liturgy has a name for the day it reaches 15.000 — the Completion of the Square.
 
-Look at the Timeline and the Annual Reports with that in mind. Every "continuity" investment since 1984 — the Aethelgard redoubts, the Heritage Cohort — is timed to that arrival. They are not preparing for a disaster. They are preparing for a service.`,
+Go back through the timeline with that in your head. Every continuity investment since 1984, the redoubts, the Cohorts, all of it, is scheduled against that arrival. They are not getting ready for a disaster. They are getting ready for a service.`,
     pointers: [
       { label: 'Company Charter (Level 5 — sealed to you for now)', docCode: 'DOC-1971-FOUNDING' },
       { label: 'Historical Timeline', tab: 'timeline' }
@@ -112,27 +112,29 @@ Look at the Timeline and the Annual Reports with that in mind. Every "continuity
     title: 'The Wheel of Days',
     subtitle: 'Heptagramma Chaldaeorum',
     sealWord: 'ROTA',
-    sealWordGloss: 'the wheel — the week that turns inside the star',
+    sealWordGloss: 'the wheel — the week turning inside the star',
     rewardLevel: 3,
     rewardText: 'Clearance raised to LEVEL 3 — SECRET. Redaction De-Scrambler unlocked.',
-    transmission: `Every GPC facility has the same floor inlay in its lobby: seven planetary glyphs in a circle. Visitors assume it is décor.
+    transmission: `Every GPC building has the same floor inlay in the lobby. Seven planetary glyphs in a ring, set in brass, with a letter under each one. Visitors walk over it and think it is a planetarium decoration, which is what the facilities brief calls it.
 
-The glyphs sit in the Chaldean order — the ancient ranking of the planets by apparent speed, slowest to fastest. The Order rehearses one voice each day, and its liturgical week begins on the day of the Sun.
+The glyphs are in the Chaldean order — the old ranking of the planets by how fast they appear to move. The Order sings to one of them each day, and its week starts on the Sun.
 
-Trace the Choir's week across the inlay, point by point. The letters under each glyph will speak. If you trace it correctly, you will find you have drawn a star.`,
+Trace the week across the inlay. Take the letters in the order you touch them. If you do it right you will have drawn a star, and the letters will be a word.`,
     objective:
-      "Click the seven points of the heptagram in the order of the days of the week, starting with Sunday. The letters you collect spell the Seal-Word's key.",
+      'Click the seven points of the heptagram in the order of the days of the week, beginning with Sunday. The letters you collect spell the Seal-Word.',
     hints: [
-      'The seven days of the week are named after the seven classical planets. Use the Table of Correspondences to match glyphs to planets.',
-      'Sunday = Sun ☉, Monday = Moon ☽, Tuesday = Mars ♂ (French "mardi"), Wednesday = Mercury ☿ ("mercredi"), Thursday = Jupiter ♃ ("jeudi"), Friday = Venus ♀ ("vendredi"), Saturday = Saturn ♄.',
-      'Trace ☉ → ☽ → ♂ → ☿ → ♃ → ♀ → ♄. The letters spell LITURGY.'
+      'Sunday, Monday, Tuesday and so on are named after the seven classical planets. The table of correspondences under the inlay will do the matching for you.',
+      'Sunday is the Sun. Monday is the Moon. Tuesday is Mars, Wednesday Mercury, Thursday Jupiter, Friday Venus, Saturday Saturn.',
+      'Run it Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn. The letters come out LITURGY.'
     ],
-    revelation: `LITURGY. The corporation is a liturgy — a public work performed on behalf of something.
+    revelation: `LITURGY.
 
-The heptagram you just drew is the Order's master sigil. It is on the cover of every Level 5 binder, embossed so lightly you can only see it under raking light.
+That is the word for what this is, and I did not pick it. A liturgy is a public work performed on behalf of something else. Everyone in the building walks over the sigil on their way to the lifts.
 
-Your clearance is now high enough to run the Redaction De-Scrambler. Press U, or use the eye in the header. Palimpsest never deletes — it only covers. Everything under the black bars is still there.`,
-    pointers: [{ label: 'Project Dossiers — note which ones have "choir" cover names', tab: 'programs' }]
+You have drawn the Order's master sigil. It is on the cover of every Level 5 binder, embossed so lightly that you only see it under a raking light.
+
+Your clearance will carry the De-Scrambler now. Press U, or use the eye in the header. Palimpsest does not delete anything. It covers. Every black bar in this archive still has the words underneath it, and I would like you to start reading them.`,
+    pointers: [{ label: 'Programme dossiers — check the cover names', tab: 'programs' }]
   },
   {
     id: 3,
@@ -147,23 +149,25 @@ Your clearance is now high enough to run the Redaction De-Scrambler. Press U, or
     sealWord: 'PROFUNDUM',
     sealWordGloss: 'the deep — where the voice is',
     rewardText: "The Choir Script Codex is complete. The Order's inscriptions are now legible to you.",
-    transmission: `The Order writes in its own alphabet — the Choir Script. Each glyph is drawn on a grid of nine points, the Square of Saturn again.
+    transmission: `The Order writes in its own alphabet, the Choir Script. Every glyph sits on a grid of nine points — the Square of Saturn again, they are incapable of inventing anything new.
 
-No one inside GPC ever holds the whole key. Instead, fragments are hidden in plain sight on the public-facing materials, where the uninitiated will never look twice: seven fragments, each teaching two or three letters.
+Nobody inside this company is ever given the whole key. The fragments are hidden in plain sight on the public material instead: seven of them, on pages no initiate would bother to read twice, teaching two or three letters each.
 
-I have transcribed an inscription from the door of the Borehole 4 lift at Station 07. Find the seven fragments — they glow faintly when you hover over them, or when you reach them with the keyboard — and read what the door says. Tell me where it points.`,
+I copied an inscription off the door of the Borehole 4 lift at Station 07. It is the sentence the whole Order is built on, and it is sitting on their own public website in pieces.
+
+Find the seven fragments. They show themselves if you hover, or if you reach them with the keyboard. Read the inscription, and tell me where it points.`,
     objective:
-      'Find the 7 hidden sigil-fragments scattered across the public archive sections. Each one teaches glyphs of the Choir Script. Decode the inscription and enter the PLACE it names.',
+      'Find the 7 sigil-fragments hidden across the public sections of the archive. Together they spell an inscription. Enter the PLACE it names.',
     hints: [
-      'The fragments are in the corporate, public-facing sections: Newsletters, Careers, Timeline, the 5 Pillars, Recalled Products, Annual Reports and Dead Links. Look near the top of each page for a faint glyph.',
-      'You do not need every fragment. Once most letters are revealed, the inscription reads like a sentence: "THE CHOIR SINGS BENEATH …"',
+      'The fragments sit on the corporate pages: Newsletters, Careers, Timeline, the five Pillars, Recalled Products, Annual Reports and Dead Links. Look near the top of each one, for a faint glyph.',
+      'You do not need all seven. Once most of the letters are in, it reads like a sentence: "THE CHOIR SINGS BENEATH …"',
       'The inscription reads THE CHOIR SINGS BENEATH SVALBARD. The answer is SVALBARD.'
     ],
-    revelation: `SVALBARD. Station 07, the Spitsbergen Permafrost Vault.
+    revelation: `SVALBARD. Station 07. The vault they cut into the permafrost above Longyearbyen, which officially exists to study ice.
 
-Vance-Vane commissioned it in 1986. In November 1989 he rode the Borehole 4 lift down to -820 metres for a "listening vigil." The lift came back up empty. The official record calls it a disavowal. The Order calls it the Descent.
+Sedley commissioned the borehole at Station 07 in 1986, four years after his first seizure and two years before he stopped travelling under his own name. In November 1989 he took the Borehole 4 lift down to minus 820 metres for a listening vigil and the lift came back up without him. The company calls that a disavowal. The Order calls it the Descent, and it keeps a card in the annual report for it.
 
-Your Codex is complete. From now on, when you see the Choir Script elsewhere in the archive, you can read it.`,
+Your Codex is complete — Choir Script elsewhere in this archive will read as text from now on. Do not skim those inscriptions. Several of them are instructions.`,
     pointers: [
       { label: 'Regional Stations — Station 07', tab: 'stations' },
       { label: 'The 1989 Svalbard Event', docCode: 'DOC-1989-SVALBARD-EVENT' }
@@ -183,28 +187,30 @@ Your Codex is complete. From now on, when you see the Choir Script elsewhere in 
     sealWordGloss: 'harmony — three voices bound into one',
     rewardLevel: 4,
     rewardText: 'Clearance raised to LEVEL 4 — TOP SECRET.',
-    transmission: `The Order's rite of the Sun requires three voices sounded together. Every initiate learns them as a catechism:
+    transmission: `The rite of the Sun wants three voices together. Every initiate learns them as a catechism, and I have heard it recited by men in very good suits:
 
 "The first is the voice of the Earth, which the founders heard beneath Cambridge.
 The second is the voice of Evening, which the cities hear at six o'clock.
 The third is the voice of the Child, which rings in every school bell."
 
-Each of those voices is a project in the dossiers, and each has a frequency. Tune the three dials of the Sun Lock. When all three voices agree, the gold seal opens.`,
+All three are programmes in the dossiers. All three have a frequency. Somebody in this company built them as three parts of one chord and then wrote it down in the paperwork in three separate places, because that is how you keep a secret in an organisation this size: you make it boring and you spread it out.
+
+Tune the three dials of the Sun Lock. When the three agree the gold seal opens.`,
     objective:
-      'Set the three dials to the correct frequencies (Hz). The values are in the Project Dossiers and research papers — find the project behind each "voice."',
+      'Set the three dials to the correct frequencies in Hz. Each value is in the dossiers and the research papers — find the programme behind each "voice".',
     hints: [
-      'Earth → the 1974 Cambridge baseline / Project Boreas. Evening → the project that broadcasts at 18:00. Child → the project that tunes institutional school bells.',
-      "Earth = the planetary carrier. Evening = Project Vesper's musical-pitch carrier. Child = the LOWER of Project Chime's bell harmonic pair.",
-      'Earth 14.8 Hz · Evening 432 Hz · Child 741 Hz.'
+      'Earth is the planetary carrier from the Cambridge baseline work. Evening is the 18:00 municipal broadcast. Child is the school-bell programme, and you want the lower of its two harmonics.',
+      'Earth is the 14.8 Hz carrier. Evening is Vesper at 432 Hz. Child is Chime, and the lower bell tone is 741 Hz.',
+      'Earth 14.8 · Evening 432 · Child 741.'
     ],
-    revelation: `14.8, 432, 741. The Harmonia Triplex.
+    revelation: `Fourteen point eight. Four hundred and thirty-two. Seven hundred and forty-one.
 
-Played together, the two audible tones beat against each other while the carrier trembles beneath them. The Order believes this chord is a greeting. Project Vesper, Project Chime and the carrier itself were never separate programs. They are three parts of one hymn, sung every evening into a billion ears.
+Play them together and the two audible tones beat against each other while the carrier moves underneath, and something happens in the room that I am not going to describe in writing. Chime, Vesper and the carrier were never three programmes. They are one hymn with three parts, and the Order has been singing it at a billion people every evening for thirty years.
 
-Level 4 is open. There is a hymnal in the vault. Palimpsest redacted it — lazily.`,
+Level 4 is open to you now. There is a hymnal in the vault — literally, a book of hymns, filed by a curator who thought he was being funny. Palimpsest redacted it, and badly. Start there.`,
     pointers: [
-      { label: 'Project Dossiers', tab: 'programs' },
-      { label: 'Acoustic Artifacts & Synth — try the tones yourself', tab: 'audio' }
+      { label: 'Programme dossiers', tab: 'programs' },
+      { label: 'Acoustic artefacts — hear the tones yourself', tab: 'audio' }
     ]
   },
   {
@@ -219,24 +225,28 @@ Level 4 is open. There is a hymnal in the vault. Palimpsest redacted it — lazi
     subtitle: 'Hymnus Obscuratus',
     sealWord: 'ECHO',
     sealWordGloss: 'the echo — what answers when the voice is spoken to',
-    rewardText: "The Mercury Wheel is unlocked. The courier's cipher can now be turned.",
-    transmission: `Find the record titled "Hymnal of the Sealed Choir." It is Level 4, catalogued under Executive Governance in 1987.
+    rewardText: 'The Mercury Wheel is unlocked. The courier cipher can now be turned.',
+    transmission: `Find the record called "Hymnal of the Sealed Choir." Executive Governance, catalogued 1987, Level 4.
 
-The Order hid the location of its reliquary — the place where every original, unscrubbed record is kept — inside the hymn itself. Palimpsest's operator on shift that night did the minimum: one bar per line, always at the same position.
+The Order needed somewhere to keep its originals — the unscrubbed versions of things, the ones written before the public copy was tidied. Obviously you cannot label a shelf "originals" in a company this size. So they put the location of the reliquary in a hymn, in the verse, and trusted that no outsider would ever read a company hymn all the way through.
 
-Open it with the De-Scrambler on. The Order always hides the truth at the head of the verse.`,
+The scrubber on duty that night clearly didn't. One bar per line, same position every time, and home by seven.
+
+Open it with the De-Scrambler on. Read down the first letters.`,
     objective:
-      'Open the Hymnal document in the Master Document Vault with the Redaction De-Scrambler enabled. Read the first letter of each line. Enter the place it spells.',
+      'Open the Hymnal in the document vault with the Redaction De-Scrambler enabled. Read the first letter of each line and enter the place they spell.',
     hints: [
-      'Search the vault for "Hymnal" (press /). You need Level 4 and the De-Scrambler (press U).',
-      'Read only the FIRST LETTER of each of the eight lines of the hymn, top to bottom. It is an acrostic.',
-      "The letters spell POSTOJNA — the Slovenian caves that house GPC's master repository."
+      'Search the vault for "Hymnal" — press / to search. You need Level 4 and the De-Scrambler, so press U first.',
+      'Read only the first letter of each of the eight lines of the hymn, top to bottom. It is an acrostic, and a lazy one.',
+      'The letters spell POSTOJNA. The karst caves in Slovenia where the company keeps its master repository.'
     ],
-    revelation: `POSTOJNA. The karst caves in Slovenia. The sidebar has been telling you the whole time: DATABASE: GPC_POSTOJNA_MASTER.
+    revelation: `POSTOJNA.
 
-It is not a data centre. It is a reliquary. The Order keeps every original record there before Palimpsest rewrites the public copy — because a liturgy must be remembered exactly, even when the world must forget it.
+The sidebar has been telling you since your first session. Look at the bottom of it: DATABASE: GPC_POSTOJNA_MASTER. Not a backup site. A reliquary, in the old sense of the word: the place the original is kept so that the copy in circulation can be made to agree with it again.
 
-Keep that word. It is also a key.`,
+The Order keeps every original at Postojna before Palimpsest rewrites the public version. A liturgy has to be remembered exactly, even where the world has to forget it, and this is the difference between lying to a public and lying in a ledger.
+
+Keep the word. It is a place, and it is also a key. You will need it in a moment.`,
     pointers: [
       { label: 'Open the Hymnal', docCode: 'DOC-1987-HYMNAL-OVP' },
       { label: 'Master Document Vault', tab: 'documents' }
@@ -256,23 +266,23 @@ Keep that word. It is also a key.`,
     sealWordGloss: 'the shadow — what is kept behind the record',
     rewardLevel: 5,
     rewardText: 'Clearance raised to LEVEL 5 — BLACK DOSSIER.',
-    transmission: `Mercury is the messenger. The Order's couriers carry their instructions enciphered on a brass wheel — what the rest of the world calls a Vigenère cipher. The keyword changes with each courier. Mine was the name of the reliquary.
+    transmission: `Mercury is the messenger, so the Order gives its couriers a wheel — a brass disc with two rings of letters, which the rest of the world calls a Vigenère cipher and the Order calls the Wheel of the Messenger. The keyword changes with every courier. Mine is the name of the reliquary.
 
-Before I ran, I left the combination to my safe in this archive enciphered on the wheel. The safe is the brass key in the top bar of this archive. What is inside it is everything.
+Before I ran, I left the combination to my safe on the wheel. The safe is the brass key in the top bar of this archive. Everything I have is behind that door.
 
-Turn the wheel with the right key and do what the message says.`,
+Turn the wheel with the right word, read what it says, and do what it tells you.`,
     objective:
-      "Enter the keyword into the Mercury Wheel to decrypt Thorne's message. Then open the Whistleblower Safe (the key icon in the top bar) with the 4-digit code it describes.",
+      "Enter the keyword into the Mercury Wheel to decrypt Thorne's message, then open the Whistleblower Safe (the key icon in the top bar) with the 4-digit code the message describes.",
     hints: [
-      'The keyword is the answer to the previous seal (the name of the reliquary).',
-      'Decrypted: "THE SAFE OPENS AT THE HOUR VESPER SINGS." Check the Project Vesper dossier for its daily broadcast time.',
+      'The keyword is the answer to the previous seal. The name of the reliquary.',
+      'The message decodes as: "THE SAFE OPENS AT THE HOUR VESPER SINGS." The Vesper dossier has the broadcast time.',
       'Vesper broadcasts at 18:00. Open the safe with 1800.'
     ],
-    revelation: `The safe is open. You are Level 5 — Black Dossier.
+    revelation: `The safe is open. You are Level 5, which is as high as the ladder goes.
 
-Everything Palimpsest hid is readable now. Read the Black records. Read "The Descent of Orpheus." Read the Seventh Chamber minutes.
+Everything Palimpsest has been covering is legible now. Read the Black records. Read the Descent of Orpheus. Read the Seventh Chamber minutes and the names on the attendance sheet.
 
-Then come to the last seal. You have six words. The Order gave Vance-Vane a singer's name when he went down — the one from the old story, who descended for love, sang the dead to tears, and looked back.`,
+Then come to the last seal, because you have six words and you need one more. When Sedley went down the borehole in 1989 the Order gave him a singer's name — the one from the old story, who went down to the underworld for love, sang the dead into tears, and looked back.`,
     pointers: [
       { label: 'Project Vesper dossier', tab: 'programs' },
       { label: 'Dead Links & Wayback Mirrors — the courier drop', tab: 'deadlinks' }
@@ -291,27 +301,27 @@ Then come to the last seal. You have six words. The Order gave Vance-Vane a sing
     sealWord: 'SILENTIUM',
     sealWordGloss: 'silence — the end of the song',
     rewardText: 'The Counter-Rite is performed.',
-    transmission: `The Moon is the last seal because the Moon is the mirror. Everything the Order sends down, the Moon sends back.
+    transmission: `The Moon is last because the Moon is the mirror. Whatever the Order sends down comes back up.
 
-Arthur Vance-Vane is still down there. What the Order calls the Deep Voice — the thing at 2,900 km that Project Monolith tracks — has been singing with his voice since 1989. The carrier is his. The drift toward fifteen is him, climbing.
+Arthur Sedley is still down there. What they call the Deep Voice — the thing Project Monolith tracks at 2,900 kilometres, the one that has been drifting toward fifteen for forty years — has been singing in his voice since 1989. The carrier is his. The drift is him, climbing.
 
-There is one thing the old story says will make a singer stop. Call him by his name, and he turns around.
+The old story has one thing to say about making a singer stop. You call him by his name, and he turns around.
 
-Take the first letter of each of your six Seal-Words. Finish the name. Speak it here, or in the terminal: invoke <name>.`,
+Take the first letter of each of your six Seal-Words. Finish the name. Then say it here, or in the terminal: invoke <name>. Say it once.`,
     objective:
       'Write the initials of Seal-Words I–VI in order, complete the name, and speak it. (You can also type "invoke <name>" in the terminal.)',
     hints: [
       'Your Seal-Words are ORDO, ROTA, PROFUNDUM, HARMONIA, ECHO, UMBRA. Their initials are O-R-P-H-E-U…',
-      'The singer of Greek myth who went down into the underworld to retrieve Eurydice, and looked back.',
+      'The singer from the Greek myth. He went down for Eurydice, and he looked back.',
       'ORPHEUS.'
     ],
     revelation: `SILENTIUM.
 
 The carrier is falling. 14.802 … 9.1 … 3.3 … 0.000.
 
-For the first time since April 1971, there is nothing under Cambridge. Twenty-two stations report a flat line. In a thousand subway stations at six o'clock, nobody feels tired.
+For the first time since April 1971 there is nothing under Cambridge. Twenty-two stations are reporting a flat line. In a thousand subway stations at six o'clock, nobody feels tired.
 
-Thank you, Operator. — A.T.`,
+Thank you, Operator. — E.T.`,
     pointers: [
       { label: 'The Descent of Orpheus (Level 5)', docCode: 'DOC-1989-DESCENT-ORPHEUS' },
       { label: 'Minutes of the Seventh Chamber (Level 5)', docCode: 'DOC-2025-SEVENTH-CHAMBER' }

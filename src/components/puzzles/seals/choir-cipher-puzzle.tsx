@@ -24,7 +24,7 @@ export const ChoirCipherPuzzle: FC<{
       {/* The inscription */}
       <div className="p-4 rounded border bg-black/60" style={{ borderColor: `${accent}44` }}>
         <p className="text-[9px] text-slate-500 tracking-widest mb-3">
-          INSCRIPTION — BOREHOLE 4 LIFT DOOR, STATION 07 (TRANSCRIBED BY A.T., 2019-10-11)
+          INSCRIPTION — BOREHOLE 4 LIFT DOOR, STATION 07 (TRANSCRIBED BY E.T., 2019-10-11)
         </p>
         <p className="sr-only">
           Letters you can read so far:{' '}

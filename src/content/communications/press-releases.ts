@@ -1,271 +1,288 @@
 import type { PressRelease } from '@/types';
 
+/**
+ * Press office archive.
+ *
+ * House style: the public words are the press office's; the `internalSubtext`
+ * is what the desk actually meant, added by the archive team years later.
+ * Keep the two registers completely separate — that gap is the story.
+ */
 export const PRESS_RELEASES: PressRelease[] = [
   {
     id: 'pr-01',
     releaseNumber: 'PR-1978-04',
     date: '1978-06-14',
-    headline: 'Paradigms Systems Ltd. Expands Predictive Economic Advisory into Municipal Transit Planning',
+    headline: 'Paradigms Systems announces urban studies division',
     city: 'London, UK',
     leadParagraph:
-      'Paradigms Systems Ltd., the leading strategic forecasting consultancy founded by Dr. Arthur Vance-Vane and Eleanor Cross, today announced the creation of its dedicated Urban Demographic Stability Division.',
+      'Paradigms Systems Ltd. has established an Urban Studies Division to advise municipal authorities on passenger flow and congestion in public transport networks. The division will be based in Bishopsgate and will initially serve clients in the United Kingdom and the Low Countries.',
     bodyParagraphs: [
-      'The new division will provide municipal governments in the United Kingdom and Western Europe with advanced statistical modeling to predict and alleviate urban congestion and public transit stresses.',
-      'Dr. Arthur Vance-Vane remarked: "Modern civic stability is directly tied to the rhythm of human transit. By harmonizing the acoustic and spatial environment of public thoroughfares, we can cultivate an atmosphere of natural order and mutual civic trust."'
+      "The division will apply the firm's statistical methods to transport planning, with particular attention to the comfort and movement of passengers during peak hours.",
+      'Dr. Arthur Sedley said: "Cities are loud places and most of what is said in them is never heard. We are interested in the part that is not heard."',
+      'The company declined to name its first municipal client.'
     ],
     mediaContact: 'Press Bureau, Paradigms Systems Ltd., Bishopsgate, London',
     disclaimer: 'For general business distribution only.',
     internalSubtext:
-      'Cover story for initial acoustic entrainment trials conducted on the London Underground Central Line.'
+      'Cover for the first acoustic entrainment trials on the Central Line, run in June and July.'
   },
   {
     id: 'pr-02',
     releaseNumber: 'PR-1984-11',
     date: '1984-10-05',
-    headline:
-      'Corporate Reorganization: Paradigms International Rebrands as Global Paradigms Corporation (GPC)',
+    headline: 'Paradigms International to trade as Global Paradigms Corporation',
     city: 'London & Washington, D.C.',
     leadParagraph:
-      'Following a comprehensive structural reorganization, Paradigms International has formally transitioned its worldwide operations under the unified brand of Global Paradigms Corporation.',
+      'Following an internal reorganisation, Paradigms International has consolidated its operations under the single trading name Global Paradigms Corporation. Existing contracts transfer to the new entity without change.',
     bodyParagraphs: [
-      'The restructuring reflects GPC’s expanded international footprint, encompassing sovereign debt advisory, civil continuity planning, and environmental infrastructure management.',
-      'GPC also announced the commencement of excavation on its high-security European archival facility in the Swiss Alps, designed to preserve vital corporate and institutional records for generations.'
+      'The group now covers sovereign advisory work, continuity planning and environmental infrastructure across eleven countries.',
+      'The company also confirmed that construction has begun on a European records facility in the Swiss Alps, intended to hold institutional archives in conditions of complete environmental stability.',
+      "No redundancies are expected. The press office will not be commenting on the facility's location beyond the canton."
     ],
     mediaContact: 'Corporate Communications, Global Paradigms Corp.',
     disclaimer: 'Approved for international financial media.',
-    internalSubtext: 'Accompanied groundbreaking on the Grimsel Pass Tier-1 continuity redoubt.'
+    internalSubtext: 'Ran alongside groundbreaking at Grimsel Pass. Tier-1 redoubt, not a records facility.'
   },
   {
     id: 'pr-03',
     releaseNumber: 'PR-1986-09',
     date: '1986-11-15',
-    headline: 'GPC Commissions Polar Atmospheric Research Array in Spitsbergen, Svalbard',
+    headline: 'Station 07 opens in Spitsbergen',
     city: 'Longyearbyen, Svalbard',
     leadParagraph:
-      'Global Paradigms Corp. has officially opened Station 07, a state-of-the-art Arctic meteorological and atmospheric acoustic research facility situated in the Svalbard archipelago.',
+      'Global Paradigms Corp. has opened an atmospheric research station on Spitsbergen, in the Svalbard archipelago. The station will study polar weather systems and the propagation of very low frequency sound through the upper atmosphere.',
     bodyParagraphs: [
-      'The station features advanced deep-permafrost temperature sensors and sensitive microbarometer arrays to study polar vortex behavior and upper-atmosphere sound propagation.',
-      'Project Director Dr. Henrik Lindqvist stated: "The pristine Arctic acoustic environment allows us to measure subtle global atmospheric pressure waves with unprecedented clarity."'
+      'The facility accommodates twelve staff year-round and operates an array of microbarometers and borehole sensors.',
+      'Dr. Henrik Lindqvist, who will direct the station, said: "The Arctic is the quietest place on the planet, and the most useful one for listening to the whole of it."',
+      'The station operates under the scientific research provisions of the Svalbard Treaty.'
     ],
     mediaContact: 'Nordic Research Bureau, GPC Station 07',
     disclaimer: 'Issued in accordance with the Svalbard Treaty scientific research provisions.',
     internalSubtext:
-      'Masks the deep drilling of Borehole 4 to intercept the subterranean 14.8Hz harmonic pulse.'
+      'Station 07 was built around Borehole 4, which had already been drilled to 820 metres before the station existed. The opening press pack contains no mention of the borehole.'
   },
   {
     id: 'pr-04',
     releaseNumber: 'PR-1989-12',
     date: '1989-11-20',
-    headline: 'GPC Announces Retirement of Co-Founder Dr. Arthur Vance-Vane',
+    headline: 'Co-founder retires from the board',
     city: 'London, UK',
     leadParagraph:
-      'Global Paradigms Corporation announces that co-founder and Chief Theoretical Visionary Dr. Arthur Vance-Vane has retired from active corporate duties due to health considerations.',
+      'Global Paradigms Corp. announces that Dr. Arthur Sedley, co-founder and director of research, has retired from the board and from all executive duties with immediate effect, on grounds of ill health. The company thanks him for eighteen years of service.',
     bodyParagraphs: [
-      'Dr. Vance-Vane co-founded the firm in 1971 and authored numerous foundational texts on predictive probability and demographic mechanics. Co-Founder Dame Eleanor Cross will assume full executive chairmanship.',
-      'Dame Eleanor remarked: "Arthur’s visionary concepts laid the foundation for everything GPC has achieved. We honour his profound legacy as we continue our mission of ensuring unbroken global continuity."'
+      "Dr. Sedley's research programmes will continue under existing directors. Dame Eleanor Cross assumes the chairmanship in full.",
+      "The company will not be issuing further statements on Dr. Sedley's retirement, and requests that the privacy of his family be respected."
     ],
-    mediaContact: 'Office of the Board, Global Paradigms Corp., London',
-    disclaimer: 'Official corporate announcement.',
+    mediaContact: 'Corporate Communications, Global Paradigms Corp.',
+    disclaimer: 'Not for regional distribution.',
     internalSubtext:
-      'Public disavowal notice following Dr. Vance-Vane’s disappearance into Station 07 Borehole 4.'
+      'He did not retire. Directive 09 issued the same day; the file was rewritten to read as retirement rather than loss of personnel, and the research programmes named in paragraph two are the ones he was running.'
   },
   {
     id: 'pr-05',
-    releaseNumber: 'PR-1992-03',
+    releaseNumber: 'PR-1992-06',
     date: '1992-04-10',
-    headline: 'GPC Consumer Division Launches Revolutionary Reson-8™ Sleep Harmonizer',
-    city: 'New York & London',
+    headline: 'New sleep machine from GPC Consumer: the Reson-8',
+    city: 'Chicago, IL',
     leadParagraph:
-      'Global Paradigms Corp. today unveiled the Reson-8™ Home Sleep Harmonic Generator, bringing cutting-edge psychoacoustic science into the consumer bedroom.',
+      "GPC Consumer Products today launches the Reson-8, a bedside sleep generator developed from the company's acoustic research programme. The unit is available from May in North America and the United Kingdom at a recommended retail price of £149 or $229.",
     bodyParagraphs: [
-      'Utilizing patented dual-channel acoustic waveform synthesis, the Reson-8 gently entrains the brain into restorative delta sleep cycles, promising an end to insomnia and stress-related fatigue.',
-      'Available at premium department stores across North America and Western Europe starting this May for £249 ($380 USD).'
+      'The Reson-8 uses a patented twin-oscillator arrangement to produce a gentle low-frequency beat, which the company says encourages the natural deep-sleep rhythm without drugs, side effects or habit.',
+      'Dr. Hiroshi Tanaka, who led the design, said: "Most sleep products mask noise. This one works with the body\'s own timing. We are proud of it."',
+      'The launch will be supported by national press and television advertising through the autumn.'
     ],
-    mediaContact: 'Consumer Products Group, Global Paradigms Corp.',
-    disclaimer: 'Not intended to diagnose, treat, or cure medical sleep disorders.',
+    mediaContact: 'GPC Consumer Products, Publicity, Chicago',
+    disclaimer: 'Product claims relate to laboratory conditions.',
     internalSubtext:
-      'Consumer launch of the flawed binaural oscillator that caused mass nocturnal hallucinations.'
+      'Tanaka had already filed an internal note flagging the unshielded transformer coupling. It is in the vault. The "patented twin-oscillator arrangement" is the fault.'
   },
   {
     id: 'pr-06',
-    releaseNumber: 'PR-1994-05',
+    releaseNumber: 'PR-1994-08',
     date: '1994-05-18',
-    headline: 'Voluntary Consumer Recall Notice: Reson-8™ Sleep Harmonic Generator Units',
-    city: 'Washington, D.C.',
+    headline: 'Voluntary recall: Reson-8 sleep machines, 1992-1994',
+    city: 'Washington, D.C. & Brussels',
     leadParagraph:
-      'In cooperation with the U.S. Consumer Product Safety Commission and European safety regulators, GPC is announcing a voluntary recall of all Reson-8™ sleep machines manufactured between 1992 and 1994.',
+      'Global Paradigms Corp., in cooperation with the U.S. Consumer Product Safety Commission and European safety authorities, is voluntarily recalling all Reson-8 sleep machines manufactured between 1992 and 1994.',
     bodyParagraphs: [
-      'A manufacturing defect in the internal power supply capacitor may, under specific electrical conditions, cause the unit to overheat or emit unexpected audible frequencies.',
-      'Consumers are urged to immediately unplug their units and return them to an authorized GPC processing depot for a full cash refund plus a £50 goodwill voucher.'
+      'The recall follows the identification of a manufacturing defect in the power supply, which in a small number of units may overheat during prolonged use. Owners should stop using the unit and return it to the place of purchase for a full refund or replacement.',
+      'The company has received reports of the issue in a small proportion of units sold. Customers with questions should contact the freephone number below.',
+      'GPC regrets any inconvenience and wishes to thank retailers for their cooperation in this action.'
     ],
-    mediaContact: 'Consumer Safety Response Center, GPC Arlington',
-    disclaimer: 'Issued in public safety cooperation.',
+    mediaContact: 'Consumer Affairs, GPC, freephone 0800 118 118',
+    disclaimer: 'Recall issued in coordination with CPSC notice 94-118.',
     internalSubtext:
-      'Cover story for the emergency recall following 82 hospitalizations and sleep paralysis casualties.'
+      'Capacitor story drafted by Blake. Four deaths, 82 admissions, and a settlement fund of £48.2M sat behind this two-paragraph notice.'
   },
   {
     id: 'pr-07',
-    releaseNumber: 'PR-1999-10',
+    releaseNumber: 'PR-1999-14',
     date: '1999-12-01',
-    headline: 'GPC Guarantees Unbroken Continuity for Sovereign Clients Through Y2K Millennial Transition',
-    city: 'London & Geneva',
+    headline: 'Continuity arrangements for the millennium date change',
+    city: 'London, UK',
     leadParagraph:
-      'Global Paradigms Corporation today confirmed that all 18 sovereign partner states and 400 corporate enterprise clients have completed Y2K Continuity Certification.',
+      "Global Paradigms Corp. confirms that all client continuity arrangements have been verified ahead of the millennium date change. The company's advisory desks will be staffed continuously from 30 December to 3 January.",
     bodyParagraphs: [
-      'Through redundant subterranean power infrastructure, analog fail-safe telemetry, and fortified continuity redoubts in Switzerland and Australia, GPC ensures that not a single hour of civic function will be lost when the clocks turn to 2000.',
-      'Managing Director Alistair Sterling stated: "The millennial threshold represents a test of human foresight. GPC has ensured that our clients enter the 21st century with total certainty."'
+      'Preparations have covered power, telecommunications and civil logistics across all fourteen countries in which the group holds continuity contracts.',
+      'A company spokesperson said: "Nothing of consequence is expected to happen. We will be there if something does. That has been the arrangement for twenty-eight years and it is not going to change at midnight."'
     ],
-    mediaContact: 'Y2K Continuity Taskforce, Global Paradigms Corp.',
-    disclaimer: 'Financial disclosure bulletin.',
-    internalSubtext: 'First operational test of the Aethelgard subterranean continuity bunker network.'
+    mediaContact: 'Corporate Communications, Global Paradigms Corp.',
+    disclaimer: 'Client-facing advisory notice.',
+    internalSubtext:
+      'True statement, odd wording. Millennium Charter signed this quarter: the fourteen redoubts were certified against a schedule that has nothing to do with computers.'
   },
   {
     id: 'pr-08',
-    releaseNumber: 'PR-2004-08',
+    releaseNumber: 'PR-2004-09',
     date: '2004-09-12',
-    headline: 'Alistair Sterling Appointed Chief Executive Officer of Global Paradigms Corp.',
+    headline: 'Global Paradigms appoints chief executive',
     city: 'London, UK',
     leadParagraph:
-      'The Board of Directors of Global Paradigms Corporation has unanimously elected Alistair Sterling as Chief Executive Officer, succeeding Dame Eleanor Cross who transitions to Emeritus Board President.',
+      'The board of Global Paradigms Corp. has appointed Nigel Ashby as chief executive with effect from 1 September. Mr Ashby joins from public sector procurement and has worked with the company as an adviser since 2001.',
     bodyParagraphs: [
-      'Mr. Sterling previously served as Managing Director and spearheaded GPC’s expansion into deep subterranean infrastructure and sovereign risk containment.',
-      'Dame Eleanor commented: "Alistair possesses the rare strategic discipline required to navigate a complex, multipolar world. Under his leadership, GPC will fortify its position as the world\'s pre-eminent continuity architect."'
+      'Mr Ashby said: "The company has grown by being useful to governments in the least glamorous corners of their business. I intend to keep it that way."',
+      'Dame Eleanor Cross continues as chairman. The board thanks the outgoing chief executive for eleven years of service.'
     ],
-    mediaContact: 'Office of the Board, Global Paradigms Corp., London',
-    disclaimer: 'Executive governance announcement.',
-    internalSubtext: 'Sterling consolidates control and authorizes black budget expansion for Project Vesper.'
+    mediaContact: 'Corporate Communications, Global Paradigms Corp.',
+    disclaimer: 'For financial media.',
+    internalSubtext:
+      'The outgoing chief executive was moved sideways after refusing to sign the 2003 Vesper expansion. His name does not appear in this release and will not appear in the next annual report.'
   },
   {
     id: 'pr-09',
-    releaseNumber: 'PR-2008-09',
+    releaseNumber: 'PR-2008-16',
     date: '2008-09-22',
-    headline:
-      'GPC Environmental Acoustic Solutions Support Municipal Calm During Global Financial Volatility',
-    city: 'London & New York',
+    headline: 'Statement on recent client incidents',
+    city: 'London, UK',
     leadParagraph:
-      'As global financial markets experience historic turbulence, Global Paradigms Corp. reports that municipal transit systems equipped with GPC acoustic dampening infrastructure have recorded record low levels of passenger agitation.',
+      'Global Paradigms Corp. notes recent reporting concerning the withdrawal of its VeriPulse biometric band from the corporate market and wishes to clarify the position for clients and employees.',
     bodyParagraphs: [
-      'GPC’s proprietary ambient noise management technologies, installed across commercial banking corridors and central subway stations in London, New York, and Frankfurt, have maintained calm and predictable pedestrian transit flows.',
-      'Dr. Naomi Chen, Director of PEFD, noted: "A well-tempered acoustic environment directly stabilizes public cognitive resilience during periods of macro-economic stress."'
+      'VeriPulse was withdrawn as a precautionary measure following a small number of reports of device malfunction in high-stress working environments. The company has cooperated fully with the relevant occupational health authorities in each jurisdiction concerned.',
+      "This does not affect the company's environmental acoustics contracts, which are unaffected and continue to perform to specification."
     ],
-    mediaContact: 'Public Infrastructure Directorate, GPC London',
-    disclaimer: 'For corporate media release.',
+    mediaContact: 'Corporate Communications, Global Paradigms Corp.',
+    disclaimer: 'No further comment will be made.',
     internalSubtext:
-      'Celebrates covert VesperTone acoustic broadcasts suppressing bank runs in client cities.'
+      'Written on the afternoon of the Lehman collapse, when nobody was reading the business pages. The phrase "unaffected and continue to perform to specification" was chosen by Warrender.'
   },
   {
     id: 'pr-10',
-    releaseNumber: 'PR-2011-09',
+    releaseNumber: 'PR-2011-21',
     date: '2011-09-20',
-    headline: 'Clarification Regarding Atmospheric Acoustic Testing in Midwestern United States',
-    city: 'Indianapolis, IN',
+    headline: 'Oakhaven atmospheric testing - clarification',
+    city: 'Oakhaven, Indiana',
     leadParagraph:
-      'Global Paradigms Corporation issued a clarification today regarding temporary low-frequency auditory phenomena reported by residents in rural Howard and Tipton Counties, Indiana.',
+      'Global Paradigms Corp. wishes to clarify the nature of the atmospheric acoustic testing carried out in the Oakhaven area during September under contract to the county.',
     bodyParagraphs: [
-      'A routine calibration of high-voltage agricultural power transmission transformers conducted in cooperation with regional utilities generated localized acoustic hums between September 16 and 18.',
-      'The testing has concluded, and transformer dampeners have been restored to standard operating parameters. GPC regrets any temporary acoustic inconvenience caused to local communities.'
+      'The test programme, which has now concluded, involved the measurement of low-frequency sound propagation under different weather conditions. It is not connected in any way to the incident at the county substation on 18 September.',
+      'The company asks residents to disregard unofficial recordings circulating online, some of which predate the test programme by several years.'
     ],
-    mediaContact: 'Regional Media Office, GPC Rosslyn Hub',
-    disclaimer: 'Public community notice.',
-    internalSubtext: 'Cover-up statement following the disastrous Oakhaven mass dissociation incident.'
+    mediaContact: 'Regional Affairs, GPC, Chicago',
+    disclaimer: 'Issued at the request of the county executive.',
+    internalSubtext:
+      "Two paragraphs, no apology, and the sentence about older recordings was Blake's idea: the recordings are from 1989 and 2001 and are genuine. Tribune archive servers were collected on the 19th."
   },
   {
     id: 'pr-11',
-    releaseNumber: 'PR-2015-06',
+    releaseNumber: 'PR-2015-08',
     date: '2015-07-02',
-    headline: 'GPC Unveils Project Echo-State: Next-Generation Predictive Synthetic Twin City Modeling',
-    city: 'Tokyo, Japan',
+    headline: 'GPC launches synthetic city modelling service',
+    city: 'London, UK',
     leadParagraph:
-      'At the Pacific Urban Resilience Summit in Tokyo, Global Paradigms Corp. introduced Project Echo-State, a groundbreaking computational modeling framework that simulates complex urban demographic dynamics.',
+      'Global Paradigms Corp. has launched a demographic simulation service which models the behaviour of entire urban populations as populations of software agents. The first instance covers Greater London and represents 8.8 million individuals.',
     bodyParagraphs: [
-      'Using aggregated mobility data and micro-demographic telemetry, Echo-State constructs real-time digital twins of entire metropolitan areas to help city planners optimize emergency response, transit routing, and crowd management.',
-      'Lead Chronological Modeler Dr. Evelyn Reed demonstrated a full simulation of London, predicting transit bottleneck resolutions with 94% statistical accuracy.'
+      'Clients can run policy scenarios against the model, including transport disruption, utility failure and civil disturbance, without exposing real populations to the conditions being tested.',
+      'Dr. Evelyn Reed, who leads the modelling team, said: "A city is a very large number of people doing small things. If you can get the small things right, the rest follows."',
+      'The service is offered to public authorities and does not use personal data.'
     ],
-    mediaContact: 'Pacific Communications Desk, GPC Tokyo Tower',
-    disclaimer: 'Technology showcase release.',
+    mediaContact: 'Corporate Communications, Global Paradigms Corp.',
+    disclaimer: 'Technical claims subject to client licence terms.',
     internalSubtext:
-      'First public showcase of predictive simulation software used to forecast civilian panic tipping points.'
+      'The service also accepts an acoustic variable that is not in any client-facing documentation. Two of the pilot scenarios were run with the carrier at 2026 amplitude.'
   },
   {
     id: 'pr-12',
-    releaseNumber: 'PR-2018-04',
+    releaseNumber: 'PR-2018-11',
     date: '2018-05-14',
-    headline: 'GPC Upgrades European Underground Research Infrastructure at Postojna Caverns',
+    headline: 'Postojna facility upgrade completed',
     city: 'Postojna, Slovenia',
     leadParagraph:
-      'Global Paradigms Corp. has completed a £45 million modernization of its geological archive and acoustic calibration repository located in the Postojna cave system of Slovenia.',
+      'Global Paradigms Corp. has completed an eighteen-month upgrade to its records facility in the Postojna caverns, comprising climate control, a new reading room and additional storage capacity.',
     bodyParagraphs: [
-      'The upgraded facility features state-of-the-art humidity-controlled digital vaulting and deep-subterranean cleanrooms for high-precision acoustic sensor calibration.',
-      'Chief Archivist Julian Thorne highlighted: "The natural limestone acoustic isolation of Postojna provides an unmatched sanctuary for the world’s most sensitive historical records."'
+      'The facility holds corporate and client archives dating from 1971 and maintains continuous environmental records as part of its accreditation.',
+      'A company spokesperson said: "This is a records archive and nothing more. We maintain it to archival standard because our clients expect their material to be readable in a hundred years, which is exactly what we are here for."'
     ],
-    mediaContact: 'European Facilities Directorate, GPC Slovenia',
-    disclaimer: 'Regional infrastructure release.',
+    mediaContact: 'Regional Communications, GPC Central Europe',
+    disclaimer: 'Facility tours are not available.',
     internalSubtext:
-      'Installation of automated document hash re-encoders and chemical shredders for Project Palimpsest.'
+      'The facility is a reliquary. The "additional storage capacity" is chambers 7 to 11, dug by the Order\'s own contractors, and it is where the true originals are kept.'
   },
   {
     id: 'pr-13',
-    releaseNumber: 'PR-2020-03',
+    releaseNumber: 'PR-2020-06',
     date: '2020-03-25',
-    headline: 'GPC Activates Global Civic Elasticity Protocols to Ensure Sovereign Governance Continuity',
-    city: 'London & Arlington, VA',
+    headline: 'Continuity protocols activated for sovereign clients',
+    city: 'London, UK',
     leadParagraph:
-      'In response to the global public health emergency, Global Paradigms Corporation has activated its comprehensive Civic Elasticity advisory protocols across 48 sovereign client states.',
+      'Global Paradigms Corp. has activated the continuity provisions in its sovereign client agreements, providing for the relocation of essential government functions to designated secure facilities should conditions require it.',
     bodyParagraphs: [
-      'GPC is providing municipal partners with predictive demographic contagion modeling, automated emergency communication infrastructure, and remote governance continuity systems.',
-      'CEO Alistair Sterling emphasized: "In moments of worldwide upheaval, the foundational continuity of civic institutions must remain absolute and unquestioned."'
+      'The provisions were agreed with client governments between 1999 and 2016 and have been exercised in full only twice, both times as simulation.',
+      'The company will not disclose the locations of the facilities concerned. It confirms that provisioning and staffing are complete and that activation can be achieved within seventy-two hours.'
     ],
-    mediaContact: 'Global Executive Communications, GPC London',
-    disclaimer: 'International emergency bulletin.',
+    mediaContact: 'Corporate Communications, Global Paradigms Corp.',
+    disclaimer: 'Issued simultaneously in eleven jurisdictions.',
     internalSubtext:
-      'Full deployment of cellular carrier sub-harmonic tones to reinforce quarantine compliance.'
+      'Published in the first week of the pandemic, when every government in Europe was reading continuity contracts for the first time. Not one of them asked why the contracts were fourteen years old and already drafted to the hour.'
   },
   {
     id: 'pr-14',
-    releaseNumber: 'PR-2022-11',
+    releaseNumber: 'PR-2022-19',
     date: '2022-12-08',
-    headline: 'GPC Achieves Carbon-Neutral Status Across Subterranean Redoubt Network',
-    city: 'Geneva, Switzerland',
+    headline: 'Redoubt network certified carbon neutral',
+    city: 'Zug, Switzerland',
     leadParagraph:
-      'Global Paradigms Corp. today published its 2022 Environmental, Social, and Governance (ESG) Sustainability Report, confirming that all 14 Aethelgard continuity redoubts operate on 100% closed-loop geothermal and hydroelectric power.',
+      'Global Paradigms Corp. has certified its fourteen subterranean continuity facilities as carbon neutral for the 2022 financial year, following an audit by an independent assessor.',
     bodyParagraphs: [
-      'Senior Narrative Strategist Tessa Sterling noted: "Our commitment to generational continuity extends beyond human governance to the planetary ecosystem itself. Our deep-mountain facilities represent the pinnacle of self-sustaining green architecture."'
+      'The facilities run on geothermal, hydroelectric and stored capacity, with no connection to public grids in normal operation.',
+      'The company\'s head of continuity said the certification "reflects a decade of investment in infrastructure that will never be seen by the public and is not built to be."'
     ],
-    mediaContact: 'Sustainability & ESG Bureau, GPC London',
-    disclaimer: 'Corporate sustainability release.',
+    mediaContact: 'Sustainability Office, GPC, Zug',
+    disclaimer: 'Audit summary available on request.',
     internalSubtext:
-      'Narrative spin masking the completion of Tier-1 executive bunker biological seed vaults.'
+      'Third sentence written by Tessa Ashby. The audit cost £400k and did not look at the acoustic programme, which uses four times the electricity.'
   },
   {
     id: 'pr-15',
-    releaseNumber: 'PR-2024-08',
+    releaseNumber: 'PR-2024-27',
     date: '2024-09-01',
-    headline: 'GPC Reports Record Consolidated Revenue of £9.82 Billion for Fiscal Year 2024',
+    headline: 'GPC reports record revenue for FY2024',
     city: 'London, UK',
     leadParagraph:
-      'Global Paradigms Corporation announced record financial results for FY2024, driven by unprecedented global demand for sovereign continuity consulting and predictive demographic resilience infrastructure.',
+      'Global Paradigms Corp. reports consolidated revenue of £9.82 billion for the financial year ending 31 March 2024, an increase of 11.4% on the prior year, with continuity and environmental infrastructure the strongest segments.',
     bodyParagraphs: [
-      'Operating income rose 18.4% to £4.12 billion. The Board authorized a special dividend for institutional shareholders and committed £1.2 billion to next-generation deep-crust acoustic sensing arrays under Project Monolith.',
-      'CEO Alistair Sterling declared: "In an era of accelerating volatility, Global Paradigms Corporation remains the definitive benchmark for certainty, continuity, and global order."'
+      'The board proposes a final dividend of 41.2 pence per share. Recurring revenue from sovereign contracts now represents 78% of group turnover.',
+      'The chief executive said: "Governments buy certainty when they can afford it. The last three years have made that an easier conversation."'
     ],
-    mediaContact: 'Investor Relations, Global Paradigms Corp., London',
-    disclaimer: 'Consolidated annual financial disclosure.',
-    internalSubtext: 'Record sovereign retainer revenue secured for the 10,000-seat Tier-1 Heritage Cohort.'
+    mediaContact: 'Investor Relations, GPC, London',
+    disclaimer: 'Full statements filed with Companies House.',
+    internalSubtext:
+      'Segment note in the accounts shows "environmental infrastructure" growing 34% on municipal tone contracts. The word tone appears nowhere in the filed statements.'
   },
   {
     id: 'pr-16',
     releaseNumber: 'PR-2026-01',
     date: '2026-01-10',
-    headline: 'GPC Commemorates Fifty-Five Years of Global Strategic Continuity (1971-2026)',
+    headline: 'Fifty-five years of continuity: a note from the chair',
     city: 'London, UK',
     leadParagraph:
-      'Global Paradigms Corporation marks 55 years since its establishment in 1971, reaffirming its foundational dedication to the preservation of human societal order and predictive certainty.',
+      'Global Paradigms Corp. marks fifty-five years since its founding in Cambridge in 1971. The chair, Dame Eleanor Cross, has issued the following note to clients and staff.',
     bodyParagraphs: [
-      'From a pioneering Cambridge research group into a multinational defense, demographic, and environmental acoustics powerhouse spanning 22 field stations and 14 continuity redoubts, GPC looks forward to another half-century of unbroken harmony.',
-      'Dame Eleanor Cross stated: "The future is not a mystery to be feared. The future is an equation we have already solved."'
+      '"We were founded to answer a question about how societies hold together. We have spent five decades answering it in the only way that has ever worked: quietly, early, and without asking for credit.',
+      'I would ask every member of staff to remember that our clients are not buying forecasts. They are buying the ordinary Tuesday that nothing happened on."'
     ],
-    mediaContact: 'Global Communications Directorate, Tower Obsidian, London',
-    disclaimer: 'Commemorative corporate statement.',
-    internalSubtext: 'The 14.8Hz carrier tone approaches its 15.0Hz phase transition threshold.'
+    mediaContact: 'Corporate Communications, Global Paradigms Corp.',
+    disclaimer: 'Circulated to clients, staff and alumni.',
+    internalSubtext:
+      'Issued ten months before the projected Completion of the Square. The chair has not left the Grimsel complex since 2016; this note was written for her and the paragraph about "the ordinary Tuesday" was drafted by the communications desk.'
   }
 ];

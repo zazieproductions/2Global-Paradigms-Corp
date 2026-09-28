@@ -1,4 +1,4 @@
-/** Initials for avatar tiles: "Dr. Aris Thorne" → "DAT". */
+/** Initials for avatar tiles: "Dr. Ewan Thorne" → "DAT". */
 export const initials = (name: string): string =>
   name
     .split(/\s+/)

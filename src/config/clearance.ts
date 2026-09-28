@@ -48,7 +48,7 @@ export const CLEARANCE_TIERS: ClearanceTier[] = [
     tier: 5,
     label: 'Level 5 // Black Dossier / Sanitized',
     description:
-      'Project Monolith mantle beacon telemetry, Dr. Arthur Vance-Vane disavowal files, and Palimpsest raw leaks.',
+      'Project Monolith mantle beacon telemetry, Dr. Arthur Sedley disavowal files, and Palimpsest raw leaks.',
     tone: 'danger'
   }
 ];

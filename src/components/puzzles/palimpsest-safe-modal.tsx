@@ -82,7 +82,7 @@ export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: Palimpsest
         <div className="flex flex-col items-center gap-4">
           <div className="p-3 bg-amber-950/20 border border-amber-500/40 rounded text-label text-amber-200 text-center leading-relaxed">
             <span className="font-bold block mb-1">RESTRICTED BACKDOOR ENCLAVE</span>
-            Dr. Aris Thorne's secure backdoor. Enter the 4-digit authorization sequence to extract the
+            Dr. Ewan Thorne's secure backdoor. Enter the 4-digit authorization sequence to extract the
             unredacted whistleblower package.
           </div>
 
