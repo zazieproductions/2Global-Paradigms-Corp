@@ -137,7 +137,7 @@ export default function SanctumPage() {
           <div className="relative p-5 rounded border border-fuchsia-900/50 bg-gradient-to-br from-fuchsia-950/20 via-black/60 to-black/80 ovp-revelation">
             <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] text-fuchsia-400 mb-3">
               <span className="w-2 h-2 rounded-full bg-fuchsia-500 animate-pulse" />
-              INTERCEPTED DEAD-DROP · SENDER: A. THORNE · ROUTED VIA WAYBACK MIRROR 1998 · INTEGRITY: PARTIAL
+              INTERCEPTED DEAD-DROP · SENDER: E. THORNE · ROUTED VIA WAYBACK MIRROR 1998 · INTEGRITY: PARTIAL
             </div>
             <p className="whitespace-pre-line text-[12px] leading-relaxed text-slate-300 max-w-3xl">
               {PROLOGUE_TRANSMISSION}
@@ -404,7 +404,7 @@ export default function SanctumPage() {
                 {/* transmission */}
                 <div className="relative pl-4 border-l-2" style={{ borderColor: `${seal.accent}88` }}>
                   <p className="text-[9px] tracking-[0.3em] text-slate-500 mb-1.5">
-                    TRANSMISSION · A. THORNE
+                    TRANSMISSION · E. THORNE
                   </p>
                   <p className="whitespace-pre-line text-[12px] leading-relaxed text-slate-300">
                     {seal.transmission}

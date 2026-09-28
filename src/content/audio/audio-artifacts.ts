@@ -1,5 +1,10 @@
 import type { AudioArtifact } from '@/types';
 
+/**
+ * Audio reel index. The transcripts are the record; the audio is a synthesis
+ * and is labelled as such in the player. Timestamps in the transcripts are
+ * the archivist's, not the recorder's, and do not always line up.
+ */
 export const AUDIO_ARTIFACTS: AudioArtifact[] = [
   {
     id: 'audio-01',
@@ -12,14 +17,14 @@ export const AUDIO_ARTIFACTS: AudioArtifact[] = [
     durationSeconds: 180,
     classification: 'Level 5 - Black Dossier',
     summary:
-      'Leaked by Dr. Aris Thorne prior to his disappearance. The raw audio capture documents the planetary 14.8Hz carrier tone modulated by unexplained non-stochastic acoustic pulses coming from deep within the permafrost.',
+      "Thorne's copy of the deep sensor reel, taken off the archive server before he left. Three minutes of the carrier with the overtones on top of it, and a man talking to nobody.",
     transcript:
-      '[00:00 - Heavy low-frequency subterranean rumble enters; 14.8Hz carrier present with 312Hz overtone]\n[00:15 - Thorne, whispering]: "It is 03:14. Station 07 deep sensor. The drilling stopped six hours ago, but the frequency has doubled in amplitude. Listen to the phase shift..."\n[00:45 - Mechanical cryostat pump cycles; rhythmic harmonic beating accelerates]\n[01:10 - Thorne]: "It isn’t an echo. The bedrock isn’t reflecting it—the bedrock is generating it. The whole plateau is vibrating in fifths."\n[01:45 - High-frequency metallic ringing enters; sudden anomalous drop in ambient room temperature logged at -4.2C]\n[02:30 - Thorne]: "They are telling the Board it’s permafrost gas venting. They know it isn’t gas. They know what’s under the ice."',
+      '[00:00 - Low rumble comes up under the floor of the recording; 14.8Hz carrier and a 312Hz overtone]\n[00:15 - THORNE, close to the mic, almost a whisper]: "It is 03:14. Deep sensor, Borehole 4. Drilling stopped six hours ago and the amplitude has doubled since then. Listen to the phase. Listen to what the phase is doing."\n[00:45 - Cryostat pump cycles; the beating between the two tones speeds up and slows down again]\n[01:10 - THORNE]: "That is not an echo. An echo comes back. This one is still coming."\n[01:45 - Metallic ringing enters on the upper band; the log shows a 4.2C drop in the chamber in under a minute]\n[02:30 - THORNE]: "The board is being told it is gas venting. Permafrost gas venting. They have the same recording I do."',
     synthesisPreset: 'infrasound',
     audioDescription:
-      'A deep, steady hum just above the threshold of hearing, with a thin metallic tone that slowly wavers in pitch about once every three seconds.',
+      'A deep steady hum near the floor of hearing, with a thin metallic tone over it that wavers about once every three seconds.',
     spectralNotes:
-      'Fourier spectrum shows sharp mathematical peaks at 14.8Hz, 29.6Hz, 59.2Hz, and 312Hz. Note the complete absence of random seismic noise; wave is extraordinarily coherent.'
+      'Clean peaks at 14.8Hz, 29.6Hz, 59.2Hz and 312Hz. Almost no seismic noise between the peaks, which is the odd part; ground recordings are never this tidy.'
   },
   {
     id: 'audio-02',
@@ -32,14 +37,14 @@ export const AUDIO_ARTIFACTS: AudioArtifact[] = [
     durationSeconds: 160,
     classification: 'Level 4 - Top Secret',
     summary:
-      'Archived 1/4-inch magnetic tape recording of the initial Project Vesper evening broadcast. Disguised as routine chime announcements across central subway stations, the audio was tested for civilian crowd pacification.',
+      'Quarter-inch tape from the first Vesper evening broadcast, eleven days before the borehole was sealed. The scheduled chime, the announcement, and the room going quiet underneath both.',
     transcript:
-      '[00:00 - Tape hiss and vintage analog magnetic flutter]\n[00:06 - Three-tone chime sequence plays: 396Hz -> 528Hz -> 639Hz]\n[00:18 - Synthetic female voice]: "Good evening. The 18:00 commuter service is running on scheduled intervals. Please maintain orderly transit. Avoid unnecessary agitation. GPC Civic Continuity assures your evening passage."\n[00:42 - Sub-audible carrier begins pulsing at 0.35 Hz underneath background subway ambience]\n[01:15 - Background crowd chatter audibly decreases by approximately 14dB in volume over 90 seconds]\n[01:50 - Chime sequence repeats; carrier tone fades into room resonance]',
+      '[00:00 - Tape hiss and motor flutter]\n[00:06 - Three-tone chime: 396Hz, 528Hz, 639Hz]\n[00:18 - Recorded voice, female, unaccented]: "Good evening. The 18:00 service is running to schedule. Please maintain orderly transit. GPC Civic Continuity wishes you a quiet evening."\n[00:42 - Sub-audible carrier begins under the platform noise, slow, about one cycle every three seconds]\n[01:15 - Footfall and conversation in the station drop away over the next ninety seconds until only the tape motor is audible]\n[01:50 - Chime repeats. Carrier is still running.]',
     synthesisPreset: 'vesperTone',
     audioDescription:
-      'Three soft, bell-like sine tones layered into a chord. Each drifts gently in volume at its own slow rate, so the chord seems to breathe.',
+      'Three soft bell tones layered into one chord. Each drifts in volume at its own pace so the chord seems to breathe in and out.',
     spectralNotes:
-      'Comb filtering visible across 396Hz-741Hz Solfeggio intervals. The sub-carrier pulses at 0.35Hz, precisely matching human resting parasympathetic respiratory rate.'
+      'Comb filtering across the 396-741Hz band. The sub-carrier pulses at 0.35Hz, which is a resting breathing rate and was chosen for that reason.'
   },
   {
     id: 'audio-03',
@@ -52,14 +57,14 @@ export const AUDIO_ARTIFACTS: AudioArtifact[] = [
     durationSeconds: 210,
     classification: 'Level 4 - Top Secret',
     summary:
-      'Deep-ocean hydrophone recording capturing a rhythmic 54Hz upward-sweeping acoustic pulse originating from the lithospheric mantle beneath the Chagos Archipelago.',
+      'Hydrophone reel from the 54Hz pulse, the one Node 14 heard again fourteen minutes later. Al-Mansoor is audible on the channel asking the same question four times in different words.',
     transcript:
-      '[00:00 - Abyssal ocean background hum; deep pressure water noise]\n[00:20 - Low 54Hz sine wave emerges smoothly above ocean floor noise floor]\n[00:45 - Frequency smoothly ramps upwards to 78Hz over 45 seconds before dropping instantaneously to 54Hz]\n[01:10 - Hydro-acoustic analyst Dr. Al-Mansoor]: "Node 12 telemetry confirmed. Arrival angle is 84 degrees from horizontal—it is coming almost straight up from the seabed crust."\n[01:55 - Distant oceanic reverberation trails off across a 600km acoustic basin radius]',
+      '[00:00 - Abyssal background; water noise, nothing else]\n[00:20 - 54Hz sine comes up out of the floor noise, smooth, no attack]\n[00:45 - Pitch ramps upward to 78Hz over forty-five seconds, then drops back to 54Hz between one sample and the next]\n[01:10 - AL-MANSOOR, on the comms channel]: "Node 12 confirms. Arrival angle eighty-four degrees from horizontal. It is coming up. Not along, up."\n[01:30 - AL-MANSOOR, further away from the mic]: "Say the time again. Say the time at Diego."\n[01:55 - Reverberation trails out across the basin and stops.]',
     synthesisPreset: 'hydrophone',
     audioDescription:
-      'A low tone that glides upward in pitch over about four seconds, wrapped in a soft wash of filtered hiss, like a distant engine heard through deep water.',
+      'A low tone that slides upward in pitch over about four seconds, wrapped in filtered hiss, like an engine heard through deep water.',
     spectralNotes:
-      'Spectrogram reveals a clean sawtooth frequency ramp repeating every 64 seconds. Unprecedented consistency for non-anthropogenic geological sound.'
+      'Sawtooth ramp repeating every 64 seconds. The file has been reviewed three times and the ramp has not drifted by so much as a hertz since the first analysis.'
   },
   {
     id: 'audio-04',
@@ -72,14 +77,14 @@ export const AUDIO_ARTIFACTS: AudioArtifact[] = [
     durationSeconds: 150,
     classification: 'Level 4 - Top Secret',
     summary:
-      'Recovered audio test tape from the pre-release evaluation of the Reson-8 sleep machine. Demonstrates the unstable 6.8Hz theta beat that precipitated the 1994 consumer recall.',
+      'Pre-release evaluation tape from the sleep chamber, taken from the DAT master before the 1994 recall. Test subject 14 is the only subject whose session was cut short by staff.',
     transcript:
-      '[00:00 - High-pitched electronic tone starts in left channel (216Hz)]\n[00:08 - Second tone enters in right channel (222.8Hz); binaural beating creates visceral 6.8Hz throb in head]\n[00:30 - Test Subject 14]: "I feel very heavy. My eyes won\'t focus on the clock."\n[01:00 - Pulse rate modulates; parasitic 60Hz wall wiring hum couples into circuit]\n[01:25 - Test Subject 14, panicked breathing]: "Someone is standing behind the bedroom door. Turn the machine off. The door is humming."\n[01:40 - Test abruptly cut off by lab supervisor Dr. Chen]',
+      '[00:00 - Electronic tone in the left channel, 216Hz]\n[00:08 - Second tone in the right, 222.8Hz. The beat between them lands at 6.8Hz and is audible as a throb rather than a pitch]\n[00:30 - SUBJECT 14]: "I feel very heavy. My eyes will not hold on the clock."\n[01:00 - Pulse rate drops; 60Hz wall hum couples into the loop]\n[01:25 - SUBJECT 14, breathing fast]: "There is someone behind the bedroom door. Turn it off. The door is humming."\n[01:40 - Session cut by the supervising clinician. A chair is knocked over and is not picked up before the tape ends.]',
     synthesisPreset: 'reson8',
     audioDescription:
-      'Two close mid-range tones that beat against each other, producing a steady throbbing wobble roughly seven times per second.',
+      'Two close mid-range tones beating against each other, a steady wobble about seven times a second.',
     spectralNotes:
-      'Intense cross-channel phase difference. Produces involuntary theta brainwave entrainment within 45 seconds of stereo headphone listening.'
+      'Large cross-channel phase difference. Theta entrainment in headphone subjects within 45 seconds; the chamber report says the room itself did it at volume, without headphones, which is the finding that killed the product.'
   },
   {
     id: 'audio-05',
@@ -92,14 +97,14 @@ export const AUDIO_ARTIFACTS: AudioArtifact[] = [
     durationSeconds: 140,
     classification: 'Level 3 - Secret',
     summary:
-      'Geophone recording from deep within the Black Ridge Appalachian coal strata. Captures harmonic acoustic singing produced when high-pressure hydraulic fluid intersected an anomalous natural quartz fissure.',
+      'Geophone recording from Level 4, taken when the hydraulic fluid hit a quartz fissure in the seam. The rig is shut down at 1:05 and the tone keeps going for another three minutes.',
     transcript:
-      '[00:00 - Distant mechanical drilling drone and deep seismic crunching]\n[00:18 - Drill penetrates coal seam; sudden resonant 42Hz fundamental sings through rock face]\n[00:40 - Geologist Dr. Zimmerman]: "Did you hear that? The whole wall is ringing like a church bell. Shut down the drill rig!"\n[01:05 - Drill stops, but the 42Hz tone sustains for 3 minutes without mechanical excitation]\n[01:30 - Acoustic harmonics fold into rich choral overtone series]',
+      '[00:00 - Drill drone, and the rock shifting under it]\n[00:18 - Bit enters the seam; a 42Hz tone comes up through the wall and stays]\n[00:40 - ZIMMERMAN, off-mic, shouting over the rig]: "Do you hear that? That is the wall. Shut the rig down. Shut it down now."\n[01:05 - Drill stops. The tone is still there.]\n[01:30 - Overtones fold in above the fundamental, roughly in fifths, and hold]\n[02:20 - Recording ends with the seam still ringing.]',
     synthesisPreset: 'seismic',
     audioDescription:
-      'A dark, buzzing drone muffled almost to a growl, with faint tape hiss underneath, like a machine running far below ground.',
+      'A dark buzzing drone muffled almost to a growl with tape hiss under it, like a machine running a long way below the floor.',
     spectralNotes:
-      'Extremely high Q-factor resonance in natural rock strata. Bedrock acting as a giant acoustic cavity with over 20 distinct harmonic overtones.'
+      "Very high Q in natural rock; the seam behaves as a cavity with more than twenty detectable overtones. Zimmerman's 2020 note described the interval as fifths and nobody acted on it."
   },
   {
     id: 'audio-06',
@@ -112,13 +117,13 @@ export const AUDIO_ARTIFACTS: AudioArtifact[] = [
     durationSeconds: 190,
     classification: 'Level 5 - Black Dossier',
     summary:
-      'Continuous cryptographic data beacon broadcast through GPC internal fiber networks. Contains real-time checksums of redacted documents and automated scrubbing instructions.',
+      'The Postojna beacon, recorded off the internal fibre. It is a housekeeping channel that reads out document hashes aloud in a synthesised voice, which nobody at the operator desk has ever asked it to stop doing.',
     transcript:
-      '[00:00 - High-pitched sine wave carrier (432Hz)]\n[00:10 - Rapid frequency-shift keying (FSK) data burst pulses: high-speed data transmission]\n[00:35 - Synthetic voice reading cryptographic hex hashes]: "Zero-Alpha-Niner. Hash replacement confirmed for Record 1994-RS8. Retrospective status: Pure. Continuity maintained."\n[01:15 - Burst carrier resumes with steady pulse telemetry]',
+      '[00:00 - 432Hz carrier, steady]\n[00:10 - Fast FSK burst, several seconds of it, then silence]\n[00:35 - SYNTHETIC VOICE, reading hashes]: "Zero Alpha Niner. Hash replacement confirmed for record 1994-RS8. Retrospective status: pure. Continuity maintained."\n[01:15 - Burst resumes; the carrier continues underneath]\n[02:40 - Carrier only, to end of file]',
     synthesisPreset: 'palimpsest',
     audioDescription:
-      'A steady mid-range tone layered with a harsh, buzzy high-pitched whine and light tape hiss, like an old modem line left open.',
+      'A steady mid-range tone with a harsh high whine over it and light hiss, like an old modem line left open overnight.',
     spectralNotes:
-      'Telemetry data rate is 9600 baud encoded via audio frequency shifts. Contains embedded SHA-256 validation trees.'
+      'Audio-frequency shift keying at 9600 baud. The embedded validation trees are the same ones the search endpoints check against, which is why an altered copy fails within seconds.'
   }
 ];

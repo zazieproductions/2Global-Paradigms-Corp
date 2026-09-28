@@ -1,5 +1,12 @@
 import type { Department } from '@/types';
 
+/**
+ * Directorate pages as published on the internal intranet.
+ *
+ * House style: the mandate is written by the directorate; the classified
+ * charter was added by the executive office and is written in a flat,
+ * instruction-shaped register. Keep the two voices apart.
+ */
 export const DEPARTMENTS: Department[] = [
   {
     id: 'dept-sfpc',
@@ -11,14 +18,14 @@ export const DEPARTMENTS: Department[] = [
     headcount: 342,
     annualBudget: '£1.42 Billion',
     mandate:
-      'Macro-temporal modeling, geopolitical trajectory containment, civic crisis pre-emption, and algorithmic catastrophe mitigation.',
+      'Forecasting for sovereign and institutional clients: market, civil and demographic, at horizons from ninety days to two years. The desk also runs the variance audits the rest of the firm argues with.',
     classifiedCharter:
-      'Execute non-linear probability collapse. When forecasted civil divergence exceeds 2.8%, initiate proactive demographic suppression sequences before public awareness threshold.',
+      'Where a forecast shows divergence above 2.8% and the client has not asked for the number, act on it before publishing. The desk is not to describe this as suppression in any document that leaves the floor.',
     subDivisions: [
       'Chronological Variance Unit',
-      'Synthetic Twin City Modeling Group',
-      'Macro-Demographic Stress Lab',
-      'Pre-Crisis Liquidity Assurance'
+      'Synthetic Twin City Modelling',
+      'Demographic Stress Desk',
+      'Pre-Crisis Liquidity'
     ]
   },
   {
@@ -26,19 +33,19 @@ export const DEPARTMENTS: Department[] = [
     code: 'PEFD',
     name: 'Psychoacoustics & Environmental Frequency Directorate',
     director: 'Dr. Naomi Chen',
-    deputyDirector: 'Dr. Jonas Sylvan',
+    deputyDirector: 'Dr. Jonas Weiss',
     headquarters: 'Rosslyn Sub-Complex, Vault 02, Arlington, VA',
     headcount: 518,
     annualBudget: '£2.15 Billion',
     mandate:
-      'Atmospheric and architectural sound management, municipal acoustic dampening, sub-audible tonal synchronization, and neural entrainment.',
+      'Acoustics work across the estate: buildings, transit, water and open air. The directorate holds the carrier schedule and the only complete set of calibration records.',
     classifiedCharter:
-      'Maintain the Global Baseline Carrier (14.8Hz harmonic grid). Identify, neutralize, or harvest natural resonant anomalies and spontaneous civilian auditory synchronization.',
+      'Maintain the 14.8Hz baseline grid. Find anomalies before they find a client, and where an anomaly cannot be damped, tune it. Chen signs the schedule herself; there is no deputy signature line.',
     subDivisions: [
-      'Infrasonic Propagation Branch',
-      'Binaural Entrainment Division',
-      'Architectural Standing-Wave Architecture',
-      'Municipal Tone Modulator Unit'
+      'Infrasonic Propagation',
+      'Binaural Entrainment',
+      'Standing-Wave Architecture',
+      'Municipal Tone Modulators'
     ]
   },
   {
@@ -46,19 +53,19 @@ export const DEPARTMENTS: Department[] = [
     code: 'CCDR',
     name: 'Division of Civic Continuity & Demographic Resilience',
     director: 'Mara Finch',
-    deputyDirector: 'Arthur K. Vance-Cross',
+    deputyDirector: 'Martin Sedley',
     headquarters: 'Swiss Alps Redoubt (Grimsel Pass)',
     headcount: 420,
     annualBudget: '£1.88 Billion',
     mandate:
-      'Post-crisis governance preservation, subterranean redoubt provisioning, executive continuity logistics, and essential resource rationing.',
+      'Continuity contracts, redoubt provisioning, cohort administration and rationing schedules. The division is the client-facing half of Aethelgard and the part that has to look ordinary.',
     classifiedCharter:
-      'Select and safeguard the Tier-1 Heritage Cohort (0.01% executive cadre). Maintain operational readiness for 720-day autonomous subterranean governance across 14 global redoubts.',
+      'Keep ten thousand seats ready for seven hundred and twenty days across fourteen sites. The roster is closed and staff are not eligible; that sentence is not to be softened in any briefing.',
     subDivisions: [
-      'Sub-Surface Habitability Operations',
-      'Cognitive Seed Preservation',
-      'Post-Event Supply Chain Routing',
-      'Civic Relocation Planning'
+      'Sub-Surface Habitability',
+      'Seed and Cultural Stores',
+      'Post-Event Supply Routing',
+      'Civic Relocation'
     ]
   },
   {
@@ -71,34 +78,34 @@ export const DEPARTMENTS: Department[] = [
     headcount: 890,
     annualBudget: '£3.40 Billion',
     mandate:
-      'Deep-crust drilling, subterranean station maintenance, containment borehole integrity, and extreme-environment station logistics.',
+      'Drilling, deep works, station engineering and the containment systems. SISO crews are the only staff who spend their working week below the level at which the company says anything true.',
     classifiedCharter:
-      'Construct and isolate deep-earth seismic and acoustic dampeners. Enforce physical cordon around anomalous deep-strata resonance fissures at Station 07, Black Ridge, and Atacama.',
+      'Hold the fissures at Station 07, Black Ridge and the Atacama under physical cordon. Where a fracture will not hold, pour it again until it does, and do not log the pour in the station journal.',
     subDivisions: [
-      'Deep Strata Borehole Engineering',
-      'Acoustic Containment Perimeter Crew',
-      'Sub-Zero Permafrost Maintenance',
-      'Hydrophone Seabed Array Logistics'
+      'Deep Borehole Engineering',
+      'Acoustic Containment Crews',
+      'Permafrost Stations',
+      'Hydrophone Array Logistics'
     ]
   },
   {
     id: 'dept-becm',
     code: 'BECM',
     name: 'Behavioral Economics & Compliance Metrics',
-    director: 'Dr. Kaelen Voss',
+    director: 'Dr. Tobias Voss',
     deputyDirector: 'Dr. Brigitte Laroche',
     headquarters: 'Tokyo Chiyoda Deep Tower, B3',
     headcount: 280,
     annualBudget: '£950 Million',
     mandate:
-      'Consumer panic mitigation, mass compliance indexing, market sentiment stabilization, and behavioral compliance monitoring.',
+      'Compliance measurement, sentiment work and the internal diagnostics. BECM supplies the numbers that every other directorate quotes and none of them checks.',
     classifiedCharter:
-      'Quantify civilian tolerance thresholds for environmental cognitive shifts. Fine-tune municipal audio-frequency amplitudes to depress civil protest velocity by 40-60%.',
+      'Establish civilian tolerance thresholds for the carrier and report them as headroom. Delivery tuning in the field is capped at the figure on the last approved sheet; requests to raise it go to the executive office, not to the desk.',
     subDivisions: [
-      'Subconscious Sentiment Cartography',
-      'Urban Panic Velocity Analysts',
-      'Compliance Waveform Testing Group',
-      'Demographic Inertia Tracking'
+      'Sentiment Mapping',
+      'Panic Velocity',
+      'Compliance Waveform Testing',
+      'Demographic Inertia'
     ]
   },
   {
@@ -106,19 +113,19 @@ export const DEPARTMENTS: Department[] = [
     code: 'TOPN',
     name: 'Tactical Obfuscation & Public Narrative',
     director: 'Harrison Blake',
-    deputyDirector: 'Agent Felix Mercer',
+    deputyDirector: 'Agent Paul Kiernan',
     headquarters: 'Tower Obsidian, Floor 38, London',
     headcount: 195,
     annualBudget: '£780 Million',
     mandate:
-      'Media crisis management, corporate press releases, regulatory compliance filings, and public narrative coordination.',
+      'Press, filings, crisis wording and public narrative. Everything the other directorates do has to pass through this floor before it becomes a sentence that anyone outside can read.',
     classifiedCharter:
-      'Disavow, re-attribute, or discredit all reports of unexplained atmospheric hums, municipal earbleeds, mass auditory hallucinations, and whistleblower disclosures.',
+      'Discredit or absorb reports of the hum, of municipal ear complaints, of mass auditory events and of disclosures. Where a story cannot be killed, own it and publish the boring version first.',
     subDivisions: [
-      'Acoustic Phenomenon Denial Desk',
-      'Regulatory Infiltration Cell',
-      'Digital Mirror & Wayback Scrubbers',
-      'Whistleblower Discreditation Unit'
+      'Phenomena Desk',
+      'Regulatory Liaison',
+      'Mirror and Wayback Scrubbing',
+      'Whistleblower Handling'
     ]
   },
   {
@@ -131,74 +138,64 @@ export const DEPARTMENTS: Department[] = [
     headcount: 310,
     annualBudget: '£1.12 Billion',
     mandate:
-      'Planetary infrasound telemetry, ionospheric harmonic monitoring, seismic-acoustic correlation, and hydrophone depth telemetry.',
+      "Twenty-two stations, continuous record, planetary coverage in every band from the sea floor to the ionosphere. The array is the company's equivalent of an honest witness and is treated accordingly.",
     classifiedCharter:
-      'Continuous 24/7 planetary surveillance for "The Anomaly" (the 14.8Hz subterranean pulse). Track harmonic propagation velocity across global tectonic fault corridors.',
+      'Watch the carrier every hour of every day. Where an anomaly cannot be explained, log it in the annex and keep the annex off the client reporting chain. Nothing that reaches a client deck is to describe the carrier as rising.',
     subDivisions: [
-      'Polar Array Research Group',
-      'Deep Hydrophone Listening Network',
-      'High-Altitude Barometric Monitors',
-      'Lithospheric Vibration Lab'
+      'Polar Array Group',
+      'Deep Hydrophone Network',
+      'High-Altitude Barometry',
+      'Lithospheric Vibration'
     ]
   },
   {
     id: 'dept-egspu',
     code: 'EGSPU',
     name: 'Executive Governance & Special Projects Unit',
-    director: 'CEO Alistair Sterling',
-    deputyDirector: 'Executive VP Helena Vance-Cross',
+    director: 'CEO Nigel Ashby',
+    deputyDirector: 'Executive VP Helena Cross',
     headquarters: 'Tower Obsidian, The Obsidian Penthouse, London',
     headcount: 65,
     annualBudget: '£4.20 Billion',
     mandate:
-      'Direct corporate strategy, board oversight, acquisitions, black budget allocations, and sovereign state consultation.',
+      'Strategy, board business, acquisitions, black allocation and the sovereign relationship. Sixty-five people, of whom eleven are cleared for everything.',
     classifiedCharter:
-      'Absolute unilateral authority over Project Palimpsest, Project Vesper, and Station 07 emergency containment protocols. Oversees Level 5 Black Clearance sanitization protocols.',
-    subDivisions: [
-      'Black Budget Strategic Allocation',
-      'Sovereign Treaty Special Group',
-      'Clearance Level 5 Overseers',
-      'Retrospective Historical Revision Group'
-    ]
+      'Standing authority over Vesper, Palimpsest and the Station 07 containment protocol. Level 5 sanitisations are ordered here and signed by a single hand; the unit does not minute the reason, only the decision.',
+    subDivisions: ['Black Allocation', 'Sovereign Treaty Group', 'Clearance Oversight', 'Historical Revision']
   },
   {
     id: 'dept-bhrr',
     code: 'BHRR',
     name: 'Bio-Harmonic Reclamation & Remediation',
-    director: 'Dr. Marcus Vance-Saito',
+    director: 'Dr. Marcus Saito',
     deputyDirector: 'Dr. Diane Kowalski',
     headquarters: 'Yellowknife Sub-Permafrost Lab, Canada',
     headcount: 230,
     annualBudget: '£860 Million',
     mandate:
-      'Occupational health assessment, auditory hygiene certification, neurological resonance recovery, and bio-acoustic dampeners.',
+      'Occupational medicine, auditory health and the clinics. The directorate treats staff who have been below for too long and certifies everyone else as fit to go below.',
     classifiedCharter:
-      'Treat and isolate GPC personnel exhibiting Stage-3 Acoustic Dissociation, spontaneous glossolalia, or temporal dislocation caused by long-duration Station 07 or Trench exposure.',
+      'Treat and isolate Stage-3 acoustic dissociation, glossolalia and temporal dislocation from Station 07 and trench exposure. Compound 88-T is dispensed to a register held in this building and is not to be referenced in a personnel file.',
     subDivisions: [
-      'Station Personnel Decontamination',
+      'Station Decontamination',
       'Cognitive Dampener Formulation',
-      'Audio-Induced Amnestic Synthesis',
-      'Prosthetic Cochlear Filtering'
+      'Amnestic Therapy',
+      'Cochlear Filtering'
     ]
   },
   {
     id: 'dept-airs',
     code: 'AIRS',
     name: 'Archive Integrity & Retrospective Scrubbing',
-    director: 'Archivist Julian Thorne (Sanitized)',
-    deputyDirector: 'Senior Curator Cassian Drake',
+    director: 'Vincent Adeyemi',
+    deputyDirector: 'Agent Paul Kiernan',
     headquarters: 'Postojna Caverns Secure Repository, Slovenia',
     headcount: 140,
     annualBudget: '£620 Million',
     mandate:
-      'Digital records preservation, physical document vaulting, historical continuity audits, and metadata classification.',
+      'Records: preservation, vaulting, audit and classification. The archive holds two copies of everything and the reader is not told which one they are holding.',
     classifiedCharter:
-      'Systematic redaction, physical shredding, and digital hash substitution of all historical records connecting GPC to 1994 Reson-8 fatalities, 2011 Oakhaven Incident, and Project Palimpsest leaks.',
-    subDivisions: [
-      'Physical Shred & Incineration Facility',
-      'Cryptographic Hash Re-Indexer',
-      'Microfilm Vault Security',
-      'Redaction Enforcement Desk'
-    ]
+      'Redact, shred and substitute. Cover the 1994 deaths, the Oakhaven trial and every leak since. Where the originals cannot be destroyed they are moved to Postojna, and where they can be destroyed the destroyed version must be able to pass as the original.',
+    subDivisions: ['Shred and Incineration', 'Hash Re-Indexing', 'Microfilm Vault', 'Redaction Enforcement']
   }
 ];

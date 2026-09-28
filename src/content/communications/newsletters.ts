@@ -1,5 +1,12 @@
 import type { Newsletter } from '@/types';
 
+/**
+ * Internal staff bulletins.
+ *
+ * House style: in-house newsletters are written badly and in a hurry, by
+ * whoever was asked. Keep the canteen notes and the safety reminders — they
+ * are the only honest part of the format.
+ */
 export const NEWSLETTERS: Newsletter[] = [
   {
     id: 'news-01',
@@ -8,32 +15,32 @@ export const NEWSLETTERS: Newsletter[] = [
     publicationDate: '2025-01-15',
     volumeName: 'Internal Global Staff Publication (London / Rosslyn / Tokyo / Svalbard)',
     leadArticle: {
-      headline: 'Tower Obsidian Achieves 99.8% Ambient Harmonic Synchronization',
+      headline: 'Tower Obsidian dampening upgrade complete, floors 20-50',
       content:
-        'Following the installation of our second-generation passive Helmholtz resonators across Floors 20 through 50, Tower Obsidian London has achieved the lowest measured internal acoustic turbulence in corporate real estate history. Staff are reminded that the gentle low-frequency oscillation perceptible in Sub-Basement 3 is a normal component of our structural anti-resonance dampers and poses zero biological risk when wearing standard Level 2 ear protection.'
+        'The second-generation passive resonators were signed off on 9 January and the building is now running quieter than at any point since 2016. The low oscillation some colleagues have noticed in Sub-Basement 3 is a normal part of the damper cycle and is not a fault. Anyone experiencing headaches or a metallic taste should contact Occupational Health rather than Facilities: the two desks have different reporting requirements and the paperwork matters.'
     },
     secondaryArticles: [
       {
-        headline: 'Site 19 Sub-Level 6 Structural Grouting Complete',
+        headline: 'Site 19 sealing work finished',
         content:
-          'Chief Engineer Sarah Lin and the SISO team have finalized the annual acoustic sealing of Chamber 04 in Utah. Over 40,000 tons of high-density polymer grout were successfully injected into the bedrock perimeter, maintaining our 32.4Hz heavy containment envelope.'
+          'Sarah Lin and the SISO team completed the annual acoustic sealing of Chamber 04 in Utah before Christmas, with 40,000 tons of polymer grout pumped into the bedrock perimeter. The containment envelope is stable. The crew would like it noted that they worked through the holiday period, again.'
       },
       {
-        headline: 'Reminder: Mandatory Annual Cognitive Stability Diagnostics',
+        headline: 'Cognitive stability diagnostic - deadline 28 February',
         content:
-          'All personnel holding Level 3 Secret clearance or above must complete their online Cognitive Stability Diagnostic with the BECM Directorate before February 28. Failure to complete the evaluation will result in automatic temporary suspension of cafeteria and elevator bypass privileges.'
+          'All staff at Level 3 and above must complete the annual diagnostic with the BECM directorate by 28 February. Late completion results in temporary suspension of lift bypass and canteen privileges, which is a strange sentence to have to write, but it is the incentive that works.'
       }
     ],
     employeeSpotlight: {
       name: 'Dr. Soraya Morales (Atacama Trench Station 05)',
-      role: 'Lead Infrasonic Cartographer',
+      role: 'Deputy Director, Infrasonic Cartography',
       quote:
-        '"Working at 4,800 meters elevation in the Atacama Desert teaches you that silence is never truly empty. The atmosphere is always humming; you just have to know which harmonics belong to the Earth and which belong to us."'
+        '"People think it is silent up here at night. It is not. It is just tuned lower than the telescope people care about."'
     },
     cafeteriaSpecial:
-      'Tuesday: Cold-Smoked Atlantic Cod with Dill Potatoes (Tower Obsidian Level -1) | Daily: Complimentary Electrolyte Recovery Broth (Yellowknife Lab)',
+      'Tuesday: Baked hake, dill potatoes (Tower Obsidian, Level -1) | Daily: electrolyte broth, free, Yellowknife only, and yes it tastes like that on purpose.',
     safetyNotice:
-      'SAFETY REMINDER 44-B: Do not attempt to sleep inside the Sub-Basement 5 mechanical rooms. Prolonged exposure to unsynchronized HVAC carrier harmonics may cause temporary disorientation regarding calendar dates.'
+      'SAFETY REMINDER 44-B: Do not sleep in the Sub-Basement 5 mechanical rooms. Two colleagues did in November and both needed correcting on the date when they woke up.'
   },
   {
     id: 'news-02',
@@ -42,32 +49,32 @@ export const NEWSLETTERS: Newsletter[] = [
     publicationDate: '2024-11-20',
     volumeName: 'Division of Civic Continuity & Demographic Resilience Bulletin',
     leadArticle: {
-      headline: 'Swiss Alps Redoubt Completes 720-Day Hydroponic Seed Vault Stocking',
+      headline: 'Grimsel Pass storage complete: 720 days, 10,000 residents',
       content:
-        'Director Mara Finch announced this week that the Grimsel Pass subterranean complex has achieved 100% capacity in all critical life-support consumables. The facility’s closed-loop nitrogen and oxygen scrubbers have been tested to support 10,000 enrolled Heritage Cohort members for two full years of total isolation.'
+        'Mara Finch confirmed on Monday that the Grimsel complex is fully provisioned. The nitrogen and oxygen loops have completed their acceptance tests against a full resident load. Two hundred and forty of the sealed crates in the lower stores are marked for the medical annex only and require a countersignature to open, which is why the count in the stores register does not match the total in the audit. Both numbers are correct.'
     },
     secondaryArticles: [
       {
-        headline: 'Project Echo-State Expands to 12 Global Twin Cities',
+        headline: 'Echo-State expands to twelve twin cities',
         content:
-          'Dr. Evelyn Reed’s chronological simulation team has completed synthetic digital twin models of Chicago, Seoul, and Frankfurt. The models accurately predicted transit foot-traffic patterns during last month’s rail strikes with 94.2% precision.'
+          "Evelyn Reed's team has stood up synthetic models of Chicago, Seoul and Frankfurt, and the Chicago instance called the pattern of last month's rail disruption to within ninety minutes. The team are asking for two more analysts and have been asking since June."
       },
       {
-        headline: 'New Bio-Harmonic Ear-Drop Dispensers Installed at Polar Stations',
+        headline: 'Compound 88-T dispensers at polar stations',
         content:
-          'Yellowknife Lab has shipped 500 units of Compound 88-T pharmaceutical drops to Station 07 (Svalbard) and Station 17 (Tiksi). Staff experiencing persistent 14.8Hz phantom hums should apply two drops prior to sleep.'
+          'Five hundred units of drops have gone to Station 07 and Tiksi. Staff who hear a low hum that other people cannot hear should use the drops before sleeping and note the frequency in the station log. The log is not a complaint mechanism and it is not used against staff. It is read for tone and period.'
       }
     ],
     employeeSpotlight: {
-      name: 'Niall O’Connor (Tower Obsidian Facilities)',
-      role: 'Sub-Basement Maintenance Supervisor',
+      name: 'Niall O’Connor (Tower Obsidian, Facilities)',
+      role: 'Maintenance Supervisor, Sub-Basement',
       quote:
-        '"People ask me why I wear heavy earmuffs even when the HVAC chillers are turned off. When you work next to the bedrock dampeners, you learn that the ground is always talking."'
+        '"I wear the earmuffs when the chillers are off. That is the only thing I want in the newsletter."'
     },
     cafeteriaSpecial:
-      'Thursday: Braised Alpine Beef with Polenta (Grimsel Pass Redoubt) | Note: All dairy products in Swiss bunkers are pasteurized and gamma-irradiated for 20-year shelf life.',
+      'Thursday: braised beef, polenta (Grimsel Pass). All dairy at Swiss sites is irradiated for twenty-year storage; enquiries about the taste should go to the stores officer, not the canteen.',
     safetyNotice:
-      'CLASSIFIED PROTOCOL REMINDER: Whistleblower tip lines are monitored 24/7. Any staff member observed photographing server hardware or taking physical notes in Microfilm Room 2 will be escorted to Medical for evaluation.'
+      'SECURITY: the whistleblower line is monitored at all hours. Staff taking photographs in Microfilm Room 2, or writing notes on paper in the repository, will be asked to accompany a security officer to Medical. This is a welfare process and there is no penalty. Please do not make it awkward for the officer.'
   },
   {
     id: 'news-03',
@@ -76,32 +83,32 @@ export const NEWSLETTERS: Newsletter[] = [
     publicationDate: '2024-06-10',
     volumeName: 'PEFD & ASIAN Joint Technical Journal',
     leadArticle: {
-      headline: 'Planetary Infrasound Baseline Approaches 15.0Hz Milestone',
+      headline: 'Carrier at 14.988 and drifting',
       content:
-        'Data collected across all 22 global monitoring stations indicates that the subterranean 14.8Hz baseline carrier has experienced a subtle 0.05% frequency drift toward 15.000 Hz. Dr. Henrik Lindqvist noted that while the shift is mathematically minute, it increases the acoustic coupling efficiency between the Earth’s mantle and high-voltage surface power grids.'
+        'All twenty-two stations now agree on a carrier value of 14.988Hz, up from 14.802 at commissioning. Henrik Lindqvist notes that the rate of rise is not linear and that coupling to high-voltage grid infrastructure has increased measurably at every step. The paper that will be circulated to clients describes the effect as "seasonal variation". Our own record should describe it accurately.'
     },
     secondaryArticles: [
       {
-        headline: 'Azores Seabed Hydrophone Node 14 Upgraded with Sapphire Transducers',
+        headline: 'Node 14 transducers replaced',
         content:
-          'Kasper Vang and the Atlantic oceanographic team replaced the deep-water pressure sensors along the Mid-Atlantic Ridge at 3,200 meters depth. The new transducers offer sub-millihertz frequency resolution.'
+          'Kasper Vang and the Atlantic team finished swapping the sapphire pressure sensors on the ridge at 3,200 metres. Resolution is now below a millihertz, which is better than the array was specified for and better than we have a use for.'
       },
       {
-        headline: 'Project Cicada Highway Grid Extended Along UK Motorways',
+        headline: 'Cicada extended to UK motorways',
         content:
-          'Piezoelectric road sensors embedded along the M1 motorway are now harvesting tire vibration energy to power passive 14.8Hz re-radiators, creating smooth cognitive entrainment corridors for freight haulers.'
+          "Piezoelectric harvesting along the M1 is now powering the passive re-radiator bars in the northbound carriageway. Average speed through the test section is down 4mph and the collieries' haulage operators have complained about the smoothness. No colleague is to describe these installations in public using the word entrainment."
       }
     ],
     employeeSpotlight: {
       name: 'Dr. Clara Zimmerman (Black Ridge Station 16)',
-      role: 'Lead Infrasonic Resonance Analyst',
+      role: 'Resonance Analyst',
       quote:
-        '"The coal seams in West Virginia act like giant organ pipes. When you pump fluid down into the deep fissures, the mountain sings in pure perfect fifths."'
+        '"The seam sings in fifths. I put it in the report in 2020 and I have not been asked about it since."'
     },
     cafeteriaSpecial:
-      'Wednesday: Appalachian Smoked Trout with Sweet Cornbread (Black Ridge Station) | Friday: Salmon Poke Bowls with Seaweed Salad (Tokyo Chiyoda Tower)',
+      'Wednesday: smoked trout, cornbread (Black Ridge) | Friday: poke bowl, seaweed salad (Chiyoda B3).',
     safetyNotice:
-      'ACOUSTIC HYGIENE BULLETIN: If you hear a rhythmic three-tone chime inside your domestic landline or mobile phone when no call is incoming, hang up immediately and submit your handset to TOPN Security for de-gaussing.'
+      'ACOUSTIC HYGIENE: if your handset rings when no call is incoming, or a three-tone chime plays on a landline, hang up and hand the set to TOPN for de-gaussing. Do not record it and do not share the recording internally.'
   },
   {
     id: 'news-04',
@@ -110,32 +117,31 @@ export const NEWSLETTERS: Newsletter[] = [
     publicationDate: '2023-09-01',
     volumeName: 'Executive Governance & Special Projects Unit Dispatch',
     leadArticle: {
-      headline: 'GPC Signs Landmark £2.4 Billion Sovereign Resilience Pact',
+      headline: 'Resilience pact signed with three ministries',
       content:
-        'Executive Vice President Helena Vance-Cross confirmed the signing of a comprehensive 10-year demographic continuity and urban frequency harmonization agreement with three G7 sovereign ministries. Under the pact, GPC will provide predictive civic modeling and municipal background noise management across 28 metropolitan centers.'
+        'Helena Cross signed a ten-year demographic continuity and frequency harmonisation agreement with three sovereign ministries on 22 August. Twenty-eight metropolitan centres are covered. The word "frequency" does not appear in the public annexes; the schedule of works is filed under ambient noise abatement, which is a category the client departments already have, and which is why the pact went through without any of them needing to ask what it was for.'
     },
     secondaryArticles: [
       {
-        headline: 'Postojna Caverns Completes 100% Digital Document Hash Re-Indexing',
+        headline: 'Postojna re-indexing complete for 1971-1999',
         content:
-          'Senior Curator Cassian Drake reported that all legacy files dating from 1971 to 1999 have been re-encoded with dynamic SHA-256 validation trees. Any external alteration or unauthorized screenshot attempt automatically triggers cryptographic pixel scrambling.'
+          'Vincent Adeyemi reports that every legacy file in the 1971-1999 range now carries a dynamic validation tree. Anyone holding an altered copy will see it fail within seconds. Anyone holding a true copy will keep holding it, which is the part of this that the directorate has been asked about twice.'
       },
       {
-        headline: 'New Helmholtz Resonator Installation at Tokyo Deep Tower',
+        headline: 'Tokyo baffles installed',
         content:
-          'The Chiyoda facility has completed the installation of five-story vertical acoustic baffles along its elevator shafts, dampening seismic vibrations from the Tokyo Bay fault corridor.'
+          'Five floors of vertical acoustic baffling are now in place along the Chiyoda lift shafts. The stated purpose is seismic damping. The actual purpose is also seismic damping, on a frequency band that was not in the original brief.'
       }
     ],
     employeeSpotlight: {
       name: 'Dr. Brigitte Laroche (Tokyo Chiyoda Deep Tower)',
-      role: 'Senior Quantitative Behavioral Analyst',
-      quote:
-        '"Human crowds behave remarkably like acoustic waveforms. When you introduce the correct phase-canceling frequency into a transit station, social friction simply dissolves."'
+      role: 'Senior Analyst, Behavioural Metrics',
+      quote: '"I do not think of it as a crowd. I think of it as a curve, and the curve can be moved."'
     },
     cafeteriaSpecial:
-      'Monday: Tonkotsu Ramen with Marinated Soft-Boiled Egg (Chiyoda B3 Dining) | Daily: Sugar-Free Nootropic Matcha Lattes available at all executive refreshment kiosks.',
+      'Monday: tonkotsu ramen, Chiyoda B3 | Daily: sugar-free matcha available at all exec kiosks, at a price the rest of us are not paying.',
     safetyNotice:
-      'SECURITY ALERT: Unauthorized access to the legacy `/terminal` backdoor on the corporate intranet will result in immediate IP logging and mandatory security review with Agent Felix Mercer.'
+      'SECURITY: attempts to reach the legacy console on the corporate intranet are logged and reviewed individually by Agent Kiernan. Curiosity here is treated as a health matter first and a disciplinary matter second. That is a genuine offer, not a trap.'
   },
   {
     id: 'news-05',
@@ -144,32 +150,32 @@ export const NEWSLETTERS: Newsletter[] = [
     publicationDate: '2022-07-20',
     volumeName: 'Internal Global Staff Publication',
     leadArticle: {
-      headline: 'Cellular Carrier Acoustic Synchronization Boosts Public Calm by 31.4%',
+      headline: 'Emergency alert study - pilot results',
       content:
-        'A comprehensive study published by the BECM Directorate demonstrates that subtle low-frequency acoustic cues delivered through standard smartphone speaker coils during municipal emergency alerts significantly reduced public panic and impulsive civil assembly across tested pilot cities.'
+        'The BECM directorate has published results from the alert-tone pilot run in fourteen cities. Adherence to emergency instructions improved substantially and distress calls fell. The mechanism is described in the published summary as a calming acoustic quality in the alert tone. The full study is Level 4 and anyone who wants to read it can request it, though the summary is what clients will get.'
     },
     secondaryArticles: [
       {
-        headline: 'Yellowknife Bio-Harmonic Lab Announces Compound 88-T Clinical Success',
+        headline: 'Compound 88-T, clinical update',
         content:
-          'Dr. Marcus Vance-Saito confirmed that clinical trials of our proprietary Compound 88-T ear drops achieved a 98% resolution rate for research personnel suffering from persistent infrasonic auditory phantom perceptions.'
+          'Marcus Saito reports good outcomes in the Yellowknife group. Roughly nine in ten of those treated no longer perceive the hum. Of the remainder, most are staff who chose to stop taking the drops, and the clinic has stopped trying to change their minds.'
       },
       {
-        headline: 'Atacama Trench Station 05 Sets High-Altitude Telemetry Record',
+        headline: 'Atacama telemetry record',
         content:
-          'The Chilean observatory achieved 4,000 consecutive hours of uninterrupted stratospheric microbarometer tracking, charting planetary acoustic ducting across the South Pacific.'
+          'Four thousand consecutive hours from the stratospheric microbarometers, which is an instrument record and also four thousand hours of a hum that nobody in Chile was asked about.'
       }
     ],
     employeeSpotlight: {
       name: 'Diego Ramirez (Atacama Trench Station 05)',
       role: 'Station Superintendent',
       quote:
-        '"At 4,800 meters, the air is thin and the stars don’t twinkle—they vibrate. You can see the sound waves bending the light in the telescopes if you look carefully."'
+        '"You can see the wave bending the starlight in the telescope feeds. It is beautiful and I would like it to stop."'
     },
     cafeteriaSpecial:
-      'Tuesday: Pastel de Choclo with Chilean Empanadas (Atacama Station) | Thursday: Traditional Roast Beef with Yorkshire Pudding (Tower Obsidian)',
+      'Tuesday: pastel de choclo (Atacama) | Thursday: roast beef, Yorkshire pudding (Tower Obsidian).',
     safetyNotice:
-      'FACILITY WARNING: Do not attempt to adjust the manual pressure valves on the Sub-Level 4 cryogenic cooling lines at any field station. Cryogenic helium burns require immediate Yellowknife medical evacuation.'
+      'FACILITY WARNING: do not adjust the manual valves on the Sub-Level 4 cryogenic lines. A helium burn at a field station means a medical evacuation to Yellowknife, and the flight is longer than the pain is worth.'
   },
   {
     id: 'news-06',
@@ -178,31 +184,31 @@ export const NEWSLETTERS: Newsletter[] = [
     publicationDate: '2021-12-10',
     volumeName: 'Commemorative Golden Jubilee Staff Issue (1971-2021)',
     leadArticle: {
-      headline: 'Dame Eleanor Cross Addresses Global Staff on Five Decades of GPC Excellence',
+      headline: 'Chair address marks fifty years',
       content:
-        'In a live encrypted broadcast from the Swiss Alps Redoubt, Co-Founder Dame Eleanor Cross reflected on the journey from a modest Cambridge seminar room in 1971 to the world’s leading continuity architecture corporation. "We were told that human history was chaotic and uncontrollable. We proved that with the correct acoustic and demographic leverage, certainty is not only possible—it is inevitable."'
+        'Dame Eleanor Cross gave a short recorded address from the Grimsel complex on 12 November. She spoke about the first offices in Cambridge, the eighteen staff in 1974, and the criticism the company took in its early years for forecasting that events "had not yet had time to happen". The full recording runs eleven minutes and is stored on the internal network in audio only. There is no transcript, which several people have asked about, and none is planned.'
     },
     secondaryArticles: [
       {
-        headline: 'Historical Retrospective: From Paradigms Systems to Global Paradigms',
+        headline: 'Golden jubilee retrospective',
         content:
-          'An illustrated 8-page retrospective detailing our expansion across 22 field stations, the construction of Site 19, and the pioneering work of our early acoustic engineering teams.'
+          'The archive office has produced an eight-page illustrated retrospective: twenty-two stations, the Site 19 excavation, and the acoustic engineering teams of the eighties. Two photographs were withheld from the printed version by the archive office and the reason given was emulsion damage.'
       },
       {
-        headline: 'Executive Bonus Allocation & Heritage Enrollment Milestone',
+        headline: 'Jubilee dividend and cohort milestone',
         content:
-          'The Board of Directors has authorized a special 50th Anniversary Golden Jubilee dividend and confirmed the enrollment of the 8,000th member of the Tier-1 Heritage Cohort.'
+          'The board has authorised a jubilee dividend for eligible staff and confirmed the eight-thousandth enrolment in the Tier-1 Heritage Cohort. Enrolment is closed and staff are not eligible, which has been asked about in the canteen and is answered here so nobody has to ask Human Resources directly.'
       }
     ],
     employeeSpotlight: {
       name: 'Chief Engineer Sarah Lin (Site 19, Utah)',
-      role: 'Chief Engineer, Subterranean Infrastructure',
+      role: 'Chief Engineer, Underground Works',
       quote:
-        '"Fifty years of digging deep into the crust has taught us one thing: the Earth has a heartbeat, and Global Paradigms Corp. knows how to keep it in time."'
+        '"The Earth has a beat. I have spent fifteen years making sure it does not get faster than the plant was built for."'
     },
     cafeteriaSpecial:
-      'Friday: Golden Jubilee Banquet Roast with Champagne Sorbet (Available across all 22 global cafeteria hubs) | Vegetarian: Truffled Wild Mushroom Risotto',
+      'Friday: jubilee lunch at all twenty-two sites | Vegetarian: truffled mushroom risotto, which the London canteen has had on the menu since October and is not jubilee-specific.',
     safetyNotice:
-      'GENERAL REMINDER: Staff are prohibited from discussing internal project code names (Vesper, Boreas, Hypnos, Palimpsest) with family members or external financial contacts. All email correspondence is archived perpetually.'
+      'GENERAL: project code names (Vesper, Boreas, Hypnos, Palimpsest and others) are not to be used with family members or with anyone outside the company, including former colleagues. Email is retained permanently. Assume it will be read aloud in a room you are not in.'
   }
 ];

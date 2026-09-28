@@ -246,7 +246,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
 
         case 'thorne':
           sfx('unredact');
-          addLine('A. THORNE EXFIL LOG — 2019-10-14 03:41 UTC', 'secret');
+          addLine('E. THORNE EXFIL LOG — 2019-10-14 03:41 UTC', 'secret');
           addLine('"if you are reading this, the carrier is already past 14.9."', 'secret');
           addLine('48GB BOREHOLE 4 DUMP MIRRORED TO 3 DEAD DROPS.', 'warn');
           break;

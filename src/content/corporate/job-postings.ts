@@ -1,317 +1,336 @@
 import type { JobPosting } from '@/types';
 
+/**
+ * Recruitment listings, careers portal.
+ *
+ * These are written by a recruitment desk that has been briefed on what to
+ * leave out, and they read like it: normal jobs, normal benefits, and
+ * occasionally one line that was drafted by the hiring manager instead of HR.
+ */
 export const JOB_POSTINGS: JobPosting[] = [
   {
     id: 'job-01',
     requisitionId: 'REQ-2025-0841',
-    title: 'Senior Psychoacoustic Containment Specialist',
+    title: 'Acoustic Calibration Engineer, Municipal Transit',
     department: 'Psychoacoustics & Environmental Frequency Directorate (PEFD)',
     location: 'North American Hub (Rosslyn Sub-Complex, VA)',
     clearanceRequired: 'Level 4 - Top Secret',
     salaryRange: '$185,000 - $240,000 USD + Sub-Surface Hazard Stipend',
     overview:
-      'Seeking an experienced psychoacoustic engineer to oversee the calibration of sub-audible carrier arrays and municipal transit dampeners. The successful candidate will design narrow-band acoustic notch filters that prevent civilian auditory synchronization while maintaining mass demographic compliance.',
+      'You will hold the calibration schedule for tone installations on eighteen metropolitan transit networks: measuring, tuning and re-tuning arrays from a tablet, mostly at night, mostly alone. The work is precise rather than experimental and the tolerances are tighter than anything in commercial audio. Candidates who enjoy the difference between a specification and a field will do well here.',
     responsibilities: [
-      'Calibrate 14.8Hz and 432Hz dual-modulated harmonic transmitters across 18 metropolitan subway lines.',
-      'Conduct regular acoustic hygiene audits of commercial HVAC dampening installations.',
-      'Deploy mobile acoustic containment jacks during localized transducer resonance spikes.',
-      'Draft technical incident summaries following unexpected auditory perception clusters.'
+      'Calibrate and re-certify dual-modulated arrays on client transit property, typically between 01:00 and 04:00.',
+      'Carry out acoustic hygiene audits of installed HVAC dampening, and write up what you find, not what the contract expects.',
+      'Attend site during resonance incidents, which occur without warning and are usually reported by members of the public.',
+      'Produce technical summaries for the client and a separate internal note for the directorate.'
     ],
     qualifications: [
-      'Ph.D. or M.S. in Psychoacoustics, Electrical Engineering, or Applied Geophysics.',
-      '7+ years experience in acoustic wave propagation, DSP filter design, or defense sonar systems.',
-      'Active Level 4 Top Secret security clearance or eligibility for expedited GPC vetting.',
-      'Demonstrated expertise in high-amplitude infrasound transducer arrays.'
+      'Ph.D. or M.S. in acoustics, electrical engineering or applied geophysics.',
+      'Seven years or more in wave propagation, DSP filter design or defence sonar.',
+      'Level 4 clearance held, or the temperament to obtain it through our vetting process.',
+      'Willingness to work to a specification you will not be given the reason for.'
     ],
     psychologicalRequirements: [
-      'Must demonstrate high tolerance for continuous low-frequency auditory stimulation.',
-      'Zero history of sleep paralysis, nocturnal panic attacks, or auditory pareidolia.',
-      'Mandatory agreement to periodic Compound 88-T prophylactic ear-drop administration.'
+      'Comfortable with continuous low-frequency exposure during site visits; hearing protection is issued but not always usable.',
+      'No history of sleep paralysis, night panic or auditory pareidolia. This is a hard requirement and it is checked at interview.',
+      'Agreement to periodic prophylactic medication while posted to sites with active arrays.'
     ],
     postingDate: '2025-01-08'
   },
   {
     id: 'job-02',
     requisitionId: 'REQ-2025-0912',
-    title: 'Low-Frequency Sub-Floor Monitor & Maintenance Engineer',
+    title: 'Building Services Engineer, Sub-Basement Levels 4-5',
     department: 'Subterranean Infrastructure & Station Operations (SISO)',
     location: 'Global HQ (Tower Obsidian, London, UK)',
     clearanceRequired: 'Level 2 - Confidential',
-    salaryRange: '£65,000 - £82,000 GBP + Overtime & Hazard Differential',
+    salaryRange: '£65,000 - £82,000 GBP + Overtime & Shift Differential',
     overview:
-      'Responsible for 24/7 physical monitoring and maintenance of the mechanical anti-resonance dampeners, Helmholtz acoustic chambers, and chilled water lines situated in Sub-Basement Levels 4 and 5 of Tower Obsidian.',
+      'A maintenance role at the bottom of the tower, reporting to the maintenance supervisor. Dampers, chilled water, cooling loops and the plant that keeps the executive floors quiet. The plant is older than the building around it and there is no manual for about a third of it, so we want somebody who takes notes.',
     responsibilities: [
-      'Inspect hydraulic acoustic damping jacks along the building bedrock foundation daily.',
-      'Monitor liquid nitrogen cooling loops for superconducting quantum interference sensor pods.',
-      'Log structural micro-vibrations and alert the Senior Engineer if the 22Hz facade dampener drifts by >0.2Hz.',
-      'Ensure all physical access hatches to the subterranean boreholes remain locked and sealed.'
+      'Daily inspection of the hydraulic damping jacks and their foundation anchor points.',
+      'Maintenance of liquid nitrogen cooling loops serving the sensor rooms on B5.',
+      'Log structural micro-vibration readings; escalate immediately if the 22Hz facade damper drifts more than 0.2Hz.',
+      'Keep the sub-level access hatches locked and report every attempt to open them, including your own.'
     ],
     qualifications: [
-      'Vocational certification or B.S. in Mechanical Engineering, Industrial HVAC, or Structural Hydraulics.',
-      '3+ years experience in deep-basement mechanical infrastructure or submarine engineering.',
-      'Ability to wear Class-A acoustic headgear for continuous 8-hour shift rotations.'
+      'Mechanical engineering qualification, industrial HVAC background or equivalent site experience.',
+      'Three years or more with deep-basement plant, tunnels, ships or similar confined installations.',
+      'Able to work a full shift in Class-A acoustic headgear where required.'
     ],
     psychologicalRequirements: [
-      'Must pass the 12-question GPC Cognitive Stability Diagnostic prior to hire.',
-      'Comfortable working in windowless, low-light, and acoustically isolated subterranean environments.'
+      'Completion of the standard cognitive stability diagnostic before hire.',
+      'Comfortable in windowless, low-light, acoustically isolated spaces. Most of our staff are and the ones who are not know within a fortnight.'
     ],
     postingDate: '2025-01-14'
   },
   {
     id: 'job-03',
     requisitionId: 'REQ-2024-1104',
-    title: 'Anomalous Resonance Analyst (Cryogenic Polar Array)',
+    title: 'Instrumentation Scientist, Polar Array',
     department: 'Atmospheric Sensing & Infrasonic Array Network (ASIAN)',
     location: 'Nordic Acoustic Array (Station 07, Spitsbergen, Svalbard)',
     clearanceRequired: 'Level 4 - Top Secret',
-    salaryRange: '£140,000 - £175,000 GBP + Polar Isolation Bonus & Free Housing',
+    salaryRange: '£140,000 - £175,000 GBP + Polar Isolation Bonus & Housing',
     overview:
-      'Stationed at our premier Arctic research facility near Longyearbyen. Analyzes raw 32-bit float infrasound telemetry intercepted by deep-borehole quartz seismometers and stratospheric microbarometers.',
+      'Two-year rotation at Station 07, twelve staff, four months of dark. You will run the sensor array and the borehole instrument string, and you will live in the same corridor as the people you work with, which is the part most applicants underestimate. Previous polar service, research-station or submarine experience is strongly preferred.',
     responsibilities: [
-      'Monitor continuous planetary 14.8Hz harmonic carrier wave telemetry from Borehole 4.',
-      'Triangulate sub-permafrost acoustic wave arrivals with Antarctic and Chilean array nodes.',
-      'Execute emergency nitrogen venting protocols if borehole thermal sensors exceed baseline by >5C.',
-      'Ensure zero raw acoustic data files are copied to unencrypted local storage devices.'
+      'Maintain and repair the microbarometer and geophone array, by hand, at ambient temperatures down to -35C.',
+      'Process borehole telemetry daily and file a written report every Friday without exception.',
+      'Support the station medical officer with crew monitoring, including sleep and hearing assessments.',
+      'Observe the standing instruction that no crew member descends below Level 3 of the borehole complex.'
     ],
     qualifications: [
-      'Ph.D. in Geophysics, Infrasonic Seismology, or Atmospheric Physics.',
-      'Proficiency in Python, MATLAB, and specialized Fourier spectral analysis algorithms.',
-      'Prior experience in polar or extreme-environment scientific field stations.'
+      'Physics, geophysics or instrumentation degree, or equivalent field service background.',
+      'Two years or more of isolated posting, ideally with a winter-over completed.',
+      'Practical electronics and a tolerance for equipment that fails in the cold.'
     ],
     psychologicalRequirements: [
-      'Must pass psychiatric evaluation for extreme winter isolation (90 days continuous polar night).',
-      'Willingness to sign lifetime Section 4 non-disclosure agreement regarding Borehole 4 findings.'
+      'Pre-deployment assessment with our medical office, repeated annually.',
+      'Candidates should be aware that the array runs continuously. The tone is below the audible range and is described by most staff as a pressure rather than a sound. A small number of long-serving crew report hearing words in it, and everyone posted here is warned about that in writing before they sign.'
     ],
     postingDate: '2024-12-01'
   },
   {
     id: 'job-04',
     requisitionId: 'REQ-2025-0144',
-    title: 'Senior Protocol Enforcer - Level 4 Security Operations',
+    title: 'Security Operations Officer, Site Protection Team',
     department: 'Tactical Obfuscation & Public Narrative (TOPN)',
     location: 'Global HQ (Tower Obsidian, London, UK) & Field Deployment',
     clearanceRequired: 'Level 4 - Top Secret',
     salaryRange: '£110,000 - £145,000 GBP + Performance Bonus',
     overview:
-      'Investigates internal information breaches, unauthorized telemetry copying, and whistleblower disclosures. Coordinates with sovereign intelligence counterparts to seize digital domain mirrors and enforce physical non-disclosure covenants.',
+      'Investigation support for the counter-leak team. The work is 70% reading: mirrors, forums, ex-employee posts, small inconsistencies in a client account. The remainder is travel to stations during incidents and writing up what you find in a form that will survive legal review. This is not a protective security role.',
     responsibilities: [
-      'Monitor corporate intranet search logs and `/terminal` command line queries for classified keywords.',
-      'Conduct rapid digital forensics and physical media seizure during exfiltration alerts.',
-      'Serve legal takedown notices and coordinate with registrars to seize dissident mirror sites.',
-      'Liaise with BHRR medical officers to schedule personnel for Protocol 9 memory remediation.'
+      "Monitor open sources and internal logs for material that has left the company's estate.",
+      'Attend site during security incidents and take statements from staff who were present.',
+      "Prepare evidential records to a standard the counsel's office can use without going back over your work.",
+      'Report to the lead investigator weekly, in writing, and keep the note short.'
     ],
     qualifications: [
-      'Background in military counter-intelligence, corporate cyber forensics, or defense security.',
-      '5+ years experience in digital forensics, network packet interception, and asset recovery.',
-      'Flawless operational security record and active Level 4 clearance.'
+      'Investigative background: police, military intelligence, financial crime or regulatory.',
+      'Discretion regarding colleagues. This matters more than any other bullet on this list.',
+      'Level 4 clearance, or eligibility for accelerated vetting within 60 days.'
     ],
     psychologicalRequirements: [
-      'High objective detachment; ability to enforce corporate policy without subjective ethical hesitation.',
-      'Must complete annual polygraph and bio-harmonic synchronization screening.'
+      'The post involves exposure to material of an unpleasant nature. We provide support; we expect candour.',
+      'Candidates should not apply if they expect operational work in the conventional sense.'
     ],
     postingDate: '2025-01-20'
   },
   {
     id: 'job-05',
     requisitionId: 'REQ-2024-0789',
-    title: 'Civic Relocation Architect & Demographic Corridors Specialist',
+    title: 'Continuity Planner, Resettlement Modelling',
     department: 'Division of Civic Continuity & Demographic Resilience (CCDR)',
     location: 'European Civic Continuity Bunker (Swiss Alps Redoubt, Switzerland)',
     clearanceRequired: 'Level 3 - Secret',
     salaryRange: '160,000 - 195,000 CHF + Alpine Living Allowance',
     overview:
-      'Models large-scale urban demographic evacuation corridors across Western Europe and East Asia. Designs logistical funneling algorithms that prevent bottleneck stampedes during acute municipal panic events.',
+      'Modelling how populations move and behave when they are relocated with little notice into constrained space, and what happens when the people moving have stopped trusting the signage. Urban planning, transport planning or emergency logistics background. Live on site; the commute is a lift.',
     responsibilities: [
-      'Model high-density transit evacuation throughput for London, Paris, Tokyo, and Frankfurt.',
-      'Integrate Project Echo-State synthetic twin demographic data into civil defense evacuation plans.',
-      'Verify 720-day autonomous supply chains and life-support logistics for Tier-1 subterranean redoubts.',
-      'Coordinate annual isolation readiness drills for enrolled Heritage Cohort members.'
+      'Build and validate relocation models for client cities under a range of shock scenarios.',
+      'Design crowd corridors at pinch points, using real station geometry and real commuter volumes.',
+      'Run tabletop exercises with client civil contingencies teams and write the after-action notes.',
+      'Present to client officials who will, on the day, be making the decisions the models describe.'
     ],
     qualifications: [
-      'M.S. in Civil Logistics, Urban Planning, or Quantitative Demographics.',
-      '6+ years experience in emergency management, defense supply chains, or transportation modeling.',
-      'Fluency in English and French or German.'
+      'Degree in urban planning, civil or transport engineering, or equivalent operational experience.',
+      'Strong quantitative habits; our users act on your numbers and there is no time to check them twice on the day.',
+      'German or French at working level is an advantage.'
     ],
     psychologicalRequirements: [
-      'Calm demeanor under extreme crisis simulations; ability to make quantitative triage decisions.'
+      'Enrolment in the on-site emergency roster, including night call-out.',
+      'Willingness to work on scenarios involving civilian casualties. Please consider this carefully before applying.'
     ],
     postingDate: '2024-11-15'
   },
   {
     id: 'job-06',
     requisitionId: 'REQ-2025-0312',
-    title: 'Synthetic Twin City Demographic Modeler',
+    title: 'Demographic Modeller, Synthetic Populations',
     department: 'Department of Strategic Forecasting & Predictive Chronology (SFPC)',
     location: 'Global HQ (Tower Obsidian, London, UK)',
     clearanceRequired: 'Level 3 - Secret',
     salaryRange: '£95,000 - £125,000 GBP + Equity Incentive',
     overview:
-      'Develops agent-based computational simulations of metropolitan populations under simulated economic and environmental acoustic stresses. Calibrates Project Echo-State models against real-time transit telemetry.',
+      'We run synthetic replicas of client cities with every resident modelled as an agent — 8.8 million of them in the London instance. The work is calibration: making the agents behave like people, then asking them questions that nobody can ethically ask a real city.',
     responsibilities: [
-      'Construct high-fidelity agent-based models simulating 10+ million individual urban citizens.',
-      'Incorporate real-time mobile cell-tower traffic and transit smart-card taps into behavioral models.',
-      'Simulate civilian compliance velocity when municipal acoustic carrier amplitudes are modulated.',
-      'Validate model accuracy against historical municipal unrest events.'
+      'Extend and calibrate agent models against observed behaviour, municipal data and transit telemetry.',
+      'Run scenario suites against client policy questions and write them up for non-technical readers.',
+      'Maintain the validation harness; a model that cannot be reproduced is not a model.',
+      'Document your assumptions. The ones that turn out to matter have all been assumptions we did not write down.'
     ],
     qualifications: [
-      'Ph.D. or M.S. in Computational Social Science, Complex Systems, or Machine Learning.',
-      'Expertise in large-scale agent-based modeling frameworks (C++, Python, CUDA).',
-      'Strong background in statistical mechanics and stochastic process theory.'
+      'Quantitative PhD or equivalent, plus production modelling experience rather than academic only.',
+      'Python or C++ at a professional standard, and MPI or equivalent for large runs.',
+      'An instinct for when a result is too good to be true.'
     ],
     psychologicalRequirements: [
-      'Must maintain strict confidentiality regarding predictive civil unrest dates.'
+      'Standard vetting. No field deployment and no particular physical demands.',
+      'Some of our scenarios concern civil disorder and are unsettling to work on in the third year. It is discussed at interview.'
     ],
     postingDate: '2025-01-05'
   },
   {
     id: 'job-07',
     requisitionId: 'REQ-2024-0550',
-    title: 'Senior Historical Redaction Archivist',
+    title: 'Senior Archivist, Redaction Office',
     department: 'Archive Integrity & Retrospective Scrubbing (AIRS)',
     location: 'Balkan Harmonic Calibration Center (Postojna Caverns, Slovenia)',
     clearanceRequired: 'Level 4 - Top Secret',
-    salaryRange: '€75,000 - €95,000 EUR + Subterranean Hazard Allowance',
+    salaryRange: '€75,000 - €95,000 EUR + Subterranean Allowance',
     overview:
-      'Executes physical document redactions, chemical shredding, and digital SHA-256 hash re-indexing for historical corporate records dating from 1971 to 1999 under Project Palimpsest.',
+      'Custody work in a controlled microclimate. You will process pre-1980 material — paper, microfilm, some photographic plates — and maintain the redaction standard on documents that are covered rather than destroyed. The repository is climate-controlled, quiet and about nine degrees for most of the year.',
     responsibilities: [
-      'Review analog microfilm boxes and apply high-density black toner tape to classified names and frequencies.',
-      'Supervise the chemical dissolution of decommissioned product engineering files.',
-      'Update cryptographic validation trees in the central Postojna digital vault.',
-      'Perform monthly audits to ensure zero un-redacted legacy documents remain accessible on the intranet.'
+      'Index, scan and re-box incoming material according to the current standard, edition 8.',
+      'Apply and record redaction passes, including reversals when a standard is amended.',
+      'Maintain chain of custody to audit standard; we are inspected and the inspections are unfriendly.',
+      'Report discrepancies to the curator. Discrepancies are handled by the curator and not by you.'
     ],
     qualifications: [
-      'Master’s degree in Library & Information Science, Archival Studies, or Information Security.',
-      '4+ years experience in classified document declassification, secure records management, or legal discovery.',
-      'Meticulous attention to detail and high physical endurance in cold subterranean vault environments.'
+      'Archive, library or records qualification, or equivalent years in a records function.',
+      'Fine manual work. This is a job for hands.',
+      'Slovenian, Italian or German at working level; the site team is multilingual.'
     ],
     psychologicalRequirements: [
-      'Must pass security vetting regarding family ties to current or former GPC employees.',
-      'Zero history of unauthorized archival collecting or whistleblower sympathy.'
+      'Medical screening including periodic assessment, as standard for all Postojna staff.',
+      'Residency within the site compound for the first six months is required. Applicants should note that the repository holds material dating from 1971 relating to every programme the company has run, and that content is not discussed outside the office.'
     ],
     postingDate: '2024-10-22'
   },
   {
     id: 'job-08',
     requisitionId: 'REQ-2025-0401',
-    title: 'Lead Deep-Ocean Hydro-Acoustic Oceanographer',
+    title: 'Deep-Ocean Acoustics Scientist',
     department: 'Atmospheric Sensing & Infrasonic Array Network (ASIAN)',
     location: 'Indian Ocean Monitor (Diego Garcia Trench) & Sea Deployments',
     clearanceRequired: 'Level 4 - Top Secret',
     salaryRange: '$165,000 - $210,000 USD + Sea Duty Bonus',
     overview:
-      'Maintains abyssal hydrophone arrays moored at depths between 4,000m and 6,000m in the Indian and Atlantic Oceans. Analyzes low-frequency acoustic pulses propagating through deep SOFAR channels.',
+      'Hydrophone arrays on the seabed at 5,000 metres, and the analysis that follows the data ashore. Six weeks at sea, six weeks on station, repeated. We are looking for somebody who can run a deployment in bad weather and then write a defensible paper about what the array heard.',
     responsibilities: [
-      'Deploy and calibrate deep-sea fiber-optic hydrophones and titanium pressure casings.',
-      'Monitor the 54Hz mantle harmonic pulse and calculate lithospheric arrival vectors.',
-      'Maintain acoustic telemetry links between seabed nodes and GPC satellite relays.',
-      'Investigate non-biological oceanic sound anomalies and author Project Monolith reports.'
+      'Operate and maintain moored hydrophone arrays including sub-surface recovery and re-deployment.',
+      'Process low-frequency ambient data and distinguish equipment artefact from source.',
+      'Handle visiting naval and civil liaison officers who will ask what we are looking for.',
+      'Publish what can be published. There is a standing arrangement about what cannot.'
     ],
     qualifications: [
-      'Ph.D. in Physical Oceanography, Marine Acoustics, or Underwater Signal Processing.',
-      'Extensive experience with deep-ocean mooring deployments and fiber-optic telemetry.',
-      'Strong maritime safety certifications and willingness to spend up to 120 days at sea annually.'
+      'Ph.D. in ocean acoustics, marine geophysics or a closely related field.',
+      'Certified for sea duty and experienced in deep mooring operations.',
+      'Comfortable with long deployments and with equipment you cannot reach without a ship.'
     ],
     psychologicalRequirements: [
-      'High psychological resilience against prolonged maritime isolation and deep-water claustrophobia.'
+      'Sea-going medical certificate and regular fitness reviews.',
+      'Applicants are advised that some recorded material from these arrays is disturbing. It is not played to new staff and it is available to those who ask.'
     ],
     postingDate: '2025-01-12'
   },
   {
     id: 'job-09',
     requisitionId: 'REQ-2024-0988',
-    title: 'Bio-Harmonic Remediation Clinician',
+    title: 'Clinical Officer, Occupational Audiology',
     department: 'Bio-Harmonic Reclamation & Remediation (BHRR)',
     location: 'Yellowknife Sub-Permafrost Lab (NWT, Canada)',
     clearanceRequired: 'Level 3 - Secret',
     salaryRange: '$135,000 - $160,000 CAD + Remote Location Stipend',
     overview:
-      'Provides medical monitoring, audiometric evaluations, and pharmaceutical intervention for research staff exposed to high-power infrasound fields across northern field stations.',
+      'Clinical support for field staff exposed to undamped sources: audiology, sleep, and the anxiety that comes with both. You will be one of two clinicians on site and you will be the person people talk to at 03:00, because there is nobody else.',
     responsibilities: [
-      'Administer baseline and post-rotation audiometric and neurological evaluations to field personnel.',
-      'Dispense and manage inventory of Compound 88-T neuro-otological otic suspensions.',
-      'Supervise 14-day recovery protocols for employees diagnosed with Stage 1 or 2 Acoustic Dissociation.',
-      'Maintain confidential medical records in accordance with GPC Bio-Harmonic clinical standards.'
+      'Assessment, treatment and monitoring of acoustic exposure cases, including dispensing the standard drops.',
+      'Sleep and hearing monitoring for active-array crews, filed quarterly.',
+      'Advise the station chief on fitness for duty, and hold the line when you are asked to sign somebody as fit.',
+      'Keep case notes that could be read aloud in a court without embarrassing you.'
     ],
     qualifications: [
-      'M.D. or Master of Science in Nursing (MSN) with specialization in Otolaryngology or Clinical Audiology.',
-      'Active medical license and 4+ years clinical experience in occupational medicine or neurological care.'
+      'Registered clinician: audiology, occupational medicine or clinical psychology.',
+      'Experience of remote or industrial medicine.',
+      'Willingness to work with a small team in a very cold place for most of the year.'
     ],
     psychologicalRequirements: [
-      'Empathetic yet professionally detached; ability to enforce quarantine orders without hesitation.'
+      'Routine pre-deployment screening, repeated annually.',
+      'Please note that you will be asked to assess colleagues you live with. The previous holder of this post managed it for four years; we mention it because it is the hardest part of the job.'
     ],
     postingDate: '2024-11-28'
   },
   {
     id: 'job-10',
     requisitionId: 'REQ-2025-0210',
-    title: 'High-Altitude Cryogenic Sensor Specialist',
+    title: 'Cryogenic Systems Technician, High-Altitude Array',
     department: 'Atmospheric Sensing & Infrasonic Array Network (ASIAN)',
     location: 'High-Altitude Infrasound Array (Atacama Trench Station, Chile)',
     clearanceRequired: 'Level 3 - Secret',
     salaryRange: '$120,000 - $145,000 USD + High-Altitude Premium',
     overview:
-      'Maintains liquid-helium cryostats and superconducting quantum interference microbarometers situated at 4,800 meters elevation in the Atacama Desert.',
+      'Maintaining sensor cooling at 4,800 metres, where the air is thin, the UV is unforgiving and the nearest hospital is two hours of gravel away. Small station, fourteen staff, international rotation. This is a hands-on post; the instrumentation is temperamental and the instruments are cold.',
     responsibilities: [
-      'Service closed-cycle helium cryostats and high-altitude microbarometer arrays.',
-      'Ensure uninterrupted tracking of the 4.2Hz Atacama standing atmospheric pressure column.',
-      'Calibrate solar and battery storage systems under extreme desert temperature swings (-20C to +35C).',
-      'Liaise with local Chilean observatory staff to coordinate frequency sweep schedules.'
+      'Maintain cryogenic cooling loops and the SQUID sensor pods they serve.',
+      'Carry out field repairs at the array line and calibrate replacement units on site.',
+      'Support the superintendent with power and water systems during the winter window.',
+      'Record everything in the station log, in ink, at the time. Our record from 2021 exists because somebody did.'
     ],
     qualifications: [
-      'B.S. or M.S. in Cryogenic Engineering, Applied Physics, or Precision Instrumentation.',
-      '3+ years experience with high-vacuum systems, cryogenic liquids, and sensor telemetry.',
-      'Certified physically fit for work at extreme high altitude (>4,500m).'
+      'Electronics or refrigeration qualification with several years at technician level.',
+      'High-altitude or remote station experience preferred.',
+      'A good head for heights and an unromantic attitude to scenery.'
     ],
-    psychologicalRequirements: ['High stamina and self-reliance in remote desert mountain environments.'],
+    psychologicalRequirements: [
+      'Altitude and fitness screening, then an annual review.',
+      'Rotation is eight weeks on, four off. Applicants frequently underestimate the fourth week. We tell you this now rather than in the interview.'
+    ],
     postingDate: '2025-01-18'
   },
   {
     id: 'job-11',
     requisitionId: 'REQ-2024-1215',
-    title: 'Tactical Narrative Strategist & Crisis Media Writer',
+    title: 'Corporate Affairs Writer',
     department: 'Tactical Obfuscation & Public Narrative (TOPN)',
     location: 'Global HQ (Tower Obsidian, London, UK)',
     clearanceRequired: 'Level 3 - Secret',
     salaryRange: '£80,000 - £105,000 GBP + Annual Performance Bonus',
     overview:
-      'Drafts public corporate press releases, regulatory compliance filings, and scientific cover stories that re-attribute anomalous acoustic events to benign meteorological or industrial phenomena.',
+      'Writing on the corporate side: statements, sustainability reporting, incident communications and the language used when a fault in client equipment needs explaining to the public. Fast turnaround, high volume, no byline.',
     responsibilities: [
-      'Draft responsive press releases within 60 minutes of an uncontained field station acoustic leak.',
-      'Coordinate with friendly academic contacts to seed peer-reviewed articles explaining "mystery hums".',
-      'Prepare ESG sustainability disclosures highlighting GPC’s green continuity redoubts.',
-      'Manage corporate media inquiries regarding legacy product recalls and court settlements.'
+      'Draft press statements, client notifications and regulatory responses to a house style.',
+      'Re-word technical findings for public audiences without saying anything the engineers cannot stand behind.',
+      'Maintain the standing wording library, including the approved explanations for low-frequency noise complaints.',
+      'Be available out of hours during incidents, which occur perhaps eight times a year and never at a convenient time.'
     ],
     qualifications: [
-      'B.A. or M.A. in Strategic Communications, Journalism, or Public Affairs.',
-      '5+ years experience in crisis communications, defense public relations, or sovereign press offices.',
-      'Exceptional writing speed and ability to craft plausible, authoritative scientific explanations.'
+      'Newsroom, press office or communications agency background.',
+      'Ability to write quickly in a formal register, and to be edited without arguing.',
+      'Level 3 clearance or the willingness to obtain it; the work requires access to unredacted reports.'
     ],
-    psychologicalRequirements: ['High verbal agility and comfort with strategic obfuscation.'],
+    psychologicalRequirements: [
+      'Standard vetting.',
+      'Applicants should be at peace with writing material that is accurate but not complete. It is the nature of the role and it is stated here so that nobody is surprised in their second month.'
+    ],
     postingDate: '2024-12-15'
   },
   {
     id: 'job-12',
     requisitionId: 'REQ-2025-0602',
-    title: 'Subterranean Heavy Drilling Engineer & Vault Constructor',
+    title: 'Drilling Engineer, Deep Construction',
     department: 'Subterranean Infrastructure & Station Operations (SISO)',
     location: 'Sub-Basin Containment Facility (Site 19, Utah)',
     clearanceRequired: 'Level 3 - Secret',
     salaryRange: '$130,000 - $165,000 USD + Hazardous Duty Differential',
     overview:
-      'Operates heavy rotary diamond drilling rigs and high-pressure concrete injection equipment to seal deep geological fault fissures and construct reinforced acoustic containment chambers.',
+      'Heavy drilling and shaft construction in a live underground facility: new galleries, foundation work, and the sealing of openings that have already been drilled. Work is performed on a two-week rotation on site with accommodation provided. Site 19 is a mine in all but name; the safety standard is better than the industry and the paperwork is worse.',
     responsibilities: [
-      'Operate heavy underground drilling and grouting machinery at depths up to 1,200 meters.',
-      'Inject high-viscosity polymer acoustic dampening slurry into fractured salt dome formations.',
-      'Install heavy steel liner rings and barite acoustic absorption tiles in deep sensor chambers.',
-      'Execute emergency blast-door sealing protocols in the event of a structural vibration spike.'
+      'Operate and maintain the drill rigs and support the shotcrete and liner crews.',
+      'Follow the ground control plan exactly and stop work when the ground disagrees with the plan, which it does.',
+      'Maintain drilling records; the geological logging we ask for is more detailed than elsewhere and is used by other departments.',
+      'Assist the vault team with sealing work on completed openings.'
     ],
     qualifications: [
-      '10+ years experience in deep underground mining, tunnel boring, or deep borehole drilling.',
-      'Certified Heavy Equipment Operator and Mine Safety & Health Administration (MSHA) credentials.',
-      'Proven track record in high-risk subterranean engineering projects.'
+      'Mining or tunnelling background with a documented deep shaft record.',
+      'Current certifications for the plant operated, or a clear pathway to them.',
+      'Willingness to work in heat and in conditions where the ventilation is engineered rather than natural.'
     ],
     psychologicalRequirements: [
-      'Unshakable nerve in confined subterranean spaces under heavy mechanical vibration.'
+      'Fitness for underground work, including respirator use and confined space.',
+      'Applicants are advised that some areas of the facility are restricted. Curiosity about restricted areas is the single most common reason people are dismissed from this site, and the second most common reason people are promoted.'
     ],
     postingDate: '2025-01-22'
   }

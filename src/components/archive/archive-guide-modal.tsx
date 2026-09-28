@@ -70,7 +70,7 @@ export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: 
             On the surface: a corporation. Underneath: the{' '}
             <strong className="text-fuchsia-300">Ordo Vocis Profundae</strong>, an occult order that has
             steered the company around a 14.8 Hz signal under the Earth. A whistleblower,{' '}
-            <strong className="text-white">Dr. Aris Thorne</strong>, has left you a trail.
+            <strong className="text-white">Dr. Ewan Thorne</strong>, has left you a trail.
           </p>
         </div>
 

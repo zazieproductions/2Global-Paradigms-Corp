@@ -1,5 +1,12 @@
 import type { InternalProgram } from '@/types';
 
+/**
+ * Programme dossiers as held by the Strategy Office.
+ *
+ * House style: the objective line is what the programme is allowed to be
+ * called, the cover story is what clients read, and the classified reality is
+ * an internal note written by someone who has stopped enjoying the job.
+ */
 export const INTERNAL_PROGRAMS: InternalProgram[] = [
   {
     id: 'prog-01',
@@ -12,16 +19,21 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     budgetAnnual: '£380 Million',
     startYear: 1986,
     status: 'Active',
-    objective:
-      'Atmospheric refraction mapping and polar ducting of low-frequency acoustic standing waves across the Northern Hemisphere.',
+    objective: 'Polar atmospheric monitoring and refraction mapping for low-frequency acoustic signals.',
     publicCoverStory:
-      'Long-term meteorological acoustic research on polar vortex wind shears and stratosphere pressure differentials.',
+      'Long-term meteorological acoustics: polar vortex wind shear and stratospheric pressure differentials.',
     classifiedReality:
-      'Utilizes sub-zero Arctic permafrost as an acoustic lens to bounce 14.8Hz carrier tones through the upper ionosphere, maintaining baseline neural entrainment across North America and Europe.',
+      'The permafrost column under Station 07 behaves as a lens. Boreas uses it to push the carrier into the upper atmosphere and bring it back down over northern Europe and the eastern seaboard. Loss along the path is higher than the 1986 model predicted and has been explained in every client deck as weather.',
     milestones: [
-      { year: 1986, event: 'First acoustic transmission from Station 07 detected in Scotland.' },
-      { year: 1999, event: 'Polar waveguide harmonic synchronization established with Yellowknife.' },
-      { year: 2024, event: 'Ionospheric flare coupling observed; amplitude increased by 18.4%.' }
+      { year: 1986, event: 'First transmission from Station 07 picked up in Scotland on a temporary array.' },
+      {
+        year: 1999,
+        event: 'Waveguide synchronised with Yellowknife. Two-phase lock, holds for weeks at a time.'
+      },
+      {
+        year: 2024,
+        event: 'Ionospheric coupling observed. Amplitude up 18.4% and the increase has not reversed.'
+      }
     ],
     linkedPersonnel: ['p-018', 'p-019', 'p-020', 'p-044'],
     linkedStations: ['st-04', 'st-07', 'st-17']
@@ -37,20 +49,22 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     budgetAnnual: '£720 Million',
     startYear: 1989,
     status: 'Active',
-    objective:
-      'Municipal low-frequency evening tone broadcasts for mass civilian cognitive dampening and protest suppression.',
+    objective: 'Evening municipal tone broadcasting for urban crowd management.',
     publicCoverStory:
-      'Municipal background noise cancellation infrastructure for smart cities and architectural transit comfort.',
+      'Background noise cancellation for smart cities; transit comfort and architectural acoustics.',
     classifiedReality:
-      'Sub-audible 432Hz/14.8Hz harmonic broadcast injected into commercial HVAC and public subway PA systems at 18:00 daily to induce fatigue, lower aggression, and diminish public assembly impulses.',
+      '432Hz under 14.8Hz, injected through subway PA and commercial HVAC at 18:00 local. Fatigue onset is deliberate. Assembly behaviour in covered streets is measurably down and the city authorities have never asked why the quiet hour is always the same hour.',
     milestones: [
-      { year: 1989, event: 'Initial Sector 9 municipal trial in Birmingham, UK.' },
+      {
+        year: 1989,
+        event: 'First full municipal trial, Birmingham. Two stations, seven weeks, no complaints filed.'
+      },
       {
         year: 2011,
         event:
-          'Oakhaven, Indiana full-town isolation test (abruptly terminated after cognitive dissociation incidents).'
+          'Oakhaven, Indiana: full-town broadcast, stopped at the substation incident. Chen has never signed off on a whole-town trial since.'
       },
-      { year: 2023, event: 'Integration into 18 North American metropolitan subway networks completed.' }
+      { year: 2023, event: 'Eighteen North American subway networks in routine operation.' }
     ],
     linkedPersonnel: ['p-003', 'p-007', 'p-008', 'p-015', 'p-035'],
     linkedStations: ['st-01', 'st-02', 'st-15']
@@ -60,21 +74,23 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     code: 'PROG-HYPNOS',
     name: 'Project Hypnos',
     leadDepartmentId: 'dept-becm',
-    director: 'Dr. Kaelen Voss',
+    director: 'Dr. Tobias Voss',
     clearance: 'Level 4 - Top Secret',
     threatLevel: 'Moderate',
     budgetAnnual: '£410 Million',
     startYear: 2002,
     status: 'Active',
-    objective:
-      'Sleep-cycle acoustic entrainment and subconscious compliance messaging in high-density residential towers.',
-    publicCoverStory: 'Sleep architecture optimization technology and consumer sound-masking consultancy.',
+    objective: 'Residential sleep-cycle entrainment and overnight message conditioning.',
+    publicCoverStory: 'Sleep architecture optimisation and consumer sound-masking consultancy.',
     classifiedReality:
-      'Employs microtonal binaural beating delivered through standard electrical wiring harmonics (50Hz/60Hz grid hum) to compress REM sleep duration and heighten suggestibility to municipal public health directives.',
+      'The grid is the delivery system. Domestic wiring hums at 50 or 60Hz and the beat placed on it is small enough to pass every safety test in every jurisdiction. REM is compressed. Suggestibility in the last hour before waking is elevated and has been measured on volunteer cohorts at Rosslyn.',
     milestones: [
-      { year: 2002, event: 'Phase 1 laboratory testing with ParaCalm nursery prototypes.' },
-      { year: 2016, event: 'Pilot deployment across 40 residential high-rises in Tokyo and Seoul.' },
-      { year: 2024, event: 'Grid-harmonic delivery protocol patent filed under defense shell corporation.' }
+      { year: 2002, event: 'Phase 1 lab work, using ParaCalm nursery hardware pulled from the recall line.' },
+      {
+        year: 2016,
+        event: 'Forty towers in Tokyo and Seoul, six months, compliance questionnaires up across the board.'
+      },
+      { year: 2024, event: 'Grid-harmonic delivery patented through a defence shell company in Delaware.' }
     ],
     linkedPersonnel: ['p-014', 'p-015', 'p-031'],
     linkedStations: ['st-03', 'st-20']
@@ -84,20 +100,20 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     code: 'PROG-CHIME',
     name: 'Project Chime',
     leadDepartmentId: 'dept-pefd',
-    director: 'Dr. Jonas Sylvan',
+    director: 'Dr. Jonas Weiss',
     clearance: 'Level 3 - Secret',
     threatLevel: 'Moderate',
     budgetAnnual: '£260 Million',
     startYear: 2006,
     status: 'Active',
-    objective:
-      'Standardization of public school bell and institutional alert acoustic spectrums to establish early developmental acoustic conditioning.',
-    publicCoverStory: 'Pedagogical acoustic clarity standards and hearing preservation in primary education.',
+    objective: 'Standardisation of school bell and public alert acoustic profiles.',
+    publicCoverStory:
+      'Acoustic clarity standards for primary education and hearing preservation in classrooms.',
     classifiedReality:
-      'Fine-tunes institutional bells to specific resonant frequencies (741Hz / 1176Hz harmonic pair) that condition students to respond immediately to sudden state broadcast tone changes in adult life.',
+      'The approved bell is a 741Hz and 1176Hz pair. A child who hears it five days a week for eleven years will turn towards a state broadcast tone without deciding to. Weiss has twice proposed a study of what happens if a cohort ever misses the conditioning and both proposals were declined on budget.',
     milestones: [
-      { year: 2006, event: 'Adopted by 4,200 municipal schools across 6 US states.' },
-      { year: 2018, event: 'Expanded to secondary school transit alerts in UK and France.' }
+      { year: 2006, event: 'Adopted by 4,200 municipal schools in six US states.' },
+      { year: 2018, event: 'Extended to secondary school and transit alert tones in the UK and France.' }
     ],
     linkedPersonnel: ['p-007', 'p-008'],
     linkedStations: ['st-02', 'st-21']
@@ -107,27 +123,20 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     code: 'PROG-PALIMPSEST',
     name: 'Project Palimpsest',
     leadDepartmentId: 'dept-airs',
-    director: 'Cassian Drake',
+    director: 'Vincent Adeyemi',
     clearance: 'Level 5 - Black Dossier',
     threatLevel: 'Critical',
     budgetAnnual: '£850 Million',
     startYear: 1994,
     status: 'Covert Active',
-    objective:
-      'Systematic retrospective rewriting, digital substitution, and classified redaction of historical events connecting GPC to global mass acoustic casualties.',
-    publicCoverStory: 'Corporate digital asset management and legacy records archive migration.',
+    objective: 'Retrospective rewriting and redaction of the archive.',
+    publicCoverStory: 'Digital asset management and legacy records migration for institutional clients.',
     classifiedReality:
-      'Maintains thousands of shadow domain crawlers, cryptographic hash substitution scripts, and physical microfilm shredding chambers to erase evidence of the 1994 Reson-8 deaths, 2011 Oakhaven trial, and Station 07 leaks.',
+      'Crawlers, hash substitution scripts and a shredding floor at Postojna. Palimpsest exists because of the 1994 Reson-8 deaths, and it has since covered Oakhaven, the VeriPulse withdrawals and everything that came out of Svalbard. Adeyemi runs it to a standard: the paper that leaves the building must be able to survive comparison with whatever is left inside it.',
     milestones: [
-      { year: 1994, event: 'Created following the emergency Reson-8 consumer recall.' },
-      {
-        year: 2019,
-        event: 'Massive security breach when Dr. Aris Thorne exfiltrated 48GB of raw telemetry.'
-      },
-      {
-        year: 2025,
-        event: 'Automated AI redaction enforcement engine deployed across all intranet search endpoints.'
-      }
+      { year: 1994, event: 'Chartered the week after the recall, under the AIRS budget line.' },
+      { year: 2019, event: 'Thorne exfiltration: 48GB of raw telemetry out of the building in one night.' },
+      { year: 2025, event: 'Automated redaction enforcement running on every intranet search endpoint.' }
     ],
     linkedPersonnel: ['p-003', 'p-009', 'p-022', 'p-023', 'p-042'],
     linkedStations: ['st-01', 'st-10', 'st-04']
@@ -143,16 +152,18 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     budgetAnnual: '£540 Million',
     startYear: 1998,
     status: 'Active',
-    objective:
-      'Subterranean resonance dampening, acoustic fissure sealing, and seismic particulate scrubbing.',
+    objective: 'Deep ground resonance damping, fissure sealing and particulate control.',
     publicCoverStory: 'Mine safety engineering and geological hazard containment services.',
     classifiedReality:
-      'Deploys 80,000-ton polymer acoustic dampeners into deep mantle fault fractures beneath Utah, Svalbard, and the Atacama to prevent runaway harmonic resonance with surface structures.',
+      'Eighty-thousand-tonne polymer columns poured into mantle fractures under Utah, Svalbard and the Atacama, to stop the carrier finding a running resonance with anything on the surface. The work is not holding everywhere. Site 19 has taken three injections to hold one fracture and the third is not behaving like the first two.',
     milestones: [
-      { year: 1998, event: 'First deep hydraulic grout injection at Site 19.' },
+      {
+        year: 1998,
+        event: 'First hydraulic injection, Site 19. The grout set faster than the lab promised.'
+      },
       {
         year: 2023,
-        event: 'Containment of subterranean fracture 6 completed after 72-hour emergency vibration.'
+        event: 'Fracture 6 contained after a 72-hour vibration event that was felt in the visitor car park.'
       }
     ],
     linkedPersonnel: ['p-012', 'p-013', 'p-036'],
@@ -169,17 +180,19 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     budgetAnnual: '£610 Million',
     startYear: 2015,
     status: 'Active',
-    objective:
-      'Synthetic demographic digital twins of major world capitals modeling crowd panic thresholds and compliance dynamics.',
-    publicCoverStory: 'Urban mobility simulation and municipal emergency evacuation planning software.',
+    objective: 'Synthetic demographic twins of major cities for crowd and compliance modelling.',
+    publicCoverStory: 'Urban mobility simulation and municipal evacuation planning software.',
     classifiedReality:
-      'Continuous algorithmic simulation of 12 global cities down to individual citizen cellular movement. Simulates the exact casualty count and panic velocity if the 14.8Hz carrier amplitude is doubled.',
+      'Twelve cities modelled to the individual. The London instance carries 8.8 million agents and can be asked what the city does if the carrier amplitude doubles: how many stop walking, how fast, and where the hospitals fill first. Two of the pilot scenarios were run at 2026 amplitude and the results were not circulated.',
     milestones: [
-      { year: 2015, event: 'First complete twin city model of London (Echo-London v1).' },
+      {
+        year: 2015,
+        event: 'Echo-London v1 online, running on the SFPC cluster for four days before anyone trusted it.'
+      },
       {
         year: 2021,
         event:
-          'Echo-Tokyo and Echo-Chicago online; achieved 94.2% predictive accuracy during transit strike simulations.'
+          'Echo-Tokyo and Echo-Chicago added; the Chicago instance called the rail strike window to within ninety minutes.'
       }
     ],
     linkedPersonnel: ['p-005', 'p-006', 'p-032', 'p-037'],
@@ -196,17 +209,16 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     budgetAnnual: '£490 Million',
     startYear: 1991,
     status: 'Active',
-    objective:
-      'High-amplitude lithospheric infrasound broadcast network capable of long-range continental acoustic transmission.',
-    publicCoverStory: 'Global seismic crustal tomography and earthquake early-warning research.',
+    objective: 'High-amplitude lithospheric broadcast network.',
+    publicCoverStory: 'Crustal tomography and earthquake early warning research.',
     classifiedReality:
-      'Underground pneumatic transducer network capable of broadcasting high-decibel sub-audible pulses directly through continental bedrock to trigger immediate physiological panic or disorientation across hostile territories.',
+      'Pneumatic transducers in deep rock, loud enough to carry a pulse through continental bedrock. Intended for hostile territory: a population that panics on schedule is a population that stops moving. There has never been a live trial on a populated target and the standing instruction is that there will not be one without a signed directive from the chair.',
     milestones: [
-      { year: 1991, event: 'Desert testing at Mojave Sector 44.' },
-      { year: 2004, event: 'Integration with Appalachian Black Ridge deep array.' },
+      { year: 1991, event: 'Desert trials at Mojave Sector 44. Four geophones, one very surprised rancher.' },
+      { year: 2004, event: 'Integrated with the Black Ridge array in West Virginia.' },
       {
         year: 2020,
-        event: 'Dual-pulse test between Utah and Atacama verified global crustal transit in 14.2 minutes.'
+        event: 'Utah to Atacama dual-pulse test: crustal transit in 14.2 minutes, matching the model.'
       }
     ],
     linkedPersonnel: ['p-012', 'p-013', 'p-029', 'p-036'],
@@ -223,14 +235,17 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     budgetAnnual: '£310 Million',
     startYear: 2012,
     status: 'Active',
-    objective:
-      'Piezoelectric sensor grid buried along interstate highway corridors to harvest tire vibration and re-radiate low-frequency entrainment tones.',
-    publicCoverStory: 'Highway pavement structural health monitoring and smart asphalt telemetry.',
+    objective: 'Piezoelectric roadside harvesting and passive re-radiation.',
+    publicCoverStory: 'Pavement structural health monitoring and smart asphalt telemetry.',
     classifiedReality:
-      'Roadway surface transducers use vehicle acoustic energy to power passive 14.8Hz re-radiators, creating seamless cognitive entrainment corridors for long-haul drivers and interstate travelers.',
+      'Trucks power it. The plates under the carriageway turn tyre vibration into the carrier and put it in the air behind the vehicle. Long-haul drivers on the test corridor report arriving less tired than they should be. Nothing about the system is concealed except the frequency, which is not published and is not a secret the drivers would want.',
     milestones: [
-      { year: 2012, event: 'Pilot installation along 200 miles of I-80 in Utah and Nevada.' },
-      { year: 2019, event: 'Extended to M1 motorway corridor in the United Kingdom.' }
+      { year: 2012, event: 'Two hundred miles of I-80 in Utah and Nevada.' },
+      {
+        year: 2019,
+        event:
+          'M1 corridor in the United Kingdom. The unions asked about the smoothness and were told it was new asphalt.'
+      }
     ],
     linkedPersonnel: ['p-007', 'p-027'],
     linkedStations: ['st-01', 'st-02', 'st-06', 'st-15']
@@ -246,15 +261,22 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     budgetAnnual: '£1.65 Billion',
     startYear: 1984,
     status: 'Covert Active',
-    objective:
-      'Global network of 14 sovereign subterranean continuity redoubts provisioned for the long-term preservation of the corporate executive cadre.',
-    publicCoverStory: 'High-security financial data centers and archival seed vaults.',
+    objective: 'Fourteen subterranean continuity redoubts for the preservation of the executive cadre.',
+    publicCoverStory: 'High-security financial data centres and archival seed vaults.',
     classifiedReality:
-      'Deep-mountain subterranean bunkers engineered to sustain 10,000 selected individuals (Tier-1 Heritage Cohort) for 720 days in the event of global cognitive or civil collapse.',
+      "Ten thousand places, 720 days, fourteen mountains. Sealed at 12dB above baseline, no manual override, which was a design decision taken in 2016 and minuted. The Heritage Cohort roster is closed. Staff are not eligible. The gate list is held at Grimsel and one copy is held in the chair's own hand.",
     milestones: [
-      { year: 1984, event: 'Groundbreaking on the Swiss Alps Redoubt (Grimsel Pass).' },
-      { year: 2008, event: 'Completion of Woomera and Jeju Island deep redoubts.' },
-      { year: 2024, event: 'Final biological seed and digital cultural archive transfers completed.' }
+      {
+        year: 1984,
+        event:
+          'Groundbreaking at Grimsel Pass. Two years spent on drainage before anyone talked about bunkers.'
+      },
+      { year: 2008, event: 'Woomera and Jeju complete.' },
+      {
+        year: 2024,
+        event:
+          'Final seed and cultural archive transfers. Jeju is eleven berths short of the roster and the shortfall has been accepted.'
+      }
     ],
     linkedPersonnel: ['p-002', 'p-004', 'p-010', 'p-011', 'p-026'],
     linkedStations: ['st-08', 'st-13', 'st-20', 'st-22']
@@ -270,14 +292,13 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     budgetAnnual: '£290 Million',
     startYear: 2009,
     status: 'Active',
-    objective:
-      'Hydro-acoustic stabilization of municipal drinking water reservoirs to prevent water-borne acoustic memory retention.',
-    publicCoverStory: 'Ultrasonic algae control and municipal reservoir purification.',
+    objective: 'Hydro-acoustic stabilisation of municipal drinking water reservoirs.',
+    publicCoverStory: 'Ultrasonic algae control and reservoir purification.',
     classifiedReality:
-      'Continuous high-frequency sonication of major metropolitan reservoirs to disrupt liquid crystalline acoustic memory that could otherwise retain and propagate sub-harmonic carrier tones into household plumbing.',
+      'Water holds a standing wave longer than anyone was taught in school, and plumbing carries it into the house. Stillwater runs high-frequency sonication across the supply reservoirs to break the memory up before it reaches a tap. Al-Mansoor first proposed it as a precaution and later found evidence that it was needed.',
     milestones: [
-      { year: 2009, event: 'Trial in Lake Mead and New York reservoir system.' },
-      { year: 2021, event: 'Demonstrated complete erasure of hydro-acoustic standing waves.' }
+      { year: 2009, event: 'Lake Mead and the New York reservoir system.' },
+      { year: 2021, event: 'Standing waves erased to below instrument floor in all monitored reservoirs.' }
     ],
     linkedPersonnel: ['p-025', 'p-038'],
     linkedStations: ['st-06', 'st-09', 'st-18']
@@ -287,21 +308,19 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     code: 'PROG-MORPHEUS',
     name: 'Project Morpheus',
     leadDepartmentId: 'dept-bhrr',
-    director: 'Dr. Marcus Vance-Saito',
+    director: 'Dr. Marcus Saito',
     clearance: 'Level 4 - Top Secret',
     threatLevel: 'High',
     budgetAnnual: '£440 Million',
     startYear: 2014,
     status: 'Active',
-    objective:
-      'Post-trauma civic memory dampening and targeted retrograde acoustic amnesia protocols for disaster populations.',
-    publicCoverStory:
-      'Clinical treatment research for acute post-traumatic stress disorder and occupational noise trauma.',
+    objective: 'Post-trauma memory dampening and targeted retrograde amnesia.',
+    publicCoverStory: 'Clinical research into acute stress disorder and occupational noise trauma.',
     classifiedReality:
-      'Combines Compound 88-T pharmaceutical dosing with calibrated 7.83Hz acoustic bursts to induce rapid selective amnesia regarding classified acoustic events or municipal trial breaches.',
+      'Compound 88-T plus a 7.83Hz burst, timed to the sleep spindle. It removes the fortnight around an incident and leaves the rest of the year intact, which the Yellowknife clinic has demonstrated more often than it would like. Julian Thorne was remediated with it in 2020. Saito has asked twice for it to be restricted to clinical use and both requests are in the file.',
     milestones: [
-      { year: 2014, event: 'Formulated in Yellowknife Bio-Harmonic laboratories.' },
-      { year: 2020, event: 'Successfully deployed during the evacuation of Station 07 staff.' }
+      { year: 2014, event: 'Formulated at Yellowknife from the ParaCalm sedative line.' },
+      { year: 2020, event: 'Deployed during the Station 07 evacuation. Eleven staff, no refusals.' }
     ],
     linkedPersonnel: ['p-020', 'p-021', 'p-033'],
     linkedStations: ['st-04', 'st-07']
@@ -317,15 +336,17 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     budgetAnnual: '£180 Million',
     startYear: 2016,
     status: 'Active',
-    objective:
-      'Harmonic architectural engineering for Fortune 100 executive suites, ensuring optimal decision-making clarity and immunity from external infrasound.',
-    publicCoverStory:
-      'Luxury architectural acoustics and acoustic privacy design for prime commercial real estate.',
+    objective: 'Passive acoustic shielding for client executive suites.',
+    publicCoverStory: 'Luxury architectural acoustics and speech privacy for prime commercial real estate.',
     classifiedReality:
-      'Installs passive Helmholtz resonators and piezoelectric floor dampers in client headquarters to shield senior executives from GPC municipal tone broadcasts.',
+      'Helmholtz resonators and damped floors, sold as elegance, priced as insulation. Whoever sits in a Vitruvian room is out of the broadcast, which is the entire point: the people who paid for the quiet hour do not hear it. Vitruvian clients do not know it exists and are not meant to.',
     milestones: [
-      { year: 2016, event: 'Installed in Tower Obsidian London executive penthouse.' },
-      { year: 2022, event: 'Contracted for 34 banking headquarters in Frankfurt, London, and New York.' }
+      {
+        year: 2016,
+        event:
+          'Tower Obsidian penthouse fitted. Ashby took the first meeting in it and asked for the hum to be put back.'
+      },
+      { year: 2022, event: 'Thirty-four banking headquarters in Frankfurt, London and New York.' }
     ],
     linkedPersonnel: ['p-007', 'p-027'],
     linkedStations: ['st-01', 'st-02']
@@ -341,15 +362,18 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     budgetAnnual: '£920 Million',
     startYear: 2001,
     status: 'Covert Active',
-    objective:
-      'Planetary core-mantle boundary harmonic resonance monitoring and deep-lithosphere communication carrier wave.',
-    publicCoverStory: 'Deep earth geodynamo magnetic monitoring and mantle convection modeling.',
+    objective: 'Core-mantle boundary acoustic monitoring and deep-lithosphere carrier track.',
+    publicCoverStory: 'Geodynamo magnetic monitoring and mantle convection modelling.',
     classifiedReality:
-      'Continuous tracking of an artificial or non-biological 14.8Hz acoustic beacon originating from approximately 2,900km depth near the core-mantle boundary, first intercepted simultaneously at Svalbard and Diego Garcia in 2001.',
+      'Something below the mantle has been sending since before there was anyone to send it to, at 14.8Hz, and it is going up. Hydrophone 12 caught it first, phase-locked, the same afternoon as Svalbard. The period has since stopped looking random, which is the only sentence in the Monolith file that Lindqvist has ever refused to put in writing.',
     milestones: [
-      { year: 2001, event: 'Simultaneous 14.8Hz phase-locked detection at Station 07 and Diego Garcia.' },
-      { year: 2017, event: 'Azores Seabed Station confirms transatlantic geometric convergence point.' },
-      { year: 2025, event: 'Signal period modulation detected; suggests non-stochastic encoded structure.' }
+      {
+        year: 2001,
+        event:
+          'Simultaneous phase-locked detection, Station 07 and Diego Garcia. The two records agree to the millisecond.'
+      },
+      { year: 2017, event: 'Azores Node 14 fixes the transatlantic convergence point.' },
+      { year: 2025, event: 'Period modulation logged. Twelve weeks of it, structured, still unexplained.' }
     ],
     linkedPersonnel: ['p-001', 'p-003', 'p-018', 'p-025', 'p-038'],
     linkedStations: ['st-04', 'st-09', 'st-14', 'st-17', 'st-19']

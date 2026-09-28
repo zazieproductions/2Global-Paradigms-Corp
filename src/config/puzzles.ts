@@ -21,4 +21,4 @@ export const PUZZLE_SETTINGS = {
  * REVOKED in-world: typing one on Channel 9 or at the master-key prompt only
  * produces a rejection. None of them grants anything.
  */
-export const REVOKED_CODES: readonly string[] = ['432-88', '4328', '1480', '0432', '1989', '3120', 'vance'];
+export const REVOKED_CODES: readonly string[] = ['432-88', '4328', '1480', '0432', '1989', '3120', 'sedley'];

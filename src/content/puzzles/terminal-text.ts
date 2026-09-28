@@ -73,7 +73,7 @@ export const TERMINAL_SCAN: TerminalLine[] = [
 ];
 
 export const TERMINAL_LEAK_DUMP: TerminalLine[] = [
-  { text: '=== DR. ARIS THORNE EXFILTRATION DIRECTORY (OCTOBER 2019) ===', tone: 'alert' },
+  { text: '=== DR. EWAN THORNE EXFILTRATION DIRECTORY (OCTOBER 2019) ===', tone: 'alert' },
   { code: 'DOC-2019-PALIMPSEST-LEAK', text: '48GB Svalbard Borehole 4 Infrasound Master', tone: 'alert' },
   { code: 'DOC-2011-OAKHAVEN-AUDIT', text: 'Oakhaven Mass Dissociation Clinical Post-Mortem', tone: 'alert' },
   {
@@ -81,7 +81,7 @@ export const TERMINAL_LEAK_DUMP: TerminalLine[] = [
     text: '82 Reson-8 Hospitalizations & £48.2M Settlements',
     tone: 'alert'
   },
-  { code: 'DOC-1989-SVALBARD-EVENT', text: 'Disappearance of Dr. Arthur Vance-Vane', tone: 'alert' },
+  { code: 'DOC-1989-SVALBARD-EVENT', text: 'Disappearance of Dr. Arthur Sedley', tone: 'alert' },
   {
     code: 'AUDIO-01-SVALBARD',
     text: 'Raw 14.8Hz Permafrost Audio Tape with Thorne Voice Log',
