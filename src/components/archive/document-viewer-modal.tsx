@@ -19,6 +19,7 @@ import { findEntry, relatedEntries } from '@/lib/archive/records';
 import { clearanceTier } from '@/lib/archive/clearance';
 import { stripRedactions } from '@/lib/archive/redaction';
 import { EARNED_BY, LEVEL_CORRESPONDENCE } from '@/content/puzzles/seals';
+import { ghostForCode } from '@/lib/puzzles/salvage';
 import { useProgression } from '@/hooks/use-progression';
 import { notify, useInvestigation } from '@/hooks/use-investigation';
 import { RedactedText } from '@/components/archive/redacted-text';
@@ -57,6 +58,9 @@ export function DocumentViewerModal({
 }: DocumentViewerModalProps) {
   if (!requestedId) return null;
   if (!document) {
+    // Anomalous: codes struck under Directive 17 answer differently — the index
+    // refuses them, but the tape spool still holds their ghosts.
+    const ghost = ghostForCode(requestedId);
     return (
       <Modal
         open
@@ -66,11 +70,25 @@ export function DocumentViewerModal({
         tone="warning"
         size="md"
       >
-        <SystemNotice kind="missing" title="Record not found in vault index" code="ERR-404">
-          The identifier <span className="text-amber-300">{requestedId}</span> does not resolve to any
-          recovered record. It may have been purged under Directive 17, re-filed under a new code, or never
-          existed. Try the archive search.
-        </SystemNotice>
+        {ghost ? (
+          <SystemNotice kind="denied" title="Ghost on the tape" code="DIR-17">
+            <span className="text-amber-300">{ghost.code}</span> — “{ghost.title}” — is cited across this
+            archive but was struck under <span className="text-amber-300">Directive 17</span> on{' '}
+            {ghost.purgedOn}. The live index refuses it and always will.
+            <p className="mt-1.5 text-amber-300">
+              THE TAPE REMEMBERS. Press <kbd className="px-1 bg-slate-800 rounded">~</kbd> and type{' '}
+              <span className="font-bold">salvage {ghost.code}</span>.
+            </p>
+          </SystemNotice>
+        ) : (
+          <SystemNotice kind="missing" title="Record not found in vault index" code="ERR-404">
+            The identifier <span className="text-amber-300">{requestedId}</span> does not resolve to any
+            recovered record. It may have been purged under Directive 17, re-filed under a new code, or never
+            existed. Try the archive search. Nothing purged is ever gone — the tape remembers; ask the
+            terminal (<kbd className="px-1 bg-slate-800 rounded">~</kbd>, then{' '}
+            <span className="font-bold">salvage</span>).
+          </SystemNotice>
+        )}
       </Modal>
     );
   }

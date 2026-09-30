@@ -25,6 +25,7 @@ import { PrologueModal } from '@/components/puzzles/prologue-modal';
 import { FinaleOverlay } from '@/components/puzzles/finale-overlay';
 import { GatewayModal } from '@/components/puzzles/gateway/gateway-modal';
 import { HiddenSigilLayer } from '@/components/puzzles/hidden-sigil-layer';
+import { TapeSpoolModal } from '@/components/puzzles/tape-spool-modal';
 import { RevelationToasts } from '@/components/puzzles/revelation-toasts';
 import { SigilWatermark } from '@/components/ui/sigils';
 import { TrainingModuleModal } from '@/components/corporate/training-module-modal';
@@ -191,6 +192,7 @@ export function ArchiveShell() {
         onClose={closeDialog}
         onOpenDocument={ui.openDocument}
         onInvoke={() => openDialog({ type: 'finale' })}
+        onOpenSalvage={(ghostId) => openDialog({ type: 'tape-spool', ghostId })}
       />
       <PalimpsestSafeModal open={dialog?.type === 'safe'} onClose={closeDialog} onGoToSanctum={goToSanctum} />
       <ClearanceModal open={dialog?.type === 'clearance'} onClose={closeDialog} onOpenSanctum={goToSanctum} />
@@ -206,6 +208,7 @@ export function ArchiveShell() {
           closeDialog();
         }}
       />
+      <TapeSpoolModal ghostId={dialog?.type === 'tape-spool' ? dialog.ghostId : null} onClose={closeDialog} />
       <GatewayModal
         open={dialog?.type === 'gateway'}
         onClose={closeDialog}
