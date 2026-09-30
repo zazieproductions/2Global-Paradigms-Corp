@@ -1,11 +1,11 @@
 import { type FC } from 'react';
-import { ChoirGlyph } from '@/components/ui/sigils';
+import { ChoirGlyph } from '@/components/ui/order-marks';
 import { AnswerInput } from './answer-input';
 import { CHOIR_INSCRIPTION, FRAGMENTS } from '@/content/puzzles/seals';
 import { useInvestigation } from '@/hooks/use-investigation';
 import type { ActiveTab } from '@/types';
 
-// SEAL III — THE SCATTERED CHOIR.
+// SEAL III — THE SCATTERED CODE.
 // A substitution cipher in the Order's own script. The key is distributed as
 // seven fragments hidden across the public-facing archive sections.
 
@@ -24,7 +24,7 @@ export const ChoirCipherPuzzle: FC<{
       {/* The inscription */}
       <div className="p-4 rounded border bg-black/60" style={{ borderColor: `${accent}44` }}>
         <p className="text-[9px] text-slate-500 tracking-widest mb-3">
-          INSCRIPTION — BOREHOLE 4 LIFT DOOR, STATION 07 (TRANSCRIBED BY E.T., 2019-10-11)
+          INSCRIPTION — BOREHOLE 4 LIFT DOOR, STATION 07 (TRANSCRIBED BY E.N., 2019-10-11)
         </p>
         <p className="sr-only">
           Letters you can read so far:{' '}
@@ -41,7 +41,7 @@ export const ChoirCipherPuzzle: FC<{
                   <div key={ci} className="flex flex-col items-center">
                     <ChoirGlyph letter={ch} size={30} color={known ? accent : '#94a3b8'} />
                     <span
-                      className="font-occult text-xs h-4 transition-all"
+                      className="font-order text-xs h-4 transition-all"
                       style={{ color: known ? accent : '#334155' }}
                     >
                       {known ? ch : '·'}
@@ -79,7 +79,7 @@ export const ChoirCipherPuzzle: FC<{
                   {f.letters.map((l) => (
                     <div key={l} className="flex flex-col items-center">
                       <ChoirGlyph letter={l} size={22} color={found ? accent : '#1e293b'} />
-                      <span className="text-[9px] font-occult" style={{ color: found ? accent : '#1e293b' }}>
+                      <span className="text-[9px] font-order" style={{ color: found ? accent : '#1e293b' }}>
                         {found ? l : '?'}
                       </span>
                     </div>

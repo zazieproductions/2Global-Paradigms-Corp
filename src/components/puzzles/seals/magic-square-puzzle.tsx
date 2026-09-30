@@ -21,7 +21,7 @@ const balanced = (grid: number[]) =>
   new Set(grid).size === 9 && LINES.every((l) => l.reduce((s, i) => s + grid[i], 0) === 15);
 
 /** The unique completion of the givens — used to redraw the square once the seal is broken. */
-function solveKamea(): number[] {
+function solveSquare(): number[] {
   const free = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter((d) => !Object.values(GIVENS).includes(d));
   const slots = [...Array(9).keys()].filter((i) => GIVENS[i] === undefined);
   const grid = Array.from({ length: 9 }, (_, i) => GIVENS[i] ?? 0);
@@ -50,7 +50,7 @@ export const MagicSquarePuzzle: FC<{
   onAttempt: (answer: string) => boolean;
 }> = ({ solved, accent, onAttempt }) => {
   const [cells, setCells] = useState<(number | null)[]>(() =>
-    solved ? solveKamea() : Array.from({ length: 9 }, (_, i) => GIVENS[i] ?? null)
+    solved ? solveSquare() : Array.from({ length: 9 }, (_, i) => GIVENS[i] ?? null)
   );
   const [selected, setSelected] = useState<number | null>(null);
 
@@ -103,7 +103,7 @@ export const MagicSquarePuzzle: FC<{
         if (e.key === 'Backspace' || e.key === 'Delete' || e.key === '0') place(null);
       }}
       role="group"
-      aria-label="Kamea of Saturn — 3 by 3 square. Select a cell, then type a digit from 1 to 9."
+      aria-label="Square of Saturn, 3 by 3. Select a cell, then type a digit from 1 to 9."
     >
       <div className="relative">
         {/* Diagonal sums */}
@@ -128,7 +128,7 @@ export const MagicSquarePuzzle: FC<{
                     aria-pressed={isSel}
                     aria-disabled={given || solved}
                     onClick={() => !given && !solved && setSelected(i)}
-                    className={`w-14 h-14 flex items-center justify-center text-2xl font-occult border rounded-sm transition-all ${
+                    className={`w-14 h-14 flex items-center justify-center text-2xl font-order border rounded-sm transition-all ${
                       given
                         ? 'bg-slate-800/70 text-slate-300 cursor-default'
                         : 'bg-black/60 text-slate-100 cursor-pointer hover:bg-slate-900'
@@ -165,7 +165,7 @@ export const MagicSquarePuzzle: FC<{
                 type="button"
                 aria-label={`Inscribe ${d}${used.has(d) ? ' (already placed)' : ''}`}
                 onClick={() => place(d)}
-                className={`w-full aspect-square min-h-[2.75rem] sm:w-9 sm:h-9 sm:min-h-0 rounded-sm border font-occult text-base cursor-pointer transition-all ${
+                className={`w-full aspect-square min-h-[2.75rem] sm:w-9 sm:h-9 sm:min-h-0 rounded-sm border font-order text-base cursor-pointer transition-all ${
                   used.has(d)
                     ? 'border-slate-800 text-slate-600 bg-slate-900/40'
                     : 'border-slate-600 text-slate-200 hover:bg-slate-800'
@@ -189,7 +189,7 @@ export const MagicSquarePuzzle: FC<{
         </div>
       ) : (
         <div className="text-center">
-          <div className="font-occult text-6xl" style={{ color: accent, textShadow: `0 0 24px ${accent}` }}>
+          <div className="font-order text-6xl font-bold" style={{ color: accent }}>
             XV
           </div>
           <p className="text-[10px] text-slate-400 tracking-widest mt-1">SATURN'S CONSTANT · 15</p>

@@ -6,7 +6,7 @@ import { REVOKED_CODES } from '@/config/puzzles';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useInvestigation } from '@/hooks/use-investigation';
 import { FictionNotice } from '@/components/ui/fiction-notice';
-import { OrderSigil } from '@/components/ui/sigils';
+import { OrderPlate } from '@/components/ui/order-marks';
 
 // ============================================================================
 // GPC COLD BOOT TERMINAL — ARG-style interactive boot / loading sequence
@@ -14,7 +14,7 @@ import { OrderSigil } from '@/components/ui/sigils';
 //   * CRT power-on → BIOS-style POST → staged boot log with progress bars
 //   * Scramble-in corporate title, random signal glitches, intercepted packets
 //   * LIVE hidden "Channel 9" command line — type while the boot runs:
-//       help / skip / vesper / thorne / carrier / palimpsest / ordo / seals /
+//       help / skip / vesper / naylor / carrier / palimpsest / ordo / seals /
 //       orpheus / gateway / caller
 //   * Operator callsign prompt — your name is carried into the whole session
 //   * Legacy executive override codes are REVOKED in-world — clearance is
@@ -52,7 +52,7 @@ const SECRET_COMMANDS = [
   'skip',
   'abort',
   'vesper',
-  'thorne',
+  'naylor',
   'carrier',
   '14.8',
   'palimpsest',
@@ -204,7 +204,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
         triggerGlitch(420);
         addLine('*** EXECUTIVE OVERRIDE REJECTED ***', 'err');
         addLine('MASTER KEY 01 (D. CROSS) REVOKED 1989-11-04 05:14 UTC', 'err');
-        addLine('"THE ORDER DOES NOT OPEN FOR KEYS. IT OPENS FOR VOICES."', 'secret');
+        addLine('"CLEARANCE IS CONFERRED BY THE CHAPTER. THE CHAPTER HAS NOT MET SINCE 1989."', 'secret');
         addLine('CLEARANCE IS EARNED. SEVEN SEALS. BEGIN WITH SATURN.', 'secret');
         return;
       }
@@ -217,7 +217,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
           addLine('  help .............. this list', 'dim');
           addLine('  skip | abort ...... fast-forward boot sequence', 'dim');
           addLine('  vesper ............ Project Vesper intercept fragment', 'dim');
-          addLine('  thorne ............ A. Thorne exfil log fragment', 'dim');
+          addLine('  naylor ............ A. Naylor exfil log fragment', 'dim');
           addLine('  carrier ........... planetary 14.802 Hz telemetry', 'dim');
           addLine('  palimpsest ........ Project Palimpsest burst decode', 'dim');
           addLine('  gateway ........... buffered Gateway Transmission intercept', 'dim');
@@ -244,9 +244,9 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
           addLine('TRANSCRIPT REDACTED BY ORDER OF D. CROSS — NODE 9 LEAKED 1/4', 'warn');
           break;
 
-        case 'thorne':
+        case 'naylor':
           sfx('unredact');
-          addLine('E. THORNE EXFIL LOG — 2019-10-14 03:41 UTC', 'secret');
+          addLine('E. NAYLOR EXFIL LOG — 2019-10-14 03:41 UTC', 'secret');
           addLine('"if you are reading this, the carrier is already past 14.9."', 'secret');
           addLine('48GB BOREHOLE 4 DUMP MIRRORED TO 3 DEAD DROPS.', 'warn');
           break;
@@ -382,7 +382,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
         await sleep(36);
       }
       sfx('grant', 300);
-      await typeLine('ROM CHECKSUM: THORNE-CRYPTO REV.4 . . . . . . . . . SEALED', 'ok', {
+      await typeLine('ROM CHECKSUM: NAYLOR-CRYPTO REV.4 . . . . . . . . . SEALED', 'ok', {
         instant: true
       });
 
@@ -763,8 +763,8 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
               {/* Access granted plate */}
               {phase === 'granted' && (
                 <div className="mt-4 flex flex-col items-center gap-3 py-2">
-                  <div className="text-fuchsia-400/60 ovp-breathe" aria-hidden>
-                    <OrderSigil size={54} spin={!reducedMotion} />
+                  <div aria-hidden>
+                    <OrderPlate size={54} />
                   </div>
                   <div className="border-2 border-emerald-400/70 bg-emerald-950/20 px-4 sm:px-8 py-3 text-center shadow-glow-lg shadow-emerald-400/35">
                     <div className="text-emerald-300 font-black text-base sm:text-2xl tracking-[0.3em] whitespace-nowrap">
@@ -843,7 +843,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
             <span className="hidden sm:inline text-cyan-600/80">
               14.802 Hz ▲ 0.05%/YR — RESONANT WINDOW 2026-11-04 04:32 UTC
             </span>
-            <span>BIOS 8.4.2 // THORNE-CRYPTO R4</span>
+            <span>BIOS 8.4.2 // NAYLOR-CRYPTO R4</span>
           </div>
           {/* Out-of-world disclaimer — kept visible during boot (CONTENT_STYLE_GUIDE). */}
           <FictionNotice className="px-3 sm:px-5 pb-2 text-nano sm:text-micro text-slate-600 z-10 text-center" />

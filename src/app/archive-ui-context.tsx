@@ -18,7 +18,7 @@ export type ArchiveDialog =
   | { type: 'safe' }
   | { type: 'clearance' }
   | { type: 'help' }
-  /** Thorne's dead-drop — shown once after the first boot. */
+  /** Naylor's dead-drop — shown once after the first boot. */
   | { type: 'prologue' }
   /** The Counter-Rite (Seal VII). */
   | { type: 'finale' }

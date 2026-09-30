@@ -95,10 +95,10 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     establishedDate: '1986-11-10',
     frequencyBand: '14.8 Hz Sub-Permafrost Harmonic Baseline',
     description:
-      "Twelve kilometres north of Longyearbyen, built on ground that has been frozen for longer than there have been people to freeze it. Borehole 4 runs to 820 metres and is capped with a plate that carries the station's only inscription in the Choir Script.",
+      "Twelve kilometres north of Longyearbyen, built on ground that has been frozen for longer than there have been people to freeze it. Borehole 4 runs to 820 metres and is capped with a plate that carries the station's only inscription in the Choir code.",
     incidentHistory: [
       '1989: Drill broke into a void at 812 m. Sedley went down alone the next morning and the cage came back without him. The bit is described in the log as having lost temper; the metallurgy report says the same thing in more words.',
-      '2019: Thorne took 48GB, including the intercom tape from 1989. He was through Longyearbyen airport before the first mirror appeared.',
+      '2019: Naylor took 48GB, including the intercom tape from 1989. He was through Longyearbyen airport before the first mirror appeared.',
       '2024: Seismic amplitude 18.4% above baseline. Lindqvist filed the number and asked for the alarm threshold to be reviewed; the review is still open.'
     ],
     activeProjects: ['Project Boreas', 'Project Palimpsest', 'Project Monolith']
@@ -236,7 +236,7 @@ export const REGIONAL_STATIONS: RegionalStation[] = [
     description:
       'Climate-controlled galleries holding the physical archive, the analogue masters and the calibration rooms, sixty metres under a cave system that takes paying visitors every day of the year. The reading room is genuine, the tours are not permitted inside it, and chambers seven to eleven are not on any plan that a visitor could be shown.',
     incidentHistory: [
-      '2019: Julian Thorne went into the master logs from an internal terminal and was terminated within the month. He was remediated before release and now lives in Ljubljana and does not recognise former colleagues when they see him.',
+      '2019: Julian Naylor went into the master logs from an internal terminal and was terminated within the month. He was remediated before release and now lives in Ljubljana and does not recognise former colleagues when they see him.',
       '2020: Automatic hash re-indexers came online across the estate. The first pass invalidated every leaked copy that had ever been compared against the master, which is what the equipment is for.'
     ],
     activeProjects: ['Project Palimpsest', 'Project Janitor']

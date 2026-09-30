@@ -25,9 +25,8 @@ import { BootSequence } from '@/components/puzzles/boot-sequence';
 import { PrologueModal } from '@/components/puzzles/prologue-modal';
 import { FinaleOverlay } from '@/components/puzzles/finale-overlay';
 import { GatewayModal } from '@/components/puzzles/gateway/gateway-modal';
-import { HiddenSigilLayer } from '@/components/puzzles/hidden-sigil-layer';
+import { HiddenCodeLayer } from '@/components/puzzles/hidden-code-layer';
 import { RevelationToasts } from '@/components/puzzles/revelation-toasts';
-import { SigilWatermark } from '@/components/ui/sigils';
 import { TrainingModuleModal } from '@/components/corporate/training-module-modal';
 import { ApplicationModal } from '@/components/corporate/application-modal';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
@@ -57,7 +56,6 @@ export function ArchiveShell() {
   const progression = useProgression();
   const { state, discover, setCallsign, markPrologueSeen, completeFinale } = progression;
   const { unredacted, toggle: toggleDescrambler } = useDescrambler();
-  const solvedSeals = Object.keys(state.completed).filter((id) => id.startsWith('seal-')).length;
   const goToSanctum = () => {
     closeDialog();
     ui.navigateToTab('sanctum');
@@ -136,7 +134,7 @@ export function ArchiveShell() {
             setCallsign(callsign);
             setBootDone(true);
             gpcAudio.playUiSound('grant');
-            // First visit: Thorne's dead-drop breaks in right after the boot.
+            // First visit: Naylor's dead-drop breaks in right after the boot.
             if (!state.investigation.prologueSeen) openDialog({ type: 'prologue' });
           }}
         />
@@ -167,8 +165,7 @@ export function ArchiveShell() {
             tabIndex={-1}
             className="flex-1 flex flex-col min-w-0 h-full bg-canvas overflow-hidden relative outline-none"
           >
-            <SigilWatermark intensity={0.012 + 0.006 * solvedSeals} />
-            <HiddenSigilLayer activeTab={tabForPath(pathname)} />
+            <HiddenCodeLayer activeTab={tabForPath(pathname)} />
             <ErrorBoundary resetKey={pathname}>
               <Suspense fallback={<PageLoading />}>
                 {/* Remount a page when its ?record= deep link changes (not when ?doc= changes). */}

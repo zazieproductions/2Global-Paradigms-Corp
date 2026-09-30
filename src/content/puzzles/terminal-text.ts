@@ -23,15 +23,15 @@ export const TERMINAL_HELP: Array<{ cmd: string; desc: string; order?: boolean }
   { cmd: 'decrypt', desc: 'Toggle Redaction De-Scrambler (L3+)' },
   { cmd: 'play <1-6>', desc: 'Play audio artifact preset' },
   { cmd: 'stop', desc: 'Stop all active audio streams' },
-  { cmd: 'leak-dump', desc: "Thorne's exfiltration directory" },
+  { cmd: 'leak-dump', desc: "Naylor's exfiltration directory" },
   { cmd: 'status', desc: 'Field stations & telemetry state' },
-  { cmd: 'hint [confirm]', desc: 'Ask Thorne about the active seal' },
+  { cmd: 'hint [confirm]', desc: 'Ask Naylor about the active seal' },
   { cmd: 'progress', desc: 'Show investigation progress' },
   { cmd: 'seals', desc: 'Progress of the Seven Seals', order: true },
-  { cmd: 'codex', desc: 'Your Choir Script key', order: true },
+  { cmd: 'codex', desc: 'Your key to the Choir code', order: true },
   { cmd: 'gematria <text>', desc: 'Ordinal letter-sum (A=1…Z=26)', order: true },
-  { cmd: 'wheel <keyword>', desc: "Turn the Mercury Wheel on Thorne's courier line", order: true },
-  { cmd: 'commune', desc: 'Place your hand on the planchette', order: true },
+  { cmd: 'wheel <keyword>', desc: "Turn the Mercury Wheel on Naylor's courier line", order: true },
+  { cmd: 'commune', desc: 'Put a question to the carrier', order: true },
   { cmd: 'invoke <name>', desc: 'Speak a name into the carrier', order: true },
   { cmd: 'exit', desc: 'Close terminal backdoor' }
 ];
@@ -73,7 +73,7 @@ export const TERMINAL_SCAN: TerminalLine[] = [
 ];
 
 export const TERMINAL_LEAK_DUMP: TerminalLine[] = [
-  { text: '=== DR. EWAN THORNE EXFILTRATION DIRECTORY (OCTOBER 2019) ===', tone: 'alert' },
+  { text: '=== DR. EWAN NAYLOR EXFILTRATION DIRECTORY (OCTOBER 2019) ===', tone: 'alert' },
   { code: 'DOC-2019-PALIMPSEST-LEAK', text: '48GB Svalbard Borehole 4 Infrasound Master', tone: 'alert' },
   { code: 'DOC-2011-OAKHAVEN-AUDIT', text: 'Oakhaven Mass Dissociation Clinical Post-Mortem', tone: 'alert' },
   {
@@ -84,7 +84,7 @@ export const TERMINAL_LEAK_DUMP: TerminalLine[] = [
   { code: 'DOC-1989-SVALBARD-EVENT', text: 'Disappearance of Dr. Arthur Sedley', tone: 'alert' },
   {
     code: 'AUDIO-01-SVALBARD',
-    text: 'Raw 14.8Hz Permafrost Audio Tape with Thorne Voice Log',
+    text: 'Raw 14.8Hz Permafrost Audio Tape with Naylor Voice Log',
     tone: 'alert'
   },
   { text: 'Type "cat <doc_code>" to read any record directly.', tone: 'muted' }

@@ -5,7 +5,7 @@
 import { useState } from 'react';
 import { ArrowRight, BookOpen, Lightbulb, Lock, RotateCcw, ScrollText, Radio, FileText } from 'lucide-react';
 import { ORDER_GLOSS, ORDER_NAME, PROLOGUE_TRANSMISSION, SEALS, type SealId } from '@/content/puzzles/seals';
-import { OrderSigil, PlanetGlyph, SealEmblem, AlchemicalRow } from '@/components/ui/sigils';
+import { OrderPlate, PlanetGlyph, SealDisc } from '@/components/ui/order-marks';
 import { polar, starPath } from '@/lib/utils/geometry';
 import { MagicSquarePuzzle } from '@/components/puzzles/seals/magic-square-puzzle';
 import { HeptagramPuzzle } from '@/components/puzzles/seals/heptagram-puzzle';
@@ -84,33 +84,24 @@ export default function SanctumPage() {
     }
   };
 
-  // --- the seal circle (heptagram of seven emblems) --------------------------
+  // --- the seal index plate (seven discs on the week-order figure) ----------
   const W = 340;
   const C = W / 2;
-  const R = 128;
+  // 118 leaves room for the planet caption printed under each disc.
+  const R = 118;
 
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin relative">
-      {/* backdrop sigils */}
-      <div
-        className="pointer-events-none absolute -top-40 -right-40 opacity-[0.05] text-fuchsia-300 ovp-spin-slow"
-        aria-hidden
-      >
-        <OrderSigil size={620} showText strokeWidth={0.4} />
-      </div>
-
       <div className="relative p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
         {/* ------------------------------------------------------------ HEADER */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-fuchsia-900/40 pb-4">
           <div className="flex items-center gap-4">
-            <div className="text-fuchsia-300 ovp-breathe">
-              <OrderSigil size={72} showText />
-            </div>
+            <OrderPlate size={64} />
             <div>
-              <p className="text-[10px] tracking-[0.4em] text-fuchsia-400/80">CASE FILE · {ORDER_NAME}</p>
-              <h1 className="font-occult text-3xl md:text-4xl text-slate-100">The Seven Seals</h1>
-              <p className="text-[11px] text-slate-500 italic">
-                {ORDER_GLOSS}. Break the seals in order. Each one opens more of the archive.
+              <p className="text-[10px] tracking-[0.3em] text-fuchsia-400/80">CASE FILE · {ORDER_NAME}</p>
+              <h1 className="font-order text-3xl md:text-4xl font-bold text-slate-100">The Seven Seals</h1>
+              <p className="text-[11px] text-slate-500">
+                {ORDER_GLOSS}. Seven files, in order. Each one opens more of the archive.
               </p>
             </div>
           </div>
@@ -121,7 +112,7 @@ export default function SanctumPage() {
               onClick={() => setShowPrologue((v) => !v)}
               className="tap-target flex items-center gap-1.5 px-3 py-2 sm:py-1.5 rounded border border-fuchsia-800/60 text-fuchsia-300 hover:bg-fuchsia-950/40 cursor-pointer"
             >
-              <Radio className="w-3.5 h-3.5" /> {showPrologue ? 'HIDE' : 'RE-READ'} THORNE'S DEAD-DROP
+              <Radio className="w-3.5 h-3.5" /> {showPrologue ? 'HIDE' : 'RE-READ'} NAYLOR&apos;S DEAD-DROP
             </button>
             <div className="px-3 py-1.5 rounded border border-slate-800 text-slate-400">
               SEALS BROKEN: <span className="text-fuchsia-300 font-bold">{arg.solved.length}/7</span>
@@ -134,10 +125,9 @@ export default function SanctumPage() {
 
         {/* ------------------------------------------------------------ PROLOGUE */}
         {showPrologue && (
-          <div className="relative p-5 rounded border border-fuchsia-900/50 bg-gradient-to-br from-fuchsia-950/20 via-black/60 to-black/80 ovp-revelation">
+          <div className="relative p-5 rounded border border-fuchsia-900/50 bg-black/60 ovp-revelation">
             <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] text-fuchsia-400 mb-3">
-              <span className="w-2 h-2 rounded-full bg-fuchsia-500 animate-pulse" />
-              INTERCEPTED DEAD-DROP · SENDER: E. THORNE · ROUTED VIA WAYBACK MIRROR 1998 · INTEGRITY: PARTIAL
+              INTERCEPTED DEAD-DROP · SENDER: E. NAYLOR · ROUTED VIA WAYBACK MIRROR 1998 · INTEGRITY: PARTIAL
             </div>
             <p className="whitespace-pre-line text-[12px] leading-relaxed text-slate-300 max-w-3xl">
               {PROLOGUE_TRANSMISSION}
@@ -145,7 +135,7 @@ export default function SanctumPage() {
             <div className="mt-4 p-3 rounded bg-black/50 border border-slate-800 text-[11px] text-slate-400 max-w-3xl space-y-1">
               <p className="text-slate-200 font-bold tracking-wider">HOW THIS INVESTIGATION WORKS</p>
               <p>
-                • Each seal below is a puzzle. Its answer is hidden somewhere in this archive — documents,
+                • Each seal below is a puzzle. Its answer is hidden somewhere in this archive: documents,
                 dossiers, stations, audio, the public pages.
               </p>
               <p>
@@ -157,7 +147,7 @@ export default function SanctumPage() {
                 using them.
               </p>
               <p>
-                • Your progress is saved in this browser. Tools you'll use: Search (
+                • Your progress is saved in this browser. Tools you&apos;ll use: Search (
                 <kbd className="px-1 bg-slate-800 rounded">/</kbd>), Terminal (
                 <kbd className="px-1 bg-slate-800 rounded">~</kbd>), De-Scrambler (
                 <kbd className="px-1 bg-slate-800 rounded">U</kbd>, from Level 3).
@@ -167,7 +157,7 @@ export default function SanctumPage() {
         )}
 
         <div className="grid grid-cols-1 xl:grid-cols-[360px_1fr] gap-6">
-          {/* ---------------------------------------------------------- LEFT: CIRCLE */}
+          {/* ---------------------------------------------------------- LEFT: PLATE */}
           <div className="space-y-4">
             <div
               className="relative mx-auto origin-top scale-[0.85] sm:scale-100"
@@ -176,17 +166,17 @@ export default function SanctumPage() {
               aria-label="The seven seals"
             >
               <svg width={W} height={W} className="absolute inset-0" aria-hidden>
-                <circle cx={C} cy={C} r={R + 36} fill="none" stroke="#3b0764" strokeOpacity={0.6} />
+                <circle cx={C} cy={C} r={R + 36} fill="none" stroke="#383146" strokeOpacity={0.6} />
                 <circle
                   cx={C}
                   cy={C}
                   r={R - 36}
                   fill="none"
-                  stroke="#3b0764"
+                  stroke="#383146"
                   strokeOpacity={0.4}
                   strokeDasharray="2 5"
                 />
-                <path d={starPath(C, C, R, 7, 3)} fill="none" stroke="#a21caf" strokeOpacity={0.25} />
+                <path d={starPath(C, C, R, 7, 3)} fill="none" stroke="#4a415a" strokeOpacity={0.3} />
                 {/* light the lines between broken seals in week order */}
                 {SEALS.map((s, i) => {
                   if (!arg.isSolved(s.id) || i === 0) return null;
@@ -200,16 +190,18 @@ export default function SanctumPage() {
                       x2={x2}
                       y2={y2}
                       stroke={s.accent}
-                      strokeOpacity={0.6}
-                      strokeWidth={1.5}
+                      strokeOpacity={0.5}
+                      strokeWidth="1.5"
                     />
                   );
                 })}
               </svg>
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className={`text-fuchsia-300/70 ${arg.finaleComplete ? '' : 'ovp-spin-rev'}`}>
-                  <OrderSigil size={110} color={arg.finaleComplete ? '#e2e8f0' : undefined} />
-                </div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <p className="text-[9px] tracking-[0.3em] text-slate-600">BROKEN</p>
+                <p className="font-order text-4xl font-bold tabular-nums text-slate-200">
+                  {arg.solved.length}
+                  <span className="text-slate-600 text-2xl">/7</span>
+                </p>
               </div>
               {SEALS.map((s, i) => {
                 const [x, y] = polar(C, C, R, i, 7);
@@ -219,30 +211,25 @@ export default function SanctumPage() {
                   <button
                     key={s.id}
                     type="button"
-                    aria-label={`Seal ${s.numeral} — ${s.title} (${st === 'broken' ? 'broken' : st === 'open' ? 'active' : 'still bound'})`}
+                    aria-label={`Seal ${s.numeral} — ${s.title} (${st === 'broken' ? 'broken' : st === 'open' ? 'active' : 'still closed'})`}
                     aria-pressed={isSel}
                     onClick={() => {
                       gpcAudio.playTone(180 + i * 40, 0.5, 'sine', 0.08);
                       setSelected(s.id);
                     }}
-                    className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full transition-transform cursor-pointer ${
-                      isSel ? 'scale-110' : 'hover:scale-105'
-                    } ${st === 'open' && !isSel ? 'ovp-breathe' : ''}`}
-                    style={{
-                      left: x,
-                      top: y,
-                      filter: isSel ? `drop-shadow(0 0 10px ${s.accent})` : undefined
-                    }}
+                    className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 cursor-pointer"
+                    style={{ left: x, top: y }}
                     title={`Seal ${s.numeral} — ${s.title}`}
                   >
-                    <SealEmblem
-                      numeral={s.numeral}
-                      glyph={s.glyph}
-                      subtitle={s.subtitle}
-                      accent={s.accent}
-                      state={st}
-                      size={74}
-                    />
+                    <span className={`transition-transform ${isSel ? 'scale-110' : 'hover:scale-105'}`}>
+                      <SealDisc numeral={s.numeral} state={st} accent={s.accent} size={isSel ? 66 : 58} />
+                    </span>
+                    <span
+                      className="text-[9px] tracking-[0.18em]"
+                      style={{ color: st === 'sealed' ? '#5b6478' : s.accent }}
+                    >
+                      {s.planet.toUpperCase()}
+                    </span>
                   </button>
                 );
               })}
@@ -262,7 +249,7 @@ export default function SanctumPage() {
                         style={{ color: have ? s.accent : '#334155' }}
                       />
                       <span
-                        className={`font-occult tracking-widest ${have ? 'text-slate-200' : 'text-slate-700'}`}
+                        className={`font-order tracking-[0.12em] ${have ? 'text-slate-200' : 'text-slate-700'}`}
                       >
                         {have ? s.sealWord : '· · · · ·'}
                       </span>
@@ -275,7 +262,7 @@ export default function SanctumPage() {
             {/* Journal */}
             <div className="p-3 rounded border border-slate-800 bg-black/40">
               <p className="text-[9px] tracking-[0.3em] text-slate-500 mb-2 flex items-center gap-1.5">
-                <ScrollText className="w-3 h-3" /> INVESTIGATOR'S JOURNAL
+                <ScrollText className="w-3 h-3" /> INVESTIGATOR&apos;S JOURNAL
               </p>
               <div
                 className="max-h-48 overflow-y-auto scrollbar-thin space-y-1.5 pr-1"
@@ -306,8 +293,7 @@ export default function SanctumPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-[10px]">
-              <AlchemicalRow className="text-slate-700 text-sm" />
+            <div className="flex items-center justify-end text-[10px]">
               {!confirmReset ? (
                 <button
                   type="button"
@@ -344,27 +330,22 @@ export default function SanctumPage() {
           </div>
 
           {/* ---------------------------------------------------------- RIGHT: SEAL */}
-          <div
-            className="rounded-lg border bg-gradient-to-b from-black/70 to-[#07060c]/90 overflow-hidden"
-            style={{ borderColor: `${seal.accent}44`, boxShadow: `0 0 40px ${seal.accent}14 inset` }}
-          >
+          <div className="rounded-lg border border-line-strong bg-black/60 overflow-hidden">
             {/* seal header */}
-            <div className="flex items-center gap-4 p-4 border-b" style={{ borderColor: `${seal.accent}33` }}>
-              <SealEmblem
+            <div className="flex items-center gap-4 p-4 border-b border-line-subtle">
+              <SealDisc
                 numeral={seal.numeral}
-                glyph={seal.glyph}
-                subtitle={seal.subtitle}
-                accent={seal.accent}
                 state={solved ? 'broken' : open ? 'open' : 'sealed'}
-                size={64}
+                accent={seal.accent}
+                size={56}
               />
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] tracking-[0.35em]" style={{ color: seal.accent }}>
-                  SIGILLUM {seal.numeral} · {seal.planet.toUpperCase()} · {seal.metal.toUpperCase()} ·{' '}
+                <p className="text-[10px] tracking-[0.25em]" style={{ color: seal.accent }}>
+                  SEAL {seal.numeral} · {seal.planet.toUpperCase()} · {seal.metal.toUpperCase()} ·{' '}
                   {seal.day.toUpperCase()}
                 </p>
-                <h2 className="font-occult text-2xl text-slate-100">{seal.title}</h2>
-                <p className="text-[11px] italic text-slate-500">{seal.subtitle}</p>
+                <h2 className="font-order text-2xl font-bold text-slate-100">{seal.title}</h2>
+                <p className="text-[11px] text-slate-500">{seal.subtitle}</p>
               </div>
               <div className="text-right text-[10px] hidden md:block">
                 {solved ? (
@@ -375,11 +356,9 @@ export default function SanctumPage() {
                     BROKEN{arg.isAssisted(seal.id) ? ' · ASSISTED' : ''}
                   </span>
                 ) : open ? (
-                  <span className="px-2 py-1 rounded border border-amber-600 text-amber-300 animate-pulse">
-                    ACTIVE
-                  </span>
+                  <span className="px-2 py-1 rounded border border-amber-600 text-amber-300">ACTIVE</span>
                 ) : (
-                  <span className="px-2 py-1 rounded border border-slate-700 text-slate-500">SEALED</span>
+                  <span className="px-2 py-1 rounded border border-slate-700 text-slate-500">CLOSED</span>
                 )}
               </div>
             </div>
@@ -387,7 +366,9 @@ export default function SanctumPage() {
             {!open ? (
               <div className="p-10 text-center space-y-3">
                 <Lock className="w-8 h-8 mx-auto text-slate-600" />
-                <p className="font-occult text-lg text-slate-400">This seal is still bound.</p>
+                <p className="font-order text-lg font-bold text-slate-400">
+                  Seal {seal.numeral} is still closed.
+                </p>
                 <p className="text-[11px] text-slate-500">
                   Break Seal {SEALS[seal.id - 2]?.numeral} — <em>{SEALS[seal.id - 2]?.title}</em> — first.
                 </p>
@@ -404,7 +385,7 @@ export default function SanctumPage() {
                 {/* transmission */}
                 <div className="relative pl-4 border-l-2" style={{ borderColor: `${seal.accent}88` }}>
                   <p className="text-[9px] tracking-[0.3em] text-slate-500 mb-1.5">
-                    TRANSMISSION · E. THORNE
+                    TRANSMISSION · E. NAYLOR
                   </p>
                   <p className="whitespace-pre-line text-[12px] leading-relaxed text-slate-300">
                     {seal.transmission}
@@ -427,18 +408,12 @@ export default function SanctumPage() {
 
                 {/* revelation */}
                 {solved && (
-                  <div
-                    className="p-4 rounded border ovp-revelation"
-                    style={{
-                      borderColor: seal.accent,
-                      background: `linear-gradient(135deg, ${seal.accent}14, transparent 60%)`
-                    }}
-                  >
+                  <div className="p-4 rounded border border-line-strong bg-white/[0.02] ovp-revelation">
                     <div className="flex items-center justify-between mb-2">
-                      <p className="text-[10px] tracking-[0.35em] font-bold" style={{ color: seal.accent }}>
-                        REVELATIO
+                      <p className="text-[10px] tracking-[0.3em] font-bold" style={{ color: seal.accent }}>
+                        AFTERWORD
                       </p>
-                      <p className="font-occult text-sm tracking-[0.3em]" style={{ color: seal.accent }}>
+                      <p className="font-order text-sm tracking-[0.15em]" style={{ color: seal.accent }}>
                         SEAL-WORD: {seal.sealWord}
                       </p>
                     </div>
@@ -496,7 +471,7 @@ export default function SanctumPage() {
                       >
                         <Lightbulb className="w-3.5 h-3.5" />
                         {hintLevel === 0
-                          ? 'Ask Thorne for a hint'
+                          ? 'Ask Naylor for a hint'
                           : hintLevel === 1
                             ? 'A stronger hint'
                             : 'Reveal the answer (marks this seal as assisted)'}

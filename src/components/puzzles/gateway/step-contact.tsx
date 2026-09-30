@@ -62,7 +62,7 @@ export const StepContact: FC<StepContactProps> = ({ onSolve }) => {
               <div className="text-[11px] text-rose-300/70 leading-relaxed">
                 <span className="text-rose-400 font-bold tracking-wider">[NOW PLAYS ONE LAST PHRASE:]</span>
                 <br />
-                'F 77 L WHERE ARE YOU — THORNE'
+                'F 77 L WHERE ARE YOU — NAYLOR'
               </div>
             )}
           </div>

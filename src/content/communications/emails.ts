@@ -21,8 +21,8 @@ export const EMAIL_THREADS: EmailThread[] = [
         role: 'Director, ASIAN'
       },
       {
-        name: 'Dr. Ewan Thorne',
-        email: 'e.thorne@pefd.globalparadigms.corp',
+        name: 'Dr. Ewan Naylor',
+        email: 'e.naylor@pefd.globalparadigms.corp',
         role: 'Senior Research Fellow'
       },
       {
@@ -41,11 +41,11 @@ export const EMAIL_THREADS: EmailThread[] = [
         senderName: 'Dr. Henrik Lindqvist',
         senderEmail: 'h.lindqvist@asian.globalparadigms.corp',
         timestamp: '2019-11-04 04:22 UTC',
-        body: 'Nigel, Paul -\n\nThorne pulled the Borehole 4 sensor set off the primary archive last night and took 48GB with him, October in full, uncompressed. His terminal shows an outbound sync to a Swedish relay at 03:41. We cut the fibre at 04:05, which was about an hour too late.\n\nHe missed muster. Snowmobile went out towards the old coal dock and the track stops there.\n\nI have known him six years. I would like to be wrong about what this is.'
+        body: 'Nigel, Paul -\n\nNaylor pulled the Borehole 4 sensor set off the primary archive last night and took 48GB with him, October in full, uncompressed. His terminal shows an outbound sync to a Swedish relay at 03:41. We cut the fibre at 04:05, which was about an hour too late.\n\nHe missed muster. Snowmobile went out towards the old coal dock and the track stops there.\n\nI have known him six years. I would like to be wrong about what this is.'
       },
       {
-        senderName: 'Dr. Ewan Thorne',
-        senderEmail: 'e.thorne@pefd.globalparadigms.corp',
+        senderName: 'Dr. Ewan Naylor',
+        senderEmail: 'e.naylor@pefd.globalparadigms.corp',
         timestamp: '2019-11-04 04:55 UTC',
         body: 'Henrik, board,\n\nI am not coming back to the station.\n\nBorehole 4 is not convection. It repeats on a 3,600 second cycle and it has not varied by more than four thousandths of a hertz in eleven weeks. Something down there is transmitting and we have been transmitting back since 1989, through the subway grids, every evening at six, and you signed the sheets.\n\nThe files are on fourteen servers. You can spend the next six months telling people I am a climate researcher with a head injury. It will not matter.',
         hasAttachment: true,
@@ -217,7 +217,7 @@ export const EMAIL_THREADS: EmailThread[] = [
         senderName: 'Dame Eleanor Cross',
         senderEmail: 'e.cross@board.globalparadigms.corp',
         timestamp: '2022-01-15 10:00 CET',
-        body: 'This was recorded in Cambridge in 1969 and again in the Alps in 1979. It is not a symptom of isolation. It is the frequency finding an unshielded mind, which is precisely what these rooms are for and what the two of you have just demonstrated to the board.\n\nProceed with the secondary dampeners. Send me the drawings by post.'
+        body: 'This was recorded in Cambridge in 1969 and again in the Alps in 1979. It is the frequency finding an unshielded mind, which is what these rooms are for and what the two of you have just demonstrated to the board.\n\nProceed with the secondary dampeners. Send me the drawings by post.'
       }
     ]
   },

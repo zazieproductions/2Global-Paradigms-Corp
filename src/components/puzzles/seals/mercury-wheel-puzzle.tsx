@@ -32,7 +32,7 @@ const Wheel: FC<{ shift: number; accent: string; activeLetter?: string }> = ({
             textAnchor="middle"
             fontSize={11}
             fill={activeLetter === l ? accent : '#94a3b8'}
-            className="font-occult"
+            className="font-order"
           >
             {l}
           </text>
@@ -57,7 +57,7 @@ const Wheel: FC<{ shift: number; accent: string; activeLetter?: string }> = ({
               fontSize={10}
               fill={accent}
               fillOpacity={0.85}
-              className="font-occult"
+              className="font-order"
             >
               {l}
             </text>
@@ -89,7 +89,7 @@ export const MercuryWheelPuzzle: FC<{
       <div className="flex-1 w-full space-y-3">
         <div>
           <p className="text-[9px] text-slate-500 tracking-widest mb-1">
-            COURIER CIPHERTEXT — RECOVERED FROM A THORNE DEAD-DROP
+            COURIER CIPHERTEXT — RECOVERED FROM A NAYLOR DEAD-DROP
           </p>
           <p className="font-mono text-sm tracking-[0.25em] p-2.5 bg-black/60 border border-slate-800 rounded text-slate-300 break-words">
             {MERCURY_CIPHERTEXT}
@@ -111,7 +111,7 @@ export const MercuryWheelPuzzle: FC<{
             disabled={solved}
             placeholder="Turn the wheel with a keyword…"
             spellCheck={false}
-            className="w-full bg-black/60 border rounded px-3 py-2 text-sm tracking-[0.25em] uppercase text-slate-100 placeholder:text-slate-600 placeholder:tracking-normal placeholder:normal-case focus:outline-none font-occult"
+            className="w-full bg-black/60 border rounded px-3 py-2 text-sm tracking-[0.25em] uppercase text-slate-100 placeholder:text-slate-600 placeholder:tracking-normal placeholder:normal-case focus:outline-none font-order"
             style={{ borderColor: `${accent}66` }}
           />
         </div>
@@ -134,7 +134,7 @@ export const MercuryWheelPuzzle: FC<{
           <button
             type="button"
             onClick={onOpenSafe}
-            className="flex items-center gap-2 px-4 py-2 rounded font-occult font-bold text-xs tracking-[0.25em] text-black cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 rounded font-order font-bold text-xs tracking-[0.25em] text-black cursor-pointer"
             style={{ background: accent }}
           >
             <KeyRound className="w-3.5 h-3.5" aria-hidden /> APPROACH THE SAFE

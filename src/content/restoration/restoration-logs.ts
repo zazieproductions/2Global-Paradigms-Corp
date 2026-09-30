@@ -29,8 +29,8 @@ export const RESTORATION_LOGS: RestorationLog[] = [
     integrity: 63,
     affected: ['doc-001', 'doc-007', 'doc-022', 'doc-025'],
     notes:
-      'Twenty-five priority dossiers reassembled from the Thorne exfiltration set. Redaction masks preserved; cleartext layer recoverable with the de-scrambler.',
-    tags: ['Dossiers', 'Thorne', 'Redaction']
+      'Twenty-five priority dossiers reassembled from the Naylor exfiltration set. Redaction masks preserved; cleartext layer recoverable with the de-scrambler.',
+    tags: ['Dossiers', 'Naylor', 'Redaction']
   },
   {
     id: 'rst-003',

@@ -40,7 +40,7 @@ describe('archive search', () => {
 
   it('finds records by title words, author and tag', () => {
     expect(ids('palimpsest').length).toBeGreaterThan(0);
-    expect(ids('thorne').length).toBeGreaterThan(0);
+    expect(ids('naylor').length).toBeGreaterThan(0);
   });
 
   it('applies kind and date filters', () => {

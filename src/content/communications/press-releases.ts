@@ -215,7 +215,7 @@ export const PRESS_RELEASES: PressRelease[] = [
     mediaContact: 'Regional Communications, GPC Central Europe',
     disclaimer: 'Facility tours are not available.',
     internalSubtext:
-      'The facility is a reliquary. The "additional storage capacity" is chambers 7 to 11, dug by the Order\'s own contractors, and it is where the true originals are kept.'
+      'The "additional storage capacity" is chambers 7 to 11, dug by the Order\'s own contractors. That is where the originals are kept, before Palimpsest rewrites the copy we file publicly.'
   },
   {
     id: 'pr-13',

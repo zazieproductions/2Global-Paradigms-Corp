@@ -8,7 +8,7 @@ import { downloadJson } from '@/lib/utils/download';
 import { useProgression } from '@/hooks/use-progression';
 import { useInvestigation } from '@/hooks/use-investigation';
 import { Modal } from '@/components/ui/modal';
-import { OrderSigil } from '@/components/ui/sigils';
+import { OrderPlate } from '@/components/ui/order-marks';
 import { cn } from '@/lib/utils/cn';
 
 const PIN_LENGTH = 4;
@@ -23,7 +23,7 @@ interface PalimpsestSafeModalProps {
 }
 
 /**
- * Thorne's whistleblower safe. Its combination is the answer to Seal VI
+ * Naylor's whistleblower safe. Its combination is the answer to Seal VI
  * (The Mercury Wheel) and is validated by digest through the investigation
  * layer; it only turns once Seal V has been broken.
  */
@@ -82,7 +82,7 @@ export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: Palimpsest
         <div className="flex flex-col items-center gap-4">
           <div className="p-3 bg-amber-950/20 border border-amber-500/40 rounded text-label text-amber-200 text-center leading-relaxed">
             <span className="font-bold block mb-1">RESTRICTED BACKDOOR ENCLAVE</span>
-            Dr. Ewan Thorne's secure backdoor. Enter the 4-digit authorization sequence to extract the
+            Dr. Ewan Naylor's secure backdoor. Enter the 4-digit authorization sequence to extract the
             unredacted whistleblower package.
           </div>
 
@@ -178,12 +178,12 @@ export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: Palimpsest
         <div className="flex flex-col gap-4 text-center" role="status">
           <div className="p-4 bg-emerald-950/30 border border-emerald-500/50 rounded flex flex-col items-center gap-2">
             <CheckCircle2 className="w-8 h-8 text-emerald-400" aria-hidden />
-            <h3 className="text-sm font-bold text-emerald-300 font-occult tracking-widest">
+            <h3 className="text-sm font-bold text-emerald-300 font-order tracking-widest">
               THE SAFE IS OPEN — SEAL VI BROKEN
             </h3>
             <p className="text-label text-slate-300">
               Inside: a lead tablet with a seven-pointed star, a cassette labelled{' '}
-              <span className="text-white">"BH4 — 05:15"</span>, and a note in Thorne's hand:{' '}
+              <span className="text-white">"BH4 — 05:15"</span>, and a note in Naylor's hand:{' '}
               <em>"Umbra. The shadow behind the record. You're a Magister now — read the Black files."</em>
             </p>
             <p className="text-label text-slate-300">
@@ -191,8 +191,8 @@ export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: Palimpsest
               De-Scrambler engaged.
             </p>
           </div>
-          <div className="flex justify-center text-rose-300/70" aria-hidden>
-            <OrderSigil size={56} />
+          <div className="flex justify-center" aria-hidden>
+            <OrderPlate size={56} />
           </div>
           {download && isDownloadUnlocked(download.id) && (
             <button
@@ -210,7 +210,7 @@ export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: Palimpsest
           <button
             type="button"
             onClick={onGoToSanctum}
-            className="py-2 px-4 border border-fuchsia-700 text-fuchsia-300 hover:bg-fuchsia-950/50 rounded cursor-pointer font-occult tracking-widest"
+            className="py-2 px-4 border border-fuchsia-700 text-fuchsia-300 hover:bg-fuchsia-950/50 rounded cursor-pointer font-order tracking-widest"
           >
             RETURN TO THE SEVEN SEALS
           </button>

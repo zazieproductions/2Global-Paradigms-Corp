@@ -17,9 +17,9 @@ export const AUDIO_ARTIFACTS: AudioArtifact[] = [
     durationSeconds: 180,
     classification: 'Level 5 - Black Dossier',
     summary:
-      "Thorne's copy of the deep sensor reel, taken off the archive server before he left. Three minutes of the carrier with the overtones on top of it, and a man talking to nobody.",
+      "Naylor's copy of the deep sensor reel, taken off the archive server before he left. Three minutes of the carrier with the overtones on top of it, and a man talking to nobody.",
     transcript:
-      '[00:00 - Low rumble comes up under the floor of the recording; 14.8Hz carrier and a 312Hz overtone]\n[00:15 - THORNE, close to the mic, almost a whisper]: "It is 03:14. Deep sensor, Borehole 4. Drilling stopped six hours ago and the amplitude has doubled since then. Listen to the phase. Listen to what the phase is doing."\n[00:45 - Cryostat pump cycles; the beating between the two tones speeds up and slows down again]\n[01:10 - THORNE]: "That is not an echo. An echo comes back. This one is still coming."\n[01:45 - Metallic ringing enters on the upper band; the log shows a 4.2C drop in the chamber in under a minute]\n[02:30 - THORNE]: "The board is being told it is gas venting. Permafrost gas venting. They have the same recording I do."',
+      '[00:00 - Low rumble comes up under the floor of the recording; 14.8Hz carrier and a 312Hz overtone]\n[00:15 - NAYLOR, close to the mic, almost a whisper]: "It is 03:14. Deep sensor, Borehole 4. Drilling stopped six hours ago and the amplitude has doubled since then. Listen to the phase. Listen to what the phase is doing."\n[00:45 - Cryostat pump cycles; the beating between the two tones speeds up and slows down again]\n[01:10 - NAYLOR]: "That is not an echo. An echo comes back. This one is still coming."\n[01:45 - Metallic ringing enters on the upper band; the log shows a 4.2C drop in the chamber in under a minute]\n[02:30 - NAYLOR]: "The board is being told it is gas venting. Permafrost gas venting. They have the same recording I do."',
     synthesisPreset: 'infrasound',
     audioDescription:
       'A deep steady hum near the floor of hearing, with a thin metallic tone over it that wavers about once every three seconds.',

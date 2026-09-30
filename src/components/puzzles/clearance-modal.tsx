@@ -9,7 +9,7 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 import { useProgression } from '@/hooks/use-progression';
 import { useInvestigation } from '@/hooks/use-investigation';
 import { Modal } from '@/components/ui/modal';
-import { PlanetGlyph } from '@/components/ui/sigils';
+import { PlanetGlyph } from '@/components/ui/order-marks';
 import { cn } from '@/lib/utils/cn';
 
 const TIER_BORDER: Record<number, string> = {
@@ -116,7 +116,7 @@ export function ClearanceModal({ open, onClose, onOpenSanctum }: ClearanceModalP
                     <PlanetGlyph glyph={LEVEL_CORRESPONDENCE[item.tier].glyph} />
                     {item.label}
                     {earned && earnedLevel >= 3 && (
-                      <span className="text-micro font-normal text-fuchsia-300/70 font-occult">
+                      <span className="text-micro font-normal text-fuchsia-300/70 font-order">
                         · {DEGREES[item.tier]}
                       </span>
                     )}
@@ -177,7 +177,7 @@ export function ClearanceModal({ open, onClose, onOpenSanctum }: ClearanceModalP
         <button
           type="button"
           onClick={onOpenSanctum}
-          className="w-full py-2 rounded border border-fuchsia-800 text-fuchsia-300 hover:bg-fuchsia-950/40 cursor-pointer font-occult tracking-widest text-label"
+          className="w-full py-2 rounded border border-fuchsia-800 text-fuchsia-300 hover:bg-fuchsia-950/40 cursor-pointer font-order tracking-widest text-label"
         >
           {seal ? `CONTINUE AT SEAL ${seal.numeral} — ${seal.title.toUpperCase()}` : 'VIEW THE CASE FILE'}
         </button>

@@ -1,4 +1,4 @@
-/** Sacred-geometry helpers for the Order's sigils (pure, SVG coordinate space). */
+/** Diagram helpers for the Order's figures (pure, SVG coordinate space). */
 
 export const TAU = Math.PI * 2;
 

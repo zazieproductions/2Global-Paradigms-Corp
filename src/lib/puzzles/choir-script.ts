@@ -1,9 +1,9 @@
 /**
- * CHOIR SCRIPT — the Order's cipher alphabet, drawn on the 3×3 Saturn grid.
+ * CHOIR CODE — the Order's cipher alphabet, drawn on the 3×3 Saturn grid.
  *
- * Each letter is three strokes between grid points plus a marked node. The
+ * Each character is three strokes between grid points plus a marked node. The
  * alphabet is generated deterministically (seed 1480) so it is identical on
- * every build. Rendered by `ChoirGlyph` in components/ui/sigils.tsx.
+ * every build. Rendered by `ChoirGlyph` in components/ui/order-marks.tsx.
  */
 
 /** Grid point coordinates (column, row). */

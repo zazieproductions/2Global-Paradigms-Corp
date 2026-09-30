@@ -35,7 +35,7 @@ import type { ClearanceLevel } from '@/types';
 // (`gateway-sequence`, `gateway-signal`, `gateway-waveform`,
 // `gateway-transmission` — the last joins all three keys with "|").
 
-/** Executive override / Thorne master key — REVOKED in-world, referenced across the lore. */
+/** Executive override / Naylor master key — REVOKED in-world, referenced across the lore. */
 export const MASTER_KEY_CODE = '432-88';
 
 /** Terminal kernel order the player is shown in the marquee captions. */
@@ -166,12 +166,12 @@ export const FIRST_CONTACT_TEMPLATES: string[] = [
   'F 16 | EC-6 | 603 MORE FEET — YOU WERE TOO LATE. — T',
   'F 25 VESPER 17 VESPER 12 VESPER 14',
   'F 39 FORECAST 02',
-  'F 41 F 41 FOUR TIMES F 41 — TRUST NO ONE',
+  'F 41 F 41 FOUR TIMES F 41 — SOMEONE HAS EDITED THIS TAPE',
   'F 50 OMNI 6 OMNI 6',
   'F 58 STAGE 62 120 DB . . . SILENCE',
   'F 63 PALIMPSEST — TIMESTAMP 04:32',
   'F 71 RESON8 12 RESON8 11',
-  'F 77 L WHERE ARE YOU — THORNE'
+  'F 77 L WHERE ARE YOU — NAYLOR'
 ];
 
 // ----------------------------------------------------------------------------
@@ -198,7 +198,7 @@ export const buildOriginPayload = (keys: GatewayKeys): OriginPayload => ({
   protocol: 'ORIGIN PROTOCOL — GATEWAY TRANSMISSION',
   authority: 'DAME ELEANOR CROSS // MASTER KEY 01',
   classification: 'Level 2 - Confidential',
-  authenticity: 'ACKNOWLEDGED // THE ORDER TAKES NOTE',
+  authenticity: 'ACKNOWLEDGED // LOGGED TO THE POSTOJNA REGISTER',
   keychain: [
     { directive: 'THE VESPER SEQUENCE', accepted: true },
     { directive: 'THE SIGNAL', accepted: true },
@@ -210,5 +210,5 @@ export const buildOriginPayload = (keys: GatewayKeys): OriginPayload => ({
     'TERMINAL & WHISTLEBLOWER SAFE — YOUR INVESTIGATION TOOLS',
     'MASTER KEY 432-88 IS REVOKED — CLEARANCE IS EARNED BY THE SEALS'
   ],
-  note: 'THE ARCHIVE REMEMBERS. IT WAS NEVER MEANT TO FORGET.'
+  note: 'YOU ARE THROUGH THE INTERLOCK. THE SEVEN SEALS ARE IN THE SIDEBAR, AND THEY DO NOT OPEN FOR KEYS.'
 });

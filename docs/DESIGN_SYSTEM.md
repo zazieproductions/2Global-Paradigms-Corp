@@ -9,6 +9,24 @@ Stack: Tailwind CSS v4 (CSS-first config). Tokens are defined with `@theme` in `
 every token is available both as a utility (`bg-panel`, `text-caption`, `border-line-strong`) and as a CSS
 variable (`var(--color-panel)`).
 
+## The Order is paperwork, not a costume
+
+The Ordo Vocis Profundae is a filing system with a liturgy attached, and it is drawn that way. Anything
+that reads as set dressing is a bug. Concretely:
+
+- **No sigils, seals, eyes, triangles, alchemical rows, or spinning watermarks.** Order material is
+  distinguished by type (Archivo), by file codes, by numerals and by hairlines. The only figures that
+  survive are diagrams the fiction needs: the seven-point week plate, the nine-point Choir code grid.
+- **No Latin except where it is load-bearing.** The Order's own name (`ORDO VOCIS PROFUNDAE`), the seven
+  Seal-Words (they spell the name), and the degree names. Everything else is English: `SEAL I · SATURN ·
+LEAD · SATURDAY`, not `SIGILLUM I · Kamea Saturni`.
+- **No glow, no pulse, no spin, no flicker, no vignette on Order surfaces.** Motion is limited to a
+  plain fade (`ovp-revelation`), a stroke drawing itself in (`ovp-draw`), a code fragment brightening
+  under the cursor (`ovp-fragment`), and a shake on a wrong answer (`ovp-shake`).
+- **The Order's colour is a dusty plum, not hot magenta.** See "The Order's colour is muted on purpose".
+
+The test to apply: if a detail would look at home on a metal album cover, cut it.
+
 ## Files
 
 | File                 | Contents                                                                                 |
@@ -18,7 +36,7 @@ variable (`var(--color-panel)`).
 | `styles/archive.css` | utilities: `field`, `meta-label`, `scrollbar-thin`, `scrollbar-none`; CRT overlay; print |
 | `styles/mobile.css`  | touch targets, safe areas, mobile type scale, iOS zoom fix, drawer motion                |
 | `styles/boot.css`    | cold-boot animations                                                                     |
-| `styles/occult.css`  | Order / seal animations (`ovp-*`, `gate-*`, `puzzle-*`), `font-occult`, `font-symbol`    |
+| `styles/order.css`   | Order / seal animations (`ovp-*`, `gate-*`, `puzzle-*`), `font-order`, `font-symbol`     |
 | `styles/index.css`   | imports Tailwind + all of the above                                                      |
 
 ## Tokens
@@ -44,12 +62,12 @@ border, table heads) · `line-bright #22304d` (buttons, modal frames).
 
 ### Signal and accents
 
-| Token      | Hex                                                                                                                                             | Meaning                                      |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| `signal`   | `#00f0ff`                                                                                                                                       | the 14.8 Hz carrier; primary interactive     |
-| `phosphor` | `#39ff14`                                                                                                                                       | status OK glow                               |
-| `alert`    | `#ff0055`                                                                                                                                       | breach / de-scrambler active                 |
-| `order`    | `#d946ef`                                                                                                                                       | the Ordo Vocis Profundae — sigils, case file |
+| Token      | Hex                                                                                                                                             | Meaning                                           |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `signal`   | `#00f0ff`                                                                                                                                       | the 14.8 Hz carrier; primary interactive          |
+| `phosphor` | `#39ff14`                                                                                                                                       | status OK glow                                    |
+| `alert`    | `#ff0055`                                                                                                                                       | breach / de-scrambler active                      |
+| `order`    | `#b3a7c2`                                                                                                                                       | the Ordo Vocis Profundae — case file, Order marks |
 | `seal-*`   | saturn `#94a3b8` · jupiter `#60a5fa` · mars `#f87171` · sun `#fbbf24` · venus `#34d399` · mercury `#c084fc` · moon `#e2e8f0` · sealed `#334155` |
 
 Tailwind's palette (cyan, amber, rose, emerald, purple, fuchsia) is used for semantic tone. `slate-500` and
@@ -67,9 +85,13 @@ contrast on `panel`/`canvas`.
 | `text-xs` → `text-2xl` | Tailwind | headings, modal titles                   |
 
 - `font-mono` is the house face (system monospace stack).
-- `font-occult` is Cinzel (self-hosted) for the Order and seal titles.
-- `font-symbol` is Noto Sans Symbols 1/2 for planetary and alchemical glyphs. Append `\uFE0E` to force
-  text presentation, not emoji.
+- `font-order` is Archivo (self-hosted), the Order's institutional display face: Order headings, seal
+  titles, Seal-Words, and the Order's plate mark. Set upright with modest tracking; never italic by
+  default. It is a grotesque, not a display serif, deliberately: the Order reads as an institution
+  that files things, not as a cult with a logo.
+- `font-symbol` is Noto Sans Symbols 1/2 for planetary glyphs, which are used as data labels (a
+  planet next to a clearance level), never as decoration. Append `\uFE0E` to force text
+  presentation, not emoji.
 
 ### Other
 
@@ -77,7 +99,17 @@ Shadows: `shadow-glow-sm`, `shadow-glow`, `shadow-glow-lg`, `shadow-modal`, `sha
 with `shadow-<colour>/<alpha>`. Layout: `--spacing-header` (3.5rem), `--spacing-sidebar` (18rem).
 
 **No arbitrary hex values in components.** If a colour recurs, make it a token. The exception is SVG
-`stroke`/`fill` props on sigils, which take `var(--color-seal-*)` or a hex from the seal table.
+`stroke`/`fill` props on Order diagrams, which take `var(--color-seal-*)`, a fuchsia step, or a hex
+from the seal table.
+
+### The Order's colour is muted on purpose
+
+`fuchsia` is the Ordo Vocis Profundae's ramp and appears ~100 times as `text-fuchsia-*`,
+`border-fuchsia-*`, `bg-fuchsia-950/40`. The stock Tailwind fuchsia is hot magenta. `tokens.css`
+overrides the whole scale with a dusty plum, the colour of a rubber stamp on a 1971 file card, so
+the Order reads as paperwork rather than as neon. Overriding the scale (rather than rewriting the
+classes) means every existing component keeps working and the whole ramp can be reverted in one
+block if the mood ever needs to change.
 
 ## Components (`src/components/ui`)
 
@@ -98,7 +130,7 @@ with `shadow-<colour>/<alpha>`. Layout: `--spacing-header` (3.5rem), `--spacing-
 | `FictionNotice`                        | out-of-story notice                                                                                                                                                                                                                                            |
 | `Button`                               | variants + sizes; defaults to `type="button"`                                                                                                                                                                                                                  |
 | `ErrorBoundary`                        | per-page crash containment with an in-world recovery message                                                                                                                                                                                                   |
-| `sigils.tsx`                           | `OrderSigil`, `PlanetGlyph`, `SealEmblem`, `ChoirGlyph`, `ChoirText`, `AlchemicalRow`, `SigilWatermark`                                                                                                                                                        |
+| `order-marks.tsx`                      | `OrderPlate`, `PlanetGlyph`, `SealDisc`, `ChoirGlyph`                                                                                                                                                                                                          |
 
 Archive-specific building blocks live in `components/archive` (`RedactedText`, `SealMark`, the document
 viewer and search). Audio controls are in `components/audio/audio-player-bar.tsx`.

@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { ActiveTab } from '@/types';
 import { FRAGMENTS } from '@/content/puzzles/seals';
-import { ChoirGlyph } from '@/components/ui/sigils';
+import { ChoirGlyph } from '@/components/ui/order-marks';
 import { useInvestigation } from '@/hooks/use-investigation';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 
@@ -17,12 +17,12 @@ const PLACEMENT: Record<string, CSSProperties> = {
 };
 
 /**
- * Renders the Choir Script fragment hidden on the current page, if any.
+ * Renders the Choir-code fragment hidden on the current page, if any.
  * Faint by design, but never hover-only: it is a real button in the tab
  * order, it brightens on keyboard focus, and the Sanctum lists every
  * fragment's page once a hint is opened.
  */
-export function HiddenSigilLayer({ activeTab }: { activeTab: ActiveTab | null }) {
+export function HiddenCodeLayer({ activeTab }: { activeTab: ActiveTab | null }) {
   const { fragments, collectFragment, finaleComplete } = useInvestigation();
   const frag = FRAGMENTS.find((f) => f.tab === activeTab);
   if (!frag) return null;
@@ -37,11 +37,11 @@ export function HiddenSigilLayer({ activeTab }: { activeTab: ActiveTab | null })
       }}
       className={`ovp-fragment ${found ? 'is-found' : ''} absolute z-30 p-1 rounded-full cursor-pointer`}
       style={PLACEMENT[frag.id]}
-      title={found ? 'A recovered fragment of the Choir Script' : undefined}
+      title={found ? 'A recovered fragment of the Choir code' : undefined}
       aria-label={
         found
-          ? `Recovered Choir Script fragment: ${frag.letters.join(', ')}`
-          : 'Strange glyph — take the Choir Script fragment'
+          ? `Recovered Choir code fragment: characters for ${frag.letters.join(', ')}`
+          : 'Unreadable characters — take the Choir code fragment'
       }
     >
       <span className="flex items-center gap-0.5 px-1.5 py-1 rounded-full border border-rose-400/60 bg-black/70">

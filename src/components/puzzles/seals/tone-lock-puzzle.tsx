@@ -7,44 +7,36 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 interface Dial {
   key: 'earth' | 'evening' | 'child';
   title: string;
-  latin: string;
-  catechism: string;
+  gloss: string;
   min: number;
   max: number;
   step: number;
-  glyph: string;
 }
 
 const DIALS: Dial[] = [
   {
     key: 'earth',
-    title: 'VOX TERRAE',
-    latin: 'Voice of the Earth',
-    catechism: 'heard beneath Cambridge',
+    title: 'Voice of the Earth',
+    gloss: 'heard beneath Cambridge',
     min: 0.1,
     max: 30,
-    step: 0.1,
-    glyph: '♁'
+    step: 0.1
   },
   {
     key: 'evening',
-    title: 'VOX VESPERI',
-    latin: 'Voice of Evening',
-    catechism: 'heard by the cities at six',
+    title: 'Voice of Evening',
+    gloss: 'heard by the cities at six',
     min: 100,
     max: 1000,
-    step: 1,
-    glyph: '☾'
+    step: 1
   },
   {
     key: 'child',
-    title: 'VOX INFANTIS',
-    latin: 'Voice of the Child',
-    catechism: 'rung in every school bell',
+    title: 'Voice of the Child',
+    gloss: 'rung in every school bell',
     min: 100,
     max: 1500,
-    step: 1,
-    glyph: '🜚'
+    step: 1
   }
 ];
 
@@ -93,17 +85,12 @@ export const ToneLockPuzzle: FC<{
               style={{ borderColor: `${accent}44` }}
             >
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-occult text-sm" style={{ color: accent }}>
+                <div className="min-w-0">
+                  <p className="font-order text-[11px] uppercase tracking-wider" style={{ color: accent }}>
                     {d.title}
                   </p>
-                  <p className="text-[9px] text-slate-500 italic">
-                    {d.latin} — {d.catechism}
-                  </p>
+                  <p className="text-[9px] text-slate-500">{d.gloss}</p>
                 </div>
-                <span className="text-2xl text-slate-600 font-symbol" aria-hidden>
-                  {d.glyph}
-                </span>
               </div>
 
               {/* dial face */}
@@ -148,7 +135,7 @@ export const ToneLockPuzzle: FC<{
                 step={d.step}
                 value={v}
                 disabled={solved}
-                aria-label={`${d.title} (${d.latin}) frequency dial, hertz`}
+                aria-label={`${d.title} frequency dial, hertz`}
                 aria-valuetext={`${d.step < 1 ? v.toFixed(1) : Math.round(v)} hertz`}
                 onChange={(e) => setVals((p) => ({ ...p, [d.key]: parseFloat(e.target.value) }))}
                 className="w-full accent-amber-400"
@@ -161,7 +148,7 @@ export const ToneLockPuzzle: FC<{
                   step={d.step}
                   value={d.step < 1 ? v.toFixed(1) : Math.round(v)}
                   disabled={solved}
-                  aria-label={`${d.title} (${d.latin}) frequency in hertz`}
+                  aria-label={`${d.title} frequency in hertz`}
                   onChange={(e) => {
                     const n = parseFloat(e.target.value);
                     if (!isNaN(n)) setVals((p) => ({ ...p, [d.key]: Math.max(d.min, Math.min(d.max, n)) }));
@@ -170,7 +157,7 @@ export const ToneLockPuzzle: FC<{
                 />
                 <button
                   type="button"
-                  aria-label={`Sound ${d.latin} (optional — the lock is solved by the numbers)`}
+                  aria-label={`Sound ${d.title} (optional — the lock is solved by the numbers)`}
                   onClick={() => sound(d)}
                   className="px-2 py-1 rounded border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-white cursor-pointer"
                   title="Sound this voice"
@@ -188,7 +175,7 @@ export const ToneLockPuzzle: FC<{
           <button
             type="button"
             onClick={attune}
-            className="px-5 py-2 rounded font-occult font-bold text-xs tracking-[0.3em] text-black cursor-pointer"
+            className="px-5 py-2 rounded font-order font-bold text-xs tracking-[0.3em] text-black cursor-pointer"
             style={{ background: accent }}
           >
             SOUND THE THREE TOGETHER
@@ -198,8 +185,8 @@ export const ToneLockPuzzle: FC<{
           </span>
         </div>
       ) : (
-        <p className="text-[11px] font-occult tracking-widest" style={{ color: accent }}>
-          HARMONIA TRIPLEX — 14.8 · 432 · 741
+        <p className="text-[11px] font-order tracking-widest" style={{ color: accent }}>
+          THE THREE VOICES · 14.8 · 432 · 741
         </p>
       )}
     </div>

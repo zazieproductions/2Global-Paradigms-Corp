@@ -5,7 +5,7 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 // SEAL II — THE WHEEL OF DAYS.
 // Seven planets placed clockwise in the Chaldean order (slowest → fastest).
 // Walking the {7/3} heptagram from the Sun yields the days of the week — a
-// genuine piece of Hellenistic astrology the Order adopted as its master sigil.
+// genuine piece of Hellenistic astrology, which the Order took as its master figure.
 
 const VERTICES = [
   { glyph: '♄', planet: 'Saturn', metal: 'Lead', letter: 'Y', tone: 196.0 },
@@ -138,7 +138,6 @@ export const HeptagramPuzzle: FC<{
                   fill="#05070c"
                   stroke={on ? (failed ? '#f43f5e' : accent) : '#475569'}
                   strokeWidth={on ? 2 : 1}
-                  style={{ filter: on ? `drop-shadow(0 0 6px ${accent})` : undefined }}
                 />
                 <text
                   x={x}
@@ -157,7 +156,7 @@ export const HeptagramPuzzle: FC<{
                   textAnchor="middle"
                   fontSize={12}
                   fill={on ? accent : '#64748b'}
-                  className="font-occult"
+                  className="font-order"
                   style={{ pointerEvents: 'none' }}
                 >
                   {v.letter}
@@ -184,7 +183,7 @@ export const HeptagramPuzzle: FC<{
             {Array.from({ length: 7 }, (_, i) => (
               <div
                 key={i}
-                className="w-8 h-10 border-b-2 flex items-end justify-center pb-1 font-occult text-xl"
+                className="w-8 h-10 border-b-2 flex items-end justify-center pb-1 font-order text-xl"
                 style={{ borderColor: word[i] ? accent : '#334155', color: failed ? '#f43f5e' : accent }}
               >
                 {word[i] ?? ''}

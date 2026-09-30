@@ -37,8 +37,8 @@ export const HymnPuzzle: FC<{
         DE-SCRAMBLER: {isUnredacted ? 'ON' : 'OFF'}
       </button>
     </div>
-    <div className="p-3 border border-slate-800 bg-black/50 rounded font-occult text-sm text-slate-400 leading-loose italic">
-      <p className="text-[9px] not-italic font-mono text-slate-600 tracking-widest mb-1">
+    <div className="p-3 border border-slate-800 bg-black/50 rounded font-order text-sm text-slate-400 leading-loose">
+      <p className="text-[9px] font-mono text-slate-600 tracking-widest mb-1">
         THE HYMN AS PALIMPSEST LEFT IT (EXCERPT)
       </p>
       <p>
@@ -65,12 +65,12 @@ export const HymnPuzzle: FC<{
     </div>
     {!solved && (
       <div>
-        <p className="text-[10px] text-slate-400 tracking-widest mb-1.5">WHERE IS THE RELIQUARY?</p>
+        <p className="text-[10px] text-slate-400 tracking-widest mb-1.5">WHERE DO THEY KEEP THE ORIGINALS?</p>
         <AnswerInput
           onSubmit={onAttempt}
           accent={accent}
-          fieldLabel="The reliquary"
-          placeholder="Name the reliquary…"
+          fieldLabel="The repository"
+          placeholder="Name the repository…"
         />
       </div>
     )}
@@ -93,24 +93,18 @@ export const NamePuzzle: FC<{
           const have = solvedIds.includes(s.id);
           return (
             <div key={s.id} className="text-center">
-              <div
-                className="font-occult text-3xl"
-                style={{
-                  color: have ? s.accent : '#1e293b',
-                  textShadow: have ? `0 0 16px ${s.accent}` : undefined
-                }}
-              >
+              <div className="font-order text-3xl font-bold" style={{ color: have ? s.accent : '#1e293b' }}>
                 {have ? s.sealWord[0] : '?'}
               </div>
-              <div className="font-occult text-[9px] tracking-widest text-slate-500 mt-1">
+              <div className="font-order text-[9px] tracking-widest text-slate-500 mt-1">
                 {have ? s.sealWord : '— — —'}
               </div>
             </div>
           );
         })}
         <div className="text-center">
-          <div className="font-occult text-3xl text-slate-700 ovp-flicker">{solved ? 'S' : '_'}</div>
-          <div className="font-occult text-[9px] tracking-widest text-slate-600 mt-1">
+          <div className="font-order text-3xl font-bold text-slate-700">{solved ? 'S' : '_'}</div>
+          <div className="font-order text-[9px] tracking-widest text-slate-600 mt-1">
             {solved ? 'SILENTIUM' : '?'}
           </div>
         </div>

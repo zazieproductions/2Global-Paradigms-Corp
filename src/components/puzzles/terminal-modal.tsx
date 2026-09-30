@@ -32,7 +32,7 @@ import { useProgression } from '@/hooks/use-progression';
 import { useInvestigation } from '@/hooks/use-investigation';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { Modal } from '@/components/ui/modal';
-import { ChoirGlyph } from '@/components/ui/sigils';
+import { ChoirGlyph } from '@/components/ui/order-marks';
 import { RedactedText } from '@/components/archive/redacted-text';
 import { cn } from '@/lib/utils/cn';
 
@@ -54,7 +54,7 @@ function Planchette({ text }: { text: string }) {
     <div className="space-y-1">
       <p className="text-fuchsia-400/70 text-caption tracking-widest">THE PLANCHETTE MOVES…</p>
       <p className="sr-only">{text}</p>
-      <p className="font-occult text-lg tracking-[0.5em] text-fuchsia-200" aria-hidden>
+      <p className="font-order text-lg tracking-[0.5em] text-fuchsia-200" aria-hidden>
         {text.slice(0, n)}
         {n < text.length && <span className="boot-caret">▮</span>}
       </p>
@@ -254,7 +254,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
             <p className="font-bold">*** OVERRIDE REJECTED ***</p>
             <p>MASTER KEY 01 (DAME E. CROSS) — REVOKED 1989-11-04 05:14 UTC.</p>
             <p className="text-slate-400">
-              Reason on file: "The Order does not open for keys. It opens for voices."
+              Reason on file: "Clearance is conferred by the Chapter, and the Chapter has not met since 1989."
             </p>
             <p className="text-fuchsia-300">
               Clearance is earned through the Seven Seals. Type <span className="font-bold">seals</span>.
@@ -267,7 +267,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
         if (!id) {
           return print(
             trimmed,
-            <p className="text-slate-400">No seal is waiting. Thorne has nothing more to say.</p>
+            <p className="text-slate-400">No seal is waiting. Naylor has nothing more to say.</p>
           );
         }
         const seal = getSeal(id);
@@ -498,22 +498,22 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
           trimmed,
           <div className="space-y-2 text-label">
             <p className="text-rose-300 font-bold">
-              CHOIR SCRIPT CODEX — {known.length} GLYPHS KNOWN ({investigation.fragments.length}/
+              CHOIR CODE CODEX — {known.length} CHARACTERS KNOWN ({investigation.fragments.length}/
               {FRAGMENTS.length} FRAGMENTS)
             </p>
             {known.length === 0 ? (
               <p className="text-slate-500">
-                You know no glyphs yet. The Order signs its public pages faintly.
+                You have no characters yet. The Order prints them faintly on its public pages.
               </p>
             ) : (
-              <ul className="flex flex-wrap gap-2" aria-label="Known Choir Script glyphs">
+              <ul className="flex flex-wrap gap-2" aria-label="Known Choir code characters">
                 {known.map((l) => (
                   <li
                     key={l}
                     className="flex flex-col items-center border border-rose-900/50 rounded px-1 py-0.5"
                   >
                     <ChoirGlyph letter={l} size={22} color="#fb7185" />
-                    <span className="font-occult text-rose-200">{l}</span>
+                    <span className="font-order text-rose-200">{l}</span>
                   </li>
                 ))}
               </ul>
@@ -574,12 +574,12 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
         return print(
           trimmed,
           <div className="text-fuchsia-200 text-label space-y-1">
-            <p className="font-occult tracking-widest">ORDO VOCIS PROFUNDAE</p>
+            <p className="font-order tracking-widest">ORDO VOCIS PROFUNDAE</p>
             <p className="italic text-slate-400">
               "There is a Voice beneath the world. It speaks at fourteen and eight-tenths. We did not make it.
               We have heard it."
             </p>
-            <p className="text-slate-500">— Liber Carrier, I. (DOC-1972-LIBER-CARRIER, Level 3)</p>
+            <p className="text-slate-500">The Rule, I. (DOC-1972-RULE-OVP, Level 3)</p>
           </div>
         );
 

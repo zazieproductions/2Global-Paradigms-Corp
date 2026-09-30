@@ -81,7 +81,7 @@ export function useInvestigation() {
       if (!frag || inv.fragments.includes(fragmentId)) return;
       collect(fragmentId);
       notify(
-        'CHOIR SCRIPT FRAGMENT RECOVERED',
+        'CHOIR CODE FRAGMENT RECOVERED',
         `${frag.location} — the Codex now reads: ${frag.letters.join(' · ')}  (${inv.fragments.length + 1}/${FRAGMENTS.length})`,
         '⍟',
         'var(--color-seal-mars)'

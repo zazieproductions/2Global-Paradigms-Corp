@@ -72,7 +72,7 @@ npm run puzzle:digest -- -n alnum-upper "Your Answer"
 
 - Hints open one tier at a time (`revealHint`) and never go backwards. The highest opened tier is stored
   in `hintsRevealed[puzzleId]`.
-- Every seal has three tiers: `ASK THORNE` → `ASK AGAIN` → `TELL ME`. Tier 3 has `revealsAnswer: true`.
+- Every seal has three tiers: `ASK NAYLOR` → `ASK AGAIN` → `TELL ME`. Tier 3 has `revealsAnswer: true`.
   It is the **assisted route**: it gives the answer outright, with no penalty beyond the label.
 - A completion is **assisted** if it used `method: 'bypass'` or an answer-revealing hint was opened
   first. Assisted completions still grant every reward; the case file just marks them "ASSISTED".
@@ -109,7 +109,7 @@ dispatch cannot skip ahead. Each seal yields a **Seal-Word**; together they poin
 | III  | Mars — Choir Script cipher                    | full Choir Script alphabet            |
 | IV   | Sun — the three-voice tone lock               | Level 4                               |
 | V    | Venus — hymn acrostic                         | —                                     |
-| VI   | Mercury — Vigenère wheel; opens Thorne's safe | Level 5, de-scrambler on, master dump |
+| VI   | Mercury — Vigenère wheel; opens Naylor's safe | Level 5, de-scrambler on, master dump |
 | VII  | Moon — the Name (terminal `invoke <name>`)    | the finale (carrier 0.000 Hz)         |
 
 Answers are intentionally **not** listed here. Maintainers can find them in

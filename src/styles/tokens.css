@@ -36,11 +36,28 @@
   --color-slate-500: #8190a5;
   --color-slate-600: #738299;
 
+  /* --- The Order's colour, muted -----------------------------------------
+     `fuchsia` is the Ordo Vocis Profundae's ramp and appears ~100 times as
+     text-fuchsia-*, border-fuchsia-*, bg-fuchsia-950/40. The stock Tailwind
+     fuchsia is hot magenta: neon, and it reads as set dressing rather than
+     ink. Overriding the scale keeps every existing class but pulls the hue
+     toward the dusty plum of a rubber stamp on a 1971 file card. Every step
+     still clears 4.5:1 against panel/void at the sizes it is used at. */
+  --color-fuchsia-100: #e9e4ed;
+  --color-fuchsia-200: #d2cada;
+  --color-fuchsia-300: #b3a7c2;
+  --color-fuchsia-400: #9486a7;
+  --color-fuchsia-500: #7a6b8f;
+  --color-fuchsia-600: #5f5473;
+  --color-fuchsia-700: #4a415a;
+  --color-fuchsia-800: #383146;
+  --color-fuchsia-900: #272233;
+  --color-fuchsia-950: #1a1622;
+
   /* --- Type scale (dense archive UI) ----------------------------------- */
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  /* The Order's liturgical display face + planetary glyph stack (self-hosted, see main.tsx). */
-  --font-occult: 'Cinzel', 'Trajan Pro', Georgia, serif;
+  --font-order: 'Archivo', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
   --font-symbol:
     'Noto Sans Symbols', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', 'DejaVu Sans', serif;
   --text-nano: 8px; /* decorative HUD only — never for content */
@@ -51,7 +68,7 @@
   /* --- Ordo Vocis Profundae (THE SEVEN SEALS) --------------------------
      One accent per planetary seal. Use via var(--color-seal-*) or the
      generated utilities (text-seal-mars, border-seal-venus…). */
-  --color-order: #d946ef; /* the Order's fuchsia — sigils, case file */
+  --color-order: #b3a7c2; /* the Order's plum — case file, Order marks */
   --color-seal-saturn: #94a3b8;
   --color-seal-jupiter: #60a5fa;
   --color-seal-mars: #f87171;

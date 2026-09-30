@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Modal } from '@/components/ui/modal';
-import { OrderSigil } from '@/components/ui/sigils';
+import { OrderPlate } from '@/components/ui/order-marks';
 import { PROLOGUE_TRANSMISSION } from '@/content/puzzles/seals';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 
 /**
- * First-run onboarding: Thorne's dead-drop "breaks into" the archive right
+ * First-run onboarding: Naylor's dead-drop "breaks into" the archive right
  * after the cold boot, typing itself out like a live intercept. The full text
  * is always available to assistive tech, and the typing can be skipped
  * (click / "SHOW ALL") or is skipped entirely under reduced motion.
@@ -57,10 +57,9 @@ function PrologueBody({ onBegin, onDismiss }: { onBegin: () => void; onDismiss: 
 
   return (
     <>
-      <div className="absolute inset-0 ovp-vignette pointer-events-none" aria-hidden />
       <div className="relative p-5 flex gap-5">
-        <div className="hidden sm:block text-fuchsia-400/70 shrink-0 ovp-breathe" aria-hidden>
-          <OrderSigil size={88} spin />
+        <div className="hidden sm:block shrink-0" aria-hidden>
+          <OrderPlate size={64} />
         </div>
         <div className="flex-1 max-h-[55vh] overflow-y-auto scrollbar-thin text-[12px] leading-relaxed text-slate-300 whitespace-pre-line">
           {/* Full message for screen readers; the typed copy is visual only. */}
@@ -92,7 +91,7 @@ function PrologueBody({ onBegin, onDismiss }: { onBegin: () => void; onDismiss: 
           <button
             type="button"
             onClick={onBegin}
-            className="px-5 py-2.5 rounded bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-occult font-bold tracking-[0.25em] text-xs cursor-pointer"
+            className="px-5 py-2.5 rounded bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-order font-bold tracking-[0.25em] text-xs cursor-pointer"
           >
             BEGIN AT THE FIRST SEAL
           </button>

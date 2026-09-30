@@ -39,7 +39,7 @@ browser's `localStorage`.
     │   ├── puzzles/           boot sequence, terminal, safe, clearance, prologue/finale, case banner…
     │   │   ├── seals/         the seven seal puzzle widgets
     │   │   └── gateway/       the Gateway Transmission beginner trail
-    │   └── ui/                design-system primitives (Modal, Panel, Badge, stamps, sigils, …)
+    │   └── ui/                design-system primitives (Modal, Panel, Badge, stamps, order marks, …)
     ├── content/               ALL authored data — no JSX
     │   ├── documents/ personnel/ offices/ projects/ departments/ audio/ communications/
     │   ├── corporate/ history/ restoration/ tools/ web/
@@ -53,7 +53,7 @@ browser's `localStorage`.
     │   └── utils/             cn, sha256, download, text, geometry
     ├── hooks/                 useProgression, useInvestigation, useArchiveSearch, useRecordParam, …
     ├── config/                site copy, navigation, clearance tiers, puzzle settings, feature flags
-    ├── styles/                tokens.css, base.css, archive.css, boot.css, occult.css (index.css imports all)
+    ├── styles/                tokens.css, base.css, archive.css, boot.css, order.css (index.css imports all)
     ├── types/                 records.ts, content.ts, puzzles.ts, search.ts (re-exported from index.ts)
     └── tests/                 Vitest suites + helpers
 ```

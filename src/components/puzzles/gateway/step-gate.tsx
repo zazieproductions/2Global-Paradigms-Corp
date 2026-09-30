@@ -24,7 +24,7 @@ const clean = (raw: string) => raw.trim().toUpperCase().replace(/[\s-]/g, '');
 // ----------------------------------------------------------------------------
 // A single interlock console re-verifies all three answers, then runs a
 // staged success reveal: three directory strikes, the carrier locks at
-// 15.000 Hz and the ORIGIN PROTOCOL transmission drops — signed by Master
+// 15.000 Hz and the ORIGIN PROTOCOL transmission drops, signed by Master
 // Key 01. A downloadable evidence artifact is handed over.
 // ============================================================================
 
@@ -209,7 +209,7 @@ export const StepGate: FC<StepGateProps> = ({ verify, onComplete }) => {
             {/* Origin protocol proclamation */}
             <div className="border-2 border-fuchsia-400/40 bg-fuchsia-950/20 p-4 sm:p-5 text-center shadow-[0_0_50px_rgba(192,38,211,0.22)]">
               <div className="text-[10px] text-rose-400 font-bold tracking-[0.3em] mb-2">
-                ★ INCOMING TRANSMISSION — SELF-SIGNED ★
+                INCOMING TRANSMISSION — SELF-SIGNED
               </div>
               <div className="text-emerald-300 font-black text-lg sm:text-2xl tracking-[0.2em]">
                 ORIGIN PROTOCOL
@@ -241,10 +241,7 @@ export const StepGate: FC<StepGateProps> = ({ verify, onComplete }) => {
                 ))}
               </div>
 
-              <div className="mt-3 text-[11px] text-slate-300 tracking-wider">
-                <span className="text-fuchsia-400 font-bold">THE ARCHIVE REMEMBERS.</span> IT WAS NEVER MEANT
-                TO FORGET.
-              </div>
+              <div className="mt-3 text-[11px] text-slate-300 tracking-wider">{payload.note}</div>
             </div>
 
             {/* Actions */}

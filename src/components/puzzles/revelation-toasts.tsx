@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { PlanetGlyph } from '@/components/ui/sigils';
+import { PlanetGlyph } from '@/components/ui/order-marks';
 import { useRevelations } from '@/hooks/use-investigation';
 
 /** Toasts that appear when seals break / fragments are found. Announced politely. */
@@ -35,7 +35,7 @@ export function RevelationToasts() {
                 <PlanetGlyph glyph={r.glyph} className="text-2xl leading-none" style={{ color: accent }} />
               )}
               <div>
-                <p className="font-occult text-xs tracking-widest font-bold" style={{ color: accent }}>
+                <p className="font-order text-xs tracking-widest font-bold" style={{ color: accent }}>
                   {r.title}
                 </p>
                 <p className="text-label text-slate-300 mt-0.5 leading-snug">{r.body}</p>

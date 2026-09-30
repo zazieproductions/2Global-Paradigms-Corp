@@ -7,7 +7,7 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 import { clearanceTier, shortClearance } from '@/lib/archive/clearance';
 import { useInvestigation } from '@/hooks/use-investigation';
 import { Badge } from '@/components/ui/badge';
-import { OrderSigil, PlanetGlyph } from '@/components/ui/sigils';
+import { OrderPlate, PlanetGlyph } from '@/components/ui/order-marks';
 import { FictionNotice } from '@/components/ui/fiction-notice';
 import { cn } from '@/lib/utils/cn';
 
@@ -86,7 +86,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
               <dt className="text-slate-500">CLEARANCE:</dt>
               <dd className="text-amber-400 font-bold">{shortClearance(clearance)}</dd>
             </div>
-            <div className="flex justify-between" title="Degree of initiation (Liber Carrier §IV)">
+            <div className="flex justify-between" title="Degree of initiation (the Rule, section IV)">
               <dt className="text-slate-500">DEGREE:</dt>
               <dd className="text-fuchsia-300/80 flex items-center gap-1">
                 {earnedLevel >= 3 ? (
@@ -115,16 +115,14 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
               cn(
                 'tap-row w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded border transition-all text-left',
                 isActive
-                  ? 'bg-fuchsia-500/15 border-fuchsia-500/60 shadow-glow-sm shadow-order/25'
+                  ? 'bg-fuchsia-500/15 border-fuchsia-500/60'
                   : 'bg-fuchsia-950/10 border-fuchsia-900/50 hover:border-fuchsia-600/60'
               )
             }
           >
-            <span className={cn('text-fuchsia-300 shrink-0', active && 'ovp-breathe')} aria-hidden>
-              <OrderSigil size={26} />
-            </span>
+            <OrderPlate size={26} className="shrink-0" />
             <span className="flex-1 min-w-0">
-              <span className="block font-occult text-xs text-fuchsia-200 tracking-wider">
+              <span className="block font-order text-xs text-fuchsia-200 tracking-wider">
                 {SANCTUM_NAV.label}
               </span>
               <span className="block text-micro text-fuchsia-400/70 truncate">

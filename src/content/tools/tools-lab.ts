@@ -20,7 +20,7 @@ export const RECON_SEGMENTS: { scrambled: string; clear: string }[] = [
   },
   {
     scrambled: 'DR.  EW-N  TH-RN-  EX-IL-TR-TED  48GB  FR-M  ST-TI-N  07  BO-EH-LE  4.',
-    clear: 'DR. EWAN THORNE EXFILTRATED 48GB FROM STATION 07 BOREHOLE 4.'
+    clear: 'DR. EWAN NAYLOR EXFILTRATED 48GB FROM STATION 07 BOREHOLE 4.'
   },
   {
     scrambled: 'AL-  140,000  RE-ON-8  UN-TS  WE-E  EN-OM-ED  IN  UT-H  SA-T  VA-LT-S.',

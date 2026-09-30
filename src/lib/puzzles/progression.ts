@@ -170,7 +170,7 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
       };
       return withJournal(
         next,
-        `Choir Script fragment recovered in ${frag.location}: glyphs for ${frag.letters.join(', ')}.`,
+        `Choir code fragment recovered in ${frag.location}: characters for ${frag.letters.join(', ')}.`,
         'fragment',
         action.at
       );
@@ -180,7 +180,7 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
       if (state.investigation.prologueSeen) return state;
       return withJournal(
         { ...state, investigation: { ...state.investigation, prologueSeen: true } },
-        'Dead-drop received from Dr. Ewan Thorne. Case opened: THE SEVEN SEALS.',
+        'Dead-drop received from Dr. Ewan Naylor. Case opened: THE SEVEN SEALS.',
         'system',
         action.at
       );

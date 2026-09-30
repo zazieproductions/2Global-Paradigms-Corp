@@ -643,14 +643,14 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     id: 'tl-46',
     year: 2019,
     dateString: '2019-11-04',
-    title: 'Thorne takes 48GB out of Station 07',
+    title: 'Naylor takes 48GB out of Station 07',
     era: 'Modern Hegemony (2010-2026)',
     departmentCode: 'TOPN',
     classification: 'Level 5 - Black Dossier',
     description:
       'A research fellow walks out of Svalbard with the borehole audio, the 1989 intercom tape and the consumer division personnel files. He is through Longyearbyen before the first mirror goes up and off the mainland before anyone thinks to look.',
     internalImpact:
-      'Thirty-two mirrors are taken down over the following four months and the reward is set at £250,000 in the trade press. Julian Thorne, who had nothing to do with the leak and shares a surname with the man who did, is remediated and retired.',
+      'Thirty-two mirrors are taken down over the following four months and the reward is set at £250,000 in the trade press. Julian Naylor, who had nothing to do with the leak and shares a surname with the man who did, is remediated and retired.',
     isCovert: true
   },
   {

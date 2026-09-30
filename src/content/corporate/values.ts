@@ -14,7 +14,7 @@ export const COMPANY_VALUES: CompanyPillar[] = [
     title: 'Pre-emptive Certainty',
     subtitle: 'We do not wait for a problem to arrive',
     doctrine:
-      'Stability is cheaper to maintain than to restore. Our work anticipates social and economic stress and dissolves it at the stage where it is still an arrangement of numbers, which is the stage before it can hurt anyone. Conventional governance reacts to civil friction; we prevent the friction from forming. This is not an ambition. It is a service, and 41 sovereign and municipal clients buy it annually.',
+      'Stability is cheaper to maintain than to restore. Our work anticipates social and economic stress and dissolves it at the stage where it is still an arrangement of numbers, which is the stage before it can hurt anyone. Conventional governance reacts to civil friction; we prevent the friction from forming. Forty-one sovereign and municipal clients buy that annually, as a service.',
     practicalApplication:
       'Demographic sentiment is modelled continuously and the acoustic and transit environment of client cities is adjusted 72 to 120 hours ahead of any forecast unrest threshold.',
     executiveQuote:

@@ -1,62 +1,36 @@
 /* ============================================================
-   ORDO VOCIS PROFUNDAE — occult layer (THE SEVEN SEALS)
+   ORDO VOCIS PROFUNDAE — the Order's own layer (THE SEVEN SEALS)
    + GATEWAY TRANSMISSION effects.
+
+   The Order is a filing system, not a light show. Everything in
+   this file is either type, a hairline, or functional feedback:
+   a fragment brightening under the cursor, a diagram drawing
+   itself in, a field shaking when an answer is wrong. There is
+   no glow, no pulse, no spin, no watermark. The drama is in the
+   documents.
+
    Motion here is decorative only: no puzzle depends on it, and
    everything is stilled under prefers-reduced-motion.
    ============================================================ */
 
-.font-occult {
-  font-family: var(--font-occult);
-  letter-spacing: 0.08em;
+.font-order {
+  font-family: var(--font-order);
+  letter-spacing: 0.04em;
 }
 .font-symbol {
   font-family: var(--font-symbol);
   font-variant-emoji: text;
 }
 
-@keyframes ovp-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.ovp-spin-slow {
-  animation: ovp-spin 90s linear infinite;
-}
-.ovp-spin-rev {
-  animation: ovp-spin 140s linear infinite reverse;
-}
-
-@keyframes ovp-breathe {
-  0%,
-  100% {
-    opacity: 0.35;
-    filter: drop-shadow(0 0 0 rgb(244 114 182 / 0));
-  }
-  50% {
-    opacity: 0.9;
-    filter: drop-shadow(0 0 8px rgb(244 114 182 / 0.6));
-  }
-}
-.ovp-breathe {
-  animation: ovp-breathe 4.8s ease-in-out infinite;
-}
-
-/* Hidden Choir Script fragments — faint until hovered OR keyboard-focused. */
+/* Hidden Choir-code fragments — faint until hovered OR keyboard-focused.
+   They only brighten; they never move, scale or glow. */
 .ovp-fragment {
   opacity: 0.16;
-  transition:
-    opacity 0.4s ease,
-    filter 0.4s ease,
-    transform 0.4s ease;
+  transition: opacity 0.4s ease;
 }
 .ovp-fragment:hover,
 .ovp-fragment:focus-visible {
   opacity: 1;
-  filter: drop-shadow(0 0 10px rgb(248 113 113 / 0.9));
-  transform: scale(1.12) rotate(8deg);
 }
 .ovp-fragment:focus-visible {
   outline: 2px solid var(--color-signal);
@@ -67,20 +41,17 @@
   opacity: 0.55;
 }
 
-@keyframes ovp-revelation-in {
-  0% {
+/* Plain fade-up for newly revealed blocks (revelations, hints, toasts). */
+@keyframes ovp-reveal-in {
+  from {
     opacity: 0;
-    transform: translateY(16px) scale(0.97);
-    filter: blur(4px);
   }
-  100% {
+  to {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
   }
 }
 .ovp-revelation {
-  animation: ovp-revelation-in 0.5s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  animation: ovp-reveal-in 0.28s ease-out both;
 }
 
 @keyframes ovp-shake {
@@ -105,6 +76,7 @@
   animation: ovp-shake 0.42s ease;
 }
 
+/* Diagram stroke drawing itself in (the week-order plate on Seal II). */
 @keyframes ovp-draw {
   from {
     stroke-dashoffset: var(--len, 400);
@@ -116,68 +88,6 @@
 .ovp-draw {
   stroke-dasharray: var(--len, 400);
   animation: ovp-draw 0.55s ease-out forwards;
-}
-
-@keyframes ovp-flicker-text {
-  0%,
-  41%,
-  43%,
-  80%,
-  100% {
-    opacity: 1;
-  }
-  42% {
-    opacity: 0.2;
-  }
-  77% {
-    opacity: 0.85;
-  }
-  78% {
-    opacity: 0.1;
-  }
-}
-.ovp-flicker {
-  animation: ovp-flicker-text 6s linear infinite;
-}
-
-/* Finale */
-@keyframes ovp-shatter {
-  0% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-    filter: blur(0);
-  }
-  60% {
-    transform: scale(1.25) rotate(40deg);
-    opacity: 0.8;
-    filter: blur(1px);
-  }
-  100% {
-    transform: scale(3.2) rotate(120deg);
-    opacity: 0;
-    filter: blur(8px);
-  }
-}
-.ovp-shatter {
-  animation: ovp-shatter 3.2s ease-in forwards;
-}
-
-/* Photosensitivity: at most 3 inversions per second (WCAG 2.3.1), 3 cycles total. */
-@keyframes ovp-invert-pulse {
-  0%,
-  100% {
-    filter: invert(0);
-  }
-  50% {
-    filter: invert(1) hue-rotate(180deg);
-  }
-}
-.ovp-invert-pulse {
-  animation: ovp-invert-pulse 0.4s steps(2) 3;
-}
-
-.ovp-vignette {
-  background: radial-gradient(ellipse at center, rgb(0 0 0 / 0) 40%, rgb(20 0 20 / 0.55) 100%);
 }
 
 /* --- Gateway Transmission ------------------------------------------------ */
@@ -261,11 +171,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ovp-spin-slow,
-  .ovp-spin-rev,
-  .ovp-breathe,
-  .ovp-flicker,
-  .ovp-invert-pulse,
+  .ovp-fragment,
+  .ovp-revelation,
   .ovp-shake,
   .puzzle-scanband,
   .puzzle-beacon,

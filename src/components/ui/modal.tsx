@@ -28,7 +28,7 @@ const TONE: Record<ModalTone, { frame: string; title: string }> = {
   danger: { frame: 'border-rose-500/40 shadow-glow-lg shadow-rose-500/15', title: 'text-rose-400' },
   purple: { frame: 'border-purple-500/40 shadow-glow-lg shadow-purple-500/15', title: 'text-purple-400' },
   neutral: { frame: 'border-line-bright shadow-modal', title: 'text-slate-200' },
-  /** The Ordo Vocis Profundae — Thorne's transmissions, the rite. */
+  /** The Ordo Vocis Profundae — Naylor's transmissions, the rite. */
   order: { frame: 'border-fuchsia-800/60 shadow-[0_0_80px_rgb(192_38_211/0.25)]', title: 'text-fuchsia-300' }
 };
 

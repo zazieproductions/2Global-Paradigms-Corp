@@ -57,7 +57,7 @@ export const isSealOpen = (state: ProgressionState, id: SealId): boolean =>
 export const currentSeal = (state: ProgressionState): SealId | null =>
   SEALS.find((s) => !isSealSolved(state, s.id))?.id ?? null;
 
-/** Choir Script letters the operator can read (all of them once Seal III is broken). */
+/** Choir-code letters the operator can read (all of them once Seal III is broken). */
 export function knownLetters(state: ProgressionState): Set<string> {
   const all = isSealSolved(state, 3);
   const set = new Set<string>();

@@ -4,9 +4,9 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 const DENIALS = [
   'THE SEAL DOES NOT ANSWER.',
   'THE CHOIR IS SILENT. TRY AGAIN.',
-  'WRONG VOICE. THE WAX HOLDS.',
+  'WRONG VOICE. THE SEAL HOLDS.',
   'NOT THAT WORD. THE ORDER HAS NOTED YOUR ATTEMPT.',
-  'THE SIGIL DIMS. SOMETHING BELOW SHIFTS.'
+  'THE PLATE GOES DARK. SOMETHING BELOW SHIFTS.'
 ];
 
 /**
@@ -67,13 +67,13 @@ export const AnswerInput: FC<{
           autoCorrect="off"
           autoCapitalize="characters"
           enterKeyHint="go"
-          className="flex-1 min-w-0 bg-black/60 border rounded px-3 py-2.5 sm:py-2 text-sm tracking-[0.2em] uppercase text-slate-100 placeholder:text-slate-600 placeholder:tracking-normal placeholder:normal-case focus:outline-none font-occult disabled:opacity-40"
+          className="flex-1 min-w-0 bg-black/60 border rounded px-3 py-2.5 sm:py-2 text-sm tracking-[0.2em] uppercase text-slate-100 placeholder:text-slate-600 placeholder:tracking-normal placeholder:normal-case focus:outline-none font-order disabled:opacity-40"
           style={{ borderColor: `${accent}66` }}
         />
         <button
           type="submit"
           disabled={disabled}
-          className="tap-target shrink-0 px-4 py-2.5 sm:py-2 rounded font-bold text-xs tracking-widest text-black cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed font-occult"
+          className="tap-target shrink-0 px-4 py-2.5 sm:py-2 rounded font-bold text-xs tracking-widest text-black cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed font-order"
           style={{ background: accent }}
         >
           {label}

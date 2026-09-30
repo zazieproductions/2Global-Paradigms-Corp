@@ -21,7 +21,7 @@ export const MEETING_RECORDS: MeetingRecord[] = [
       'Dr. Arthur Sedley (Co-Founder - IN ABSENTIA)',
       'Lord Malcolm Ashby (Board Director)',
       'Major-General Keith Alford (Defense Liaison)',
-      'Julian Thorne (Chief Archivist)'
+      'Julian Naylor (Chief Archivist)'
     ],
     agenda: [
       '1. Review of physical telemetry from Spitsbergen Borehole 4 (-820m).',
@@ -36,7 +36,7 @@ export const MEETING_RECORDS: MeetingRecord[] = [
       'Motion 89-03: Vesting of the Sedley family trust is deferred pending review. Project Vesper is authorised to begin municipal harmonic testing in the United Kingdom.'
     ],
     redactedDiscussion:
-      "[AIRS LEVEL 5 RESTRICTED]: Cross opposed the disavowal motion for eleven minutes and then voted for it. In the audio she can be heard asking Thorne to keep the intercom recording. Thorne replied that the tape had already gone to the vault. Ashby asked what would be said to Sedley's family and was told there would be a car accident in Switzerland. General Alford noted that the Defence Ministry would want the site under its own classification within the year, and that the company should get its paperwork in first.",
+      "[AIRS LEVEL 5 RESTRICTED]: Cross opposed the disavowal motion for eleven minutes and then voted for it. In the audio she can be heard asking Naylor to keep the intercom recording. Naylor replied that the tape had already gone to the vault. Ashby asked what would be said to Sedley's family and was told there would be a car accident in Switzerland. General Alford noted that the Defence Ministry would want the site under its own classification within the year, and that the company should get its paperwork in first.",
     clearance: 'Level 5 - Black Dossier'
   },
   {
@@ -140,19 +140,19 @@ export const MEETING_RECORDS: MeetingRecord[] = [
       'Philip Warrender (Legal Counsel)'
     ],
     agenda: [
-      '1. Status of the manhunt for whistleblower Dr. Ewan Thorne.',
+      '1. Status of the manhunt for whistleblower Dr. Ewan Naylor.',
       '2. Audit of the 48GB exfiltrated Station 07 telemetry files.',
       '3. Deployment of real-time SHA-256 hash re-encoders in Postojna Caverns.'
     ],
     minutes:
       'Ashby opened by asking how many copies existed. Kiernan said thirty-two mirrors were down, and that he was not going to say how many were up. The leaked set is the 2019 exfiltration: borehole audio, the 1989 intercom tape, and personnel files from the consumer division. Adeyemi reported the Postojna hash migration complete for everything before 2016, which does not invalidate any copy already outside the building; it only makes an external copy detectable, which is what they bought. Warrender advised against the reward and was overruled in four minutes.',
     motionsPassed: [
-      'Motion 20-01: £250,000 reward authorised for information leading to the location of Dr. Ewan Thorne. Notices placed in the trade press only.',
+      'Motion 20-01: £250,000 reward authorised for information leading to the location of Dr. Ewan Naylor. Notices placed in the trade press only.',
       'Motion 20-02: All intranet endpoints to run automatic keyword and waveform redaction. Redactions to be visible in the document, not silent.',
-      'Motion 20-03: Termination of Julian Thorne confirmed, with medical memory remediation completed on 7 February. Personnel file to read as retirement.'
+      'Motion 20-03: Termination of Julian Naylor confirmed, with medical memory remediation completed on 7 February. Personnel file to read as retirement.'
     ],
     redactedDiscussion:
-      "[AIRS LEVEL 5 RESTRICTED]: Kiernan reported that Thorne's relay is still transmitting a 14.8Hz sub-carrier every Friday at 03:14 UTC and that the payload is unchanged since November. There is no geolocation. Ashby asked whether Thorne was doing it to be found. Kiernan said no, and that the Friday schedule was the only thing about it that looked like a courtesy.",
+      "[AIRS LEVEL 5 RESTRICTED]: Kiernan reported that Naylor's relay is still transmitting a 14.8Hz sub-carrier every Friday at 03:14 UTC and that the payload is unchanged since November. There is no geolocation. Ashby asked whether Naylor was doing it to be found. Kiernan said no, and that the Friday schedule was the only thing about it that looked like a courtesy.",
     clearance: 'Level 5 - Black Dossier'
   },
   {

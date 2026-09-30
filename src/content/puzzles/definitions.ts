@@ -75,7 +75,7 @@ function sealRewards(seal: SealDef): PuzzleReward[] {
     rewards.push({ type: 'clearance', level });
   }
   if (seal.id === 6) {
-    // Thorne's safe: the de-scrambler switches on and the leak dump is released.
+    // Naylor's safe: the de-scrambler switches on and the leak dump is released.
     rewards.push({ type: 'unredact' }, { type: 'download', id: 'palimpsest-master-dump' });
   }
   return rewards;
@@ -89,7 +89,7 @@ const SEAL_PUZZLES: PuzzleDefinition[] = SEALS.map((seal) => ({
   clues: sealClues(seal),
   validation: { method: 'sha256', normalize: ['alnum-upper'], digests: SEAL_DIGESTS[seal.id] },
   hints: [
-    { tier: 1, label: 'ASK THORNE', text: seal.hints[0] },
+    { tier: 1, label: 'ASK NAYLOR', text: seal.hints[0] },
     { tier: 2, label: 'ASK AGAIN', text: seal.hints[1] },
     { tier: 3, label: 'TELL ME', text: seal.hints[2], revealsAnswer: true }
   ],
@@ -99,7 +99,7 @@ const SEAL_PUZZLES: PuzzleDefinition[] = SEALS.map((seal) => ({
     seal.id === 1
       ? undefined
       : [{ type: 'puzzle-completed', puzzleId: sealPuzzleId((seal.id - 1) as SealId) }],
-  journal: `Seal ${seal.numeral} (${seal.planet} ${seal.glyph}) broken — Seal-Word recovered: ${seal.sealWord}. ${seal.rewardText}`
+  journal: `Seal ${seal.numeral} (${seal.planet} ${seal.glyph}) broken. Seal-Word recovered: ${seal.sealWord}. ${seal.rewardText}`
 }));
 
 const GATEWAY_PUZZLES: PuzzleDefinition[] = [
@@ -221,7 +221,8 @@ const GATEWAY_PUZZLES: PuzzleDefinition[] = [
     // Deliberately no clearance: only the seals raise it.
     rewards: [],
     requires: [{ type: 'puzzle-completed', puzzleId: 'gateway-waveform' }],
-    journal: 'Gateway Transmission solved: VESPAR · 987316 · COLD. The well is open — the Seven Seals await.'
+    journal:
+      'Gateway Transmission solved: VESPAR · 987316 · COLD. The interlock is open and the Seven Seals are next.'
   }
 ];
 

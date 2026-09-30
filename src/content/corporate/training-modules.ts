@@ -228,7 +228,7 @@ export const TRAINING_MODULES: TrainingModule[] = [
       },
       {
         title: '2. Indicators',
-        text: 'Supervisors should read the following as a set rather than as single events:\n- Repeated terminal queries for Palimpsest, Oakhaven or Borehole 4.\n- Questions about the legal status or whereabouts of Dr Arthur Sedley or Dr Ewan Thorne.\n- Handwritten notes or personal cameras near the microfilm cabinets.\n- Moral objections raised, in any form, to a municipal tone trial.',
+        text: 'Supervisors should read the following as a set rather than as single events:\n- Repeated terminal queries for Palimpsest, Oakhaven or Borehole 4.\n- Questions about the legal status or whereabouts of Dr Arthur Sedley or Dr Ewan Naylor.\n- Handwritten notes or personal cameras near the microfilm cabinets.\n- Moral objections raised, in any form, to a municipal tone trial.',
         safetyGuideline:
           'Two or more indicators together warrant a flag through the Behavioural Tracker. One indicator alone is a Monday morning.'
       },
@@ -264,7 +264,7 @@ export const TRAINING_MODULES: TrainingModule[] = [
       },
       {
         question:
-          "A colleague asks what happened to Dr Ewan Thorne's 2019 disclosures. What does the module require?",
+          "A colleague asks what happened to Dr Ewan Naylor's 2019 disclosures. What does the module require?",
         options: [
           'Answer from the public record',
           'Point them to the newspapers',

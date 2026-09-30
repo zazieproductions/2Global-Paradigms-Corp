@@ -179,7 +179,7 @@ export const PERSONNEL: Personnel[] = [
   {
     id: 'p-009',
     employeeId: 'GPC-0344-LEAK',
-    name: 'Dr. Ewan Thorne',
+    name: 'Dr. Ewan Naylor',
     title: 'Research Fellow (absent without leave; clearance revoked)',
     departmentId: 'dept-pefd',
     departmentName: 'Psychoacoustics & Environmental Frequency Directorate',
@@ -188,7 +188,7 @@ export const PERSONNEL: Personnel[] = [
     stationName: 'Nordic Acoustic Array - Station 07, Spitsbergen',
     status: 'Missing',
     hireDate: '2015-05-10',
-    email: 'e.thorne@pefd.globalparadigms.corp',
+    email: 'e.naylor@pefd.globalparadigms.corp',
     phoneExtension: 'x0709',
     biography:
       'Borehole acoustics. Posted to Station 07 in 2017 on a two-year rotation and did not come back on schedule. His personnel file is four lines long because he never returned any of the forms.',
@@ -199,7 +199,7 @@ export const PERSONNEL: Personnel[] = [
       'INC-2019-SVALBARD-STATION07',
       'AUDIO-01-SVALBARD-INFRASOUND'
     ],
-    avatarSeed: 'EwanThorne'
+    avatarSeed: 'EwanNaylor'
   },
   {
     id: 'p-010',
@@ -460,7 +460,7 @@ export const PERSONNEL: Personnel[] = [
   {
     id: 'p-022',
     employeeId: 'GPC-1001-ARC',
-    name: 'Julian Thorne',
+    name: 'Julian Naylor',
     title: 'Chief Archivist (terminated; clearance revoked)',
     departmentId: 'dept-airs',
     departmentName: 'Archive Integrity & Retrospective Scrubbing',
@@ -469,14 +469,14 @@ export const PERSONNEL: Personnel[] = [
     stationName: 'Balkan Harmonic Calibration Center - Postojna Caverns, Slovenia',
     status: 'Terminated',
     hireDate: '1998-04-01',
-    email: 'j.thorne@airs.globalparadigms.corp',
+    email: 'j.naylor@airs.globalparadigms.corp',
     phoneExtension: 'x1001',
     biography:
-      'Ran the microfilm halls at Postojna for twenty-one years. Older brother of Ewan Thorne. Knew where every original was and, by the end, most of what was in them.',
+      'Ran the microfilm halls at Postojna for twenty-one years. Older brother of Ewan Naylor. Knew where every original was and, by the end, most of what was in them.',
     classifiedNotes:
       "Terminated 26 Nov 2019. Subjected to Level 5 memory remediation before release, the last person to receive it. The procedure took. He now lives in Ljubljana under his mother's name, works in a bookshop, and has twice been recognised by former colleagues and has not recognised them back.",
     linkedDocuments: ['DOC-2019-PALIMPSEST-INTERNAL', 'MEMO-2019-ARCHIVE-SANITY'],
-    avatarSeed: 'JulianThorne'
+    avatarSeed: 'JulianNaylor'
   },
   {
     id: 'p-023',
@@ -871,7 +871,7 @@ export const PERSONNEL: Personnel[] = [
     email: 'b.halloran@siso.globalparadigms.corp',
     phoneExtension: 'x0704',
     biography:
-      'Ran heavy drilling at Station 07 from 2010 until the 2019 breach. Eleven years of sinking shafts through permafrost and into whatever is under it. No relation to the Thorne family; the archive’s earlier cross-reference was an indexing error.',
+      'Ran heavy drilling at Station 07 from 2010 until the 2019 breach. Eleven years of sinking shafts through permafrost and into whatever is under it. No relation to the Naylor family; the archive’s earlier cross-reference was an indexing error.',
     classifiedNotes:
       'In isolation at Yellowknife since December 2019. Does not sleep. Vocalises continuously at a pitch the medical officer measures, off the record, at 14.8Hz with harmonics. Two orderlies have asked to be reassigned. The isolation room is soundproofed to a standard that his voice does not respect.',
     linkedDocuments: ['DOC-2020-HALLORAN-QUARANTINE-LOG', 'AUDIO-01-SVALBARD-INFRASOUND'],

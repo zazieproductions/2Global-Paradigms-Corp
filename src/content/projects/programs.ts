@@ -135,7 +135,7 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
       'Crawlers, hash substitution scripts and a shredding floor at Postojna. Palimpsest exists because of the 1994 Reson-8 deaths, and it has since covered Oakhaven, the VeriPulse withdrawals and everything that came out of Svalbard. Adeyemi runs it to a standard: the paper that leaves the building must be able to survive comparison with whatever is left inside it.',
     milestones: [
       { year: 1994, event: 'Chartered the week after the recall, under the AIRS budget line.' },
-      { year: 2019, event: 'Thorne exfiltration: 48GB of raw telemetry out of the building in one night.' },
+      { year: 2019, event: 'Naylor exfiltration: 48GB of raw telemetry out of the building in one night.' },
       { year: 2025, event: 'Automated redaction enforcement running on every intranet search endpoint.' }
     ],
     linkedPersonnel: ['p-003', 'p-009', 'p-022', 'p-023', 'p-042'],
@@ -317,7 +317,7 @@ export const INTERNAL_PROGRAMS: InternalProgram[] = [
     objective: 'Post-trauma memory dampening and targeted retrograde amnesia.',
     publicCoverStory: 'Clinical research into acute stress disorder and occupational noise trauma.',
     classifiedReality:
-      'Compound 88-T plus a 7.83Hz burst, timed to the sleep spindle. It removes the fortnight around an incident and leaves the rest of the year intact, which the Yellowknife clinic has demonstrated more often than it would like. Julian Thorne was remediated with it in 2020. Saito has asked twice for it to be restricted to clinical use and both requests are in the file.',
+      'Compound 88-T plus a 7.83Hz burst, timed to the sleep spindle. It removes the fortnight around an incident and leaves the rest of the year intact, which the Yellowknife clinic has demonstrated more often than it would like. Julian Naylor was remediated with it in 2020. Saito has asked twice for it to be restricted to clinical use and both requests are in the file.',
     milestones: [
       { year: 2014, event: 'Formulated at Yellowknife from the ParaCalm sedative line.' },
       { year: 2020, event: 'Deployed during the Station 07 evacuation. Eleven staff, no refusals.' }

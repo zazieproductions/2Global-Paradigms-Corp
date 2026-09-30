@@ -37,10 +37,10 @@ export const DEAD_LINKS: DeadLink[] = [
   },
   {
     id: 'dead-03',
-    url: 'https://palimpsest-archive.ch/leaks/thorne-svalbard-telemetry-master.tar.gz',
+    url: 'https://palimpsest-archive.ch/leaks/naylor-svalbard-telemetry-master.tar.gz',
     originalHost: 'Palimpsest Whistleblower Relay Mirror (Zurich, Switzerland)',
     errorType: 'Domain Seized',
-    originalTitle: 'Dr. Ewan Thorne: Complete Unredacted Station 07 Borehole 4 Infrasound Master Files',
+    originalTitle: 'Dr. Ewan Naylor: Complete Unredacted Station 07 Borehole 4 Infrasound Master Files',
     cachedSnippet:
       '...THIS DOMAIN HAS BEEN SEIZED BY ORDER OF THE HIGH COURT OF ENGLAND AND WALES AND THE SWISS FEDERAL PROSECUTOR UPON APPLICATION BY GLOBAL PARADIGMS CORPORATION UNDER THE SPECIAL ASSETS AND OFFICIAL SECRETS ACT. ALL INCOMING IP ADDRESSES ARE LOGGED AND FORWARDED TO CORPORATE SECURITY...',
     investigatorNotes:
@@ -92,7 +92,7 @@ export const DEAD_LINKS: DeadLink[] = [
     cachedSnippet:
       '...if you found this page you already know about the hum. i am not going to say who i am. i am leaving one line here for whoever comes after me. you will need the wheel and the name of the place where they keep everything. IVW LOOR OESFL OC GHT VGNF ERSESJ LWWTS. do not look back...',
     investigatorNotes:
-      'Page mirrored in 1998, and its text was edited in October 2019, which is impossible for a static archive and is how we found it. The edit is attributed to Dr. Ewan Thorne. A faint seven-pointed star is tiled into the page background and is visible only on a low-brightness display.',
+      'Page mirrored in 1998, and its text was edited in October 2019, which is impossible for a static archive and is how we found it. The edit is attributed to Dr. Ewan Naylor. A faint seven-pointed star is tiled into the page background and is visible only on a low-brightness display.',
     archiveDate: 'Archived snapshot: 1998-11-04 04:32:00 GMT (modified 2019-10-14)'
   }
 ];

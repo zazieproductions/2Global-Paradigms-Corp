@@ -237,7 +237,7 @@ export const AUTHORED_DOCUMENTS: DocumentRecord[] = [
     category: 'Memorandum',
     departmentId: 'dept-airs',
     departmentName: 'Archive Integrity & Retrospective Scrubbing',
-    author: 'Julian Thorne',
+    author: 'Julian Naylor',
     date: '1994-06-01',
     clearance: 'Level 5 - Black Dossier',
     summary:
@@ -487,10 +487,10 @@ export const AUTHORED_DOCUMENTS: DocumentRecord[] = [
     summary:
       'Forty-eight gigabytes left Svalbard on a snowmobile and a satellite link. This is the file that says what was in them and what we are doing about it.',
     content:
-      'Dr. Ewan Thorne downloaded the October telemetry set and pushed it out through an encrypted relay before leaving Longyearbyen. The files show the 14.8Hz signal is [REDACTED: not geological, and 18.4% stronger than at commissioning]. Directive 09 purge authorised.',
+      'Dr. Ewan Naylor downloaded the October telemetry set and pushed it out through an encrypted relay before leaving Longyearbyen. The files show the 14.8Hz signal is [REDACTED: not geological, and 18.4% stronger than at commissioning]. Directive 09 purge authorised.',
     redactedContent:
-      'Dr. Ewan Thorne downloaded the October telemetry set and pushed it out through an encrypted relay before leaving Longyearbyen. The files show the 14.8Hz signal is not geological, is artificially modulated, and is 18.4% stronger than at commissioning. Directive 09 purge authorised; reward set at £250,000. Assessment: the bounty is a formality. He has already distributed copies to fourteen mirrors and to at least one party we cannot see. Recommend the emphasis of the operation shifts from recovery to discredit, and that the recovery language stays in the file for the auditors.',
-    tags: ['Whistleblower', 'Thorne', 'Leaks', 'Station 07'],
+      'Dr. Ewan Naylor downloaded the October telemetry set and pushed it out through an encrypted relay before leaving Longyearbyen. The files show the 14.8Hz signal is not geological, is artificially modulated, and is 18.4% stronger than at commissioning. Directive 09 purge authorised; reward set at £250,000. Assessment: the bounty is a formality. He has already distributed copies to fourteen mirrors and to at least one party we cannot see. Recommend the emphasis of the operation shifts from recovery to discredit, and that the recovery language stays in the file for the auditors.',
+    tags: ['Whistleblower', 'Naylor', 'Leaks', 'Station 07'],
     classificationStamp: 'BLACK LEVEL // SANITIZED',
     isWhistleblowerLeak: true,
     relatedPersonnel: ['p-009', 'p-017', 'p-018'],

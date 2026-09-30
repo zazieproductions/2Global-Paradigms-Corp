@@ -230,14 +230,15 @@ autoplays. A persistent player bar carries playback; sound can be muted globally
 | `react`        | react-dom + router                              |       315.7 kB |    100.7 kB |
 | `content`      | the entire 412-record corpus                    |       331.7 kB |    105.0 kB |
 | `index`        | app code                                        |       232.2 kB |     69.4 kB |
-| CSS            | tokens + archive + boot + occult                |       128.2 kB |     26.0 kB |
+| CSS            | tokens + archive + boot + order                 |       127.4 kB |     26.0 kB |
 | `icons`        | lucide subset                                   |        20.1 kB |      6.7 kB |
 | 24 more chunks | 19 lazy page chunks + 5 split shared components | 0.2–37 kB each | 0.2–11.6 kB |
 
 ~308 kB gzipped of JS+CSS on first visit, _including the whole story_. Hashed bundles emit to `/static/*`
 and are served `max-age=31536000, immutable`; the corpus chunk is intentionally one large cacheable object
 (`chunkSizeWarningLimit: 700` with the reason in a comment, not silenced). Fonts are self-hosted
-`@fontsource` subsets with `font-display: swap`. Total `dist/`: 66 files, 2.4 MB on disk.
+`@fontsource` subsets with `font-display: swap`: system mono for the house face, Archivo (latin, 3 weights)
+for the Order's display type, Noto Sans Symbols for planetary glyphs. Total `dist/`: 66 files, 2.4 MB on disk.
 
 ### HTTP posture
 

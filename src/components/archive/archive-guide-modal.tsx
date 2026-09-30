@@ -7,7 +7,7 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 import { useProgression } from '@/hooks/use-progression';
 import { Modal } from '@/components/ui/modal';
 import { cn } from '@/lib/utils/cn';
-import { OrderSigil } from '@/components/ui/sigils';
+import { OrderPlate } from '@/components/ui/order-marks';
 
 interface ArchiveGuideModalProps {
   open: boolean;
@@ -63,14 +63,12 @@ export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: 
         </p>
 
         <div className="flex gap-4 items-start">
-          <span className="text-fuchsia-300 shrink-0 hidden sm:block" aria-hidden>
-            <OrderSigil size={64} />
-          </span>
+          <OrderPlate size={56} className="shrink-0 hidden sm:inline-flex" />
           <p>
             On the surface: a corporation. Underneath: the{' '}
-            <strong className="text-fuchsia-300">Ordo Vocis Profundae</strong>, an occult order that has
-            steered the company around a 14.8 Hz signal under the Earth. A whistleblower,{' '}
-            <strong className="text-white">Dr. Ewan Thorne</strong>, has left you a trail.
+            <strong className="text-fuchsia-300">Ordo Vocis Profundae</strong>, a private order that has run
+            the company around a 14.8 Hz signal under the Earth. A whistleblower,{' '}
+            <strong className="text-white">Dr. Ewan Naylor</strong>, has left you a trail.
           </p>
         </div>
 
@@ -136,7 +134,7 @@ export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: 
           </p>
           <p>
             • <span className="text-white font-bold">Whistleblower Safe</span> (brass key, top bar) —
-            Thorne&apos;s safe. You will learn the combination.
+            Naylor&apos;s safe. You will learn the combination.
           </p>
           <p>
             • <span className="text-white font-bold">Cold Boot</span> — during the boot you can type on

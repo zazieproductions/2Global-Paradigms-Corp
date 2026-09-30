@@ -22,7 +22,7 @@ import { EARNED_BY, LEVEL_CORRESPONDENCE } from '@/content/puzzles/seals';
 import { useProgression } from '@/hooks/use-progression';
 import { notify, useInvestigation } from '@/hooks/use-investigation';
 import { RedactedText } from '@/components/archive/redacted-text';
-import { ChoirGlyph, OrderSigil } from '@/components/ui/sigils';
+import { ChoirGlyph, OrderPlate } from '@/components/ui/order-marks';
 import { downloadFile, downloadJson, toTextFilename } from '@/lib/utils/download';
 import { sha256Hex } from '@/lib/utils/sha256';
 import { Modal } from '@/components/ui/modal';
@@ -33,7 +33,7 @@ import { DocumentStamp } from '@/components/ui/document-stamp';
 import { cn } from '@/lib/utils/cn';
 import { useArchiveUi } from '@/app/archive-ui-context';
 
-// Choir Script marginalia on the Order's own documents (only codex letters used)
+// Choir-code marginalia on the Order's own documents (only codex letters used)
 const MARGINALIA = ['HE IS SINGING', 'THE SONG RISES', 'ORDER IS ETERNAL', 'DESCEND', 'THE CHOIR HEARS'];
 
 const TOOL_BTN =
@@ -287,8 +287,8 @@ function DocumentSheet({
             aria-hidden
           >
             {isOrderDoc ? (
-              <span className="text-slate-100">
-                <OrderSigil size={460} showText strokeWidth={0.6} />
+              <span className="font-order text-6xl font-bold rotate-[-35deg] tracking-[0.2em] text-slate-100">
+                OVP
               </span>
             ) : (
               <span className="text-8xl font-black rotate-[-35deg] tracking-widest text-slate-100">
@@ -396,17 +396,17 @@ function DocumentSheet({
             {cleartext ? document.redactedContent : <RedactedText text={document.content} />}
           </div>
 
-          {/* Choir Script marginalia — only the Order's own records carry it */}
+          {/* Choir-code marginalia — only the Order's own records carry it */}
           {isOrderDoc && (
             <section
               className="mb-6 p-3 rounded border border-rose-900/40 bg-rose-950/10"
               aria-label="Marginalia"
             >
               <p className="text-micro tracking-[0.3em] text-rose-400/70 mb-2">
-                MARGINALIA · CHOIR SCRIPT (HAND-INKED)
+                MARGINALIA · CHOIR CODE (HAND-INKED)
               </p>
               <p className="sr-only">
-                Hand-inked Choir Script, {marginalia.replace(/ /g, '').length} glyphs. Letters you have
+                Hand-inked Choir code, {marginalia.replace(/ /g, '').length} characters. Letters you have
                 learned:{' '}
                 {marginalia
                   .split('')
@@ -419,7 +419,7 @@ function DocumentSheet({
                     {w.split('').map((ch, ci) => (
                       <span key={ci} className="flex flex-col items-center">
                         <ChoirGlyph letter={ch} size={20} color="#fb7185" />
-                        <span className="text-micro font-occult text-rose-300/80 h-3">
+                        <span className="text-micro font-order text-rose-300/80 h-3">
                           {knownLetters.has(ch) ? ch : ''}
                         </span>
                       </span>
@@ -530,10 +530,10 @@ function SealedRecord({
   const corr = LEVEL_CORRESPONDENCE[rank];
   return (
     <div className="max-w-lg mx-auto text-center space-y-4 py-6" role="alert">
-      <div className="mx-auto w-fit text-rose-400/80 ovp-breathe" aria-hidden>
-        <OrderSigil size={110} showText />
+      <div className="mx-auto w-fit" aria-hidden>
+        <OrderPlate size={72} />
       </div>
-      <p className="font-occult text-2xl text-slate-100">This record is sealed.</p>
+      <p className="font-order text-2xl text-slate-100">This record is sealed.</p>
       <p className="text-label text-slate-400">
         <span className="text-cyan-300">{document.code}</span> — “{document.title}”
       </p>
@@ -543,7 +543,7 @@ function SealedRecord({
         <span className="text-amber-300">{clearance}</span>.
       </p>
       <p className="text-label text-slate-300">
-        The wax holds until you break{' '}
+        It stays closed until you break{' '}
         <span className="text-fuchsia-300 font-bold">
           {EARNED_BY[rank]?.replace(/^Earned by breaking /, '')}
         </span>
@@ -555,7 +555,7 @@ function SealedRecord({
       <button
         type="button"
         onClick={() => navigateToTab('sanctum')}
-        className="px-5 py-2 rounded border border-fuchsia-700 text-fuchsia-300 hover:bg-fuchsia-950/50 cursor-pointer font-occult tracking-widest text-xs"
+        className="px-5 py-2 rounded border border-fuchsia-700 text-fuchsia-300 hover:bg-fuchsia-950/50 cursor-pointer font-order tracking-widest text-xs"
       >
         GO TO THE SEVEN SEALS
       </button>

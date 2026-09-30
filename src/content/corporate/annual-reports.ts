@@ -99,7 +99,7 @@ export const ANNUAL_REPORTS: AnnualReport[] = [
       }
     ],
     scrubbedFootnote:
-      "[AIRS SCRUBBED 2019]: Dr. Ewan Thorne's appendix note on rising baseline amplitude removed from Appendix C. Appendix C was then reissued without an annex, which the printers queried."
+      "[AIRS SCRUBBED 2019]: Dr. Ewan Naylor's appendix note on rising baseline amplitude removed from Appendix C. Appendix C was then reissued without an annex, which the printers queried."
   },
   {
     id: 'ar-2022',
