@@ -6,8 +6,7 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import { FEATURES } from '@/config/features';
-import { NAV_ITEMS, tabForPath } from '@/config/navigation';
-import { SITE } from '@/config/site';
+import { tabForPath } from '@/config/navigation';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { useProgression } from '@/hooks/use-progression';
 import { notify, useDescrambler } from '@/hooks/use-investigation';
@@ -33,6 +32,7 @@ import { ApplicationModal } from '@/components/corporate/application-modal';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { FictionNotice } from '@/components/ui/fiction-notice';
 import { SystemNotice } from '@/components/ui/system-notice';
+import { RouteMetadata } from '@/components/seo/route-metadata';
 import { useArchiveUi } from './archive-ui-context';
 import { cn } from '@/lib/utils/cn';
 
@@ -91,11 +91,8 @@ export function ArchiveShell() {
     if (openDocId) discover(openDocId);
   }, [openDocId, discover]);
 
-  // Title + focus management on navigation.
+  // Focus management on navigation. RouteMetadata owns the document head.
   useEffect(() => {
-    const tab = tabForPath(pathname);
-    const label = NAV_ITEMS.find((i) => i.id === tab)?.label ?? 'Missing File';
-    document.title = tab === 'dashboard' ? SITE.title : `${label} // ${SITE.name}`;
     if (firstRoute.current) {
       firstRoute.current = false;
       return;
@@ -130,6 +127,7 @@ export function ArchiveShell() {
 
   return (
     <>
+      <RouteMetadata />
       {!bootDone && (
         <BootSequence
           onComplete={(callsign) => {

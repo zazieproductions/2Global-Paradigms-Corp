@@ -7,5 +7,5 @@
 /projects       /programs   301
 /offices        /stations   301
 
-# SPA fallback — every other path is resolved by the client router.
-/*              /index.html 200
+# Canonical routes are emitted as static /<route>/index.html entry points by
+# scripts/generate-seo.mjs. Unknown paths therefore retain a real 404 response.

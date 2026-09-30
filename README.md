@@ -290,10 +290,11 @@ silently override base styles — the escape hatch is Tailwind's `!` suffix, del
 
 ## Deployment
 
-It is a folder of static files. `npm run build` → serve `dist/` anywhere with an SPA fallback; the repo
-ships ready-made config for **Vercel** (`vercel.json`), **Netlify/Cloudflare Pages** (`public/_headers`,
-`public/_redirects` — keep the redirect tables in all three places in sync; a routes test covers the
-in-app half), and `npm run preview` serves the exact production output locally. `public/assets/**`
+It is a folder of static files. `npm run build` emits a crawlable HTML entry point for every public route
+and a real noindex 404; no broad SPA fallback is needed. The repo ships ready-made config for **Vercel**
+(`vercel.json`) and **Netlify/Cloudflare Pages** (`public/_headers`, `public/_redirects` — keep the redirect
+tables in all three places in sync; a routes test covers the in-app half). `npm run preview` serves the
+exact production output locally. `public/assets/**`
 directories are intentionally empty: media is optional garnish on a procedurally-synthesised, text-first
 corpus (drop files in, set `src` on an `AudioArtifact`, and see the media-hosting notes referenced by
 `docs/ARCHITECTURE.md`). Build-time flags: `VITE_FEATURE_BOOT_SEQUENCE`, `VITE_FEATURE_PERSIST_PROGRESS`,
@@ -303,12 +304,13 @@ never require it.
 
 ## Documentation map
 
-| Document                | Covers                                                         |
-| ----------------------- | -------------------------------------------------------------- |
-| `docs/ARCHITECTURE.md`  | repo map, layering rules, runtime flow, state, search, build   |
-| `docs/CONTENT_MODEL.md` | types, collections, normaliser, redaction syntax, authoring    |
-| `docs/PUZZLE_SYSTEM.md` | puzzle model, validation, hints/assisted, rewards, persistence |
-| `docs/DESIGN_SYSTEM.md` | tokens, components, a11y, responsive behaviour                 |
+| Document                | Covers                                                           |
+| ----------------------- | ---------------------------------------------------------------- |
+| `docs/ARCHITECTURE.md`  | repo map, layering rules, runtime flow, state, search, build     |
+| `docs/CONTENT_MODEL.md` | types, collections, normaliser, redaction syntax, authoring      |
+| `docs/PUZZLE_SYSTEM.md` | puzzle model, validation, hints/assisted, rewards, persistence   |
+| `docs/DESIGN_SYSTEM.md` | tokens, components, a11y, responsive behaviour                   |
+| `docs/SEO.md`           | canonical metadata, static route output, sitemap and GSC runbook |
 
 Two files referenced inside those docs — `DEPLOYMENT.md` and `CONTENT_STYLE_GUIDE.md` — are not yet
 committed. The README documents what _is_ true; the gap is tracked below rather than papered over.
