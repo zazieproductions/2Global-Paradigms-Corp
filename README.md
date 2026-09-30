@@ -8,7 +8,7 @@
 > | Studio  | Zazie Productions                                                                                   |
 > | Medium  | Interactive fiction / single-player ARG, delivered as a fully static web application                |
 > | Engine  | React 19 · React Router 7 · Vite 7 · Tailwind CSS v4 · TypeScript (strict) · Vitest 5               |
-> | Corpus  | 412 typed records across 17 kinds · ~239,000 characters of narrative text · 1971 → 2026 in-world    |
+> | Corpus  | 412 typed records across 17 kinds · ~245,000 characters of narrative text · 1971 → 2026 in-world    |
 > | Runtime | None. No server, no database, no API, no analytics. Everything the story knows ships in the bundle. |
 > | Fiction | Entirely invented. No real organisations, people, science, or events.                               |
 
@@ -54,10 +54,18 @@ npm ci
 npm run dev        # http://localhost:5173
 ```
 
-The full verification pipeline in one command — typecheck → lint → tests → build:
+The full verification pipeline in one command — typecheck → lint → tests → derived-docs check → build:
 
 ```sh
 npm run check
+```
+
+The three commands for working on the fiction itself:
+
+```sh
+npm run validate:canon      # narrative continuity — 0 errors expected
+npm run validate:content    # structural integrity — 0 errors; warnings are authored gaps
+npm run archive:report      # regenerate docs/generated/, then read `git diff docs/generated`
 ```
 
 No API keys, no `.env` file, no docker-compose, no account. The app fetches nothing beyond its own
@@ -68,17 +76,21 @@ static files: `grep -rE "fetch\(|XMLHttpRequest|sendBeacon" src/` returns zero h
 ## Claims, with the command to check each one
 
 This README deliberately contains no unverifiable adjectives. Every count below was measured against this
-checkout on 2026-09-26; regenerate any of them with the listed command.
+checkout on 2026-09-30; regenerate any of them with the listed command. Corpus figures (records, kinds,
+date span, character count) are maintained in
+[`docs/generated/CORPUS.md`](docs/generated/CORPUS.md) and fail CI if they go stale.
 
-| Claim                                                                                                                        | Verify with                                    |
-| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`) | `npm run typecheck`                            |
-| ESLint (flat config) and Prettier are clean                                                                                  | `npm run lint && npm run format:check`         |
-| **85 tests in 8 files** pass (reducer, validation, search, routes, a11y, boot, digest script, content integrity)             | `npm test`                                     |
-| 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                              | `npm run validate:content`                     |
-| Every redaction has a de-scrambled counterpart                                                                               | part of the suite above (`content-integrity`)  |
-| No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                 | the greps shown in “Quick start”               |
-| Initial JS+CSS transfer ≈ **308 kB gzipped** incl. the entire corpus                                                         | `npm run build` and read the chunk table below |
+| Claim                                                                                                                             | Verify with                                    |
+| --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`)      | `npm run typecheck`                            |
+| ESLint (flat config) and Prettier are clean                                                                                       | `npm run lint && npm run format:check`         |
+| **101 tests in 10 files** pass (reducer, validation, search, routes, a11y, boot, mobile, digest script, content integrity, canon) | `npm test`                                     |
+| 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                                   | `npm run validate:content`                     |
+| Chronology, entity naming, seal machinery and terminology agree with the declared canon                                           | `npm run validate:canon`                       |
+| Every redaction has a de-scrambled counterpart                                                                                    | part of the suite above (`content-integrity`)  |
+| The derived reference in `docs/generated/` matches the source                                                                     | `npm run archive:report:check`                 |
+| No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                      | the greps shown in “Quick start”               |
+| Initial JS+CSS transfer ≈ **333 kB gzipped** incl. the entire corpus                                                              | `npm run build` and read the chunk table below |
 
 ---
 
@@ -101,8 +113,8 @@ the counts below are **derived from the collections themselves**, so they cannot
 - **Routing:** 19 lazy pages — 18 archive sections plus an in-world `FILE NOT FOUND` view — and 6 legacy
   aliases that are 301s at the edge (`vercel.json`, `public/_redirects`) and `Navigate replace` in-app,
   with query strings preserved (a route test pins that).
-- **Corpus:** ~239,000 characters of summaries + bodies across the normalised archive; in-world dates run
-  1971–2026.
+- **Corpus:** ~245,000 characters of summaries + bodies across the normalised archive; in-world dates run
+  1971–2026. Both figures are generated, not retyped — see [`docs/generated/CORPUS.md`](docs/generated/CORPUS.md).
 - **Every audio artifact ships a transcript and a plain-language description** (validator-enforced) — the
   fiction never depends on hearing it.
 
@@ -135,9 +147,12 @@ below are approximate, hex is canonical.
 | VI   | Mercury |   ☿   | Vigenère wheel → opens Thorne's safe                  | 🟪 `#c084fc` · quicksilver | L5 + master dump              |
 | VII  | Moon    |   ☾   | The Name — terminal `invoke <name>`                   | ⬜ `#e2e8f0` · moon silver | the finale (carrier 0.000 Hz) |
 
-**Answers are deliberately absent from this README, from `docs/`, and from app-readable text.** Validation
-is SHA-256 over normalised input (`npm run puzzle:digest -- -n alnum-upper "…"` regenerates a digest).
-Plaintext answers exist in exactly one place: `src/tests/seal-fixtures.ts`, test-only.
+**Answers are stored as SHA-256 digests**, not as text: `npm run puzzle:digest -- -n alnum-upper "…"`
+regenerates one, and nothing in `definitions.ts` is greppable for an answer. They are _not_ absent from
+the bundle, and this README does not claim otherwise — the assisted route requires plaintext tier-3
+hints, and success/journal text names what was solved. The full list of where answers may and may not
+live is [`docs/REVELATION.md`](docs/REVELATION.md) §6; the only place they are collected for testing is
+`src/tests/seal-fixtures.ts`, which is test-only and never bundled.
 
 ### Everything else on the track
 
@@ -225,16 +240,18 @@ autoplays. A persistent player bar carries playback; sound can be muted globally
 
 ### Build & performance (measured, `npm run build`, ~5 s)
 
-| Chunk          | Role                                            |            Raw |        Gzip |
-| -------------- | ----------------------------------------------- | -------------: | ----------: |
-| `react`        | react-dom + router                              |       315.7 kB |    100.7 kB |
-| `content`      | the entire 412-record corpus                    |       331.7 kB |    105.0 kB |
-| `index`        | app code                                        |       232.2 kB |     69.4 kB |
-| CSS            | tokens + archive + boot + occult                |       128.2 kB |     26.0 kB |
-| `icons`        | lucide subset                                   |        20.1 kB |      6.7 kB |
-| 24 more chunks | 19 lazy page chunks + 5 split shared components | 0.2–37 kB each | 0.2–11.6 kB |
+| Chunk          | Role                                            |              Raw |        Gzip |
+| -------------- | ----------------------------------------------- | ---------------: | ----------: |
+| `content`      | the entire 412-record corpus                    |         377.7 kB |    127.1 kB |
+| `react`        | react-dom + router                              |         315.7 kB |    100.7 kB |
+| `index`        | app code                                        |         237.8 kB |     70.9 kB |
+| CSS            | tokens + archive + boot + occult                |         132.5 kB |     27.0 kB |
+| `icons`        | lucide subset                                   |          20.5 kB |      6.8 kB |
+| 24 more chunks | 19 lazy page chunks + 5 split shared components | 0.2–37.6 kB each | 0.2–11.7 kB |
 
-~308 kB gzipped of JS+CSS on first visit, _including the whole story_. Hashed bundles emit to `/static/*`
+~333 kB gzipped of JS+CSS on first visit (`react`, `content` and `icons` are `modulepreload`ed),
+_including the whole story_. These are read from `npm run build` output and will move; re-measure before
+quoting them. Hashed bundles emit to `/static/*`
 and are served `max-age=31536000, immutable`; the corpus chunk is intentionally one large cacheable object
 (`chunkSizeWarningLimit: 700` with the reason in a comment, not silenced). Fonts are self-hosted
 `@fontsource` subsets with `font-display: swap`. Total `dist/`: 66 files, 2.4 MB on disk.
@@ -250,13 +267,15 @@ out of reach by construction — and there are none to keep).
 
 ### Testing
 
-85 tests across 8 files, all `console.error`-hostile (the route suite fails if rendering logs one):
-`content-integrity` (ids, cross-refs, redaction pairing, clue targets), `progression` (reducer: ordering,
-clearance derivation, assisted upgrades, save migration/quota fallback), `puzzle-validation` (normalisation,
-revoked codes, requirement gating), `search` (AND semantics + the two client-safety rules), `routes` (every
-nav path renders, legacy redirects preserve query strings, `?doc=`/`?record=` deep links record
-discovery), `modal-boot` (focus trap, Escape, focus restore), `puzzles-ui`, and a test that the digest
-script matches `lib/puzzles/validate.ts` byte-for-byte semantics.
+101 tests across 10 files, all `console.error`-hostile (the route suite fails if rendering logs one):
+`content-integrity` (ids, cross-refs, redaction pairing, clue targets), `canon` (chronology coherence,
+spine evidence, seal order and Seal-Word initials, Choir coverage, degree alignment, entity naming),
+`progression` (reducer: ordering, clearance derivation, assisted upgrades, save migration/quota
+fallback), `puzzle-validation` (normalisation, revoked codes, requirement gating), `search` (AND
+semantics + the two client-safety rules), `routes` (every nav path renders, legacy redirects preserve
+query strings, `?doc=`/`?record=` deep links record discovery), `modal-boot` (focus trap, Escape, focus
+restore), `mobile-ux`, `puzzles-ui`, and a test that the digest script matches
+`lib/puzzles/validate.ts` byte-for-byte semantics.
 
 ### Accessibility (a product requirement, not a coat of paint)
 
@@ -295,23 +314,45 @@ ships ready-made config for **Vercel** (`vercel.json`), **Netlify/Cloudflare Pag
 `public/_redirects` — keep the redirect tables in all three places in sync; a routes test covers the
 in-app half), and `npm run preview` serves the exact production output locally. `public/assets/**`
 directories are intentionally empty: media is optional garnish on a procedurally-synthesised, text-first
-corpus (drop files in, set `src` on an `AudioArtifact`, and see the media-hosting notes referenced by
-`docs/ARCHITECTURE.md`). Build-time flags: `VITE_FEATURE_BOOT_SEQUENCE`, `VITE_FEATURE_PERSIST_PROGRESS`,
+corpus (drop files in, set `src` on an `AudioArtifact`, and see
+[`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) §7). Build-time flags: `VITE_FEATURE_BOOT_SEQUENCE`, `VITE_FEATURE_PERSIST_PROGRESS`,
 `VITE_FEATURE_ASSISTED_BYPASS`, `VITE_FEATURE_UI_SOUNDS` (all default on). `GPC_SOURCE_TAGS=1` opts into a
 gitignored, machine-local Vite plugin that tags JSX with `file:line` for element pickers; production builds
 never require it.
 
 ## Documentation map
 
-| Document                | Covers                                                         |
-| ----------------------- | -------------------------------------------------------------- |
-| `docs/ARCHITECTURE.md`  | repo map, layering rules, runtime flow, state, search, build   |
-| `docs/CONTENT_MODEL.md` | types, collections, normaliser, redaction syntax, authoring    |
-| `docs/PUZZLE_SYSTEM.md` | puzzle model, validation, hints/assisted, rewards, persistence |
-| `docs/DESIGN_SYSTEM.md` | tokens, components, a11y, responsive behaviour                 |
+Start at [`docs/README.md`](docs/README.md), which holds the map and the reading orders.
 
-Two files referenced inside those docs — `DEPLOYMENT.md` and `CONTENT_STYLE_GUIDE.md` — are not yet
-committed. The README documents what _is_ true; the gap is tracked below rather than papered over.
+**Narrative architecture** — what is true, and how it stays true
+
+| Document                                                     | Covers                                                                                                |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| [`docs/CANON.md`](docs/CANON.md)                             | the story bible: cosmology, institutions, people, places, programmes, terminology, order of authority |
+| [`docs/CHRONOLOGY.md`](docs/CHRONOLOGY.md)                   | three chronologies, the nine spine events, the intervals between them, eras, authored gaps            |
+| [`docs/CONTINUITY.md`](docs/CONTINUITY.md)                   | 27 named invariants and what enforces each, the authored gaps, the drift log                          |
+| [`docs/REVELATION.md`](docs/REVELATION.md)                   | knowledge states, the five gates, clue readability, spoiler containment                               |
+| [`docs/CLUE_LEDGER.md`](docs/CLUE_LEDGER.md)                 | clue → payoff traceability and the change-impact table                                                |
+| [`docs/CONTENT_STYLE_GUIDE.md`](docs/CONTENT_STYLE_GUIDE.md) | the five registers, numbers, dates, codes, redactions, prohibited content                             |
+
+**Engineering** — how it is built
+
+| Document                                         | Covers                                                         |
+| ------------------------------------------------ | -------------------------------------------------------------- |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)   | repo map, layering rules, runtime flow, state, search, build   |
+| [`docs/CONTENT_MODEL.md`](docs/CONTENT_MODEL.md) | types, collections, normaliser, redaction syntax, authoring    |
+| [`docs/PUZZLE_SYSTEM.md`](docs/PUZZLE_SYSTEM.md) | puzzle model, validation, hints/assisted, rewards, persistence |
+| [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) | tokens, components, a11y, responsive behaviour                 |
+| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)       | hosts, redirects, headers, caching, environment flags, media   |
+
+**Process** — [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) (the contract, the loop, §5 for AI agents)
+and [`AGENTS.md`](AGENTS.md) at the repo root.
+
+**Generated** — `docs/generated/` is derived from the source by `npm run archive:report` and verified by
+`npm run archive:report:check`: [`CORPUS.md`](docs/generated/CORPUS.md) (the authoritative counts),
+[`CHRONOLOGY.md`](docs/generated/CHRONOLOGY.md), [`CLUE_LEDGER.md`](docs/generated/CLUE_LEDGER.md),
+[`KNOWLEDGE_MATRIX.md`](docs/generated/KNOWLEDGE_MATRIX.md) and
+[`CANON_LEDGER.json`](docs/generated/CANON_LEDGER.json). Never hand-edit them.
 
 ## Known limitations (stated, not buried)
 
@@ -325,7 +366,10 @@ committed. The README documents what _is_ true; the gap is tracked below rather 
 - **No `LICENSE` file exists yet**, so none is granted: all code and narrative content is © Zazie
   Productions, all rights reserved. Adopting explicit (and likely separate) licenses for code vs. content
   is an open item.
-- The two missing docs named above, and media assets generally.
+- **Media assets are still absent.** `public/assets/**` is empty by design (audio is synthesised, the
+  corpus is text), and every artifact ships a transcript, so nothing is blocked — but a hosted recording
+  would be strictly better than a synthesis preset for `audio-01`. See
+  [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) §7.
 
 ## FAQ
 

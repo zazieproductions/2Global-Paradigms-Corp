@@ -41,14 +41,18 @@ half of [`../REVELATION.md`](../REVELATION.md); the reasoning is there, the numb
 
 ## Records released per seal
 
-| After breaking | Newly readable records | Cumulative readable |
+| Stage | Newly readable records | Cumulative readable |
 | --- | ---: | ---: |
-| Connection (no seal) | 66 | 66 |
-| Seal I — The Square of Lead | 44 | 110 |
-| Seal II — The Wheel of Days | 82 | 192 |
-| Seal IV — The Three Voices | 100 | 292 |
-| Seal VI — The Mercury Wheel | 63 | 355 |
-| _ungated kinds_ | 57 | 412 |
+| Connection (no seal) — Level 1 + the ungated kinds | 66 + 57 | 123 |
+| Seal I — The Square of Lead (Level 2) | 44 | 167 |
+| Seal II — The Wheel of Days (Level 3) | 82 | 249 |
+| Seal IV — The Three Voices (Level 4) | 100 | 349 |
+| Seal VI — The Mercury Wheel (Level 5) | 63 | 412 |
+
+The ungated kinds — stations, departments, products, job postings, dead links, newsletters, training
+modules and restoration logs — carry no classification at all and are readable on arrival. The
+public surface of the company is genuinely public; that is what makes the rest read as concealment
+rather than as an absence of content.
 
 ## Order material
 

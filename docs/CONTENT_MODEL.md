@@ -15,6 +15,11 @@ re-exported from `@/types`.
    `npm run validate:content`).
 5. **Dates are ISO `YYYY-MM-DD`** (or a bare year where only that is known).
 6. **Editorial notes stay out of the fiction.** `editorialNote` is never rendered or exported.
+7. **Load-bearing facts are declared, not repeated.** A date, name, code or frequency that two or more
+   records depend on belongs in `src/lib/archive/canon.ts`, where `validateCanon()` proves it against the
+   collections. Prose points at it. See [CANON.md](CANON.md) and [CONTINUITY.md](CONTINUITY.md).
+8. **Prose follows a register.** Five of them, one per kind of record. See
+   [CONTENT_STYLE_GUIDE.md](CONTENT_STYLE_GUIDE.md).
 
 ## Shared metadata
 
@@ -166,7 +171,7 @@ barrel and deep-link via `?record=<id>`.
 Every `AudioArtifact` **must** have a non-empty `transcript` (the text-first fallback; the validator
 errors without one) and should have an `audioDescription` (what it sounds like, for non-listeners). Audio
 is synthesised from `synthesisPreset`, so no media file is needed. If you add a recording, put it in
-`public/assets/audio/`, set `src`, and see [DEPLOYMENT.md](DEPLOYMENT.md#media-hosting). Nothing may
+`public/assets/audio/`, set `src`, and see [DEPLOYMENT.md](DEPLOYMENT.md#7-media-hosting). Nothing may
 autoplay.
 
 ### A new collection
@@ -175,3 +180,11 @@ autoplay.
 2. Create `src/content/<area>/<name>.ts` and export it from `src/content/index.ts`.
 3. Map it in `buildEntries()` in `lib/archive/records.ts` (route, summary, body, format, mediaType).
 4. Add referential checks to `lib/archive/validate-content.ts` if it references other collections.
+5. Add a row to `COLLECTIONS` in `scripts/archive-report.mjs` so the collection appears in
+   [`generated/CORPUS.md`](generated/CORPUS.md), then run `npm run archive:report`.
+
+---
+
+**Related:** [CANON.md](CANON.md) — what the records are allowed to say ·
+[CONTENT_STYLE_GUIDE.md](CONTENT_STYLE_GUIDE.md) — how they say it ·
+[CONTINUITY.md](CONTINUITY.md) — how it is kept true · [REVELATION.md](REVELATION.md) — who may read it

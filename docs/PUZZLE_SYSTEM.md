@@ -7,6 +7,12 @@ The archive has two puzzle tracks built on one engine:
 - **Gateway Transmission** (header ▸ TRANSMISSION) is a four-step guided beginner trail. It deliberately
   grants no clearance.
 
+Two companion documents carry the parts this one does not:
+[CLUE_LEDGER.md](CLUE_LEDGER.md) for clue → payoff traceability and change impact, and
+[REVELATION.md](REVELATION.md) for what a player is allowed to know at each stage and where answers may
+legitimately live. The exhaustive clue/hint/reward tables are generated:
+[`generated/CLUE_LEDGER.md`](generated/CLUE_LEDGER.md).
+
 Logic is kept separate from presentation:
 
 | Concern                                           | Where                                                                      |
@@ -210,4 +216,7 @@ fiction.
    `ArchiveUiContext`.
 5. **Tests.** Add the plaintext answer to a test fixture (never to app code) and cover:
    validation, requirements, rewards, hint → assisted, and the UI path.
-6. Run `npm run check`. The content validator also verifies digests, hint tiers and clue targets.
+6. Run `npm run check`. The content validator verifies digests, hint tiers and clue targets; the canon
+   validator (`npm run validate:canon`) verifies seal order, Seal-Word initials, fragment coverage and
+   gateway gating; and `npm run archive:report` refreshes the ledger — read `git diff docs/generated`
+   before committing, because that diff is the change-impact report.

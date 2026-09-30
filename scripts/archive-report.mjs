@@ -416,20 +416,25 @@ function knowledgeMatrixDoc() {
   out.push('');
 
   out.push('## Records released per seal\n');
-  out.push('| After breaking | Newly readable records | Cumulative readable |');
+  out.push('| Stage | Newly readable records | Cumulative readable |');
   out.push('| --- | ---: | ---: |');
-  let cumulative = 0;
-  const ladder = [1, 2, 3, 4, 5];
-  for (let i = 0; i < ladder.length; i++) {
-    const rank = ladder[i];
+  const ungated = entries.filter((e) => e.classification === null).length;
+  const l1 = entries.filter((e) => tier(e.classification) === 1).length;
+  out.push(`| Connection (no seal) — Level 1 + the ungated kinds | ${l1} + ${ungated} | ${l1 + ungated} |`);
+  let cumulative = l1 + ungated;
+  for (const rank of [2, 3, 4, 5]) {
     const n = entries.filter((e) => tier(e.classification) === rank).length;
     cumulative += n;
     const seal = seals.SEALS.find((s) => s.rewardLevel === rank);
-    const label = rank === 1 ? 'Connection (no seal)' : `Seal ${seal.numeral} — ${seal.title}`;
-    out.push(`| ${label} | ${n} | ${cumulative} |`);
+    out.push(`| Seal ${seal.numeral} — ${seal.title} (Level ${rank}) | ${n} | ${cumulative} |`);
   }
-  const ungated = entries.filter((e) => e.classification === null).length;
-  out.push(`| _ungated kinds_ | ${ungated} | ${cumulative + ungated} |`);
+  out.push('');
+  out.push(
+    'The ungated kinds — stations, departments, products, job postings, dead links, newsletters, training\n' +
+      'modules and restoration logs — carry no classification at all and are readable on arrival. The\n' +
+      "public surface of the company is genuinely public; that is what makes the rest read as concealment\n" +
+      'rather than as an absence of content.'
+  );
   out.push('');
 
   out.push('## Order material\n');
