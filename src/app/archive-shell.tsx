@@ -10,6 +10,7 @@ import { NAV_ITEMS, tabForPath } from '@/config/navigation';
 import { SITE } from '@/config/site';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { useProgression } from '@/hooks/use-progression';
+import { useDirectiveWatcher, useDirectives } from '@/hooks/use-directives';
 import { notify, useDescrambler } from '@/hooks/use-investigation';
 import { TopHeader } from '@/components/layout/top-header';
 import { Sidebar } from '@/components/layout/sidebar';
@@ -57,6 +58,9 @@ export function ArchiveShell() {
   const progression = useProgression();
   const { state, discover, setCallsign, markPrologueSeen, completeFinale } = progression;
   const { unredacted, toggle: toggleDescrambler } = useDescrambler();
+  const { visitSection } = useDirectives();
+  // Field directives: announcements come from one watcher, mounted here.
+  useDirectiveWatcher();
   const solvedSeals = Object.keys(state.completed).filter((id) => id.startsWith('seal-')).length;
   const goToSanctum = () => {
     closeDialog();
@@ -90,6 +94,12 @@ export function ArchiveShell() {
   useEffect(() => {
     if (openDocId) discover(openDocId);
   }, [openDocId, discover]);
+
+  // Record the section the operator is standing in (a directive may wait there).
+  useEffect(() => {
+    const tab = tabForPath(pathname);
+    if (tab) visitSection(tab);
+  }, [pathname, visitSection]);
 
   // Title + focus management on navigation.
   useEffect(() => {

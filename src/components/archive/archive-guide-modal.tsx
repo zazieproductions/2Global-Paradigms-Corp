@@ -102,6 +102,12 @@ export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: 
               Stuck? Every seal has 3 escalating hints (the last one gives the answer) and an assisted route.
               No penalty.
             </li>
+            <li>
+              <span className="text-white font-bold">Field Directives</span> run alongside the seals: a
+              numbered set of instructions on the case file whose steps tick themselves (open a record, run a
+              sweep, lift the bars, take the dump). Every one pays{' '}
+              <span className="text-cyan-300">FIELD INTEL</span> — the paragraph that makes the mystery fit.
+            </li>
             <li>Progress saves automatically in this browser only. You can purge it below.</li>
           </ol>
           {onOpenSanctum && (
@@ -123,8 +129,9 @@ export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: 
           </p>
           <p>
             • <span className="text-white font-bold">Terminal</span> <Kbd>~</Kbd> — <Code>help</Code>,{' '}
-            <Code>cat</Code>, <Code>seals</Code>, <Code>gematria</Code>, <Code>invoke</Code>,{' '}
-            <Code>hint</Code>… and some commands it won&apos;t list.
+            <Code>cat</Code>, <Code>scan</Code>, <Code>directives</Code>, <Code>intel</Code>,{' '}
+            <Code>seals</Code>, <Code>gematria</Code>, <Code>invoke</Code>, <Code>hint</Code>… and some
+            commands it won&apos;t list.
           </p>
           <p>
             • <span className="text-white font-bold">Redaction De-Scrambler</span> <Kbd>U</Kbd> — lifts

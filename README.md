@@ -70,15 +70,15 @@ static files: `grep -rE "fetch\(|XMLHttpRequest|sendBeacon" src/` returns zero h
 This README deliberately contains no unverifiable adjectives. Every count below was measured against this
 checkout on 2026-09-26; regenerate any of them with the listed command.
 
-| Claim                                                                                                                        | Verify with                                    |
-| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`) | `npm run typecheck`                            |
-| ESLint (flat config) and Prettier are clean                                                                                  | `npm run lint && npm run format:check`         |
-| **85 tests in 8 files** pass (reducer, validation, search, routes, a11y, boot, digest script, content integrity)             | `npm test`                                     |
-| 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                              | `npm run validate:content`                     |
-| Every redaction has a de-scrambled counterpart                                                                               | part of the suite above (`content-integrity`)  |
-| No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                 | the greps shown in “Quick start”               |
-| Initial JS+CSS transfer ≈ **308 kB gzipped** incl. the entire corpus                                                         | `npm run build` and read the chunk table below |
+| Claim                                                                                                                                 | Verify with                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`)          | `npm run typecheck`                            |
+| ESLint (flat config) and Prettier are clean                                                                                           | `npm run lint && npm run format:check`         |
+| **127 tests in 10 files** pass (reducer, directives ledger, validation, search, routes, a11y, boot, digest script, content integrity) | `npm test`                                     |
+| 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                                       | `npm run validate:content`                     |
+| Every redaction has a de-scrambled counterpart                                                                                        | part of the suite above (`content-integrity`)  |
+| No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                          | the greps shown in “Quick start”               |
+| Initial JS+CSS transfer ≈ **344 kB gzipped** incl. the entire corpus                                                                  | `npm run build` and read the chunk table below |
 
 ---
 
@@ -110,8 +110,9 @@ the counts below are **derived from the collections themselves**, so they cannot
 
 ## The investigation
 
-Two puzzle tracks share one engine. Logic is pure and framework-free (`src/lib/puzzles/**`); widgets only
-render results. Components never compare answers themselves.
+Two puzzle tracks share one engine, and one **field run** is laid over both. Logic is pure and
+framework-free (`src/lib/puzzles/**`); widgets only render results. Components never compare answers
+themselves.
 
 ### Clearance — earned, never chosen
 
@@ -139,6 +140,22 @@ below are approximate, hex is canonical.
 is SHA-256 over normalised input (`npm run puzzle:digest -- -n alnum-upper "…"` regenerates a digest).
 Plaintext answers exist in exactly one place: `src/tests/seal-fixtures.ts`, test-only.
 
+### FIELD DIRECTIVES (`/sanctum`) — the story layer
+
+Fourteen numbered instructions in Thorne's hand, grouped into five chapters, sit across the whole
+investigation: open the commissioning log, walk the timeline, run `scan`, collect three fragments, lift
+the bars, break each seal, turn the safe, take the dump, speak the Name. Opening a record, visiting a
+section, collecting a fragment, breaking a seal, running `scan`, engaging the de-scrambler, playing an
+artifact, opening the safe and downloading the dump are **observable events**, recorded in a validated
+`milestones` ledger — the reducer runs a completion watcher after every action, so a step completes itself
+and the player keeps no notes.
+
+Every directive pays **FIELD INTEL**: new lore paragraphs that stitch the mystery together (the 15.000
+Completion and the date it arrives, the 211 pulls on the seized Swiss mirror, what is really sitting in
+the Seventh Chamber), plus a journal line, a revelation toast and a chapter-complete announcement. A
+directive never grants clearance — only the seals do. The run is on the case file (`/sanctum`), echoed on
+the dashboard banner, and readable in the terminal: `directives`, `intel <n>`.
+
 ### Everything else on the track
 
 - **Gateway Transmission** — a four-step guided beginner trail (sequence → signal → waveform →
@@ -149,8 +166,9 @@ Plaintext answers exist in exactly one place: `src/tests/seal-fixtures.ts`, test
 - **Hints are tiered and no-shame:** `ASK THORNE → ASK AGAIN → TELL ME`. Tier 3 hands over the answer, the
   completion is marked **ASSISTED**, every reward is still granted, and a later unassisted replay upgrades
   the record — an assisted replay never downgrades an unassisted one.
-- **Terminal (`~`)** — 21 documented commands (`whoami`, `cat <doc-code>`, `scan`, `gematria`, `codex`,
-  `invoke`…), plus a few undocumented aliases that exist only to react in-fiction to the wrong moves.
+- **Terminal (`~`)** — 24 documented commands (`whoami`, `cat <doc-code>`, `scan`, `directives`, `intel`,
+  `gematria`, `codex`, `invoke`…), plus a few undocumented aliases that exist only to react in-fiction to
+  the wrong moves.
   Seven legacy “executive override” codes are recognised **solely so they can be refused**.
 - **Persistence** — `localStorage["gpc.progression.v1"]`, validated on load: unknown ids, malformed
   entries, and stored clearance above earned clearance are dropped; a pre-restructure save key is migrated
@@ -223,7 +241,7 @@ There are no audio files. All six artifacts are synthesised on demand with the W
 `synthesisPreset` data; the `AudioContext` is created lazily on first user gesture and nothing — _nothing_ —
 autoplays. A persistent player bar carries playback; sound can be muted globally; transcripts always exist.
 
-### Build & performance (measured, `npm run build`, ~5 s)
+### Build & performance (measured, `npm run build`, ~4 s)
 
 | Chunk          | Role                                            |            Raw |        Gzip |
 | -------------- | ----------------------------------------------- | -------------: | ----------: |
@@ -234,10 +252,10 @@ autoplays. A persistent player bar carries playback; sound can be muted globally
 | `icons`        | lucide subset                                   |        20.1 kB |      6.7 kB |
 | 24 more chunks | 19 lazy page chunks + 5 split shared components | 0.2–37 kB each | 0.2–11.6 kB |
 
-~308 kB gzipped of JS+CSS on first visit, _including the whole story_. Hashed bundles emit to `/static/*`
+~344 kB gzipped of JS+CSS on first visit, _including the whole story_. Hashed bundles emit to `/static/*`
 and are served `max-age=31536000, immutable`; the corpus chunk is intentionally one large cacheable object
 (`chunkSizeWarningLimit: 700` with the reason in a comment, not silenced). Fonts are self-hosted
-`@fontsource` subsets with `font-display: swap`. Total `dist/`: 66 files, 2.4 MB on disk.
+`@fontsource` subsets with `font-display: swap`. Total `dist/`: 66 files, 2.5 MB on disk.
 
 ### HTTP posture
 
@@ -250,13 +268,15 @@ out of reach by construction — and there are none to keep).
 
 ### Testing
 
-85 tests across 8 files, all `console.error`-hostile (the route suite fails if rendering logs one):
-`content-integrity` (ids, cross-refs, redaction pairing, clue targets), `progression` (reducer: ordering,
-clearance derivation, assisted upgrades, save migration/quota fallback), `puzzle-validation` (normalisation,
-revoked codes, requirement gating), `search` (AND semantics + the two client-safety rules), `routes` (every
-nav path renders, legacy redirects preserve query strings, `?doc=`/`?record=` deep links record
-discovery), `modal-boot` (focus trap, Escape, focus restore), `puzzles-ui`, and a test that the digest
-script matches `lib/puzzles/validate.ts` byte-for-byte semantics.
+127 tests across 10 files, all `console.error`-hostile (the route suite fails if rendering logs one):
+`content-integrity` (ids, cross-refs, redaction pairing, clue targets, the whole directive catalogue),
+`progression` (reducer: ordering, clearance derivation, assisted upgrades, save migration/quota fallback),
+`directives` (ledger validation, self-closing steps, chapter announcements, v2→v3 self-healing, purge
+semantics), `puzzle-validation` (normalisation, revoked codes, requirement gating), `search` (AND
+semantics + the two client-safety rules), `routes` (every nav path renders, legacy redirects preserve
+query strings, `?doc=`/`?record=` deep links record discovery), `modal-boot` (focus trap, Escape, focus
+restore), `puzzles-ui` (safe, terminal, clearance, board + toasts), and a test that the digest script
+matches `lib/puzzles/validate.ts` byte-for-byte semantics.
 
 ### Accessibility (a product requirement, not a coat of paint)
 

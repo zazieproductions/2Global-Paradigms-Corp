@@ -2,7 +2,8 @@
  * Progression store — the single source of truth for player state:
  * discovered files, completed / assisted puzzles, revealed hints, unlocked
  * routes & downloads, chosen clearance, de-scrambler, preferences, callsign,
- * and THE SEVEN SEALS case file (fragments, prologue, finale, journal).
+ * THE SEVEN SEALS case file (fragments, prologue, finale, journal) and the
+ * FIELD DIRECTIVES case file (validated milestone ledger, intel, chapters).
  *
  * Framework-agnostic (a tiny external store). React reads it through
  * `useProgression()` / `useInvestigation()` (src/hooks).
@@ -18,6 +19,7 @@ import type {
   CompletionMethod,
   JournalEntry,
   JournalKind,
+  MilestoneEvent,
   Preferences,
   ProgressionState,
   PuzzleDefinition
@@ -28,11 +30,12 @@ import { PUZZLE_SETTINGS } from '@/config/puzzles';
 import { SITE } from '@/config/site';
 import { FRAGMENTS, SEALS, sealPuzzleId } from '@/content/puzzles/seals';
 import { clearanceTier } from '@/lib/archive/clearance';
-import { earnedLevel } from './investigation';
+import { createDirectivesState, observeEvent, parseDirectivesState, syncCase } from './directives';
+import { earnedLevel, isDescramblerUnlocked } from './investigation';
 import { getPuzzle, isPuzzleAvailable } from './validate';
 
 export const createInitialState = (): ProgressionState => ({
-  version: 2,
+  version: 3,
   callsign: SITE.defaultCallsign,
   discovered: {},
   completed: {},
@@ -41,7 +44,8 @@ export const createInitialState = (): ProgressionState => ({
   unlockedDownloads: [],
   access: { clearance: DEFAULT_CLEARANCE, chosenAt: 0, unredacted: false },
   preferences: { crt: false, sound: FEATURES.uiSoundsDefault },
-  investigation: { fragments: [], prologueSeen: false, finaleComplete: false, journal: [] }
+  investigation: { fragments: [], prologueSeen: false, finaleComplete: false, journal: [] },
+  directives: createDirectivesState()
 });
 
 // ---------------------------------------------------------------------------
@@ -57,6 +61,12 @@ export type ProgressionAction =
   | { type: 'set-preference'; key: keyof Preferences; value: boolean }
   | { type: 'set-callsign'; callsign: string }
   | { type: 'collect-fragment'; fragmentId: string; at?: string }
+  /**
+   * An observable step happened (a section visited, `scan` run, an artifact
+   * played, the safe opened, a download taken). Validated against the
+   * milestone catalogue; unknown events are dropped.
+   */
+  | { type: 'observe'; event: MilestoneEvent; at?: string }
   | { type: 'mark-prologue-seen'; at?: string }
   | { type: 'complete-finale'; at?: string }
   | { type: 'journal'; text: string; kind?: JournalKind; at?: string }
@@ -126,7 +136,12 @@ function complete(
   return next;
 }
 
-export function progressionReducer(state: ProgressionState, action: ProgressionAction): ProgressionState {
+/**
+ * The reducer proper. `progressionReducer` wraps it with the Field Directives
+ * completion watcher, so a directive closes on the action that made its last
+ * observable step true — no surface has to remember to file anything.
+ */
+function coreReducer(state: ProgressionState, action: ProgressionAction): ProgressionState {
   switch (action.type) {
     case 'discover':
       if (state.discovered[action.recordId]) return state;
@@ -150,10 +165,18 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
       return { ...state, access: { ...state.access, clearance: action.level, chosenAt: earned } };
     }
 
-    case 'set-unredacted':
-      return state.access.unredacted === action.value
-        ? state
-        : { ...state, access: { ...state.access, unredacted: action.value } };
+    case 'set-unredacted': {
+      if (state.access.unredacted === action.value) return state;
+      const next: ProgressionState = {
+        ...state,
+        access: { ...state.access, unredacted: action.value }
+      };
+      // Switching the de-scrambler ON is an observable step — but only once it
+      // has actually been earned (below Level 3 the toggle is refused in-world).
+      return action.value && isDescramblerUnlocked(next)
+        ? observeEvent(next, { kind: 'descrambler-engaged' })
+        : next;
+    }
 
     case 'set-preference':
       return { ...state, preferences: { ...state.preferences, [action.key]: action.value } };
@@ -175,6 +198,9 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
         action.at
       );
     }
+
+    case 'observe':
+      return observeEvent(state, action.event, action.at);
 
     case 'mark-prologue-seen':
       if (state.investigation.prologueSeen) return state;
@@ -209,7 +235,9 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
           callsign: state.callsign,
           discovered: state.discovered,
           preferences: state.preferences,
-          investigation: { ...fresh.investigation, prologueSeen: true }
+          investigation: { ...fresh.investigation, prologueSeen: true },
+          // FIELD INTEL is knowledge, not clearance: it survives a purge.
+          directives: state.directives
         },
         'Investigation purged. The seals have closed again.',
         'system',
@@ -224,12 +252,23 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
   }
 }
 
+/**
+ * Every action runs through the completion watcher (see lib/puzzles/directives).
+ * It backfills the milestone ledger from durable state, closes directives whose
+ * steps are done, files their FIELD INTEL and announces completed chapters —
+ * idempotently, so a no-op in stays a no-op out.
+ */
+export function progressionReducer(state: ProgressionState, action: ProgressionAction): ProgressionState {
+  const next = coreReducer(state, action);
+  return next === state ? state : syncCase(next);
+}
+
 // ---------------------------------------------------------------------------
 // Persistence (validated, best-effort)
 // ---------------------------------------------------------------------------
 
 const VALID_LEVELS = new Set<string>(CLEARANCE_TIERS.map((t) => t.level));
-const JOURNAL_KINDS = new Set<string>(['seal', 'fragment', 'system', 'finale']);
+const JOURNAL_KINDS = new Set<string>(['seal', 'fragment', 'system', 'finale', 'directive', 'intel']);
 
 const isRecord = (v: unknown): v is Record<string, unknown> =>
   !!v && typeof v === 'object' && !Array.isArray(v);
@@ -264,7 +303,7 @@ export function parseStoredState(raw: string | null): ProgressionState | null {
   } catch {
     return null;
   }
-  if (!isRecord(data) || (data.version !== 1 && data.version !== 2)) return null;
+  if (!isRecord(data) || ![1, 2, 3].includes(data.version as number)) return null;
   const base = createInitialState();
   const access = isRecord(data.access) ? data.access : {};
   const prefs = isRecord(data.preferences) ? data.preferences : {};
@@ -300,7 +339,7 @@ export function parseStoredState(raw: string | null): ProgressionState | null {
   const chosenAt = typeof access.chosenAt === 'number' ? access.chosenAt : 0;
 
   const state: ProgressionState = {
-    version: 2,
+    version: 3,
     callsign: typeof data.callsign === 'string' ? data.callsign.slice(0, 24) : base.callsign,
     discovered: stringMap(data.discovered),
     completed,
@@ -317,13 +356,16 @@ export function parseStoredState(raw: string | null): ProgressionState | null {
       prologueSeen: inv.prologueSeen === true,
       finaleComplete: inv.finaleComplete === true,
       journal: parseJournal(inv.journal)
-    }
+    },
+    // v1/v2 saves have no case file: it is rebuilt from what they did above.
+    directives: parseDirectivesState(data.directives)
   };
   // A stored choice above what the completions justify is not honoured.
   if (clearanceTier(state.access.clearance) > earnedLevel(state)) {
     state.access = { ...state.access, clearance: base.access.clearance, chosenAt: 0 };
   }
-  return state;
+  // Self-healing: file the intel this state already proves (see directives.ts).
+  return syncCase(state);
 }
 
 /**
@@ -365,7 +407,7 @@ export function migrateLegacyInvestigation(raw: string | null): ProgressionState
     finaleComplete: data.finaleComplete === true,
     journal: parseJournal(data.journal)
   };
-  return state;
+  return syncCase(state);
 }
 
 function safeStorage(): Storage | null {

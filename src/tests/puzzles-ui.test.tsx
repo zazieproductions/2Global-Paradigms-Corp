@@ -76,14 +76,14 @@ describe('Whistleblower safe (Seal VI)', () => {
   });
 });
 
-describe('Command terminal', () => {
-  const renderTerminal = (onInvoke = () => {}) =>
-    render(
-      <MemoryRouter>
-        <TerminalModal open onClose={() => {}} onOpenDocument={() => {}} onInvoke={onInvoke} />
-      </MemoryRouter>
-    );
+const renderTerminal = (onInvoke = () => {}) =>
+  render(
+    <MemoryRouter>
+      <TerminalModal open onClose={() => {}} onOpenDocument={() => {}} onInvoke={onInvoke} />
+    </MemoryRouter>
+  );
 
+describe('Command terminal', () => {
   it('runs help and refuses an unearned clearance 5', async () => {
     const user = userEvent.setup();
     renderTerminal();
@@ -135,6 +135,63 @@ describe('Clearance profiler', () => {
     expect(onOpenSanctum).toHaveBeenCalled();
     expect(earnedLevel(state())).toBe(1);
     expect(effectiveClearance(state())).toMatch(/^Level 1/);
+  });
+});
+
+describe('Field directives UI', () => {
+  it('shows the board on the case file, ticks a step and files the intel', async () => {
+    const user = userEvent.setup();
+    renderArchive('/sanctum');
+    await screen.findByRole('heading', { name: 'The Seven Seals', level: 1 });
+
+    // The dead drop closed itself on the first visit; the run is on directive 02.
+    expect(state().directives.completed['dir-01']).toBeTruthy();
+    expect(screen.getByText(/Directive 02 — THE CHANGELOG/)).toBeInTheDocument();
+    expect(screen.getAllByText(/Walk the Historical Timeline/).length).toBeGreaterThan(0);
+    expect(screen.getByText('FIELD INTEL 01')).toBeInTheDocument();
+
+    // The reader walks the timeline: the step completes itself, no bookkeeping.
+    await user.click(screen.getByRole('link', { name: /Historical Timeline/i }));
+    await waitFor(() => expect(state().directives.completed['dir-02']).toBeTruthy());
+    expect(state().directives.intel).toContain('intel-02');
+  });
+
+  it('announces a closed directive and its chapter as revelation toasts', async () => {
+    renderArchive('/sanctum');
+    await screen.findByRole('heading', { name: 'The Seven Seals', level: 1 });
+    act(() => {
+      progressionStore.dispatch({ type: 'observe', event: { kind: 'section-visited', target: 'timeline' } });
+      progressionStore.dispatch({ type: 'observe', event: { kind: 'audio-played', target: 'audio-01' } });
+    });
+    // Directives 02 and 03 close together: chapter I announces itself, once.
+    expect((await screen.findAllByText(/FIELD INTEL 03/)).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/CHAPTER I COMPLETE — THE DEAD DROP/).length).toBeGreaterThan(0);
+    expect(state().directives.chapters['ch-1']).toBeTruthy();
+  });
+
+  it('puts the directive run and the intel filings on the terminal', async () => {
+    const user = userEvent.setup();
+    renderTerminal();
+    const input = screen.getByLabelText(/gpc@terminal/);
+    await user.type(input, 'directives{Enter}');
+    expect(screen.getByRole('log')).toHaveTextContent(/FIELD DIRECTIVES — THORNE'S RUN/);
+    expect(screen.getByRole('log')).toHaveTextContent(/ON YOU NOW/);
+
+    act(() => {
+      progressionStore.dispatch({ type: 'observe', event: { kind: 'section-visited', target: 'timeline' } });
+    });
+    await user.type(input, 'intel{Enter}');
+    expect(screen.getByRole('log')).toHaveTextContent(/FIELD INTEL 02/);
+    await user.type(input, 'intel 1{Enter}');
+    expect(screen.getByRole('log')).toHaveTextContent(/Whoever wrote the dead drop kept a diary/);
+  });
+
+  it('records the scan command as the sweep step', async () => {
+    const user = userEvent.setup();
+    renderTerminal();
+    const input = screen.getByLabelText(/gpc@terminal/);
+    await user.type(input, 'scan{Enter}');
+    expect(state().directives.ledger.map((r) => r.id)).toContain('m-scan');
   });
 });
 

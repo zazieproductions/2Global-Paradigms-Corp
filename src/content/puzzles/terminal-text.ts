@@ -27,6 +27,8 @@ export const TERMINAL_HELP: Array<{ cmd: string; desc: string; order?: boolean }
   { cmd: 'status', desc: 'Field stations & telemetry state' },
   { cmd: 'hint [confirm]', desc: 'Ask Thorne about the active seal' },
   { cmd: 'progress', desc: 'Show investigation progress' },
+  { cmd: 'directives', desc: "Thorne's field directives & the step you are on", order: true },
+  { cmd: 'intel [n]', desc: 'Read the FIELD INTEL you have recovered', order: true },
   { cmd: 'seals', desc: 'Progress of the Seven Seals', order: true },
   { cmd: 'codex', desc: 'Your Choir Script key', order: true },
   { cmd: 'gematria <text>', desc: 'Ordinal letter-sum (A=1…Z=26)', order: true },

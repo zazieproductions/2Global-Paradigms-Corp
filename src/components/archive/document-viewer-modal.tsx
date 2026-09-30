@@ -21,6 +21,7 @@ import { stripRedactions } from '@/lib/archive/redaction';
 import { EARNED_BY, LEVEL_CORRESPONDENCE } from '@/content/puzzles/seals';
 import { useProgression } from '@/hooks/use-progression';
 import { notify, useInvestigation } from '@/hooks/use-investigation';
+import { useDirectives } from '@/hooks/use-directives';
 import { RedactedText } from '@/components/archive/redacted-text';
 import { ChoirGlyph, OrderSigil } from '@/components/ui/sigils';
 import { downloadFile, downloadJson, toTextFilename } from '@/lib/utils/download';
@@ -94,6 +95,7 @@ function DocumentSheet({
   const navigate = useNavigate();
   const { clearance, descramblerUnlocked } = useProgression();
   const { knownLetters } = useInvestigation();
+  const { downloadTaken } = useDirectives();
   const [localUnredact, setLocalUnredact] = useState(false);
   const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle');
 
@@ -120,6 +122,7 @@ function DocumentSheet({
   const handleDownloadTxt = () => {
     if (isSealed) return sealedDeny();
     gpcAudio.playUiSound('print');
+    downloadTaken(document.code);
     downloadFile(
       toTextFilename(document.downloadableFilename || document.code),
       [
@@ -147,6 +150,7 @@ function DocumentSheet({
   const handleDownloadJson = () => {
     if (isSealed) return sealedDeny();
     gpcAudio.playUiSound('print');
+    downloadTaken(document.code);
     // Cleartext only leaves the viewer when the de-scrambler is on.
     const { redactedContent, editorialNote: _note, ...rest } = document;
     void _note;

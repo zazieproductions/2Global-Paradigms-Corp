@@ -171,8 +171,9 @@ describe('persistence', () => {
   });
 
   it('discards malformed or tampered data', () => {
+    // v1, v2 and v3 saves all load; anything else is refused outright.
     expect(parseStoredState('not json')).toBeNull();
-    expect(parseStoredState(JSON.stringify({ version: 3 }))).toBeNull();
+    expect(parseStoredState(JSON.stringify({ version: 4 }))).toBeNull();
     const parsed = parseStoredState(
       JSON.stringify({
         version: 2,

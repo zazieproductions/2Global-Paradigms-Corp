@@ -36,25 +36,26 @@ browser's `localStorage`.
     │   ├── audio/             persistent audio player bar
     │   ├── corporate/         training-module + job-application modals
     │   ├── layout/            top header, sidebar
-    │   ├── puzzles/           boot sequence, terminal, safe, clearance, prologue/finale, case banner…
+    │   ├── puzzles/           boot sequence, terminal, safe, clearance, prologue/finale, case banner,
+    │   │                      directive board (the field run)
     │   │   ├── seals/         the seven seal puzzle widgets
     │   │   └── gateway/       the Gateway Transmission beginner trail
     │   └── ui/                design-system primitives (Modal, Panel, Badge, stamps, sigils, …)
     ├── content/               ALL authored data — no JSX
     │   ├── documents/ personnel/ offices/ projects/ departments/ audio/ communications/
     │   ├── corporate/ history/ restoration/ tools/ web/
-    │   ├── puzzles/           definitions, seals, gateway, downloads, terminal text
+    │   ├── puzzles/           definitions, seals, directives (field run), gateway, downloads, terminal text
     │   └── index.ts           barrel: every collection
     ├── lib/
     │   ├── archive/           record normaliser (records.ts), clearance helpers, redaction, content validator
-    │   ├── puzzles/           progression store, investigation selectors, validation, ciphers
+    │   ├── puzzles/           progression store, investigation, directives (ledger), validation, ciphers
     │   ├── search/            search index + query engine
     │   ├── audio/             Web Audio engine (procedural; no audio files)
     │   └── utils/             cn, sha256, download, text, geometry
-    ├── hooks/                 useProgression, useInvestigation, useArchiveSearch, useRecordParam, …
+    ├── hooks/                 useProgression, useInvestigation, useDirectives, useArchiveSearch, …
     ├── config/                site copy, navigation, clearance tiers, puzzle settings, feature flags
     ├── styles/                tokens.css, base.css, archive.css, boot.css, occult.css (index.css imports all)
-    ├── types/                 records.ts, content.ts, puzzles.ts, search.ts (re-exported from index.ts)
+    ├── types/                 records.ts, content.ts, puzzles.ts, directives.ts, search.ts (from index.ts)
     └── tests/                 Vitest suites + helpers
 ```
 
@@ -102,13 +103,17 @@ main.tsx
 | State                 | Where                                  | Persistence                          |
 | --------------------- | -------------------------------------- | ------------------------------------ |
 | Player progression    | `lib/puzzles/progression.ts` (store)   | `localStorage["gpc.progression.v1"]` |
+| Milestones ledger     | `state.directives` in the same store   | same save (v3+)                      |
 | Open dialog, open doc | `ArchiveUiContext` + URL search params | URL only                             |
 | Audio playback        | `lib/audio/audio-engine.ts` singleton  | none                                 |
 | Transient notices     | `lib/puzzles/revelations.ts`           | none                                 |
 
 The progression store is a tiny framework-agnostic external store (`getState` / `dispatch` /
 `subscribe`) with a pure reducer. React reads it via `useSyncExternalStore` in `useProgression()`;
-`useInvestigation()` layers the Seven Seals selectors on top. See [PUZZLE_SYSTEM.md](PUZZLE_SYSTEM.md).
+`useInvestigation()` layers the Seven Seals selectors on top and `useDirectives()` the FIELD DIRECTIVES
+read model. The reducer itself runs the Field Directives completion watcher (`syncCase()` in
+`lib/puzzles/directives.ts`) after every action, so observable steps close their directive without any
+component filing bookkeeping. See [PUZZLE_SYSTEM.md](PUZZLE_SYSTEM.md).
 
 ## Data flow
 

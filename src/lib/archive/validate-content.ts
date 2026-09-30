@@ -16,6 +16,7 @@ import {
 } from '@/content';
 import { CLEARANCE_TIERS } from '@/config/clearance';
 import type { ArchiveEntry } from '@/types';
+import { validateDirectiveCatalogue } from '@/lib/puzzles/directives';
 import { findEntry, getArchiveEntries, resolveDocument } from './records';
 
 export interface ContentIssue {
@@ -136,6 +137,14 @@ export function validateContent(entries: ArchiveEntry[] = getArchiveEntries()): 
         err(`puzzle:${p.id}`, `requires unknown puzzle ${r.puzzleId}`);
       }
     }
+  }
+
+  // 8. Field directives, their milestone rules and their FIELD INTEL filings.
+  //    Every step must point at something the archive really contains, because
+  //    the ledger will only ever accept a catalogued observation.
+  for (const issue of validateDirectiveCatalogue()) {
+    if (issue.level === 'error') err(issue.where, issue.message);
+    else warn(issue.where, issue.message);
   }
 
   return issues;

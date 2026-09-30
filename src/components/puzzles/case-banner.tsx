@@ -1,13 +1,16 @@
 import { type FC } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { useInvestigation } from '@/hooks/use-investigation';
+import { useDirectives } from '@/hooks/use-directives';
 import { getSeal, SEALS } from '@/content/puzzles/seals';
 import { OrderSigil, PlanetGlyph } from '@/components/ui/sigils';
 
 /** Dashboard banner that keeps the investigation front-and-centre. */
 export const CaseBanner: FC<{ onOpen: () => void }> = ({ onOpen }) => {
   const arg = useInvestigation();
+  const dir = useDirectives();
   const cur = arg.currentSeal ? getSeal(arg.currentSeal) : null;
+  const step = dir.current?.milestones.find((m) => !m.done);
   return (
     <button
       type="button"
@@ -36,11 +39,26 @@ export const CaseBanner: FC<{ onOpen: () => void }> = ({ onOpen }) => {
                   Seal {cur.numeral}: {cur.title}
                 </p>
                 <p className="text-[11px] text-slate-400 max-w-2xl">{cur.objective}</p>
+                {dir.current && (
+                  <p className="text-[11px] text-cyan-300/90 max-w-2xl mt-1">
+                    FIELD DIRECTIVE {dir.current.def.numeral} — {dir.current.def.codename}{' '}
+                    <span className="text-slate-500 tabular-nums">
+                      ({dir.current.milestones.filter((m) => m.done).length}/{dir.current.milestones.length})
+                    </span>
+                    {step && <span className="text-slate-400"> · next: {step.def.label}</span>}
+                  </p>
+                )}
               </>
             ) : (
-              <p className="font-occult text-lg text-slate-100">
-                SILENTIUM — the Choir is silent. The archive remains open.
-              </p>
+              <>
+                <p className="font-occult text-lg text-slate-100">
+                  SILENTIUM — the Choir is silent. The archive remains open.
+                </p>
+                <p className="text-[11px] text-cyan-300/90">
+                  FIELD DIRECTIVES {dir.completedDirectives}/{dir.totalDirectives} cleared · FIELD INTEL{' '}
+                  {dir.intel.length} filed
+                </p>
+              </>
             )}
           </div>
         </div>

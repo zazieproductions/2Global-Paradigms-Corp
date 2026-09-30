@@ -30,6 +30,7 @@ import { clearanceForTier, clearanceTier, shortClearance } from '@/lib/archive/c
 import { ordinalGematria, vigenereDecrypt } from '@/lib/puzzles/cipher';
 import { useProgression } from '@/hooks/use-progression';
 import { useInvestigation } from '@/hooks/use-investigation';
+import { useDirectives } from '@/hooks/use-directives';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { Modal } from '@/components/ui/modal';
 import { ChoirGlyph } from '@/components/ui/sigils';
@@ -111,6 +112,7 @@ export function TerminalModal({ open, ...rest }: TerminalModalProps) {
 function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps, 'open'>) {
   const progression = useProgression();
   const investigation = useInvestigation();
+  const directives = useDirectives();
   const { state, setClearance, setUnredacted } = progression;
   const { clearance, unredacted, earnedLevel, descramblerUnlocked } = progression;
   const reducedMotion = useReducedMotion();
@@ -299,6 +301,102 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
         );
       }
 
+      case 'directives': {
+        const board = directives;
+        return print(
+          trimmed,
+          <div className="space-y-1 text-label">
+            <p className="text-cyan-400 font-bold">
+              === FIELD DIRECTIVES — THORNE'S RUN ({board.completedDirectives}/{board.totalDirectives}) ===
+            </p>
+            {board.chapters.map((chapter) => (
+              <div key={chapter.def.id} className="pt-1">
+                <p style={{ color: chapter.def.accent }}>
+                  CHAPTER {chapter.def.numeral} — {chapter.def.title}
+                  {chapter.complete ? ' ✓ COMPLETE' : ` (${chapter.done}/${chapter.total})`}
+                </p>
+                {chapter.directives.map((d) => (
+                  <p
+                    key={d.def.id}
+                    className={cn(
+                      'pl-2 whitespace-pre-wrap',
+                      d.complete ? 'text-slate-400' : 'text-amber-300'
+                    )}
+                  >
+                    {d.def.numeral} {d.def.codename.padEnd(24, ' ')}{' '}
+                    {d.complete
+                      ? `CLEARED · ${d.intel?.code ?? 'INTEL FILED'}`
+                      : d.milestones.map((m) => `${m.done ? '✓' : '·'} ${m.def.label}`).join(' // ')}
+                  </p>
+                ))}
+              </div>
+            ))}
+            {board.current && (
+              <p className="text-slate-300 pt-1">
+                ON YOU NOW: <span className="text-cyan-300">{board.current.def.brief}</span>
+              </p>
+            )}
+          </div>
+        );
+      }
+
+      case 'intel': {
+        const filed = directives.intel;
+        if (!filed.length) {
+          return print(
+            trimmed,
+            <p className="text-slate-500">
+              No FIELD INTEL on file. Close a field directive (type{' '}
+              <span className="text-cyan-300">directives</span>) and the archive files the paragraph.
+            </p>
+          );
+        }
+        const which = arg.trim();
+        const index = Number.parseInt(which, 10);
+        const chosen = which
+          ? (filed.find((f) => f.id === which || f.code.toLowerCase().includes(which.toLowerCase())) ??
+            (Number.isFinite(index) ? filed[index - 1] : undefined))
+          : undefined;
+        if (which && !chosen) {
+          return print(
+            trimmed,
+            <p className="text-rose-400">No such filing. Recovered: {filed.map((f) => f.code).join(', ')}</p>
+          );
+        }
+        if (chosen) {
+          return print(
+            trimmed,
+            <div className="space-y-1.5 text-label max-w-3xl">
+              <p className="text-cyan-300 font-bold">
+                {chosen.code} // {chosen.title.toUpperCase()}
+              </p>
+              {chosen.paragraphs.map((p, i) => (
+                <p key={i} className="text-slate-300 whitespace-pre-wrap">
+                  {p}
+                </p>
+              ))}
+              {chosen.source && <p className="text-slate-500 text-caption">SOURCE: {chosen.source}</p>}
+            </div>
+          );
+        }
+        return print(
+          trimmed,
+          <div className="space-y-1 text-label">
+            <p className="text-cyan-400 font-bold">
+              === FIELD INTEL ON FILE ({filed.length}/{directives.totalDirectives}) ===
+            </p>
+            {filed.map((f, i) => (
+              <p key={f.id} className="text-slate-300">
+                <span className="text-cyan-300">{String(i + 1).padStart(2, '0')}</span> {f.code} — {f.title}
+              </p>
+            ))}
+            <p className="text-slate-500 text-caption">
+              Read one with: <span className="text-cyan-300">intel &lt;n&gt;</span>
+            </p>
+          </div>
+        );
+      }
+
       case 'progress':
         return print(
           trimmed,
@@ -342,6 +440,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
 
       case 'scan':
         gpcAudio.playUiSound('scan');
+        directives.scanRun();
         return print(trimmed, <Lines lines={TERMINAL_SCAN} />);
 
       case 'play': {
@@ -354,6 +453,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
           );
         }
         const started = gpcAudio.playArtifact(artifact.synthesisPreset, artifact.id);
+        if (started) directives.audioPlayed(artifact.id);
         return print(
           trimmed,
           started ? (
