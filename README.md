@@ -250,13 +250,14 @@ out of reach by construction — and there are none to keep).
 
 ### Testing
 
-85 tests across 8 files, all `console.error`-hostile (the route suite fails if rendering logs one):
+105 tests across 11 files, all `console.error`-hostile (the route suite fails if rendering logs one):
 `content-integrity` (ids, cross-refs, redaction pairing, clue targets), `progression` (reducer: ordering,
 clearance derivation, assisted upgrades, save migration/quota fallback), `puzzle-validation` (normalisation,
 revoked codes, requirement gating), `search` (AND semantics + the two client-safety rules), `routes` (every
 nav path renders, legacy redirects preserve query strings, `?doc=`/`?record=` deep links record
-discovery), `modal-boot` (focus trap, Escape, focus restore), `puzzles-ui`, and a test that the digest
-script matches `lib/puzzles/validate.ts` byte-for-byte semantics.
+discovery), `modal-boot` (focus trap, Escape, focus restore), `puzzles-ui`, `mobile-ux`, `seo` (manifest,
+sitemap, robots, raw-HTML metadata), `verify-dist` (the build artifact stays crawlable), and a test that the
+digest script matches `lib/puzzles/validate.ts` byte-for-byte semantics.
 
 ### Accessibility (a product requirement, not a coat of paint)
 
@@ -291,10 +292,13 @@ silently override base styles — the escape hatch is Tailwind's `!` suffix, del
 ## Deployment
 
 It is a folder of static files. `npm run build` emits a crawlable HTML entry point for every public route
-and a real noindex 404; no broad SPA fallback is needed. The repo ships ready-made config for **Vercel**
+and a real noindex 404, then runs `verify:dist` and fails if the artifact would not be crawlable (missing
+discovery file, HTML sitemap, or a catch-all rewrite). No broad SPA fallback is needed — and a
+`/*  /index.html  200` rule, in `_redirects` or in a hosting dashboard, hides `/sitemap.xml` and
+`/robots.txt` behind the application shell. The repo ships ready-made config for **Vercel**
 (`vercel.json`) and **Netlify/Cloudflare Pages** (`public/_headers`, `public/_redirects` — keep the redirect
 tables in all three places in sync; a routes test covers the in-app half). `npm run preview` serves the
-exact production output locally. `public/assets/**`
+built artifact locally; host rules in `_redirects`/`_headers` only apply once deployed. `public/assets/**`
 directories are intentionally empty: media is optional garnish on a procedurally-synthesised, text-first
 corpus (drop files in, set `src` on an `AudioArtifact`, and see the media-hosting notes referenced by
 `docs/ARCHITECTURE.md`). Build-time flags: `VITE_FEATURE_BOOT_SEQUENCE`, `VITE_FEATURE_PERSIST_PROGRESS`,

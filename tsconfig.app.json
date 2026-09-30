@@ -24,5 +24,5 @@
     }
   },
   "include": ["src"],
-  "exclude": ["src/tests/digest-script.test.ts"]
+  "exclude": ["src/tests/digest-script.test.ts", "src/tests/verify-dist.test.ts"]
 }

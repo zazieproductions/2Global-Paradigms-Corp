@@ -175,8 +175,9 @@ ${urls}
 }
 
 function renderRobots() {
-  return `# Global Paradigms Corp. is a public interactive-fiction archive.
-User-agent: *
+  // No leading comment: crawlers ignore it, and operators verify robots.txt by
+  // checking that it opens with "User-agent: *". Keep the file exactly that.
+  return `User-agent: *
 Allow: /
 
 Sitemap: ${site.origin}/sitemap.xml
