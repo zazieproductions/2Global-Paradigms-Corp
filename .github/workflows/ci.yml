@@ -89,10 +89,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      # `npm run build` already ends with generate-seo.mjs and verify-dist.mjs,
+      # so the crawlability of the emitted artifact is gated here too — it is the
+      # one check that can only run against dist/.
       - run: npm run build
-      # Fails if the emitted artifact would not be crawled — the one check that
-      # can only run against dist/.
-      - run: npm run verify:dist
       - uses: actions/upload-artifact@v4
         with:
           name: dist

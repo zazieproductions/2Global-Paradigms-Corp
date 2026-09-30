@@ -1,21 +1,44 @@
 #!/usr/bin/env node
 /**
- * Generate crawlable HTML entry points, robots.txt and sitemap.xml from the
- * shared SEO manifest. Vite remains the application bundler; this post-build
- * step turns its single shell into one static document per public route.
+ * Generate the crawlable build output and the committed discovery files.
+ *
+ * Vite remains the application bundler; this post-build step turns its single
+ * shell into one static document per public route, each with its own head,
+ * JSON-LD and crawlable block, so a crawler that never executes JavaScript
+ * still gets a complete, self-canonical page. It also writes — and, with
+ * `--check`, verifies — the three committed files in public/ that describe the
+ * site to crawlers: robots.txt, sitemap.xml and llms.txt.
+ *
+ * Every string comes from src/config/seo.ts (via scripts/lib/load-seo.mjs) and
+ * src/config/seo-pages.json, so no surface can drift from the copy the app
+ * shows a player.
+ *
+ * Usage:
+ *   node scripts/generate-seo.mjs                    build dist/ from dist/index.html
+ *   node scripts/generate-seo.mjs --public           also refresh public/sitemap.xml etc.
+ *   node scripts/generate-seo.mjs --check            verify the committed public files only
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { loadSeo, ROOT } from './lib/load-seo.mjs';
+import {
+  renderJsonLdScript,
+  renderLlms,
+  renderRobots,
+  renderSitemap,
+  renderStaticBlock
+} from './lib/seo-surfaces.mjs';
 
-const root = process.cwd();
-const configPath = path.join(root, 'src/config/seo-pages.json');
-const publicDir = path.join(root, 'public');
-const distDir = path.join(root, 'dist');
+const configPath = path.join(ROOT, 'src/config/seo-pages.json');
+const publicDir = path.join(ROOT, 'public');
+const distDir = path.join(ROOT, 'dist');
 const config = JSON.parse(await readFile(configPath, 'utf8'));
 const { site, pages } = config;
+const seo = await loadSeo();
 
 const INDEX_DIRECTIVES = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+const NOINDEX_DIRECTIVES = 'noindex, nofollow';
 
 function fail(message) {
   throw new Error(`[seo] ${message}`);
@@ -50,6 +73,12 @@ function validateConfig() {
     descriptions.add(page.description);
   }
   if (!paths.has('/')) fail('the home page is missing');
+  if (site.origin !== seo.CANONICAL_ORIGIN) {
+    fail(`seo-pages.json origin (${site.origin}) disagrees with CANONICAL_ORIGIN (${seo.CANONICAL_ORIGIN})`);
+  }
+  if (pages.length !== seo.SEO_PAGES.length) {
+    fail('the route manifest the scripts read and the one the app reads disagree');
+  }
 }
 
 const escapeHtml = (value) =>
@@ -62,12 +91,16 @@ const escapeHtml = (value) =>
 
 const canonicalUrl = (pagePath) => `${site.origin}${pagePath === '/' ? '/' : pagePath}`;
 
+/**
+ * The per-route head. index.html carries this same block hand-written for `/`
+ * (asserted by src/tests/seo.test.ts); every other route gets it injected here.
+ */
 function renderHead(page, indexable = true) {
   const title = escapeHtml(page.title);
   const description = escapeHtml(page.description);
   const url = canonicalUrl(page.path);
   const image = `${site.origin}${site.image}`;
-  const directives = indexable ? INDEX_DIRECTIVES : 'noindex, nofollow';
+  const directives = indexable ? INDEX_DIRECTIVES : NOINDEX_DIRECTIVES;
   const canonical = indexable ? `    <link rel="canonical" href="${url}" />\n` : '';
 
   return `<!-- SEO_PAGE_START -->
@@ -93,95 +126,18 @@ ${canonical}    <meta property="og:title" content="${title}" />
     <!-- SEO_PAGE_END -->`;
 }
 
-function renderNavigation(activePath) {
-  const items = pages
-    .map((page) => {
-      const current = page.path === activePath ? ' aria-current="page"' : '';
-      return `              <li><a href="${page.path}"${current}>${escapeHtml(page.heading)}</a></li>`;
-    })
-    .join('\n');
-
-  return `<nav aria-label="Archive sections">
-            <h2>Explore the archive</h2>
-            <ul>
-${items}
-            </ul>
-          </nav>`;
-}
-
-function renderFallback(page, isNotFound = false) {
-  const breadcrumb =
-    page.path === '/'
-      ? ''
-      : `<nav aria-label="Breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-            <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-              <a itemprop="item" href="/"><span itemprop="name">Recovered Archive</span></a>
-              <meta itemprop="position" content="1" />
-            </span>
-            <span aria-hidden="true"> / </span>
-            <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-              <span itemprop="name">${escapeHtml(page.heading)}</span>
-              <meta itemprop="position" content="2" />
-            </span>
-          </nav>`;
-  const interactiveNote = isNotFound
-    ? 'Return to the recovered archive or choose a public section below.'
-    : 'JavaScript opens this section in the interactive archive terminal. Every public section is also linked below.';
-
-  return `<!-- SEO_FALLBACK_START -->
-      <main id="seo-fallback">
-        <article itemscope itemtype="https://schema.org/CreativeWork">
-          ${breadcrumb}
-          <p class="seo-kicker">Recovered archive // original interactive fiction</p>
-          <h1 itemprop="headline">${escapeHtml(page.heading)}</h1>
-          <p itemprop="description">${escapeHtml(page.description)}</p>
-          <p>${interactiveNote}</p>
-          ${renderNavigation(page.path)}
-          <p class="seo-notice">
-            FICTION // An original interactive story by Zazie Productions. All organisations, people and
-            events are invented. This work is not affiliated with any existing franchise, studio or prior
-            third-party website.
-          </p>
-        </article>
-      </main>
-      <!-- SEO_FALLBACK_END -->`;
-}
-
-function renderPage(template, page, indexable = true, isNotFound = false) {
-  const withHead = template.replace(
-    /<!-- SEO_PAGE_START -->[\s\S]*?<!-- SEO_PAGE_END -->/,
-    renderHead(page, indexable)
-  );
-  return withHead.replace(
-    /<!-- SEO_FALLBACK_START -->[\s\S]*?<!-- SEO_FALLBACK_END -->/,
-    renderFallback(page, isNotFound)
-  );
-}
-
-function renderSitemap() {
-  const urls = pages
-    .map(
-      (page) => `  <url>
-    <loc>${canonicalUrl(page.path)}</loc>
-    <lastmod>${site.lastModified}</lastmod>
-  </url>`
+/** Replace the three generated regions of a page with this route's version. */
+function renderPage(template, page, indexable = true) {
+  return template
+    .replace(/<!-- SEO_PAGE_START -->[\s\S]*?<!-- SEO_PAGE_END -->/, renderHead(page, indexable))
+    .replace(
+      /<!-- @gpc-seo-jsonld:begin -->[\s\S]*?<!-- @gpc-seo-jsonld:end -->/,
+      renderJsonLdScript(seo, page)
     )
-    .join('\n');
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
-</urlset>
-`;
-}
-
-function renderRobots() {
-  // No leading comment: crawlers ignore it, and operators verify robots.txt by
-  // checking that it opens with "User-agent: *". Keep the file exactly that.
-  return `User-agent: *
-Allow: /
-
-Sitemap: ${site.origin}/sitemap.xml
-`;
+    .replace(
+      /<!-- @gpc-static-block:begin -->[\s\S]*?<!-- @gpc-static-block:end -->/,
+      renderStaticBlock(seo, page)
+    );
 }
 
 async function writeOrCheck(filePath, content, check) {
@@ -190,10 +146,10 @@ async function writeOrCheck(filePath, content, check) {
     try {
       existing = await readFile(filePath, 'utf8');
     } catch {
-      fail(`${path.relative(root, filePath)} is missing; run npm run seo:generate`);
+      fail(`${path.relative(ROOT, filePath)} is missing; run npm run seo:generate`);
     }
     if (existing !== content) {
-      fail(`${path.relative(root, filePath)} is stale; run npm run seo:generate`);
+      fail(`${path.relative(ROOT, filePath)} is stale; run npm run seo:generate`);
     }
     return;
   }
@@ -202,14 +158,20 @@ async function writeOrCheck(filePath, content, check) {
 }
 
 validateConfig();
-const sitemap = renderSitemap();
-const robots = renderRobots();
+
+const discovery = {
+  'robots.txt': renderRobots(seo),
+  'sitemap.xml': renderSitemap(seo),
+  'llms.txt': renderLlms(seo)
+};
+
 const check = process.argv.includes('--check');
 const writePublic = check || process.argv.includes('--public');
 
 if (writePublic) {
-  await writeOrCheck(path.join(publicDir, 'sitemap.xml'), sitemap, check);
-  await writeOrCheck(path.join(publicDir, 'robots.txt'), robots, check);
+  for (const [name, content] of Object.entries(discovery)) {
+    await writeOrCheck(path.join(publicDir, name), content, check);
+  }
 }
 
 if (!check && !process.argv.includes('--public-only')) {
@@ -244,13 +206,15 @@ if (!check && !process.argv.includes('--public-only')) {
     description:
       'The requested Global Paradigms Corp. archive path does not exist. Return to the recovered interactive-fiction archive.'
   };
-  await writeFile(path.join(distDir, '404.html'), renderPage(template, notFound, false, true));
-  await writeFile(path.join(distDir, 'sitemap.xml'), sitemap);
-  await writeFile(path.join(distDir, 'robots.txt'), robots);
+  await writeFile(path.join(distDir, '404.html'), renderPage(template, notFound, false));
+
+  for (const [name, content] of Object.entries(discovery)) {
+    await writeFile(path.join(distDir, name), content);
+  }
 }
 
 console.log(
   check
-    ? `[seo] validated ${pages.length} canonical pages and generated public files`
-    : `[seo] generated ${pages.length} canonical pages${writePublic ? ', sitemap.xml and robots.txt' : ''}`
+    ? `[seo] validated ${pages.length} canonical pages, robots.txt, sitemap.xml and llms.txt`
+    : `[seo] generated ${pages.length} canonical pages${writePublic ? ', plus robots.txt, sitemap.xml and llms.txt' : ''}`
 );

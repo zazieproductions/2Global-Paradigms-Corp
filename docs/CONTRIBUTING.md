@@ -64,14 +64,14 @@ when you expected it not to be, the change did not take effect.
 `.github/workflows/ci.yml` runs the same gate as `npm run check`, split into six jobs so a failure names
 the layer that broke:
 
-| Job       | Runs                                       | Fails when                                                                                     |
-| --------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| `verify`  | `typecheck`, `lint`, `format:check`        | the code is not sound or not formatted                                                         |
-| `content` | `validate:content`                         | an id, reference, date or transcript is broken                                                 |
-| `canon`   | `validate:canon`                           | the fiction contradicts itself                                                                 |
-| `docs`    | `archive:report:check`                     | `docs/generated/**` is stale or was hand-edited                                                |
-| `seo`     | `seo:check`                                | the committed route metadata, sitemap or robots.txt disagrees with `src/config/seo-pages.json` |
-| `test`    | `npm test`, `npm run build`, `verify:dist` | a player-facing path broke, it will not build, or the emitted artifact would not be crawled    |
+| Job       | Runs                                                      | Fails when                                                                                     |
+| --------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `verify`  | `typecheck`, `lint`, `format:check`                       | the code is not sound or not formatted                                                         |
+| `content` | `validate:content`                                        | an id, reference, date or transcript is broken                                                 |
+| `canon`   | `validate:canon`                                          | the fiction contradicts itself                                                                 |
+| `docs`    | `archive:report:check`                                    | `docs/generated/**` is stale or was hand-edited                                                |
+| `seo`     | `seo:check`                                               | the committed route metadata, sitemap or robots.txt disagrees with `src/config/seo-pages.json` |
+| `test`    | `npm test`, `npm run build` (which ends in `verify:dist`) | a player-facing path broke, it will not build, or the emitted artifact would not be crawled    |
 
 The `docs` job is the one that surprises people. It exists because `docs/generated/**` is committed: if
 you change content and do not run `npm run archive:report`, CI fails — and the diff it wants is the

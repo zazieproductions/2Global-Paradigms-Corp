@@ -2,10 +2,10 @@
   "site": {
     "origin": "https://globalparadigmscorp.com",
     "name": "Global Paradigms Corp.",
-    "defaultTitle": "Global Paradigms Corp. | Interactive Fiction ARG",
-    "description": "Explore Global Paradigms Corp., an original interactive-fiction ARG by Zazie Productions. Search 412 recovered records and solve the Seven Seals.",
-    "image": "/og-image.png",
-    "imageAlt": "Global Paradigms Corp. recovered archive terminal",
+    "defaultTitle": "Global Paradigms Corp. // 2006 Lost ARG Hoax — Reopened",
+    "description": "The bankrupt-corporation hoax that misled Lost fans in 2006 — client of the Hanso and Valenzetti Foundations — reopened in 2026 as a new playable ARG.",
+    "image": "/assets/images/og-card.jpg",
+    "imageAlt": "A dark terminal reading GLOBAL PARADIGMS CORP., with 2006 struck through and 2026 lit beneath it.",
     "language": "en",
     "locale": "en_US",
     "lastModified": "2026-09-30"
@@ -13,9 +13,15 @@
   "pages": [
     {
       "path": "/",
-      "title": "Global Paradigms Corp. | Interactive Fiction ARG",
+      "title": "Global Paradigms Corp. // 2006 Lost ARG Hoax — Reopened",
       "heading": "Global Paradigms Corp. Recovered Archive",
-      "description": "Explore Global Paradigms Corp., an original interactive-fiction ARG by Zazie Productions. Search 412 recovered records and solve the Seven Seals."
+      "description": "The bankrupt-corporation hoax that misled Lost fans in 2006 — client of the Hanso and Valenzetti Foundations — reopened in 2026 as a new playable ARG."
+    },
+    {
+      "path": "/legacy",
+      "title": "The Legacy File: 2006 Hoax, 2026 Reopening | GPC",
+      "heading": "The Legacy File",
+      "description": "Provenance of globalparadigmscorp.com: the 2006 hoax during The Lost Experience, twenty years offline, and the 2026 original interactive-fiction ARG."
     },
     {
       "path": "/documents",

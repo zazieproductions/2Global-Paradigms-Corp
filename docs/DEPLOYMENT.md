@@ -18,7 +18,7 @@ Any static host will do, provided it does four things:
 
 | Requirement                             | Why                                                                     | If the host cannot                          |
 | --------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------- |
-| SPA fallback to `/index.html`           | 19 client routes; deep links like `/documents?doc=doc-007` must resolve | Only `/` works; every other URL 404s        |
+| SPA fallback to `/index.html`           | 20 client routes; deep links like `/documents?doc=doc-007` must resolve | Only `/` works; every other URL 404s        |
 | Serve `/static/*` immutable, long-lived | Hashed bundles; the corpus chunk is one large cacheable object          | Cold loads re-download ~127 kB of story     |
 | Send the security headers in §3         | The CSP is part of the privacy story, not decoration                    | The site still works; the guarantee weakens |
 | Preserve the six legacy redirects       | Six URLs are already 301'd at the edge                                  | Bookmarks and inbound links break silently  |
@@ -104,17 +104,17 @@ before enabling an aggressive HTML cache.
 
 `vite.config.ts` splits vendors manually and pins `assetsDir: 'static'`:
 
-| Chunk     | Role                                            |              Raw |        Gzip |
-| --------- | ----------------------------------------------- | ---------------: | ----------: |
-| `content` | the entire corpus                               |         377.7 kB |    127.1 kB |
-| `react`   | react-dom + router                              |         315.7 kB |    100.7 kB |
-| `index`   | app code                                        |         237.8 kB |     70.9 kB |
-| CSS       | tokens + archive + boot + occult                |         132.5 kB |     27.0 kB |
-| `icons`   | lucide subset                                   |          20.5 kB |      6.8 kB |
-| 24 more   | 19 lazy page chunks + 5 split shared components | 0.2–37.6 kB each | 0.2–11.7 kB |
+| Chunk     | Role                                             |         Raw |        Gzip |
+| --------- | ------------------------------------------------ | ----------: | ----------: |
+| `content` | the entire corpus, tape ghosts included          |    385.3 kB |    130.2 kB |
+| `react`   | react-dom + router                               |    315.7 kB |    100.5 kB |
+| `index`   | app code, including the SEO/GEO layer            |    273.3 kB |     82.1 kB |
+| CSS       | tokens + archive + boot + occult                 |    135.7 kB |     26.9 kB |
+| `icons`   | lucide subset                                    |     21.3 kB |      7.1 kB |
+| 25 more   | 21 lazy route chunks + 4 split shared components | 0.2–36.7 kB | 0.2–11.4 kB |
 
 `react`, `content` and `icons` are `modulepreload`ed from `index.html`, so the first visit transfers
-roughly **333 kB gzipped of JS + CSS including the whole story**. These figures are read from
+roughly **347 kB gzipped of JS + CSS including the whole story**. These figures are read from
 `npm run build` output and will move; treat the table as a shape, not a constant, and re-measure before
 quoting it.
 

@@ -81,6 +81,7 @@ is narrative rather than a gate).
 | Route | Label | Badge |
 | --- | --- | --- |
 | `/sanctum` | The Seven Seals | 7 |
+| `/legacy` | The Legacy File | 2006→2026 |
 | `/` | Command Dashboard | SYS 8.4 |
 | `/documents` | Master Document Vault | 174 |
 | `/personnel` | Personnel Directory | 45 |

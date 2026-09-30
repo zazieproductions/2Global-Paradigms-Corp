@@ -7,6 +7,7 @@ import { AUDIO_ARTIFACTS, DOCUMENTS, PERSONNEL, PUZZLES } from '@/content';
 import { FRAGMENTS, SEALS } from '@/content/puzzles/seals';
 import { NAV_ITEMS, pathForTab } from '@/config/navigation';
 import { GHOSTS } from '@/content/restoration/purge-manifest';
+import { ERA_TWO } from '@/config/seo-copy';
 import { REDACTION_PATTERN } from '@/lib/archive/redaction';
 import { getArchiveEntries } from '@/lib/archive/records';
 import { validateContent } from '@/lib/archive/validate-content';
@@ -62,6 +63,30 @@ describe('content integrity', () => {
    * resolving means someone put the record back in the live index, which
    * contradicts the directive and makes the spool redundant. See INV-TAPE-01.
    */
+  /**
+   * `src/config/seo-copy.ts` is deliberately import-free so the Node-side static
+   * generator can read it, which means its corpus figures are literals that
+   * nothing upstream keeps honest. They are rendered into `llms.txt`, the
+   * JSON-LD and the crawlable block — the surfaces models and crawlers actually
+   * read — so a stale number there is worse than a stale number in prose.
+   *
+   * `records` and `recordKinds` must be exact. `corpusCharacters` is written
+   * with a tilde ("~245,000 characters"), so it must be the measured figure
+   * rounded to the nearest thousand — precise enough to be true, round enough
+   * to read like the approximation it is labelled as.
+   *
+   * The character measure is the one `scripts/archive-report.mjs` prints in
+   * `docs/generated/CORPUS.md`: summaries plus bodies across every entry.
+   */
+  it('keeps the machine-facing corpus figures equal to the measured corpus', () => {
+    const all = getArchiveEntries();
+    expect(ERA_TWO.records).toBe(all.length);
+    expect(ERA_TWO.recordKinds).toBe(new Set(all.map((e) => e.kind)).size);
+
+    const chars = all.reduce((n, e) => n + (e.summary?.length ?? 0) + (e.body?.length ?? 0), 0);
+    expect(ERA_TWO.corpusCharacters, `measured ${chars} chars`).toBe(Math.round(chars / 1000) * 1000);
+  });
+
   it('keeps every purged record struck from the live index', () => {
     const unresolved = new Set(
       warnings.map((w) => w.message.match(/^linked document (\S+) not recovered$/)?.[1] ?? '')
