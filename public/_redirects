@@ -7,5 +7,10 @@
 /projects       /programs   301
 /offices        /stations   301
 
+# Crawler-facing files are real files in the publish directory, so they win over
+# the splat below and are served as themselves:
+#   /robots.txt   /sitemap.xml   /llms.txt   /favicon.svg   /assets/*
+# Keep this list in sync with the negative lookahead in vercel.json.
+
 # SPA fallback — every other path is resolved by the client router.
 /*              /index.html 200

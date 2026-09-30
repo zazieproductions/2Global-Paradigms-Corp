@@ -37,7 +37,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!static/|assets/|favicon\\.svg).*)",
+      "source": "/((?!static/|assets/|favicon\\.svg|robots\\.txt|sitemap\\.xml|llms\\.txt).*)",
       "destination": "/index.html"
     }
   ],
@@ -78,6 +78,24 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/:file(robots\\.txt|sitemap\\.xml|llms\\.txt)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/llms.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
         }
       ]
     }

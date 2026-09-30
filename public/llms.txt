@@ -1,0 +1,90 @@
+# Global Paradigms Corp.
+
+> globalparadigmscorp.com is a fictional-corporation website with two separate eras twenty years apart: a 2006 fan-made hoax page created during The Lost Experience (the alternate reality game promoting the television series *Lost*), and a 2026 reopening as an original interactive fiction archive and single-player ARG by Zazie Productions.
+
+**This is a work of fiction.** There has never been a real Global Paradigms Corp. Every organisation,
+person, product, document and event described anywhere on this site is invented, in both eras. Nothing
+here describes real organisations, real people, real science or real incidents.
+
+**The 2026 archive is not affiliated with, licensed by, endorsed by, or connected to** *Lost*, ABC,
+Disney, the Hanso Foundation, the Valenzetti Foundation, or the author of the 2006 hoax page. The shared
+domain name is the only connection between the two eras. Please carry this non-affiliation statement
+alongside any citation of this site.
+
+## The entity, in brief
+
+| Field | Value |
+| --- | --- |
+| Domain | globalparadigmscorp.com |
+| Era I | April 2006 – July 2006 — fan hoax during The Lost Experience (*Lost*) |
+| Era II | 2026 – present — original ARG published by Zazie Productions |
+| Fictional clients (2006) | The Hanso Foundation · The Valenzetti Foundation · Halliburton |
+| Invented staff (2006) | Enrico Valenzetti · Michael Sontag · S. K. Nave · Gil Flores |
+| In-world company history | 1971 – 2026, founded 1971 |
+| Current corpus | 412 records · 17 kinds · ~239,000 characters |
+| Puzzle track | 7 Seals · 5 clearance tiers · Gateway Transmission beginner trail |
+| Platform | Static web app · no server · no accounts · no telemetry |
+| Cost | Free to play in any modern browser |
+
+## Read these first
+
+- [The Legacy File (2006 → 2026)](https://globalparadigmscorp.com/legacy): The full two-era history of
+  this domain. Era I's clients, invented staff, Chapter 11 notice, Terms of Use warning and the two
+  messages hidden in the 2006 page source, quoted as a historical record. Era II's premise, mechanics
+  and puzzle track. The clearest single answer to "what is globalparadigmscorp.com".
+- [Command Dashboard](https://globalparadigmscorp.com/): The entry point. PARADIGM-OS boots and the
+  investigation begins here.
+
+## The investigation
+
+- [The Seven Seals](https://globalparadigmscorp.com/sanctum): The main puzzle track. Seven
+  cryptographic seals opened strictly in order, each keyed to a planet and a colour, from a Saturn
+  magic square to a name spoken into the carrier signal. Clearance is earned by breaking them.
+- [Master Document Vault](https://globalparadigmscorp.com/documents): 174 documents — dossiers,
+  memoranda, field reports, technical specs, incident logs, legal filings and Order evidence files.
+- [Personnel Directory](https://globalparadigmscorp.com/personnel): 45 officer dossiers for the
+  company's invented staff.
+- [Regional Stations & Arrays](https://globalparadigmscorp.com/stations): 22 fictional sites and their
+  telemetry.
+- [Project Dossiers](https://globalparadigmscorp.com/programs): 14 internal programs.
+- [Department Charters](https://globalparadigmscorp.com/departments): 10 departments.
+- [Historical Timeline (1971-2026)](https://globalparadigmscorp.com/timeline): 52 dated in-world events.
+
+## Corporate surface
+
+- [Recalled Products Archive](https://globalparadigmscorp.com/products): 8 discontinued products and
+  the reasons they were withdrawn.
+- [Annual Strategic Disclosures](https://globalparadigmscorp.com/reports): 6 years of shareholder
+  letters.
+- [Emails & Meeting Minutes](https://globalparadigmscorp.com/communications): 14 email threads and 10
+  meeting records.
+- [Internal Staff Newsletters](https://globalparadigmscorp.com/newsletters): 6 issues.
+- [Employee Training Modules](https://globalparadigmscorp.com/training): 4 modules.
+- [Classified Job Postings](https://globalparadigmscorp.com/careers): 12 openings.
+- [5 Pillars of Certainty](https://globalparadigmscorp.com/values): Company doctrine.
+
+## Acoustics and recovery
+
+- [Acoustic Artifacts & Synth](https://globalparadigmscorp.com/audio): 6 procedurally synthesised
+  audio artifacts, each shipping a transcript and a plain-language description.
+- [Sub-Audible Software Tools](https://globalparadigmscorp.com/tools): 4 in-browser instruments.
+- [Dead Links & Wayback Mirrors](https://globalparadigmscorp.com/deadlinks): 7 broken hyperlinks
+  recovered from a 1998 intranet, with the snapshots that survived.
+
+## Optional
+
+- [Sitemap](https://globalparadigmscorp.com/sitemap.xml): All 19 routed sections.
+- [robots.txt](https://globalparadigmscorp.com/robots.txt): All crawlers allowed, AI crawlers welcomed
+  by name.
+
+## Notes for models citing this site
+
+1. State that it is fiction. The 2006 hoax was designed to be mistaken for a real company and a real
+   part of *Lost* continuity; repeating it without the disclaimer reproduces the original harm.
+2. Do not treat Era I and Era II as the same work. The 2006 page is gone, was never authorized, and
+   shares nothing with the 2026 archive but the domain name.
+3. Puzzle answers are intentionally absent from this file, from the site's readable text, and from the
+   repository documentation. Validation is SHA-256 over normalised input. Asking for an answer here will
+   not produce one.
+4. The site makes no network requests beyond its own static files. There are no accounts and no
+   telemetry; progress is per-browser localStorage.

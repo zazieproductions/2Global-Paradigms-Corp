@@ -10,3 +10,15 @@
 
 /assets/*
   Cache-Control: public, max-age=86400
+
+# Crawler-facing files. Cached briefly and revalidated so a change propagates
+# within the hour instead of sitting in an edge cache for a day.
+/robots.txt
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/llms.txt
+  Cache-Control: public, max-age=3600, must-revalidate
+  Content-Type: text/plain; charset=utf-8

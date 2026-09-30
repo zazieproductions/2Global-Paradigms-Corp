@@ -8,34 +8,778 @@
     />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <title>Global Paradigms Corp. // Secure Archive & Intelligence Repository</title>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SEO / GEO HEAD  (hand-written; src/tests/seo.test.ts asserts every
+         value here against src/config/seo.ts, and asserts the two GENERATED
+         regions below are up to date with it.)
+
+         SEO  — rank for "global paradigms corp", "lost arg hoax",
+                "hanso foundation website", "globalparadigmscorp.com",
+                "new arg 2026".
+         GEO  — be the citable answer. Generative engines read the opening
+                words and decide whether to quote them, so the complete,
+                dated, disambiguated answer is stated once, up front, in
+                prose (static block), in rows (fact table), in pairs (FAQ)
+                and in JSON-LD.
+
+         See docs/SEO.md for keyword targets and the two-era strategy.
+         ═══════════════════════════════════════════════════════════════════ -->
+
+    <!-- 55 characters: brand · year · franchise · format · status -->
+    <title>Global Paradigms Corp. // 2006 Lost ARG Hoax — Reopened</title>
+
+    <!-- 150 characters, answer-first -->
     <meta
       name="description"
-      content="Global Paradigms Corp. — an original interactive fiction archive and ARG by Zazie Productions. All organisations, people and events are invented."
+      content="The bankrupt-corporation hoax that misled Lost fans in 2006 — client of the Hanso and Valenzetti Foundations — reopened in 2026 as a new playable ARG."
     />
+
+    <!-- Collapse every ?record= / ?doc= deep link onto its section. -->
+    <link rel="canonical" href="https://globalparadigmscorp.com/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Zazie Productions" />
     <meta name="theme-color" content="#04060a" />
     <meta name="color-scheme" content="dark" />
-    <meta property="og:title" content="Global Paradigms Corp. // Recovered Archive" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Global Paradigms Corp." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://globalparadigmscorp.com/" />
+    <meta property="og:title" content="Global Paradigms Corp. — the 2006 Lost ARG hoax, reopened" />
     <meta
       property="og:description"
-      content="An original interactive fiction archive by Zazie Productions. Explore recovered corporate records, audio artifacts and puzzles."
+      content="Twenty years dark. The fake bankrupt consultancy that listed the Hanso Foundation as a client is back online as an original 412-record interactive archive and seven-seal ARG."
     />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://globalparadigmscorp.com/assets/images/og-card.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="A dark terminal reading GLOBAL PARADIGMS CORP., with 2006 struck through and 2026 lit beneath it."
+    />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Global Paradigms Corp. — the 2006 Lost ARG hoax, reopened" />
+    <meta
+      name="twitter:description"
+      content="Twenty years dark. The fake bankrupt consultancy that listed the Hanso Foundation as a client is back online as an original 412-record interactive archive and seven-seal ARG."
+    />
+    <meta name="twitter:image" content="https://globalparadigmscorp.com/assets/images/og-card.jpg" />
+    <meta
+      name="twitter:image:alt"
+      content="A dark terminal reading GLOBAL PARADIGMS CORP., with 2006 struck through and 2026 lit beneath it."
+    />
+
+    <!-- ── GENERATED: structured data ────────────────────────────────────
+         Regenerate with `node scripts/render-static-block.mjs`.
+         Deliberate omission: there is NO Organization node for "Global
+         Paradigms Corp." It is not a real company, and marking it up as one
+         would teach generative engines to hallucinate a business entity. The
+         real publisher (Zazie Productions) carries the Organization node; the
+         site itself is a WebSite + CreativeWork with a disambiguating
+         description. JSON-LD data blocks are not executed, so they are
+         unaffected by the Content-Security-Policy script-src directive.
+         ─────────────────────────────────────────────────────────────────── -->
+    <!-- @gpc-seo-jsonld:begin -->
+    <script type="application/ld+json" id="gpc-jsonld">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://globalparadigmscorp.com/#website",
+            "url": "https://globalparadigmscorp.com/",
+            "name": "Global Paradigms Corp.",
+            "alternateName": [
+              "GPC",
+              "Global Paradigms Corporation",
+              "globalparadigmscorp.com",
+              "PARADIGM-OS"
+            ],
+            "description": "The bankrupt-corporation hoax that misled Lost fans in 2006 — client of the Hanso and Valenzetti Foundations — reopened in 2026 as a new playable ARG.",
+            "inLanguage": "en",
+            "publisher": {
+              "@id": "https://globalparadigmscorp.com/#publisher"
+            }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://globalparadigmscorp.com/#publisher",
+            "name": "Zazie Productions",
+            "url": "https://github.com/zazieproductions",
+            "description": "Independent studio publishing original interactive fiction on the web."
+          },
+          {
+            "@type": "CreativeWork",
+            "@id": "https://globalparadigmscorp.com/#work",
+            "name": "Global Paradigms Corp. // Secure Archive & Intelligence Repository",
+            "alternateName": ["The Seven Seals", "PARADIGM-OS v8.4.2"],
+            "genre": ["Interactive fiction", "Alternate reality game", "Epistolary archive", "Puzzle game"],
+            "creator": {
+              "@id": "https://globalparadigmscorp.com/#publisher"
+            },
+            "publisher": {
+              "@id": "https://globalparadigmscorp.com/#publisher"
+            },
+            "datePublished": "2026",
+            "inLanguage": "en",
+            "isAccessibleForFree": true,
+            "abstract": "A cold terminal boots and the player reads the recovered document archive of a fictional strategic-forecasting company founded in 1971: 412 records across 17 kinds, a 14.8 Hz sub-audible tone measured in bedrock, recalled products, and a secret the company kept inside its own vaults — the Ordo Vocis Profundae, and the Seven Seals locked over it. Clearance is earned by breaking the Seals, never granted by clicking.",
+            "disambiguatingDescription": "Not a real corporation. The 2026 work at this URL is original interactive fiction by Zazie Productions. It is unrelated to the unauthorized fan hoax page that occupied the same domain during the 2006 Lost alternate reality game, and is not affiliated with that television franchise, its network, or its rights holders.",
+            "about": [
+              {
+                "@type": "Thing",
+                "name": "Alternate reality game"
+              },
+              {
+                "@type": "Thing",
+                "name": "Interactive fiction"
+              },
+              {
+                "@type": "Thing",
+                "name": "Cryptography puzzle"
+              }
+            ],
+            "subjectOf": [
+              {
+                "@type": "WebPage",
+                "url": "https://lostpedia.fandom.com/wiki/Globalparadigmscorp.com",
+                "name": "Globalparadigmscorp.com — Lostpedia — Fandom",
+                "description": "Primary documentation of the 2006 hoax page: clients, staff, the bankruptcy notice, the Terms of Use warning, and both messages hidden in the page source. Categorised Hoax / Non-Canon."
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://globalparadigmscorp.com/#webpage",
+            "url": "https://globalparadigmscorp.com/",
+            "name": "Global Paradigms Corp. // 2006 Lost ARG Hoax — Reopened",
+            "isPartOf": {
+              "@id": "https://globalparadigmscorp.com/#website"
+            },
+            "about": {
+              "@id": "https://globalparadigmscorp.com/#work"
+            },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "url": "https://globalparadigmscorp.com/assets/images/og-card.jpg"
+            },
+            "inLanguage": "en",
+            "datePublished": "2026-01-01",
+            "dateModified": "2026-09-30"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://globalparadigmscorp.com/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What was globalparadigmscorp.com in 2006?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "A hoax website built by a fan during The Lost Experience, the 2006 alternate reality game promoting the television series Lost. It presented itself as the archived homepage of a bankrupt strategic-consulting corporation, listing the Hanso Foundation, the Valenzetti Foundation and Halliburton as clients. It was online from at least 20 April 2006 and offline by 30 July 2006. Lostpedia classifies it as a hoax: non-canon material created intentionally to cause confusion with official sources."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Was Global Paradigms Corp. a real company?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. There has never been a real Global Paradigms Corp. In 2006 the site was a fan fabrication posing as a bankrupt firm. In 2026 it is a work of interactive fiction. Both eras are invented; the Santa Dominica County Chapter 11 filing, the corporate clients and the staff are all fictional."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is this site part of Lost, or affiliated with the Hanso Foundation?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. The 2006 hoax referenced Lost mythology without authorization and was never official. The 2026 reopening by Zazie Productions is an entirely original work with its own characters, its own company history (in-world 1971–2026) and its own mystery — the Ordo Vocis Profundae and the Seven Seals. Nothing here is affiliated with, licensed by, or endorsed by Lost, ABC, Disney, or the creators of the 2006 page. The shared domain name is the only connection."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Who were Enrico Valenzetti, Michael Sontag and S. K. Nave?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Invented people listed as staff on the 2006 hoax page. The site claimed Enrico Valenzetti had been an employee whose employment was terminated on 04/08/93, and listed Michael Sontag and S. K. Nave alongside him. None of them are real, and none of them appear in the 2026 archive."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is on globalparadigmscorp.com now?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "A self-contained interactive fiction archive and single-player ARG published by Zazie Productions. You boot a cold terminal running PARADIGM-OS v8.4.2 and read the recovered records of a strategic-forecasting company: 412 documents, personnel files, station telemetry, annual reports, emails, dead hyperlinks from a 1998 intranet and restoration logs. Clearance is earned by breaking 7 cryptographic Seals, never granted by clicking."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is the 2006 version of the site still available?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Not from us. The original hoax page was taken down in 2006 and no copy is hosted here. Fragments survive in the Internet Archive and in fan documentation from the period; the bankruptcy notice, the Terms of Use warning and both messages hidden in the page source are quoted on our legacy page as a historical record."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do I start playing?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Open the homepage and let PARADIGM-OS boot. The Gateway Transmission is a four-step beginner trail that teaches the mechanics without granting clearance; the Seven Seals at /sanctum are the main investigation. Press ~ anywhere for the terminal, / for archive-wide search. Progress saves to your browser only — there are no accounts, no server and no telemetry."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does the site collect data or require an account?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. It is a static web application with no backend. It makes no network requests beyond loading its own files, has no analytics and no accounts, and nothing you type is transmitted anywhere. Your clearance and solved Seals are stored in your own browser's localStorage and go no further."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <!-- @gpc-seo-jsonld:end -->
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="image_src" href="/assets/images/og-card.jpg" />
+
+    <!-- Styles for the generated static crawlable block below. CSP permits
+         'unsafe-inline' for styles; nothing here is a script. The block paints
+         before the bundle's CSS arrives, so these rules are self-sufficient. -->
+    <style>
+      .gpc-static {
+        margin: 0;
+        padding: 2.5rem 1.25rem 4rem;
+        min-height: 100vh;
+        background: #04060a;
+        color: #cbd5e1;
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+        font-size: 13px;
+        line-height: 1.75;
+      }
+      .gpc-static .wrap {
+        max-width: 46rem;
+        margin: 0 auto;
+      }
+      .gpc-static h1 {
+        margin: 0 0 0.35rem;
+        font-size: 1.35rem;
+        line-height: 1.35;
+        letter-spacing: 0.06em;
+        color: #f8fafc;
+        text-transform: uppercase;
+      }
+      .gpc-static h2 {
+        margin: 2.25rem 0 0.6rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #00f0ff;
+        border-bottom: 1px solid #1b263b;
+        padding-bottom: 0.4rem;
+      }
+      .gpc-static h3 {
+        margin: 1.4rem 0 0.35rem;
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
+        color: #e2e8f0;
+      }
+      .gpc-static p {
+        margin: 0 0 0.9rem;
+      }
+      .gpc-static .kicker {
+        margin: 0 0 1.4rem;
+        font-size: 0.62rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: #8190a5;
+      }
+      .gpc-static .lede {
+        padding: 1rem 1.1rem;
+        background: #0a0e18;
+        border: 1px solid #1b263b;
+        border-left: 2px solid #00f0ff;
+        border-radius: 4px;
+      }
+      .gpc-static .lede p:last-child {
+        margin-bottom: 0;
+      }
+      .gpc-static .hook {
+        padding-left: 1rem;
+        text-indent: -1rem;
+      }
+      .gpc-static .callout {
+        padding: 0.7rem 1rem;
+        background: #1c0a10;
+        border: 1px solid #881337;
+        border-radius: 4px;
+        color: #fda4af;
+      }
+      .gpc-static a {
+        color: #22d3ee;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .gpc-static a:hover {
+        color: #a5f3fc;
+      }
+      .gpc-static table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 1rem;
+        font-size: 12px;
+      }
+      .gpc-static caption {
+        text-align: left;
+        font-size: 0.62rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #8190a5;
+        padding-bottom: 0.5rem;
+      }
+      .gpc-static th,
+      .gpc-static td {
+        text-align: left;
+        vertical-align: top;
+        padding: 0.45rem 0.6rem;
+        border-bottom: 1px solid #151f30;
+      }
+      .gpc-static th {
+        width: 34%;
+        color: #8190a5;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+      }
+      .gpc-static td {
+        color: #e2e8f0;
+      }
+      .gpc-static blockquote {
+        margin: 0 0 1rem;
+        padding: 0.75rem 1rem;
+        background: #070b13;
+        border-left: 2px solid #738299;
+        color: #94a3b8;
+      }
+      .gpc-static blockquote p {
+        margin: 0 0 0.4rem;
+      }
+      .gpc-static blockquote .src {
+        display: block;
+        font-size: 11px;
+        color: #64748b;
+      }
+      .gpc-static ul {
+        margin: 0 0 1rem;
+        padding-left: 1.2rem;
+      }
+      .gpc-static li {
+        margin-bottom: 0.3rem;
+      }
+      .gpc-static .index {
+        columns: 2;
+        column-gap: 1.5rem;
+        list-style: none;
+        padding-left: 0;
+      }
+      .gpc-static .notice {
+        margin-top: 2.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid #1b263b;
+        font-size: 11px;
+        color: #8190a5;
+      }
+      .gpc-static .noscript-note {
+        margin: 0 0 1.5rem;
+        padding: 0.7rem 1rem;
+        background: #1a1206;
+        border: 1px solid #78350f;
+        border-radius: 4px;
+        color: #fcd34d;
+        font-size: 12px;
+      }
+      @media (max-width: 40rem) {
+        .gpc-static .index {
+          columns: 1;
+        }
+      }
+    </style>
   </head>
+
   <body>
-    <div id="root"></div>
-    <noscript>
-      <div
-        style="font-family: monospace; color: #cbd5e1; background: #04060a; padding: 2rem; min-height: 100vh"
-      >
-        <p>PARADIGM-OS // BOOT HALTED — the archive terminal requires JavaScript.</p>
-        <p>
-          Global Paradigms Corp. is an original work of interactive fiction by Zazie Productions. All
-          organisations, people and events are invented.
-        </p>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         GENERATED: STATIC CRAWLABLE BLOCK
+         Regenerate with `node scripts/render-static-block.mjs`.
+
+         GPTBot, ClaudeBot, PerplexityBot and OAI-SearchBot do not execute
+         JavaScript. Without this region the only HTML they can read is an
+         empty <div id="root"> — so the site would be uncitable by every
+         non-rendering engine. React clears this container on mount, so a
+         JavaScript user sees the terminal instead; meanwhile the block is
+         real content during bundle download, where there used to be a black
+         screen.
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div id="root">
+      <!-- @gpc-static-block:begin -->
+      <div class="gpc-static">
+        <div class="wrap">
+          <noscript>
+            <p class="noscript-note">
+              PARADIGM-OS // BOOT HALTED — the interactive terminal requires JavaScript. The full text of this
+              archive&rsquo;s record is readable below without it.
+            </p>
+          </noscript>
+
+          <p class="kicker">
+            PARADIGM-OS v8.4.2 &nbsp;//&nbsp; STRATEGIC FORECASTING // CIVIC CONTINUITY // EST. 1971
+          </p>
+
+          <h1>Global Paradigms Corp. — the 2006 Lost ARG hoax, reopened in 2026</h1>
+          <p class="kicker">
+            An interactive fiction archive and single-player alternate reality game by Zazie Productions
+          </p>
+
+          <div class="lede">
+            <p>
+              Global Paradigms Corp. (globalparadigmscorp.com) is a fictional-corporation website with two
+              separate eras, twenty years apart.
+            </p>
+            <p>
+              Era I (2006): a fan-made hoax page created during The Lost Experience, the alternate reality
+              game that promoted the television series Lost. It posed as a bankrupt strategic-consulting firm
+              whose listed clients included the Hanso Foundation, the Valenzetti Foundation and Halliburton,
+              and whose invented staff included Enrico Valenzetti, Michael Sontag and S. K. Nave. It was
+              online from at least 20 April 2006 and offline by 30 July 2006.
+            </p>
+            <p>
+              Era II (2026): the domain was acquired by Zazie Productions and reopened as an original
+              interactive fiction archive and single-player ARG — 412 recovered records, five clearance tiers
+              and seven cryptographic Seals, running entirely in the browser with no server and no accounts.
+            </p>
+            <p>
+              Era II is an original work. It is not affiliated with, licensed by, endorsed by, or connected to
+              Lost, ABC, Disney, the Hanso Foundation, the Valenzetti Foundation, or the author of the 2006
+              hoax. Every organisation, person and event described anywhere on this site is invented.
+            </p>
+          </div>
+
+          <h2>The record, in rows</h2>
+          <table>
+            <caption>
+              Key facts about globalparadigmscorp.com
+            </caption>
+            <tbody>
+              <tr>
+                <th scope="row">Domain</th>
+                <td>globalparadigmscorp.com</td>
+              </tr>
+              <tr>
+                <th scope="row">Era I</th>
+                <td>April 2006 – July 2006 — fan hoax during The Lost Experience (Lost)</td>
+              </tr>
+              <tr>
+                <th scope="row">Era II</th>
+                <td>2026 – present — original ARG published by Zazie Productions</td>
+              </tr>
+              <tr>
+                <th scope="row">Fictional clients (2006)</th>
+                <td>The Hanso Foundation · The Valenzetti Foundation · Halliburton</td>
+              </tr>
+              <tr>
+                <th scope="row">Invented staff (2006)</th>
+                <td>Enrico Valenzetti · Michael Sontag · S. K. Nave · Gil Flores</td>
+              </tr>
+              <tr>
+                <th scope="row">In-world company history</th>
+                <td>1971 – 2026, founded 1971</td>
+              </tr>
+              <tr>
+                <th scope="row">Current corpus</th>
+                <td>412 records · 17 kinds · ~239,000 characters</td>
+              </tr>
+              <tr>
+                <th scope="row">Puzzle track</th>
+                <td>7 Seals · 5 clearance tiers · Gateway Transmission beginner trail</td>
+              </tr>
+              <tr>
+                <th scope="row">Platform</th>
+                <td>Static web app · no server · no accounts · no telemetry</td>
+              </tr>
+              <tr>
+                <th scope="row">Cost</th>
+                <td>Free to play in any modern browser</td>
+              </tr>
+              <tr>
+                <th scope="row">Status</th>
+                <td>Fiction. All organisations, people and events are invented.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2 id="static-era-one">The Hoax — the hoax</h2>
+          <p>
+            In the spring of 2006, while The Lost Experience was running between seasons two and three of
+            Lost, a fan registered globalparadigmscorp.com and built a homepage for a company that did not
+            exist. It listed the Hanso Foundation and the Valenzetti Foundation among its clients alongside
+            Halliburton, which gave the page enough surface plausibility that players working the official
+            clues chased it as a lead.
+          </p>
+          <p>
+            It was never an official tie-in. Lostpedia categorises the page as a hoax: non-canon material
+            created intentionally to cause confusion with information from official sources. That is an
+            accurate description of what it was, and of what it was for.
+          </p>
+          <p>
+            The page claimed the company had gone under. Its press notice was dated 2 November 1995 and
+            directed all enquiries to a district attorney in a county that has never existed.
+          </p>
+          <blockquote>
+            <p>
+              Global Paradigms Corp. has filed for Chapter 11 Protection in the Bankruptcy Court of Santa
+              Dominica County as of October 31, 1995. This site is no longer active but remains online for
+              archival and arbitration purposes. Any communications ought to be directed to the Office of the
+              District Attorney of Santa Dominica.
+            </p>
+            <span class="src"
+              >IMPORTANT NOTICE — Chapter 11 — Press page, globalparadigmscorp.com, 1995-11-02</span
+            >
+          </blockquote>
+          <blockquote>
+            <p>
+              Sensitive Material. Those in violation of access protocols may be subject to national and
+              international law. In the jurisdiction of the United States, these charges are severe, ranging
+              up to and including treason which carries a penalty of execution. You have been warned.
+            </p>
+            <span class="src"
+              >Terms of Use, §8 — Sensitive Material — GPC Policies page, globalparadigmscorp.com, 2006</span
+            >
+          </blockquote>
+
+          <h2 id="static-era-one-source">What was hidden in the markup</h2>
+          <p>
+            Two messages were left in the 2006 page source for anyone who thought to look. Neither was part of
+            any official game. They are reproduced here because they are the most interesting thing the hoax
+            ever did, and because they are the only part of Era I that was written for the reader rather than
+            at them.
+          </p>
+          <blockquote>
+            <p>Stephenson was wrong. There are five. He missed weapon</p>
+            <span class="src">HTML comment — Hidden in the HTML source of globalparadigmscorp.com, 2006</span>
+          </blockquote>
+          <blockquote>
+            <p>EMAIL GRENDEL AT GLOBALPARADIGMSCORP DOT COM TO FIND HIS CAGE</p>
+            <span class="src">Morse code — Hidden in the HTML source of globalparadigmscorp.com, 2006</span>
+          </blockquote>
+
+          <h2 id="static-era-one-people">The invented staff</h2>
+          <p>
+            Nobody below ever existed. The 2006 page listed them as employees of a company that was itself a
+            fabrication, and the employment record it published for one of them was a date on a screen.
+          </p>
+          <table>
+            <caption>
+              Clients and invented staff listed on the 2006 hoax page
+            </caption>
+            <tbody>
+              <tr>
+                <th scope="row">Clients</th>
+                <td>The Hanso Foundation · The Valenzetti Foundation · Halliburton</td>
+              </tr>
+              <tr>
+                <th scope="row">Enrico Valenzetti</th>
+                <td>Former employee — record shows employment terminated 04/08/93</td>
+              </tr>
+              <tr>
+                <th scope="row">Michael Sontag</th>
+                <td>Listed employee (invented)</td>
+              </tr>
+              <tr>
+                <th scope="row">S. K. Nave</th>
+                <td>Listed employee (invented)</td>
+              </tr>
+              <tr>
+                <th scope="row">Gil Flores</th>
+                <td>Assistant District Attorney, County of Santa Dominica</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2 id="static-dark">Twenty years dark</h2>
+          <p>
+            The page went offline during the summer of 2006 — documented as offline by 30 July — and stayed
+            that way. The domain lapsed into the usual afterlife of a dead URL: cited in fan wikis and
+            academic papers about alternate reality games, resolved by nobody, remembered by a few hundred
+            people who had typed it into a browser in 2006 and briefly believed it.
+          </p>
+          <p>
+            No copy of the original site is hosted here. Fragments survive in the Internet Archive and in
+            contemporaneous clue blogs. Everything Era I is quoted on this page is quoted as a historical
+            record of what this domain used to be, not restored, continued or endorsed.
+          </p>
+
+          <h2 id="static-era-two">The Reopening — an original archive</h2>
+          <p>
+            The domain changed hands. In 2026 Zazie Productions reopened it as an original work of interactive
+            fiction that has nothing to do with the 2006 page beyond the name on the certificate.
+          </p>
+          <p>
+            A cold terminal boots. PARADIGM-OS v8.4.2 rolls past. You are a guest investigator inside the
+            recovered document archive of a strategic-forecasting company founded in 1971, best known for
+            measuring a 14.8 Hz sub-audible tone in bedrock, for products that were recalled, and for a secret
+            it kept inside its own vaults: the Ordo Vocis Profundae, and the Seven Seals they locked over it.
+          </p>
+          <p>
+            The archive holds 412 typed records across 17 kinds and roughly 239,000 characters of narrative
+            text, spanning 1971 – 2026 in-world: documents, personnel files, station telemetry, annual
+            reports, emails, meeting minutes, dead hyperlinks from a 1998 intranet, and restoration logs
+            written by the archivists who recovered all of it. 5 clearance tiers gate what you can open, and
+            clearance is earned only by breaking Seals.
+          </p>
+          <p>
+            No server, no database, no API, no analytics, no accounts. Progress is per-browser localStorage.
+          </p>
+          <p class="hook">▸ A recovered corporate archive for a strategic-forecasting firm founded in 1971</p>
+          <p class="hook">
+            ▸ A 14.8 Hz sub-audible tone measured in bedrock, and the products recalled because of it
+          </p>
+          <p class="hook">▸ The Ordo Vocis Profundae — a secret the company kept inside its own vaults</p>
+          <p class="hook">
+            ▸ Seven cryptographic Seals, opened strictly in order, each keyed to a planet and a colour
+          </p>
+          <p class="hook">▸ Clearance that is earned by breaking Seals, never granted by clicking</p>
+
+          <h2 id="static-not-true">What is not true</h2>
+          <p>
+            Stated plainly, because the entire first era of this domain consisted of people stating things
+            that were not true and being believed.
+          </p>
+          <p>
+            There is no Global Paradigms Corp. There never was one, in 2006 or in 2026. There is no Santa
+            Dominica County, no Chapter 11 filing, no Enrico Valenzetti, no Michael Sontag, no S. K. Nave, no
+            Gil Flores, no 14.8 Hz tone in the bedrock, and no Ordo Vocis Profundae.
+          </p>
+          <p>
+            The 2026 archive is an original work by Zazie Productions. It is not affiliated with, licensed by,
+            endorsed by, or connected to Lost, ABC, Channel 4, Disney, the Hanso Foundation, the Valenzetti
+            Foundation, or the author of the 2006 hoax. The shared domain name is the only connection between
+            the two eras, and it is a coincidence of paperwork rather than of intent.
+          </p>
+          <p>
+            References to Lost, The Lost Experience, the Hanso Foundation and the Valenzetti Foundation on
+            this page are historical and descriptive. They identify what this URL was twenty years ago, which
+            is a matter of public record. They do not claim any association with those works or their rights
+            holders.
+          </p>
+          <p class="callout">
+            If you are quoting this site — in an article, a video, a wiki, or a generated answer — please
+            carry the non-affiliation above with the quotation. The first era of this domain worked precisely
+            because people repeated it without one.
+          </p>
+
+          <h2>Questions the archive is asked</h2>
+          <h3>What was globalparadigmscorp.com in 2006?</h3>
+          <p>
+            A hoax website built by a fan during The Lost Experience, the 2006 alternate reality game
+            promoting the television series Lost. It presented itself as the archived homepage of a bankrupt
+            strategic-consulting corporation, listing the Hanso Foundation, the Valenzetti Foundation and
+            Halliburton as clients. It was online from at least 20 April 2006 and offline by 30 July 2006.
+            Lostpedia classifies it as a hoax: non-canon material created intentionally to cause confusion
+            with official sources.
+          </p>
+          <h3>Was Global Paradigms Corp. a real company?</h3>
+          <p>
+            No. There has never been a real Global Paradigms Corp. In 2006 the site was a fan fabrication
+            posing as a bankrupt firm. In 2026 it is a work of interactive fiction. Both eras are invented;
+            the Santa Dominica County Chapter 11 filing, the corporate clients and the staff are all
+            fictional.
+          </p>
+          <h3>Is this site part of Lost, or affiliated with the Hanso Foundation?</h3>
+          <p>
+            No. The 2006 hoax referenced Lost mythology without authorization and was never official. The 2026
+            reopening by Zazie Productions is an entirely original work with its own characters, its own
+            company history (in-world 1971–2026) and its own mystery — the Ordo Vocis Profundae and the Seven
+            Seals. Nothing here is affiliated with, licensed by, or endorsed by Lost, ABC, Disney, or the
+            creators of the 2006 page. The shared domain name is the only connection.
+          </p>
+          <h3>Who were Enrico Valenzetti, Michael Sontag and S. K. Nave?</h3>
+          <p>
+            Invented people listed as staff on the 2006 hoax page. The site claimed Enrico Valenzetti had been
+            an employee whose employment was terminated on 04/08/93, and listed Michael Sontag and S. K. Nave
+            alongside him. None of them are real, and none of them appear in the 2026 archive.
+          </p>
+          <h3>What is on globalparadigmscorp.com now?</h3>
+          <p>
+            A self-contained interactive fiction archive and single-player ARG published by Zazie Productions.
+            You boot a cold terminal running PARADIGM-OS v8.4.2 and read the recovered records of a
+            strategic-forecasting company: 412 documents, personnel files, station telemetry, annual reports,
+            emails, dead hyperlinks from a 1998 intranet and restoration logs. Clearance is earned by breaking
+            7 cryptographic Seals, never granted by clicking.
+          </p>
+          <h3>Is the 2006 version of the site still available?</h3>
+          <p>
+            Not from us. The original hoax page was taken down in 2006 and no copy is hosted here. Fragments
+            survive in the Internet Archive and in fan documentation from the period; the bankruptcy notice,
+            the Terms of Use warning and both messages hidden in the page source are quoted on our legacy page
+            as a historical record.
+          </p>
+          <h3>How do I start playing?</h3>
+          <p>
+            Open the homepage and let PARADIGM-OS boot. The Gateway Transmission is a four-step beginner trail
+            that teaches the mechanics without granting clearance; the Seven Seals at /sanctum are the main
+            investigation. Press ~ anywhere for the terminal, / for archive-wide search. Progress saves to
+            your browser only — there are no accounts, no server and no telemetry.
+          </p>
+          <h3>Does the site collect data or require an account?</h3>
+          <p>
+            No. It is a static web application with no backend. It makes no network requests beyond loading
+            its own files, has no analytics and no accounts, and nothing you type is transmitted anywhere.
+            Your clearance and solved Seals are stored in your own browser's localStorage and go no further.
+          </p>
+
+          <h2>Sections of the archive</h2>
+          <ul class="index">
+            <li><a href="/sanctum">The Seven Seals</a></li>
+            <li><a href="/legacy">The Legacy File</a></li>
+            <li><a href="/">Command Dashboard</a></li>
+            <li><a href="/documents">Master Document Vault</a></li>
+            <li><a href="/personnel">Personnel Directory</a></li>
+            <li><a href="/stations">Regional Stations &amp; Arrays</a></li>
+            <li><a href="/programs">Project Dossiers</a></li>
+            <li><a href="/departments">Department Charters</a></li>
+            <li><a href="/products">Recalled Products Archive</a></li>
+            <li><a href="/audio">Acoustic Artifacts &amp; Synth</a></li>
+            <li><a href="/tools">Sub-Audible Software Tools</a></li>
+            <li><a href="/reports">Annual Strategic Disclosures</a></li>
+            <li><a href="/communications">Emails &amp; Meeting Minutes</a></li>
+            <li><a href="/timeline">Historical Timeline (1971-2026)</a></li>
+            <li><a href="/newsletters">Internal Staff Newsletters</a></li>
+            <li><a href="/training">Employee Training Modules</a></li>
+            <li><a href="/careers">Classified Job Postings</a></li>
+            <li><a href="/values">5 Pillars of Certainty</a></li>
+            <li><a href="/deadlinks">Dead Links &amp; Wayback Mirrors</a></li>
+          </ul>
+
+          <p class="notice" role="note">
+            FICTION // Global Paradigms Corp. is an original work of interactive fiction by Zazie Productions.
+            The company, its staff, projects, products, documents and events are invented. Real place names
+            are used only as fictional settings. Nothing here describes real organisations, people, science or
+            incidents. This domain previously hosted an unrelated, unauthorized fan-made hoax page during the
+            2006 alternate reality game for a television series; that page was taken down the same year and is
+            not preserved, continued, endorsed or referenced by this work. The 2026 archive is not affiliated
+            with any existing franchise, studio, broadcaster, or the author of that earlier site. No
+            information you type is transmitted anywhere.
+          </p>
+        </div>
       </div>
-    </noscript>
+      <!-- @gpc-static-block:end -->
+    </div>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -6,9 +6,10 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import { FEATURES } from '@/config/features';
-import { NAV_ITEMS, tabForPath } from '@/config/navigation';
-import { SITE } from '@/config/site';
+import { tabForPath } from '@/config/navigation';
+import { routeSeo } from '@/config/seo';
 import { gpcAudio } from '@/lib/audio/audio-engine';
+import { upsertLink, upsertMeta } from '@/lib/utils/head-meta';
 import { useProgression } from '@/hooks/use-progression';
 import { notify, useDescrambler } from '@/hooks/use-investigation';
 import { TopHeader } from '@/components/layout/top-header';
@@ -91,11 +92,21 @@ export function ArchiveShell() {
     if (openDocId) discover(openDocId);
   }, [openDocId, discover]);
 
-  // Title + focus management on navigation.
+  // Title, canonical URL and social URL on navigation.
+  //
+  // Google renders JavaScript, so what it indexes is the post-mount document —
+  // not the head Vite served. That makes this effect the authoritative source
+  // of the page's SEO metadata, and index.html the fallback for crawlers that
+  // never execute a line of it. Query strings are stripped: `?record=` and
+  // `?doc=` are modal states, not pages, and every one of them should collapse
+  // onto its section rather than be indexed as a near-duplicate.
   useEffect(() => {
-    const tab = tabForPath(pathname);
-    const label = NAV_ITEMS.find((i) => i.id === tab)?.label ?? 'Missing File';
-    document.title = tab === 'dashboard' ? SITE.title : `${label} // ${SITE.name}`;
+    const seo = routeSeo(pathname);
+    document.title = seo.title;
+    upsertLink('canonical', seo.canonical);
+    upsertMeta('og:url', seo.canonical, 'property');
+    upsertMeta('description', seo.description, 'name');
+    upsertMeta('og:description', seo.description, 'property');
     if (firstRoute.current) {
       firstRoute.current = false;
       return;

@@ -11,13 +11,19 @@ browser's `localStorage`.
 
 ```
 .
-├── index.html                 Vite entry. Meta tags + <noscript> fallback. No third-party scripts.
+├── index.html                 Vite entry. SEO/GEO head + generated crawlable block + JSON-LD
+│                              (see docs/SEO.md). No third-party scripts.
 ├── public/
 │   ├── _redirects, _headers   Netlify / Cloudflare Pages redirects + security headers
+│   ├── robots.txt             open to all crawlers; AI crawlers welcomed by name
+│   ├── sitemap.xml            exactly the 19 routed sections
+│   ├── llms.txt               two-era brief for models and agents
 │   ├── favicon.svg
-│   └── assets/{audio,documents,images,textures,downloads}/   static media (currently empty; see DEPLOYMENT)
-├── scripts/puzzle-digest.mjs  `npm run puzzle:digest` — hashes a puzzle answer for definitions.ts
-├── vercel.json                Vercel build, redirects, SPA rewrite, headers (CSP)
+│   └── assets/{audio,documents,images,textures,downloads}/   static media
+│       └── images/og-card.jpg 1200×630 social card referenced by og:image
+├── scripts/puzzle-digest.mjs          `npm run puzzle:digest` — hashes a puzzle answer for definitions.ts
+├── scripts/render-static-block.mjs    `npm run seo:render` — regenerates index.html's generated regions
+├── vercel.json                Vercel build, redirects, SPA rewrite (excludes the crawler files), headers (CSP)
 ├── vite.config.ts             `@` alias → src, bundles to /static, manual vendor chunks
 ├── vitest.config.ts           jsdom, src/tests/setup.ts
 ├── eslint.config.js           flat config; bans `../` imports (use `@/…`)
@@ -60,15 +66,23 @@ browser's `localStorage`.
 
 ### Layering rules
 
-| Layer        | May import                                   | Must not import            |
-| ------------ | -------------------------------------------- | -------------------------- |
-| `types`      | nothing                                      | —                          |
-| `content`    | `types`, `lib/utils`, `lib/archive/*` (pure) | `config/navigation`, React |
-| `config`     | `types`, `content`                           | components                 |
-| `lib`        | `types`, `content`, `config`                 | React components           |
-| `hooks`      | `lib`, `config`, `content`                   | pages                      |
-| `components` | everything above, `app/archive-ui-context`   | pages                      |
-| `pages`      | everything above                             | other pages                |
+| Layer     | May import                                   | Must not import            |
+| --------- | -------------------------------------------- | -------------------------- |
+| `types`   | nothing                                      | —                          |
+| `content` | `types`, `lib/utils`, `lib/archive/*` (pure) | `config/navigation`, React |
+| `config`  | `types`, `content`                           | components                 |
+
+| `lib` | `types`, `content`, `config` | React components |
+| `hooks` | `lib`, `config`, `content` | pages |
+| `components` | everything above, `app/archive-ui-context` | pages |
+| `pages` | everything above | other pages |
+
+`config/seo-copy.ts` is a deliberate exception to the usual shape of `config`: it imports **nothing at
+all**. The Node tsconfig project typechecks `src/tests/seo.test.ts` against it, and that project has no
+DOM and cannot compile the component graph; `scripts/render-static-block.mjs` bundles it with esbuild for
+the same reason. Anything needing the router (`SECTION_INDEX`, `routeSeo`) lives in `config/seo.ts`, which
+re-exports the copy so consumers keep one import point. The studio/os/name values inside the copy are
+therefore literals, and `seo.test.ts` pins them to `SITE`.
 
 `config/navigation.ts` imports `@/content` (for record counts), so content must never import navigation —
 that would be a cycle. Seal clues therefore store tab ids and build `/${tab}` paths themselves; a
@@ -96,6 +110,35 @@ main.tsx
   Back closes it. `?record=<id>` does the same for personnel/stations/programs via `useRecordParam`.
 - **Global keys** (ignored while typing in a field): `/` or Ctrl/Cmd-K search, `` ` `` / `~` terminal,
   `u` de-scrambler, `Esc` closes the top-most dialog.
+- **The `<head>` is rewritten on every navigation.** `ArchiveShell` runs `routeSeo(pathname)` and pushes
+  the result through `lib/utils/head-meta.ts` (`upsertLink` / `upsertMeta`), because Google renders
+  JavaScript and therefore indexes the post-mount document rather than the head Vite served. Query
+  strings are stripped so `?record=` / `?doc=` modal states collapse onto their section instead of being
+  indexed as near-duplicates.
+
+## The SEO / GEO layer
+
+Full strategy, keyword targets and the crawler matrix live in `docs/SEO.md`. Architecturally there are
+three pieces:
+
+1. **A static crawlable block inside `#root` in `index.html`.** Engines that do not execute JavaScript
+   (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot) would otherwise read an empty `<div>`. The block is
+   the complete two-era entity statement — lede, fact table, eras, quotes, FAQ, section index, fiction
+   notice — and React clears it on mount, so a JS user sees the terminal instead. It doubles as real
+   content during bundle download.
+2. **Generated regions.** The block and the JSON-LD `@graph` are emitted by
+   `scripts/render-static-block.mjs` from `config/seo.ts` between comment markers in `index.html`.
+   `npm run seo:check` (part of `npm run check`) fails if `index.html` drifts from the copy; the check
+   compares content, not indentation, so Prettier remains free to format the file.
+3. **Crawler files as real files.** `public/robots.txt`, `public/sitemap.xml` and `public/llms.txt` are
+   excluded from the SPA rewrite in `vercel.json` (negative lookahead) and win over the `/*` splat in
+   `public/_redirects`, so they are served as themselves. `_headers` caches them for one hour with
+   `must-revalidate` so an edit propagates quickly.
+
+The `/legacy` route (`pages/legacy-page.tsx`) renders `LEGACY_PAGE` from the same copy inside the app —
+amber-toned and filed under "OUT OF WORLD" in the sidebar, because it is the one page that talks about the
+real domain rather than the fictional company. It is deliberately **not** an archive record: out-of-world
+copy never enters the normaliser, the search index, or the export pipeline.
 
 ## State
 

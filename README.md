@@ -12,9 +12,14 @@
 > | Runtime | None. No server, no database, no API, no analytics. Everything the story knows ships in the bundle. |
 > | Fiction | Entirely invented. No real organisations, people, science, or events.                               |
 
+| Domain | globalparadigmscorp.com — a 2006 fan hoax, twenty years dark, reopened 2026 (see `docs/SEO.md`) |
+
 **FICTION //** Global Paradigms Corp. is an original work of interactive fiction. The company, its staff,
 projects, products, documents and events are invented; real place names appear only as fictional settings.
-Nothing here is affiliated with any existing franchise, studio, or prior third-party website.
+This domain previously hosted an unrelated, unauthorized fan-made hoax page during the 2006 alternate
+reality game for a television series; that page was taken down the same year and is not preserved,
+continued, endorsed or referenced by this work. The 2026 archive is not affiliated with any existing
+franchise, studio, broadcaster, or the author of that earlier site.
 This notice is also rendered inside the application itself, on every public page.
 
 ---
@@ -74,7 +79,8 @@ checkout on 2026-09-26; regenerate any of them with the listed command.
 | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`) | `npm run typecheck`                            |
 | ESLint (flat config) and Prettier are clean                                                                                  | `npm run lint && npm run format:check`         |
-| **85 tests in 8 files** pass (reducer, validation, search, routes, a11y, boot, digest script, content integrity)             | `npm test`                                     |
+| **131 tests in 11 files** pass (reducer, validation, search, routes, a11y, boot, digest script, content integrity, SEO/GEO)  | `npm test`                                     |
+| index.html's crawlable layer, JSON-LD, robots/sitemap/llms.txt and `SITE.title` all agree with `src/config/seo.ts`           | `npm run seo:check`                            |
 | 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                              | `npm run validate:content`                     |
 | Every redaction has a de-scrambled counterpart                                                                               | part of the suite above (`content-integrity`)  |
 | No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                 | the greps shown in “Quick start”               |
@@ -225,19 +231,21 @@ autoplays. A persistent player bar carries playback; sound can be muted globally
 
 ### Build & performance (measured, `npm run build`, ~5 s)
 
-| Chunk          | Role                                            |            Raw |        Gzip |
-| -------------- | ----------------------------------------------- | -------------: | ----------: |
-| `react`        | react-dom + router                              |       315.7 kB |    100.7 kB |
-| `content`      | the entire 412-record corpus                    |       331.7 kB |    105.0 kB |
-| `index`        | app code                                        |       232.2 kB |     69.4 kB |
-| CSS            | tokens + archive + boot + occult                |       128.2 kB |     26.0 kB |
-| `icons`        | lucide subset                                   |        20.1 kB |      6.7 kB |
-| 24 more chunks | 19 lazy page chunks + 5 split shared components | 0.2–37 kB each | 0.2–11.6 kB |
+| Chunk          | Role                                            |              Raw |        Gzip |
+| -------------- | ----------------------------------------------- | ---------------: | ----------: |
+| `react`        | react-dom + router                              |         315.7 kB |    100.7 kB |
+| `content`      | the entire 412-record corpus                    |         377.2 kB |    127.1 kB |
+| `index`        | app code                                        |         255.6 kB |     77.2 kB |
+| CSS            | tokens + archive + boot + occult                |         133.9 kB |     27.2 kB |
+| `icons`        | lucide subset                                   |          20.7 kB |      6.9 kB |
+| 25 more chunks | 20 lazy page chunks + 5 split shared components | 0.2–37.6 kB each | 0.2–11.7 kB |
 
-~308 kB gzipped of JS+CSS on first visit, _including the whole story_. Hashed bundles emit to `/static/*`
-and are served `max-age=31536000, immutable`; the corpus chunk is intentionally one large cacheable object
+~345 kB gzipped of JS+CSS on first visit, _including the whole story_. (The `index` chunk grew ~8 kB
+gzipped over the previous measurement: it now carries the SEO/GEO layer — `routeSeo()`, the live
+`<head>` rewrites, and the Legacy File page.) Hashed bundles emit to `/static/*` and are served
+`max-age=31536000, immutable`; the corpus chunk is intentionally one large cacheable object
 (`chunkSizeWarningLimit: 700` with the reason in a comment, not silenced). Fonts are self-hosted
-`@fontsource` subsets with `font-display: swap`. Total `dist/`: 66 files, 2.4 MB on disk.
+`@fontsource` subsets with `font-display: swap`. Total `dist/`: 71 files, 2.6 MB on disk.
 
 ### HTTP posture
 
@@ -250,13 +258,28 @@ out of reach by construction — and there are none to keep).
 
 ### Testing
 
-85 tests across 8 files, all `console.error`-hostile (the route suite fails if rendering logs one):
+131 tests across 11 files, all `console.error`-hostile (the route suite fails if rendering logs one):
 `content-integrity` (ids, cross-refs, redaction pairing, clue targets), `progression` (reducer: ordering,
 clearance derivation, assisted upgrades, save migration/quota fallback), `puzzle-validation` (normalisation,
 revoked codes, requirement gating), `search` (AND semantics + the two client-safety rules), `routes` (every
 nav path renders, legacy redirects preserve query strings, `?doc=`/`?record=` deep links record
-discovery), `modal-boot` (focus trap, Escape, focus restore), `puzzles-ui`, and a test that the digest
-script matches `lib/puzzles/validate.ts` byte-for-byte semantics.
+discovery), `modal-boot` (focus trap, Escape, focus restore), `puzzles-ui`, `route-seo` (per-route
+canonical/title), a test that the digest script matches `lib/puzzles/validate.ts` byte-for-byte semantics,
+and `seo` (below).
+
+### SEO & GEO
+
+The domain spent 2006–2026 documented on the web as a _Lost_ ARG hoax, so the discoverability problem is
+entity resolution: be the clearest citable statement of what the URL is now while confirming what it was.
+Copy lives once in `src/config/seo.ts`; `index.html`'s crawlable block and JSON-LD are **generated from it**
+by `scripts/render-static-block.mjs` (non-JS crawlers like GPTBot and PerplexityBot cannot execute the SPA,
+and before this layer the only HTML they could read was an empty `<div id="root">`). `robots.txt` welcomes
+AI crawlers by name, `sitemap.xml` covers exactly the 19 routed sections, `llms.txt` briefs models on the
+two eras, and the JSON-LD deliberately carries **no `Organization` node for the fictional company** so no
+engine can hallucinate a real business out of it. The `seo` and `route-seo` suites (37 tests) hold every surface —
+head tags, generated regions, robots, sitemap, llms, `SITE.title` — to the same account, and
+`npm run check` runs `seo:check` so a stale `index.html` fails CI. Rationale, keyword targets and the
+franchise-naming decision: `docs/SEO.md`.
 
 ### Accessibility (a product requirement, not a coat of paint)
 
@@ -293,7 +316,10 @@ silently override base styles — the escape hatch is Tailwind's `!` suffix, del
 It is a folder of static files. `npm run build` → serve `dist/` anywhere with an SPA fallback; the repo
 ships ready-made config for **Vercel** (`vercel.json`), **Netlify/Cloudflare Pages** (`public/_headers`,
 `public/_redirects` — keep the redirect tables in all three places in sync; a routes test covers the
-in-app half), and `npm run preview` serves the exact production output locally. `public/assets/**`
+in-app half), and `npm run preview` serves the exact production output locally. The crawler-facing files
+(`robots.txt`, `sitemap.xml`, `llms.txt`) are real files in the publish directory and are excluded from
+the SPA rewrite in both `vercel.json` and `public/_redirects`, so they are served as themselves rather
+than as the app shell. `public/assets/**`
 directories are intentionally empty: media is optional garnish on a procedurally-synthesised, text-first
 corpus (drop files in, set `src` on an `AudioArtifact`, and see the media-hosting notes referenced by
 `docs/ARCHITECTURE.md`). Build-time flags: `VITE_FEATURE_BOOT_SEQUENCE`, `VITE_FEATURE_PERSIST_PROGRESS`,
@@ -303,12 +329,13 @@ never require it.
 
 ## Documentation map
 
-| Document                | Covers                                                         |
-| ----------------------- | -------------------------------------------------------------- |
-| `docs/ARCHITECTURE.md`  | repo map, layering rules, runtime flow, state, search, build   |
-| `docs/CONTENT_MODEL.md` | types, collections, normaliser, redaction syntax, authoring    |
-| `docs/PUZZLE_SYSTEM.md` | puzzle model, validation, hints/assisted, rewards, persistence |
-| `docs/DESIGN_SYSTEM.md` | tokens, components, a11y, responsive behaviour                 |
+| Document                | Covers                                                                 |
+| ----------------------- | ---------------------------------------------------------------------- |
+| `docs/ARCHITECTURE.md`  | repo map, layering rules, runtime flow, state, search, build           |
+| `docs/CONTENT_MODEL.md` | types, collections, normaliser, redaction syntax, authoring            |
+| `docs/PUZZLE_SYSTEM.md` | puzzle model, validation, hints/assisted, rewards, persistence         |
+| `docs/DESIGN_SYSTEM.md` | tokens, components, a11y, responsive behaviour                         |
+| `docs/SEO.md`           | SEO/GEO strategy, the six copy surfaces, crawler matrix, JSON-LD rules |
 
 Two files referenced inside those docs — `DEPLOYMENT.md` and `CONTENT_STYLE_GUIDE.md` — are not yet
 committed. The README documents what _is_ true; the gap is tracked below rather than papered over.
