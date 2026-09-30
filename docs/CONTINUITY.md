@@ -40,6 +40,8 @@ must hold the line and CI will not.
 | `INV-ENTITY-03` | A document's `departmentName` matches its `departmentId`                              | `validate-canon`   |
 | `INV-ENTITY-04` | Department, station, program and audio codes are unique and correctly prefixed        | `validate-canon`   |
 | `INV-TERM-01`   | No banned spelling variant of a canonical proper noun ships                           | `validate-canon`   |
+| `INV-TERM-02`   | Every command `help` lists is implemented in the terminal component                   | tests              |
+| `INV-TERM-03`   | Every documented alias is implemented, and none is listed by `help`                   | tests              |
 | `INV-SEAL-01`   | Seven seals, in planetary order, with distinct Seal-Words                             | `validate-canon`   |
 | `INV-SEAL-02`   | Seal-Words I–VI initial to the first six letters of the name Seal VII reveals         | `validate-canon`   |
 | `INV-SEAL-03`   | Clearance rewards ascend monotonically across the seals                               | `validate-canon`   |

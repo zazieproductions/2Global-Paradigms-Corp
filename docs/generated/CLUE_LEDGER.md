@@ -96,6 +96,86 @@ Tier 3 is the assisted route. Opening it before a correct answer marks the compl
 | `gateway-waveform` | _none_ |
 | `gateway-transmission` | _none_ |
 
+## Terminal surface
+
+The terminal (`~`) is a puzzle surface in its own right. `help` lists the documented commands;
+the aliases below are undocumented on purpose and exist only to react in-fiction to the wrong move.
+
+| Command | Documented | Purpose |
+| --- | :--: | --- |
+| `help` | yes | Display command manual |
+| `clear` | yes | Clear terminal screen |
+| `whoami` | yes | Identity, clearance & degree |
+| `clearance <1-5>` | yes | Switch to an earned clearance |
+| `ls docs [n]` | yes | List indexed documents (page n) |
+| `cat <doc_code>` | yes | Print a document you are cleared for |
+| `scan` | yes | Run planetary 14.8Hz harmonic scan |
+| `decrypt` | yes | Toggle Redaction De-Scrambler (L3+) |
+| `play <1-6>` | yes | Play audio artifact preset |
+| `stop` | yes | Stop all active audio streams |
+| `leak-dump` | yes | Thorne's exfiltration directory |
+| `status` | yes | Field stations & telemetry state |
+| `hint [confirm]` | yes | Ask Thorne about the active seal |
+| `progress` | yes | Show investigation progress |
+| `seals` | Order | Progress of the Seven Seals |
+| `codex` | Order | Your Choir Script key |
+| `gematria <text>` | Order | Ordinal letter-sum (A=1…Z=26) |
+| `wheel <keyword>` | Order | Turn the Mercury Wheel on Thorne's courier line |
+| `commune` | Order | Place your hand on the planchette |
+| `invoke <name>` | Order | Speak a name into the carrier |
+| `exit` | yes | Close terminal backdoor |
+| `override` | — | Rejects a master key. Master Key 01 was revoked 1989-11-04 05:14 UTC. |
+| `unredact` | — | Alias of `decrypt`. |
+| `ordo` | — | Prints the Order's name and Liber Carrier §I. |
+| `vox` | — | Alias of `ordo`. |
+
+`ORDO VOCIS PROFUNDAE` is quoted verbatim from `ovp-003` §I by `ordo`/`vox`, which is the one place
+the Order states itself in the player's face before Seal I.
+
+### The planchette (`commune`)
+
+One line per active seal, indexed by `currentSeal − 1`; the last plays after the finale. It never
+names an answer, which is what keeps it on the right side of the spoiler ceiling.
+
+| Active seal | Line |
+| --- | --- |
+| Seal I — The Square of Lead | THE SQUARE IS OLDER THAN THE COMPANY |
+| Seal II — The Wheel of Days | WALK THE STAR FROM THE SUN |
+| Seal III — The Scattered Choir | THE PUBLIC FACE IS SIGNED IN RED |
+| Seal IV — The Three Voices | EARTH EVENING CHILD |
+| Seal V — The Redacted Hymn | READ THE HEAD OF EVERY VERSE |
+| Seal VI — The Mercury Wheel | THE WHEEL WANTS THE NAME OF THE CAVES |
+| Seal VII — The Name That Ends The Song | O R P H E U  WHO |
+| _after the finale_ | THANK YOU |
+
+### Gematria annotations (`gematria <text>`)
+
+Ordinal letter-sums the terminal will comment on. Each is a nudge, not an answer.
+
+| Sum | Note |
+| ---: | --- |
+| 15 | Saturn's constant. The Square completes at fifteen. |
+| 45 | The sum of the Square of Saturn (1 through 9). |
+| 53 | CHOIR. |
+| 102 | The name that must not be spoken in the Voice’s hearing. |
+| 148 | The carrier, written without its point. |
+| 432 | The evening voice. |
+| 741 | The child’s voice. |
+
+### Revoked codes
+
+Recognised solely so the fiction can refuse them. None grants anything.
+
+| Code | Rejected by |
+| --- | --- |
+| `432-88` | `override`, the master-key prompt |
+| `4328` | `override`, the master-key prompt |
+| `1480` | `override`, the master-key prompt |
+| `0432` | `override`, the master-key prompt |
+| `1989` | `override`, the master-key prompt |
+| `3120` | `override`, the master-key prompt |
+| `sedley` | `override`, the master-key prompt |
+
 ## Choir Script fragments
 
 | Fragment | Tab | Letters | Riddle |

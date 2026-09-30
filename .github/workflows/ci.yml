@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# The archive is a static build with no server, so CI is the only gate.
+# `npm run check` is the full pipeline; the separate validate jobs exist so a
+# failure names the layer that broke (structure vs. narrative vs. docs).
+jobs:
+  verify:
+    name: Typecheck · lint · format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format:check
+
+  content:
+    name: Structural integrity (validate:content)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Errors fail. Warnings are authored in-world gaps and are printed for
+      # reviewers; see docs/CONTINUITY.md §3.
+      - run: npm run validate:content
+
+  canon:
+    name: Narrative continuity (validate:canon)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run validate:canon
+
+  docs:
+    name: Derived reference is current (archive:report)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # docs/generated/** is generated from src/content/** and committed. This
+      # fails when someone edits content without regenerating, or hand-edits
+      # the output. Run `npm run archive:report` and commit the diff.
+      - run: npm run archive:report:check
+
+  test:
+    name: Tests and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7

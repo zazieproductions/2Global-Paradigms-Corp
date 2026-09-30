@@ -11,6 +11,7 @@ browser's `localStorage`.
 
 ```
 .
+├── .github/workflows/ci.yml   five jobs: verify, content, canon, docs, test — see CONTRIBUTING.md §4
 ├── index.html                 Vite entry. Meta tags + <noscript> fallback. No third-party scripts.
 ├── public/
 │   ├── _redirects, _headers   Netlify / Cloudflare Pages redirects + security headers

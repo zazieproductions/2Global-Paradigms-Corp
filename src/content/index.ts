@@ -26,4 +26,12 @@ export { DEAD_LINKS } from './web/dead-links';
 export { RESTORATION_LOGS } from './restoration/restoration-logs';
 export { PUZZLES } from './puzzles/definitions';
 export { PUZZLE_DOWNLOADS } from './puzzles/downloads';
-export { TERMINAL_HELP, TERMINAL_SCAN, TERMINAL_LEAK_DUMP, TERMINAL_STATUS } from './puzzles/terminal-text';
+export {
+  TERMINAL_HELP,
+  TERMINAL_ALIASES,
+  TERMINAL_SCAN,
+  TERMINAL_LEAK_DUMP,
+  TERMINAL_STATUS,
+  COMMUNE_LINES,
+  GEMATRIA_NOTES
+} from './puzzles/terminal-text';

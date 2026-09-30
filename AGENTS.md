@@ -11,7 +11,7 @@ exists to keep that corpus consistent over long authoring sessions. Preserving t
 
 1. [`docs/CANON.md`](docs/CANON.md) — what is true. Read it end to end; it is the shortest path to not
    inventing a contradiction.
-2. [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) §5 — the agent contract, including the "never" list.
+2. [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) §_For AI agents_ — the contract, including the "never" list.
 3. [`docs/generated/CANON_LEDGER.json`](docs/generated/CANON_LEDGER.json) — the same canon as data, if
    you would rather parse than read.
 4. Whichever system doc matches your task, from the map in [`docs/README.md`](docs/README.md).

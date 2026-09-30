@@ -457,6 +457,16 @@ export const CANON_INVARIANTS: CanonInvariant[] = [
     enforcedBy: 'validate-canon'
   },
   {
+    id: 'INV-TERM-02',
+    statement: 'Every command `help` lists is implemented in the terminal component.',
+    enforcedBy: 'tests'
+  },
+  {
+    id: 'INV-TERM-03',
+    statement: 'Every documented alias is implemented, and no alias grants anything.',
+    enforcedBy: 'tests'
+  },
+  {
     id: 'INV-GATE-01',
     statement: 'Gateway steps chain in order and grant no clearance reward.',
     enforcedBy: 'validate-canon'

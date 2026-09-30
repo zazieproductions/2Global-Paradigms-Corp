@@ -179,8 +179,8 @@ fragment table and [REVELATION.md](REVELATION.md) for the gating rule.
 
 ## 5. People
 
-Principal cast. Full roster: 45 profiles at `/personnel`, indexed in
-[generated/CORPUS.md](generated/CORPUS.md).
+Principal cast. The full roster — every profile with its department, station, tier, status, hire date and
+cross-reference density — is generated: [generated/REGISTRY.md](generated/REGISTRY.md).
 
 | Id      | Name                     | Status      | Canon facts that must not move                                                                                                                                                            |
 | ------- | ------------------------ | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -216,7 +216,8 @@ station's `name`, so these strings are load-bearing.
 | `st-10` | `SLO-10-ARC` | Balkan Harmonic Calibration Center - Postojna Caverns       | The reliquary. Master repository.                    |
 
 The other sixteen are scenery with telemetry; they may be named in new records freely as long as the code
-and region stay consistent.
+and region stay consistent. The full station table — leads, establishment dates, frequency bands and active
+projects — is in [generated/REGISTRY.md](generated/REGISTRY.md).
 
 **Two places are not stations** and must not be given one: the Cambridge site of the 1974 baseline
 (there is no station there — it is where the company used to be) and the Chapter House where Liber

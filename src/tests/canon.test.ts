@@ -5,8 +5,22 @@
  * suite proves it is narratively sound. See docs/CONTINUITY.md for what each
  * invariant means and what to do when one fails.
  */
+// Node types are referenced per-file rather than added to tsconfig.app.json, so
+// app code keeps its client-only surface (`types: ["vite/client"]`). This suite
+// reads a component's source to prove the terminal's `help` is honest.
+/// <reference types="node" />
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { DOCUMENTS, PERSONNEL, PUZZLES, REGIONAL_STATIONS, TIMELINE_ENTRIES } from '@/content';
+import {
+  DOCUMENTS,
+  PERSONNEL,
+  PUZZLES,
+  REGIONAL_STATIONS,
+  TERMINAL_ALIASES,
+  TERMINAL_HELP,
+  TIMELINE_ENTRIES
+} from '@/content';
 import { CHOIR_ALPHABET } from '@/lib/puzzles/choir-script';
 import { CHOIR_INSCRIPTION, DEGREES, FRAGMENTS, SEALS } from '@/content/puzzles/seals';
 import { getArchiveEntries } from '@/lib/archive/records';
@@ -114,6 +128,23 @@ describe('canon continuity', () => {
     for (let rank = 1; rank <= CANON_COUNTS.clearanceRanks; rank++) {
       expect(CANON_DEGREES[rank], `rank ${rank}`).toBeTruthy();
     }
+  });
+
+  it('implements every command the terminal advertises', () => {
+    // The terminal's dispatch is a switch in a component, so the only way to
+    // prove `help` is honest is to read the source. INV-TERM-02 / INV-TERM-03.
+    const src = readFileSync(resolve(process.cwd(), 'src/components/puzzles/terminal-modal.tsx'), 'utf8');
+    const cases = new Set([...src.matchAll(/^\s*case '([a-z-]+)':/gm)].map((m) => m[1]));
+    for (const h of TERMINAL_HELP) {
+      const head = h.cmd.split(/\s+/)[0];
+      expect(cases.has(head), `help lists "${h.cmd}" but there is no case '${head}'`).toBe(true);
+    }
+    for (const a of TERMINAL_ALIASES) {
+      expect(cases.has(a.cmd), `alias "${a.cmd}" is documented but not implemented`).toBe(true);
+    }
+    // No alias may appear in the help list: the point is that it is undocumented.
+    const documented = new Set(TERMINAL_HELP.map((h) => h.cmd.split(/\s+/)[0]));
+    for (const a of TERMINAL_ALIASES) expect(documented.has(a.cmd), a.cmd).toBe(false);
   });
 
   it('names people and places the same way everywhere', () => {

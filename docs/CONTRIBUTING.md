@@ -59,7 +59,24 @@ content change are visible: a clearance change shows up as a row moving between 
 shows up as an `**UNRESOLVED**` pointer, a new record shows up as a count moving. If the diff is empty
 when you expected it not to be, the change did not take effect.
 
-## 4. Commit convention
+## 4. Continuous integration
+
+`.github/workflows/ci.yml` runs the same gate as `npm run check`, split into five jobs so a failure names
+the layer that broke:
+
+| Job       | Runs                                | Fails when                                       |
+| --------- | ----------------------------------- | ------------------------------------------------ |
+| `verify`  | `typecheck`, `lint`, `format:check` | the code is not sound or not formatted           |
+| `content` | `validate:content`                  | an id, reference, date or transcript is broken   |
+| `canon`   | `validate:canon`                    | the fiction contradicts itself                   |
+| `docs`    | `archive:report:check`              | `docs/generated/**` is stale or was hand-edited  |
+| `test`    | `npm test`, `npm run build`         | a player-facing path broke, or it will not build |
+
+The `docs` job is the one that surprises people. It exists because `docs/generated/**` is committed: if
+you change content and do not run `npm run archive:report`, CI fails — and the diff it wants is the
+changelog you should have read anyway.
+
+## 5. Commit convention
 
 Conventional commits, scoped by the layer touched:
 
@@ -77,7 +94,7 @@ A continuity change gets the reason in the commit body, and a row in
 [CONTINUITY.md](CONTINUITY.md) §4 if it moved a load-bearing fact. Puzzle spoilers never go in a commit
 message, a PR description or an issue.
 
-## 5. For AI agents
+## 6. For AI agents
 
 This section is the operating contract for an agent working in the repository. It exists because the
 failure mode for an agent here is not a crash — it is a plausible sentence that contradicts a record
@@ -130,7 +147,7 @@ npm test                    # did I break a player-facing path?
 If all four are clean and the generated diff reads like the change you intended, the change is probably
 right. If the diff contains something you did not intend, that is the bug.
 
-## 6. Reporting problems
+## 7. Reporting problems
 
 - **Bugs, accessibility reports, continuity errors:** issues on this repository. A continuity report is
   most useful with the two records that disagree, quoted, with their ids.
@@ -138,7 +155,7 @@ right. If the diff contains something you did not intend, that is the bug.
 - **Proposed canon changes:** open an issue describing the fact, the records it affects, and the
   invariant you would add. Do not open a PR that changes a canon date without the drift-log row.
 
-## 7. What "done" means
+## 8. What "done" means
 
 A change is finished when:
 

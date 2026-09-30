@@ -17,7 +17,7 @@ true, that is a bug.
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [CANON.md](CANON.md)                             | You are about to state a fact. The story bible: cosmology, institutions, people, places, programmes, terminology, and the order of authority when sources conflict. |
 | [CHRONOLOGY.md](CHRONOLOGY.md)                   | You are touching a date. Three chronologies, the nine spine events, the intervals between them, the eras, and the deliberate gaps.                                  |
-| [CONTINUITY.md](CONTINUITY.md)                   | You are editing an existing record. The 27 invariants, what enforces each, the authored gaps, and the drift log.                                                    |
+| [CONTINUITY.md](CONTINUITY.md)                   | You are editing an existing record. The named invariants and what enforces each, the authored gaps, and the drift log.                                              |
 | [REVELATION.md](REVELATION.md)                   | You are gating, revealing or recontextualising anything. Knowledge states, the five gates, clue readability, spoiler containment.                                   |
 | [CLUE_LEDGER.md](CLUE_LEDGER.md)                 | You are changing a clue, a pointer or a reward. Source → transformation → payoff, and the change-impact table.                                                      |
 | [CONTENT_STYLE_GUIDE.md](CONTENT_STYLE_GUIDE.md) | You are writing prose. The five registers, numbers, dates, codes, redactions, typography, prohibited content.                                                       |
@@ -34,22 +34,23 @@ true, that is a bug.
 
 ### Process
 
-| Document                           | Read it when                                                                                                    |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Always, before your first change. The contract, the standard loop, the commit convention, and §5 for AI agents. |
-| [`../README.md`](../README.md)     | You want the accession card: what this is, the measured claims, and how to check each one.                      |
+| Document                           | Read it when                                                                                                                 |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Always, before your first change. The contract, the standard loop, CI, the commit convention, and the section for AI agents. |
+| [`../README.md`](../README.md)     | You want the accession card: what this is, the measured claims, and how to check each one.                                   |
 
 ### Generated — derived from source, never hand-edited
 
 Regenerate with `npm run archive:report`; CI fails if they are stale (`npm run archive:report:check`).
 
-| File                                                           | Contains                                                                                                                        |
-| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| [generated/CORPUS.md](generated/CORPUS.md)                     | The authoritative counts: records, kinds, id ranges, code prefixes, clearance distribution, sidebar sections, legacy redirects. |
-| [generated/CHRONOLOGY.md](generated/CHRONOLOGY.md)             | Every timeline entry with its flags, plus the spine events and their evidence.                                                  |
-| [generated/CLUE_LEDGER.md](generated/CLUE_LEDGER.md)           | Every clue, seal pointer, hint tier and reward — with what each resolves to.                                                    |
-| [generated/KNOWLEDGE_MATRIX.md](generated/KNOWLEDGE_MATRIX.md) | Records per kind per tier, the unlock ladder, what each seal releases, the Order material, the redaction surface.               |
-| [generated/CANON_LEDGER.json](generated/CANON_LEDGER.json)     | The same canon and puzzle graph as machine-readable JSON, for tooling and for agents that would rather parse than read.         |
+| File                                                           | Contains                                                                                                                                                                  |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [generated/CORPUS.md](generated/CORPUS.md)                     | The authoritative counts: records, kinds, id ranges, code prefixes, clearance distribution, sidebar sections, legacy redirects.                                           |
+| [generated/CHRONOLOGY.md](generated/CHRONOLOGY.md)             | Every timeline entry with its flags, plus the spine events and their evidence.                                                                                            |
+| [generated/CLUE_LEDGER.md](generated/CLUE_LEDGER.md)           | Every clue, seal pointer, hint tier and reward — with what each resolves to.                                                                                              |
+| [generated/KNOWLEDGE_MATRIX.md](generated/KNOWLEDGE_MATRIX.md) | Records per kind per tier, the unlock ladder, what each seal releases, the Order material, the redaction surface.                                                         |
+| [generated/REGISTRY.md](generated/REGISTRY.md)                 | Who owns what and who is where: departments with the programmes they lead, programmes, stations with their leads, the full personnel roster with cross-reference density. |
+| [generated/CANON_LEDGER.json](generated/CANON_LEDGER.json)     | The same canon, puzzle and terminal graph as machine-readable JSON, for tooling and for agents that would rather parse than read.                                         |
 
 ## Reading orders
 
@@ -66,7 +67,7 @@ Regenerate with `npm run archive:report`; CI fails if they are stale (`npm run a
 [generated/KNOWLEDGE_MATRIX.md](generated/KNOWLEDGE_MATRIX.md).
 
 **An AI agent joining the repository.** [`../AGENTS.md`](../AGENTS.md) → [CANON.md](CANON.md) →
-[CONTRIBUTING.md](CONTRIBUTING.md) §5 → [generated/CANON_LEDGER.json](generated/CANON_LEDGER.json).
+[CONTRIBUTING.md](CONTRIBUTING.md) §_For AI agents_ → [generated/CANON_LEDGER.json](generated/CANON_LEDGER.json).
 
 ## The three commands that matter
 

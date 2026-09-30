@@ -33,6 +33,8 @@ const nav = await server.ssrLoadModule('@/config/navigation');
 const clearance = await server.ssrLoadModule('@/config/clearance');
 const canon = await server.ssrLoadModule('@/lib/archive/canon');
 const investigation = await server.ssrLoadModule('@/lib/puzzles/investigation');
+const termMod = await server.ssrLoadModule('@/content/puzzles/terminal-text');
+const puzzlesConfig = await server.ssrLoadModule('@/config/puzzles');
 
 await server.close();
 
@@ -356,6 +358,48 @@ function clueLedgerDoc() {
   }
   out.push('');
 
+  out.push('## Terminal surface\n');
+  out.push(
+    'The terminal (`~`) is a puzzle surface in its own right. `help` lists the documented commands;\nthe aliases below are undocumented on purpose and exist only to react in-fiction to the wrong move.\n'
+  );
+  out.push('| Command | Documented | Purpose |');
+  out.push('| --- | :--: | --- |');
+  for (const h of content.TERMINAL_HELP) {
+    out.push(`| \`${h.cmd}\` | ${h.order ? 'Order' : 'yes'} | ${esc(h.desc)} |`);
+  }
+  for (const a of termMod.TERMINAL_ALIASES) out.push(`| \`${a.cmd}\` | — | ${esc(a.note)} |`);
+  out.push('');
+  out.push(
+    "`ORDO VOCIS PROFUNDAE` is quoted verbatim from `ovp-003` §I by `ordo`/`vox`, which is the one place\nthe Order states itself in the player's face before Seal I."
+  );
+  out.push('');
+
+  out.push('### The planchette (`commune`)\n');
+  out.push(
+    'One line per active seal, indexed by `currentSeal − 1`; the last plays after the finale. It never\nnames an answer, which is what keeps it on the right side of the spoiler ceiling.\n'
+  );
+  out.push('| Active seal | Line |');
+  out.push('| --- | --- |');
+  termMod.COMMUNE_LINES.forEach((line, i) => {
+    const label = i === 7 ? '_after the finale_' : `Seal ${seals.SEALS[i].numeral} — ${seals.SEALS[i].title}`;
+    out.push(`| ${label} | ${esc(line)} |`);
+  });
+  out.push('');
+
+  out.push('### Gematria annotations (`gematria <text>`)\n');
+  out.push('Ordinal letter-sums the terminal will comment on. Each is a nudge, not an answer.\n');
+  out.push('| Sum | Note |');
+  out.push('| ---: | --- |');
+  for (const [n, note] of Object.entries(termMod.GEMATRIA_NOTES)) out.push(`| ${n} | ${esc(note)} |`);
+  out.push('');
+
+  out.push('### Revoked codes\n');
+  out.push('Recognised solely so the fiction can refuse them. None grants anything.\n');
+  out.push('| Code | Rejected by |');
+  out.push('| --- | --- |');
+  for (const c of puzzlesConfig.REVOKED_CODES) out.push(`| \`${c}\` | \`override\`, the master-key prompt |`);
+  out.push('');
+
   out.push('## Choir Script fragments\n');
   out.push('| Fragment | Tab | Letters | Riddle |');
   out.push('| --- | --- | --- | --- |');
@@ -432,7 +476,7 @@ function knowledgeMatrixDoc() {
   out.push(
     'The ungated kinds — stations, departments, products, job postings, dead links, newsletters, training\n' +
       'modules and restoration logs — carry no classification at all and are readable on arrival. The\n' +
-      "public surface of the company is genuinely public; that is what makes the rest read as concealment\n" +
+      'public surface of the company is genuinely public; that is what makes the rest read as concealment\n' +
       'rather than as an absence of content.'
   );
   out.push('');
@@ -463,7 +507,96 @@ function knowledgeMatrixDoc() {
 }
 
 // ---------------------------------------------------------------------------
-// 5. CANON_LEDGER.json — machine-readable, for tooling and future agents
+// 5. REGISTRY.md — the entity coherence surface
+// ---------------------------------------------------------------------------
+
+function registryDoc() {
+  const out = [];
+  out.push(
+    HEADER(
+      'Entity registry (derived)',
+      'Who owns what, who is where, and how densely each entity is cross-referenced. This is the table to\n' +
+        'read before naming a person, moving one between stations, or assigning a programme to a department:\n' +
+        '`validateCanon()` will fail on a mismatch, and this is where you can see the mismatch coming.'
+    )
+  );
+
+  out.push('## Departments\n');
+  out.push('| Code | Name | Director | Deputy | HQ | Head | Programmes led | Timeline entries |');
+  out.push('| --- | --- | --- | --- | --- | ---: | --- | ---: |');
+  for (const d of content.DEPARTMENTS) {
+    const progs = content.INTERNAL_PROGRAMS.filter((p) => p.leadDepartmentId === d.id)
+      .map((p) => p.name.replace('Project ', ''))
+      .join(', ');
+    const tl = content.TIMELINE_ENTRIES.filter((t) => t.departmentCode === d.code).length;
+    out.push(
+      `| \`${d.code}\` | ${esc(d.name)} | ${esc(d.director)} | ${esc(d.deputyDirector)} | ${esc(d.headquarters)} | ${d.headcount} | ${progs || '—'} | ${tl} |`
+    );
+  }
+  out.push('');
+
+  out.push('## Programmes\n');
+  out.push('| Code | Name | Dept | Director | Since | Status | Threat | People | Stations |');
+  out.push('| --- | --- | --- | --- | ---: | --- | --- | ---: | ---: |');
+  for (const p of content.INTERNAL_PROGRAMS) {
+    out.push(
+      `| \`${p.code}\` | ${esc(p.name)} | \`${p.leadDepartmentId.replace('dept-', '')}\` | ${esc(p.director)} | ${p.startYear} | ${p.status} | ${p.threatLevel} | ${p.linkedPersonnel.length} | ${p.linkedStations.length} |`
+    );
+  }
+  out.push('');
+  out.push("`Covert Active` marks the three that are the Order's work rather than the company's.");
+  out.push('');
+
+  out.push('## Stations & arrays\n');
+  out.push('| Code | Name | Region | Type | Status | Lead | Est. | Band | Projects |');
+  out.push('| --- | --- | --- | --- | --- | --- | --- | --- | --- |');
+  for (const s of content.REGIONAL_STATIONS) {
+    out.push(
+      `| \`${s.code}\` | ${esc(s.name)} | ${esc(s.region)} | ${s.facilityType} | ${s.status} | ${esc(s.leadPersonnelName)} | ${s.establishedDate} | ${esc(s.frequencyBand)} | ${s.activeProjects.length} |`
+    );
+  }
+  out.push('');
+
+  out.push('## Personnel\n');
+  out.push('| Id | Name | Status | Tier | Dept | Station | Hired | Linked docs | Missing | Links |');
+  out.push('| --- | --- | --- | :--: | --- | --- | --- | ---: | ---: | ---: |');
+  for (const p of content.PERSONNEL) {
+    const linked = records.linkedDocumentsFor(p);
+    const tierNum = (c) => Number(/Level (\d)/.exec(c ?? '')?.[1] ?? 0);
+    out.push(
+      `| \`${p.id}\` | ${esc(p.name)} | ${p.status} | ${tierNum(p.clearance)} | \`${p.departmentId.replace('dept-', '')}\` | \`${p.stationId}\` | ${p.hireDate} | ${linked.found.length} | ${linked.missing.length} | ${(p.links ?? []).length} |`
+    );
+  }
+  out.push('');
+  out.push(
+    '"Missing" counts document codes that were never recovered. They are authored gaps, listed in\n' +
+      '[`../CONTINUITY.md`](../CONTINUITY.md) §3, and they render in-world as "not recovered".'
+  );
+  out.push('');
+
+  out.push('## Cross-reference density\n');
+  const totalLinks = entries.reduce((n, e) => n + e.links.length, 0);
+  const totalRelated = entries.reduce((n, e) => n + e.related.length, 0);
+  const missingLinked = content.PERSONNEL.reduce(
+    (n, p) => n + records.linkedDocumentsFor(p).missing.length,
+    0
+  );
+  out.push('| Measure | Value |');
+  out.push('| --- | ---: |');
+  out.push(`| Typed links (\`links\`) | ${totalLinks} |`);
+  out.push(`| Loose relations (\`related\`) | ${totalRelated} |`);
+  out.push(
+    `| Personnel \`linkedDocuments\` that resolve | ${content.PERSONNEL.reduce((n, p) => n + records.linkedDocumentsFor(p).found.length, 0)} |`
+  );
+  out.push(`| Personnel \`linkedDocuments\` that do not (authored gaps) | ${missingLinked} |`);
+  out.push(
+    `| Records with no inbound or outbound reference | ${entries.filter((e) => e.links.length + e.related.length === 0).length} |`
+  );
+  return out.join('\n') + '\n';
+}
+
+// ---------------------------------------------------------------------------
+// 6. CANON_LEDGER.json — machine-readable, for tooling and future agents
 // ---------------------------------------------------------------------------
 
 function canonLedger() {
@@ -510,6 +643,13 @@ function canonLedger() {
           pointers: s.pointers
         })),
         fragments: seals.FRAGMENTS,
+        terminal: {
+          commands: content.TERMINAL_HELP,
+          aliases: termMod.TERMINAL_ALIASES,
+          communeLines: termMod.COMMUNE_LINES,
+          gematriaNotes: termMod.GEMATRIA_NOTES
+        },
+        revokedCodes: puzzlesConfig.REVOKED_CODES,
         puzzles: content.PUZZLES.map((p) => ({
           id: p.id,
           title: p.title,
@@ -535,6 +675,7 @@ const FILES = {
   'CHRONOLOGY.md': chronologyDoc(),
   'CLUE_LEDGER.md': clueLedgerDoc(),
   'KNOWLEDGE_MATRIX.md': knowledgeMatrixDoc(),
+  'REGISTRY.md': registryDoc(),
   'CANON_LEDGER.json': canonLedger()
 };
 

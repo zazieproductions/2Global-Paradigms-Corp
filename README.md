@@ -84,7 +84,7 @@ date span, character count) are maintained in
 | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`)      | `npm run typecheck`                            |
 | ESLint (flat config) and Prettier are clean                                                                                       | `npm run lint && npm run format:check`         |
-| **101 tests in 10 files** pass (reducer, validation, search, routes, a11y, boot, mobile, digest script, content integrity, canon) | `npm test`                                     |
+| **102 tests in 10 files** pass (reducer, validation, search, routes, a11y, boot, mobile, digest script, content integrity, canon) | `npm test`                                     |
 | 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                                   | `npm run validate:content`                     |
 | Chronology, entity naming, seal machinery and terminology agree with the declared canon                                           | `npm run validate:canon`                       |
 | Every redaction has a de-scrambled counterpart                                                                                    | part of the suite above (`content-integrity`)  |
@@ -267,7 +267,7 @@ out of reach by construction — and there are none to keep).
 
 ### Testing
 
-101 tests across 10 files, all `console.error`-hostile (the route suite fails if rendering logs one):
+102 tests across 10 files, all `console.error`-hostile (the route suite fails if rendering logs one):
 `content-integrity` (ids, cross-refs, redaction pairing, clue targets), `canon` (chronology coherence,
 spine evidence, seal order and Seal-Word initials, Choir coverage, degree alignment, entity naming),
 `progression` (reducer: ordering, clearance derivation, assisted upgrades, save migration/quota
@@ -330,7 +330,7 @@ Start at [`docs/README.md`](docs/README.md), which holds the map and the reading
 | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
 | [`docs/CANON.md`](docs/CANON.md)                             | the story bible: cosmology, institutions, people, places, programmes, terminology, order of authority |
 | [`docs/CHRONOLOGY.md`](docs/CHRONOLOGY.md)                   | three chronologies, the nine spine events, the intervals between them, eras, authored gaps            |
-| [`docs/CONTINUITY.md`](docs/CONTINUITY.md)                   | 27 named invariants and what enforces each, the authored gaps, the drift log                          |
+| [`docs/CONTINUITY.md`](docs/CONTINUITY.md)                   | the named invariants and what enforces each, the authored gaps, the drift log                         |
 | [`docs/REVELATION.md`](docs/REVELATION.md)                   | knowledge states, the five gates, clue readability, spoiler containment                               |
 | [`docs/CLUE_LEDGER.md`](docs/CLUE_LEDGER.md)                 | clue → payoff traceability and the change-impact table                                                |
 | [`docs/CONTENT_STYLE_GUIDE.md`](docs/CONTENT_STYLE_GUIDE.md) | the five registers, numbers, dates, codes, redactions, prohibited content                             |
@@ -345,13 +345,14 @@ Start at [`docs/README.md`](docs/README.md), which holds the map and the reading
 | [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) | tokens, components, a11y, responsive behaviour                 |
 | [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)       | hosts, redirects, headers, caching, environment flags, media   |
 
-**Process** — [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) (the contract, the loop, §5 for AI agents)
+**Process** — [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) (the contract, the loop, CI, and the section for AI agents)
 and [`AGENTS.md`](AGENTS.md) at the repo root.
 
 **Generated** — `docs/generated/` is derived from the source by `npm run archive:report` and verified by
 `npm run archive:report:check`: [`CORPUS.md`](docs/generated/CORPUS.md) (the authoritative counts),
 [`CHRONOLOGY.md`](docs/generated/CHRONOLOGY.md), [`CLUE_LEDGER.md`](docs/generated/CLUE_LEDGER.md),
 [`KNOWLEDGE_MATRIX.md`](docs/generated/KNOWLEDGE_MATRIX.md) and
+[`REGISTRY.md`](docs/generated/REGISTRY.md) and
 [`CANON_LEDGER.json`](docs/generated/CANON_LEDGER.json). Never hand-edit them.
 
 ## Known limitations (stated, not buried)
