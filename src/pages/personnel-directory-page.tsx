@@ -4,6 +4,7 @@ import type { Personnel } from '@/types';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { PERSONNEL } from '@/content';
 import { linkedDocumentsFor } from '@/lib/archive/records';
+import { ghostForCode, isGhostCode } from '@/lib/puzzles/salvage';
 import { useArchiveUi } from '@/app/archive-ui-context';
 import { pickRecord, useRecordParam } from '@/hooks/use-record-param';
 import { ArchivePage } from '@/components/ui/archive-page';
@@ -37,7 +38,7 @@ const getStatusBadge = (status: Personnel['status']) => {
 };
 
 export default function PersonnelDirectoryPage() {
-  const { openDocument } = useArchiveUi();
+  const { openDocument, openDialog } = useArchiveUi();
   const recordId = useRecordParam();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDept, setSelectedDept] = useState<string>('all');
@@ -203,7 +204,16 @@ export default function PersonnelDirectoryPage() {
           </button>
         }
       >
-        {selectedPerson && <PersonnelDossier person={selectedPerson} onOpenDocument={openDocument} />}
+        {selectedPerson && (
+          <PersonnelDossier
+            person={selectedPerson}
+            onOpenDocument={openDocument}
+            onOpenSalvage={(code) => {
+              const ghost = ghostForCode(code);
+              if (ghost) openDialog({ type: 'tape-spool', ghostId: ghost.id });
+            }}
+          />
+        )}
       </Modal>
     </ArchivePage>
   );
@@ -212,12 +222,17 @@ export default function PersonnelDirectoryPage() {
 /** Body of the officer dossier dialog, including linked records. */
 function PersonnelDossier({
   person,
-  onOpenDocument
+  onOpenDocument,
+  onOpenSalvage
 }: {
   person: Personnel;
   onOpenDocument: (id: string) => void;
+  /** Open the tape spool on a cited file that Directive 17 struck. */
+  onOpenSalvage: (code: string) => void;
 }) {
   const { found, missing } = linkedDocumentsFor(person);
+  const ghostLinks = missing.filter((c) => isGhostCode(c));
+  const unexplained = missing.filter((c) => !isGhostCode(c));
   return (
     <div className="space-y-4 text-slate-200">
       <div className="flex items-start gap-4">
@@ -302,9 +317,36 @@ function PersonnelDossier({
         ) : (
           <SystemNotice kind="empty" compact title="No linked records recovered" />
         )}
-        {missing.length > 0 && (
-          <SystemNotice kind="missing" compact title={`${missing.length} referenced file(s) not in vault`}>
-            {missing.join(', ')}
+        {ghostLinks.length > 0 && (
+          <SystemNotice
+            kind="denied"
+            compact
+            title={`${ghostLinks.length} referenced file(s) struck under Directive 17`}
+            code="DIR-17"
+          >
+            <p className="mb-1.5">The live index refuses these citations. The tape remembers them.</p>
+            <ul className="flex flex-wrap gap-1.5">
+              {ghostLinks.map((code) => (
+                <li key={code}>
+                  <button
+                    type="button"
+                    onClick={() => onOpenSalvage(code)}
+                    className="tap-target px-2 py-1 rounded border border-amber-600/60 bg-amber-950/40 text-amber-300 hover:bg-amber-900/50 text-caption cursor-pointer"
+                  >
+                    {code} — PURGED · REPLAY THE TAPE GHOST
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </SystemNotice>
+        )}
+        {unexplained.length > 0 && (
+          <SystemNotice
+            kind="missing"
+            compact
+            title={`${unexplained.length} referenced file(s) not in vault`}
+          >
+            {unexplained.join(', ')}
           </SystemNotice>
         )}
       </section>
