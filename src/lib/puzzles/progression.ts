@@ -232,7 +232,11 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
           preferences: state.preferences,
           // The Directive 17 salvage is not part of the seals case file: the
           // tape remembers what was spliced even when the case is purged.
-          investigation: { ...fresh.investigation, prologueSeen: true, salvaged: state.investigation.salvaged }
+          investigation: {
+            ...fresh.investigation,
+            prologueSeen: true,
+            salvaged: state.investigation.salvaged
+          }
         },
         'Investigation purged. The seals have closed again.',
         'system',

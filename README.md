@@ -68,17 +68,17 @@ static files: `grep -rE "fetch\(|XMLHttpRequest|sendBeacon" src/` returns zero h
 ## Claims, with the command to check each one
 
 This README deliberately contains no unverifiable adjectives. Every count below was measured against this
-checkout on 2026-09-26; regenerate any of them with the listed command.
+checkout on 2026-09-30; regenerate any of them with the listed command.
 
-| Claim                                                                                                                        | Verify with                                    |
-| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`) | `npm run typecheck`                            |
-| ESLint (flat config) and Prettier are clean                                                                                  | `npm run lint && npm run format:check`         |
-| **85 tests in 8 files** pass (reducer, validation, search, routes, a11y, boot, digest script, content integrity)             | `npm test`                                     |
-| 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                              | `npm run validate:content`                     |
-| Every redaction has a de-scrambled counterpart                                                                               | part of the suite above (`content-integrity`)  |
-| No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                 | the greps shown in “Quick start”               |
-| Initial JS+CSS transfer ≈ **308 kB gzipped** incl. the entire corpus                                                         | `npm run build` and read the chunk table below |
+| Claim                                                                                                                                 | Verify with                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`)          | `npm run typecheck`                            |
+| ESLint (flat config) and Prettier are clean                                                                                           | `npm run lint && npm run format:check`         |
+| **124 tests in 12 files** pass (reducer, validation, search, routes, a11y, boot, digest script, content integrity, tape salvage, SEO) | `npm test`                                     |
+| 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                                       | `npm run validate:content`                     |
+| Every redaction has a de-scrambled counterpart                                                                                        | part of the suite above (`content-integrity`)  |
+| No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                          | the greps shown in “Quick start”               |
+| Initial JS+CSS transfer ≈ **341 kB gzipped** incl. the entire corpus                                                                  | `npm run build` and read the chunk table below |
 
 ---
 
@@ -146,12 +146,20 @@ Plaintext answers exist in exactly one place: `src/tests/seal-fixtures.ts`, test
 - **Choir Script fragments** — glyph pairs hidden faintly on seven _public_ pages (newsletters, careers,
   timeline, values, products, reports, dead links). Collecting one teaches its letters; Order documents
   carry marginalia readable only for letters you know.
+- **Directive 17 — the Unquiet Tape** — a hidden salvage layer. Files the dossiers cite but the vault
+  “never recovered” were _struck, not deleted_: they survive as tape ghosts on the Postojna spool, and you
+  splice one back together by ordering its reel fragments (`salvage <code>` in the terminal’s undocumented
+  dead channels, or from a dossier’s “not in vault” citation — purged codes also answer `?doc=` with
+  “Ghost on the tape” instead of a 404). Splice all three and the spool replays the purge order itself.
+  No clearance and no answers: the ghosts are not records (they never enter search or exports), and a test
+  pins that the layer cannot leak anything still sealed.
 - **Hints are tiered and no-shame:** `ASK THORNE → ASK AGAIN → TELL ME`. Tier 3 hands over the answer, the
   completion is marked **ASSISTED**, every reward is still granted, and a later unassisted replay upgrades
   the record — an assisted replay never downgrades an unassisted one.
 - **Terminal (`~`)** — 21 documented commands (`whoami`, `cat <doc-code>`, `scan`, `gematria`, `codex`,
-  `invoke`…), plus a few undocumented aliases that exist only to react in-fiction to the wrong moves.
-  Seven legacy “executive override” codes are recognised **solely so they can be refused**.
+  `invoke`…), plus a few undocumented aliases that exist only to react in-fiction to the wrong moves, and
+  two dead channels (`purge` / `salvage`) that answer for the files Directive 17 struck. Seven legacy
+  “executive override” codes are recognised **solely so they can be refused**.
 - **Persistence** — `localStorage["gpc.progression.v1"]`, validated on load: unknown ids, malformed
   entries, and stored clearance above earned clearance are dropped; a pre-restructure save key is migrated
   once, read-only. Private mode / quota exceeded degrades silently to memory. No accounts, no sync, no
@@ -227,17 +235,18 @@ autoplays. A persistent player bar carries playback; sound can be muted globally
 
 | Chunk          | Role                                            |            Raw |        Gzip |
 | -------------- | ----------------------------------------------- | -------------: | ----------: |
-| `react`        | react-dom + router                              |       315.7 kB |    100.7 kB |
-| `content`      | the entire 412-record corpus                    |       331.7 kB |    105.0 kB |
-| `index`        | app code                                        |       232.2 kB |     69.4 kB |
-| CSS            | tokens + archive + boot + occult                |       128.2 kB |     26.0 kB |
-| `icons`        | lucide subset                                   |        20.1 kB |      6.7 kB |
-| 24 more chunks | 19 lazy page chunks + 5 split shared components | 0.2–37 kB each | 0.2–11.6 kB |
+| `react`        | react-dom + router                              |       315.7 kB |    100.6 kB |
+| `content`      | the 412-record corpus + the tape ghosts         |       384.8 kB |    130.4 kB |
+| `index`        | app code                                        |       255.4 kB |     75.6 kB |
+| CSS            | tokens + archive + boot + occult                |       134.1 kB |     27.2 kB |
+| `icons`        | lucide subset                                   |        21.1 kB |      7.1 kB |
+| 24 more chunks | 19 lazy page chunks + 5 split shared components | 0.2–38 kB each | 0.2–11.7 kB |
 
-~308 kB gzipped of JS+CSS on first visit, _including the whole story_. Hashed bundles emit to `/static/*`
+~341 kB gzipped of JS+CSS on first visit, _including the whole story_. Hashed bundles emit to `/static/*`
 and are served `max-age=31536000, immutable`; the corpus chunk is intentionally one large cacheable object
 (`chunkSizeWarningLimit: 700` with the reason in a comment, not silenced). Fonts are self-hosted
-`@fontsource` subsets with `font-display: swap`. Total `dist/`: 66 files, 2.4 MB on disk.
+`@fontsource` subsets with `font-display: swap`. Total `dist/`: 105 files, 2.8 MB on disk (including the
+static SEO route pages emitted by `scripts/generate-seo.mjs`).
 
 ### HTTP posture
 
@@ -250,13 +259,15 @@ out of reach by construction — and there are none to keep).
 
 ### Testing
 
-85 tests across 8 files, all `console.error`-hostile (the route suite fails if rendering logs one):
+124 tests across 12 files, all `console.error`-hostile (the route suite fails if rendering logs one):
 `content-integrity` (ids, cross-refs, redaction pairing, clue targets), `progression` (reducer: ordering,
 clearance derivation, assisted upgrades, save migration/quota fallback), `puzzle-validation` (normalisation,
 revoked codes, requirement gating), `search` (AND semantics + the two client-safety rules), `routes` (every
 nav path renders, legacy redirects preserve query strings, `?doc=`/`?record=` deep links record
-discovery), `modal-boot` (focus trap, Escape, focus restore), `puzzles-ui`, and a test that the digest
-script matches `lib/puzzles/validate.ts` byte-for-byte semantics.
+discovery), `modal-boot` (focus trap, Escape, focus restore), `puzzles-ui`, `salvage` + `salvage-ui`
+(Directive 17 ghost content, the splice engine, the spool interaction, and the rule that the hidden layer
+never leaks sealed answers), `seo` (route metadata, sitemap output), and a test that the digest script
+matches `lib/puzzles/validate.ts` byte-for-byte semantics.
 
 ### Accessibility (a product requirement, not a coat of paint)
 
