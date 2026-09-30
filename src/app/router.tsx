@@ -1,6 +1,9 @@
 /**
  * Route table. Every public URL is listed here; keep paths in sync with
- * `src/config/navigation.ts` and add a redirect before renaming one.
+ * `src/config/navigation.ts`, `public/sitemap.xml` and the static section
+ * index in `index.html`, and add a redirect before renaming one.
+ * `src/tests/seo.test.ts` fails the build if a route is missing from the
+ * sitemap or a sitemap URL has no route.
  */
 import { lazy } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
@@ -25,6 +28,7 @@ const CompanyValuesPage = lazy(() => import('@/pages/company-values-page'));
 const ToolsLabPage = lazy(() => import('@/pages/tools-lab-page'));
 const DeadLinksPage = lazy(() => import('@/pages/dead-links-page'));
 const SanctumPage = lazy(() => import('@/pages/sanctum-page'));
+const LegacyPage = lazy(() => import('@/pages/legacy-page'));
 const NotFoundPage = lazy(() => import('@/pages/not-found-page'));
 
 export const routes: RouteObject[] = [
@@ -51,6 +55,7 @@ export const routes: RouteObject[] = [
       { path: 'tools', element: <ToolsLabPage /> },
       { path: 'deadlinks', element: <DeadLinksPage /> },
       { path: 'sanctum', element: <SanctumPage /> },
+      { path: 'legacy', element: <LegacyPage /> },
       ...Object.entries(LEGACY_REDIRECTS).map(([from, to]) => ({
         path: from.replace(/^\//, ''),
         element: <LegacyRedirect to={to} />

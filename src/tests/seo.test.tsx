@@ -54,14 +54,22 @@ describe('discovery files', () => {
     expect(robotsTxt).not.toMatch(/Disallow:\s*\//);
   });
 
-  it('ships canonical, social, structured and crawlable fallback metadata in raw HTML', () => {
+  it('ships canonical, social, structured and crawlable metadata in raw HTML', () => {
     expect(indexHtml).toContain(`<link rel="canonical" href="${SEO_SITE.origin}/"`);
     expect(indexHtml).toContain('name="robots"');
     expect(indexHtml).toContain('property="og:image"');
     expect(indexHtml).toContain('name="twitter:card" content="summary_large_image"');
     expect(indexHtml).toContain('type="application/ld+json"');
-    expect(indexHtml).toContain('id="seo-fallback"');
+    // The crawlable block is generated; generate-seo.mjs writes the same
+    // regions, with this route's copy, into every other static entry point.
+    expect(indexHtml).toContain('<!-- @gpc-static-block:begin -->');
+    expect(indexHtml).toContain('class="gpc-static"');
     expect(indexHtml).toContain('href="/documents"');
+  });
+
+  it('lists the legacy file in the route manifest and the navigation', () => {
+    expect(SEO_PAGES.some((page) => page.path === '/legacy')).toBe(true);
+    expect(NAV_ITEMS.some((item) => item.path === '/legacy')).toBe(true);
   });
 });
 

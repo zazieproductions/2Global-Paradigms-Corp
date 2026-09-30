@@ -148,6 +148,29 @@ async function main() {
     }
   };
 
+  /**
+   * The crawlable layer. A build can pass every unit test and still ship an
+   * empty #root — which is exactly the state this domain was in before the
+   * SEO/GEO work, and what makes a site uncitable by engines that never run
+   * JavaScript. These assertions are about the artifact, not the source.
+   */
+  const checkCrawlable = (target, html) => {
+    if (!html.includes('id="gpc-jsonld"')) {
+      problems.push(`${target} carries no generated JSON-LD graph`);
+    }
+    if (!html.includes('<div class="gpc-static">')) {
+      problems.push(`${target} carries no crawlable block for non-JS crawlers`);
+    }
+    // The fictional company is a CreativeWork, never an Organization node.
+    const organisations = [...html.matchAll(/"@type":\s*"Organization"/g)].length;
+    const publisherNamed = /"@type":\s*"Organization"[\s\S]{0,200}?"name":\s*"Zazie Productions"/.test(html);
+    if (organisations !== 1 || !publisherNamed) {
+      problems.push(
+        `${target} should carry exactly one Organization node (the real publisher); found ${organisations}`
+      );
+    }
+  };
+
   const checkRoute = async (page) => {
     const url = canonicalUrl(page.path);
     const slug = page.path === '/' ? '' : page.path.slice(1);
@@ -165,6 +188,7 @@ async function main() {
       if (!html.includes('content="index, follow')) {
         problems.push(`${target} is not marked indexable`);
       }
+      checkCrawlable(target, html);
     }
   };
 
@@ -175,8 +199,26 @@ async function main() {
   if (robots !== null) checkRobots(robots);
 
   const notFound = await readArtifact('404.html');
-  if (notFound !== null && !notFound.includes('content="noindex, nofollow"')) {
-    problems.push('404.html is not marked noindex, so unknown paths can surface as soft 404s');
+  if (notFound !== null) {
+    if (!notFound.includes('content="noindex, nofollow"')) {
+      problems.push('404.html is not marked noindex, so unknown paths can surface as soft 404s');
+    }
+    if (!notFound.includes('id="gpc-jsonld"')) {
+      problems.push('404.html carries no generated JSON-LD graph');
+    }
+  }
+
+  const llms = await readArtifact('llms.txt');
+  if (llms !== null) {
+    if (looksLikeHtml(llms)) {
+      problems.push('llms.txt is HTML, not plain text; a catch-all rewrite is serving the app shell');
+    }
+    if (!llms.startsWith('# Global Paradigms Corp.\n')) {
+      problems.push('llms.txt does not open with the entity heading');
+    }
+    if (!llms.includes('not affiliated with')) {
+      problems.push('llms.txt does not carry the non-affiliation statement models are asked to repeat');
+    }
   }
 
   const redirects = await readArtifact('_redirects');
@@ -198,7 +240,8 @@ async function main() {
   }
 
   console.log(
-    `[verify-dist] ${pages.length} route entry points, sitemap.xml (${pages.length} URLs) and robots.txt verified for ${origin}`
+    `[verify-dist] ${pages.length} route entry points, sitemap.xml (${pages.length} URLs), robots.txt, ` +
+      `llms.txt and the generated crawlable layer verified for ${origin}`
   );
 }
 

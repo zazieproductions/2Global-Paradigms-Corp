@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { HardDrive, ShieldAlert } from 'lucide-react';
-import { NAV_SECTIONS, SANCTUM_NAV } from '@/config/navigation';
+import { LEGACY_NAV, NAV_SECTIONS, SANCTUM_NAV } from '@/config/navigation';
 import { DEGREES, LEVEL_CORRESPONDENCE, getSeal } from '@/content/puzzles/seals';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { clearanceTier, shortClearance } from '@/lib/archive/clearance';
@@ -189,6 +189,48 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
               </ul>
             </div>
           ))}
+
+          {/* Out-of-world: the provenance of the domain itself. Deliberately
+              styled apart from the repositories — amber, not cyan — because it
+              is the one entry that is not a record of the fictional company. */}
+          <div className="flex flex-col gap-1">
+            <h2 className="px-2 py-1 text-micro font-bold tracking-widest text-amber-600/80 uppercase">
+              OUT OF WORLD
+            </h2>
+            <NavLink
+              to={LEGACY_NAV.path}
+              onClick={() => {
+                gpcAudio.playUiSound('click');
+                onNavigate();
+              }}
+              className={({ isActive }) =>
+                cn(
+                  'tap-row flex items-center justify-between px-2.5 py-2 rounded transition-all text-left group border',
+                  isActive
+                    ? 'bg-amber-500/15 text-amber-200 font-bold border-amber-500/40 shadow-glow-sm shadow-amber-500/20'
+                    : 'hover:bg-hover text-slate-400 hover:text-amber-100/90 border-transparent'
+                )
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <span className="flex items-center gap-2.5 truncate">
+                    <LEGACY_NAV.icon
+                      aria-hidden
+                      className={cn(
+                        'w-3.5 h-3.5 shrink-0 transition-colors',
+                        isActive ? 'text-amber-400' : 'text-slate-500 group-hover:text-amber-300'
+                      )}
+                    />
+                    <span className="text-label truncate">{LEGACY_NAV.label}</span>
+                  </span>
+                  <Badge tone={LEGACY_NAV.badgeTone} className="shrink-0 font-medium">
+                    {LEGACY_NAV.badge}
+                  </Badge>
+                </>
+              )}
+            </NavLink>
+          </div>
         </nav>
 
         {/* Station alert footer */}
