@@ -380,8 +380,16 @@ describe('sitemap.xml', () => {
 
 // ---------------------------------------------------------------------------
 describe('llms.txt', () => {
+  it('opens with the answer-first paragraph, verbatim', () => {
+    // The same passage opens the crawlable block in index.html and /legacy:
+    // one entity statement, three surfaces, no paraphrase drift.
+    const head = LLMS.slice(0, 1600);
+    for (const paragraph of ANSWER_FIRST) expect(head).toContain(paragraph);
+    expect(LLMS.indexOf(squash(ANSWER_FIRST[0]))).toBeLessThan(LLMS.indexOf('## The entity, in brief'));
+  });
+
   it('states the entity and the non-affiliation up front', () => {
-    const head = LLMS.slice(0, 1200);
+    const head = LLMS.slice(0, 1600);
     expect(head).toContain('Global Paradigms Corp.');
     expect(head.toLowerCase()).toContain('fiction');
     expect(head).toContain('not affiliated with');

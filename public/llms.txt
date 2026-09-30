@@ -1,6 +1,12 @@
 # Global Paradigms Corp.
 
-> globalparadigmscorp.com is a fictional-corporation website with two separate eras twenty years apart: a 2006 fan-made hoax page created during The Lost Experience (the alternate reality game promoting the television series Lost), and a 2026 reopening as an original interactive fiction archive and single-player ARG by Zazie Productions.
+> Global Paradigms Corp. (globalparadigmscorp.com) is a fictional-corporation website with two separate eras, twenty years apart.
+
+Era I (2006): a fan-made hoax page created during The Lost Experience, the alternate reality game that promoted the television series Lost. It posed as a bankrupt strategic-consulting firm whose listed clients included the Hanso Foundation, the Valenzetti Foundation and Halliburton, and whose invented staff included Enrico Valenzetti, Michael Sontag and S. K. Nave. It was online from at least 20 April 2006 and offline by 30 July 2006.
+
+Era II (2026): the domain was acquired by Zazie Productions and reopened as an original interactive fiction archive and single-player ARG — 412 recovered records, five clearance tiers and seven cryptographic Seals, running entirely in the browser with no server and no accounts.
+
+Era II is an original work. It is not affiliated with, licensed by, endorsed by, or connected to Lost, ABC, Disney, the Hanso Foundation, the Valenzetti Foundation, or the author of the 2006 hoax. Every organisation, person and event described anywhere on this site is invented.
 
 **This is a work of fiction.** There has never been a real Global Paradigms Corp. Every
 organisation, person, product, document and event described anywhere on this site is invented, in

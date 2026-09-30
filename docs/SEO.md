@@ -244,5 +244,5 @@ npm run seo:check          # index.html regions + CSP hash + robots/sitemap/llms
 npm run seo:render         # rewrite index.html's generated regions
 npm run seo:generate       # rewrite public/robots.txt, sitemap.xml, llms.txt
 npm run verify:dist        # assert the built artifact is crawlable (also runs at the end of build)
-npm test                   # 180 tests, 15 files — the `seo`, `seo-route` and `verify-dist` suites
+npm test                   # 181 tests, 15 files — the `seo`, `seo-route` and `verify-dist` suites
 ```

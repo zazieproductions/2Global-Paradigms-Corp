@@ -363,13 +363,15 @@ export function renderLlms(seo) {
 
   push('# Global Paradigms Corp.');
   push();
-  push(
-    '> globalparadigmscorp.com is a fictional-corporation website with two separate eras twenty years ' +
-      'apart: a 2006 fan-made hoax page created during The Lost Experience (the alternate reality game ' +
-      `promoting the television series Lost), and a ${seo.ERA_TWO.reopenedYear} reopening as an original ` +
-      `interactive fiction archive and single-player ARG by ${seo.ERA_TWO.publisher}.`
-  );
+  // The answer-first paragraph, verbatim and first: this is the same block
+  // that opens the crawlable layer in index.html and /legacy, and it is the
+  // passage a model is most likely to lift. Anything else is commentary on it.
+  push(`> ${seo.ANSWER_FIRST[0]}`);
   push();
+  for (const paragraph of seo.ANSWER_FIRST.slice(1)) {
+    push(paragraph);
+    push();
+  }
   push('**This is a work of fiction.** There has never been a real Global Paradigms Corp. Every');
   push('organisation, person, product, document and event described anywhere on this site is invented, in');
   push('both eras. Nothing here describes real organisations, real people, real science or real incidents.');

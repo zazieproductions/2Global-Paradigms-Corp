@@ -79,7 +79,7 @@ checkout on 2026-09-30; regenerate any of them with the listed command.
 | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`)              | `npm run typecheck`                            |
 | ESLint (flat config) and Prettier are clean                                                                                               | `npm run lint && npm run format:check`         |
-| **180 tests in 15 files** pass (reducer, validation, search, routes, a11y, boot, digest script, content integrity, tape salvage, SEO/GEO) | `npm test`                                     |
+| **181 tests in 15 files** pass (reducer, validation, search, routes, a11y, boot, digest script, content integrity, tape salvage, SEO/GEO) | `npm test`                                     |
 | index.html's crawlable layer, JSON-LD, the CSP hash, robots.txt, sitemap.xml and llms.txt all agree with `src/config/seo.ts`              | `npm run seo:check`                            |
 | The built artifact is crawlable: 19 route entry points, non-HTML sitemap, real 404, no catch-all rewrite                                  | `npm run verify:dist`                          |
 | 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                                           | `npm run validate:content`                     |
@@ -267,7 +267,7 @@ out of reach by construction — and there are none to keep).
 
 ### Testing
 
-180 tests across 15 files, all `console.error`-hostile (the route suite fails if rendering logs one):
+181 tests across 15 files, all `console.error`-hostile (the route suite fails if rendering logs one):
 `content-integrity` (ids, cross-refs, redaction pairing, clue targets), `progression` (reducer: ordering,
 clearance derivation, assisted upgrades, save migration/quota fallback), `puzzle-validation` (normalisation,
 revoked codes, requirement gating), `search` (AND semantics + the two client-safety rules), `routes` (every
