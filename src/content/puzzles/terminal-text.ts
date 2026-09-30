@@ -83,8 +83,8 @@ export const TERMINAL_LEAK_DUMP: TerminalLine[] = [
   },
   { code: 'DOC-1989-SVALBARD-EVENT', text: 'Disappearance of Dr. Arthur Sedley', tone: 'alert' },
   {
-    code: 'AUDIO-01-SVALBARD',
-    text: 'Raw 14.8Hz Permafrost Audio Tape with Thorne Voice Log',
+    code: 'ART-01-SVALBARD',
+    text: 'Raw 14.8Hz Permafrost Audio Tape with Thorne Voice Log (audio artifact — use `play 1`)',
     tone: 'alert'
   },
   { text: 'Type "cat <doc_code>" to read any record directly.', tone: 'muted' }
