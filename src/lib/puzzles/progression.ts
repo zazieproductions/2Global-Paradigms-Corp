@@ -29,6 +29,7 @@ import { SITE } from '@/config/site';
 import { FRAGMENTS, SEALS, sealPuzzleId } from '@/content/puzzles/seals';
 import { clearanceTier } from '@/lib/archive/clearance';
 import { earnedLevel } from './investigation';
+import { getGhost, knownGhost } from './salvage';
 import { getPuzzle, isPuzzleAvailable } from './validate';
 
 export const createInitialState = (): ProgressionState => ({
@@ -41,7 +42,7 @@ export const createInitialState = (): ProgressionState => ({
   unlockedDownloads: [],
   access: { clearance: DEFAULT_CLEARANCE, chosenAt: 0, unredacted: false },
   preferences: { crt: false, sound: FEATURES.uiSoundsDefault },
-  investigation: { fragments: [], prologueSeen: false, finaleComplete: false, journal: [] }
+  investigation: { fragments: [], salvaged: [], prologueSeen: false, finaleComplete: false, journal: [] }
 });
 
 // ---------------------------------------------------------------------------
@@ -57,6 +58,8 @@ export type ProgressionAction =
   | { type: 'set-preference'; key: keyof Preferences; value: boolean }
   | { type: 'set-callsign'; callsign: string }
   | { type: 'collect-fragment'; fragmentId: string; at?: string }
+  /** Splice a Directive 17 tape ghost back together (`PurgedGhost.id`). */
+  | { type: 'salvage-ghost'; ghostId: string; at?: string }
   | { type: 'mark-prologue-seen'; at?: string }
   | { type: 'complete-finale'; at?: string }
   | { type: 'journal'; text: string; kind?: JournalKind; at?: string }
@@ -176,6 +179,24 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
       );
     }
 
+    case 'salvage-ghost': {
+      const ghost = getGhost(action.ghostId);
+      if (!ghost || state.investigation.salvaged.includes(ghost.id)) return state;
+      const next: ProgressionState = {
+        ...state,
+        investigation: {
+          ...state.investigation,
+          salvaged: [...state.investigation.salvaged, ghost.id]
+        }
+      };
+      return withJournal(
+        next,
+        `Directive 17 tape ghost spliced: ${ghost.code} — ${ghost.title}. The index still refuses it.`,
+        'salvage',
+        action.at
+      );
+    }
+
     case 'mark-prologue-seen':
       if (state.investigation.prologueSeen) return state;
       return withJournal(
@@ -209,7 +230,9 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
           callsign: state.callsign,
           discovered: state.discovered,
           preferences: state.preferences,
-          investigation: { ...fresh.investigation, prologueSeen: true }
+          // The Directive 17 salvage is not part of the seals case file: the
+          // tape remembers what was spliced even when the case is purged.
+          investigation: { ...fresh.investigation, prologueSeen: true, salvaged: state.investigation.salvaged }
         },
         'Investigation purged. The seals have closed again.',
         'system',
@@ -229,7 +252,7 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
 // ---------------------------------------------------------------------------
 
 const VALID_LEVELS = new Set<string>(CLEARANCE_TIERS.map((t) => t.level));
-const JOURNAL_KINDS = new Set<string>(['seal', 'fragment', 'system', 'finale']);
+const JOURNAL_KINDS = new Set<string>(['seal', 'fragment', 'system', 'finale', 'salvage']);
 
 const isRecord = (v: unknown): v is Record<string, unknown> =>
   !!v && typeof v === 'object' && !Array.isArray(v);
@@ -314,6 +337,7 @@ export function parseStoredState(raw: string | null): ProgressionState | null {
     },
     investigation: {
       fragments: isStringArray(inv.fragments) ? inv.fragments.filter(knownFragment) : [],
+      salvaged: isStringArray(inv.salvaged) ? inv.salvaged.filter(knownGhost) : [],
       prologueSeen: inv.prologueSeen === true,
       finaleComplete: inv.finaleComplete === true,
       journal: parseJournal(inv.journal)
@@ -361,6 +385,7 @@ export function migrateLegacyInvestigation(raw: string | null): ProgressionState
   }
   state.investigation = {
     fragments: isStringArray(data.fragments) ? data.fragments.filter(knownFragment) : [],
+    salvaged: [],
     prologueSeen: data.prologueSeen === true,
     finaleComplete: data.finaleComplete === true,
     journal: parseJournal(data.journal)
