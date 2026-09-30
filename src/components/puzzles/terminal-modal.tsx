@@ -342,6 +342,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
 
       case 'scan':
         gpcAudio.playUiSound('scan');
+        progression.milestone('terminal-scan');
         return print(trimmed, <Lines lines={TERMINAL_SCAN} />);
 
       case 'play': {
@@ -354,6 +355,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
           );
         }
         const started = gpcAudio.playArtifact(artifact.synthesisPreset, artifact.id);
+        if (started) progression.milestone('audio-played');
         return print(
           trimmed,
           started ? (
@@ -494,6 +496,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
 
       case 'codex': {
         const known = [...investigation.knownLetters].sort();
+        progression.milestone('terminal-codex');
         return print(
           trimmed,
           <div className="space-y-2 text-label">

@@ -4,6 +4,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { AUDIO_ARTIFACTS, DOCUMENTS, PERSONNEL, PUZZLES } from '@/content';
+import { DIRECTIVE_CHAPTERS, DIRECTIVES, isKnownMilestone } from '@/content/puzzles/directives';
 import { FRAGMENTS, SEALS } from '@/content/puzzles/seals';
 import { NAV_ITEMS, pathForTab } from '@/config/navigation';
 import { REDACTION_PATTERN } from '@/lib/archive/redaction';
@@ -99,5 +100,55 @@ describe('content integrity', () => {
       const hides = [...d.content.matchAll(REDACTION_PATTERN)].some((m) => m[1]);
       if (hides) expect(d.redactedContent, d.id).toBeTruthy();
     }
+  });
+
+  it('keeps directive ids, chapters and step targets valid', () => {
+    const entryIds = new Set(getArchiveEntries().map((e) => e.id));
+    const puzzleIds = new Set(PUZZLES.map((p) => p.id));
+    const tabs = new Set(NAV_ITEMS.map((i) => i.id));
+    const chapterIds = new Set(DIRECTIVE_CHAPTERS.map((c) => c.id));
+    const seen = new Set<string>();
+
+    for (const d of DIRECTIVES) {
+      expect(seen.has(d.id), `duplicate directive ${d.id}`).toBe(false);
+      seen.add(d.id);
+      expect(chapterIds.has(d.chapterId), d.id).toBe(true);
+      expect(d.steps.length, d.id).toBeGreaterThan(0);
+      expect(d.intel.text.length, d.id).toBeGreaterThan(40);
+      expect(d.journal.trim().length, d.id).toBeGreaterThan(10);
+      for (const s of d.steps) {
+        expect(s.label.trim().length, `${d.id}/${s.id}`).toBeGreaterThan(3);
+        expect(s.hint.trim().length, `${d.id}/${s.id}`).toBeGreaterThan(3);
+        switch (s.event.type) {
+          case 'puzzle':
+            expect(puzzleIds.has(s.event.id), `${d.id} → puzzle ${s.event.id}`).toBe(true);
+            break;
+          case 'record':
+            expect(entryIds.has(s.event.id), `${d.id} → record ${s.event.id}`).toBe(true);
+            break;
+          case 'route':
+            expect(tabs.has(s.event.tab), `${d.id} → route ${s.event.tab}`).toBe(true);
+            break;
+          case 'fragments':
+            expect(s.event.count, d.id).toBeGreaterThanOrEqual(1);
+            break;
+          case 'milestone':
+            expect(isKnownMilestone(s.event.id), `${d.id} → milestone ${s.event.id}`).toBe(true);
+            break;
+          case 'clearance':
+          case 'prologue':
+          case 'finale':
+            break;
+        }
+      }
+    }
+    // Every chapter carries at least one directive and indexes contiguously.
+    for (const c of DIRECTIVE_CHAPTERS) {
+      expect(
+        DIRECTIVES.some((d) => d.chapterId === c.id),
+        c.id
+      ).toBe(true);
+    }
+    expect(DIRECTIVE_CHAPTERS.map((c) => c.index)).toEqual([1, 2, 3, 4, 5]);
   });
 });

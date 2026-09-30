@@ -138,7 +138,7 @@ export type { Revelation };
  * that the toggle is refused in-world instead of silently doing nothing.
  */
 export function useDescrambler() {
-  const { state, unredacted, descramblerUnlocked, setUnredacted } = useProgression();
+  const { state, unredacted, descramblerUnlocked, setUnredacted, milestone } = useProgression();
   const requested = state.access.unredacted;
   const toggle = useCallback(() => {
     if (!descramblerUnlocked) {
@@ -152,7 +152,8 @@ export function useDescrambler() {
       return;
     }
     gpcAudio.playUiSound('unredact');
+    if (!requested) milestone('descrambler-on');
     setUnredacted(!requested);
-  }, [descramblerUnlocked, requested, setUnredacted]);
+  }, [descramblerUnlocked, requested, setUnredacted, milestone]);
   return { unredacted, unlocked: descramblerUnlocked, toggle };
 }

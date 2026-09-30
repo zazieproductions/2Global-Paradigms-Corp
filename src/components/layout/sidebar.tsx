@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { HardDrive, ShieldAlert } from 'lucide-react';
-import { NAV_SECTIONS, SANCTUM_NAV } from '@/config/navigation';
+import { Crosshair, HardDrive, ShieldAlert } from 'lucide-react';
+import { DIRECTIVES_NAV, NAV_SECTIONS, SANCTUM_NAV } from '@/config/navigation';
 import { DEGREES, LEVEL_CORRESPONDENCE, getSeal } from '@/content/puzzles/seals';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { clearanceTier, shortClearance } from '@/lib/archive/clearance';
 import { useInvestigation } from '@/hooks/use-investigation';
+import { useDirectives } from '@/hooks/use-directives';
 import { Badge } from '@/components/ui/badge';
 import { OrderSigil, PlanetGlyph } from '@/components/ui/sigils';
 import { FictionNotice } from '@/components/ui/fiction-notice';
@@ -19,6 +20,7 @@ interface SidebarProps {
 
 export function Sidebar({ open, onNavigate }: SidebarProps) {
   const { clearance, earnedLevel, currentSeal, solved } = useInvestigation();
+  const directives = useDirectives();
   const rank = clearanceTier(clearance);
   const active = currentSeal ? getSeal(currentSeal) : null;
   const asideRef = useRef<HTMLElement>(null);
@@ -136,6 +138,45 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
               aria-label={`${solved.length} of 7 seals broken`}
             >
               {solved.length}/7
+            </span>
+          </NavLink>
+
+          {/* MISSION CONTROL — OPERATION SILENTIUM directive log */}
+          <NavLink
+            to={DIRECTIVES_NAV.path}
+            onClick={() => {
+              gpcAudio.playUiSound('click');
+              onNavigate();
+            }}
+            className={({ isActive }) =>
+              cn(
+                'tap-row w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded border transition-all text-left',
+                isActive
+                  ? 'bg-cyan-500/15 border-cyan-500/60 shadow-glow-sm shadow-signal/25'
+                  : 'bg-cyan-950/10 border-cyan-900/50 hover:border-cyan-600/60'
+              )
+            }
+          >
+            <span className="text-cyan-300 shrink-0" aria-hidden>
+              <Crosshair className="w-[26px] h-[26px]" strokeWidth={1.5} />
+            </span>
+            <span className="flex-1 min-w-0">
+              <span className="block font-occult text-xs text-cyan-200 tracking-wider">
+                {DIRECTIVES_NAV.label}
+              </span>
+              <span className="block text-micro text-cyan-400/70 truncate">
+                {directives.done
+                  ? 'Operation complete · SILENTIUM'
+                  : directives.current
+                    ? `Now: ${directives.current.code} — ${directives.current.title}`
+                    : 'Awaiting first directive'}
+              </span>
+            </span>
+            <span
+              className="text-micro px-1.5 py-0.5 rounded border border-cyan-800 bg-cyan-950 text-cyan-300 font-bold shrink-0"
+              aria-label={`${directives.completedCount} of ${directives.total} directives complete`}
+            >
+              {directives.completedCount}/{directives.total}
             </span>
           </NavLink>
 

@@ -8,9 +8,11 @@ import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import { FEATURES } from '@/config/features';
 import { NAV_ITEMS, tabForPath } from '@/config/navigation';
 import { SITE } from '@/config/site';
+import { routeMilestone } from '@/content/puzzles/directives';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { useProgression } from '@/hooks/use-progression';
 import { notify, useDescrambler } from '@/hooks/use-investigation';
+import { DirectiveWatcher } from '@/components/puzzles/directive-watcher';
 import { TopHeader } from '@/components/layout/top-header';
 import { Sidebar } from '@/components/layout/sidebar';
 import { AudioPlayerBar } from '@/components/audio/audio-player-bar';
@@ -55,7 +57,7 @@ export function ArchiveShell() {
   const ui = useArchiveUi();
   const { dialog, openDialog, closeDialog, toggleDialog } = ui;
   const progression = useProgression();
-  const { state, discover, setCallsign, markPrologueSeen, completeFinale } = progression;
+  const { state, discover, milestone, setCallsign, markPrologueSeen, completeFinale } = progression;
   const { unredacted, toggle: toggleDescrambler } = useDescrambler();
   const solvedSeals = Object.keys(state.completed).filter((id) => id.startsWith('seal-')).length;
   const goToSanctum = () => {
@@ -90,6 +92,18 @@ export function ArchiveShell() {
   useEffect(() => {
     if (openDocId) discover(openDocId);
   }, [openDocId, discover]);
+
+  // Record dead-link records opened from the shelf (directive-tracked).
+  const openDeadLinkId = dialog?.type === 'dead-link' ? dialog.link.id : null;
+  useEffect(() => {
+    if (openDeadLinkId) discover(openDeadLinkId);
+  }, [openDeadLinkId, discover]);
+
+  // Directive system: visiting a section is an observable event.
+  const activeTab = tabForPath(pathname);
+  useEffect(() => {
+    if (activeTab) milestone(routeMilestone(activeTab));
+  }, [activeTab, milestone]);
 
   // Title + focus management on navigation.
   useEffect(() => {
@@ -253,6 +267,7 @@ export function ArchiveShell() {
         onToggleUnredacted={toggleDescrambler}
       />
       <RevelationToasts />
+      <DirectiveWatcher />
     </>
   );
 }

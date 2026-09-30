@@ -25,4 +25,5 @@ export type ActiveTab =
   | 'values'
   | 'tools'
   | 'deadlinks'
-  | 'sanctum';
+  | 'sanctum'
+  | 'directives';

@@ -26,4 +26,5 @@ export { DEAD_LINKS } from './web/dead-links';
 export { RESTORATION_LOGS } from './restoration/restoration-logs';
 export { PUZZLES } from './puzzles/definitions';
 export { PUZZLE_DOWNLOADS } from './puzzles/downloads';
+export { DIRECTIVE_CHAPTERS, DIRECTIVES, OPERATION_NAME } from './puzzles/directives';
 export { TERMINAL_HELP, TERMINAL_SCAN, TERMINAL_LEAK_DUMP, TERMINAL_STATUS } from './puzzles/terminal-text';

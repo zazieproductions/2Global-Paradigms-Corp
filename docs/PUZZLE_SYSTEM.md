@@ -1,25 +1,31 @@
 # Puzzle system
 
-The archive has two puzzle tracks built on one engine:
+The archive has two puzzle tracks built on one engine, bound together by a mission layer:
 
 - **THE SEVEN SEALS** (`/sanctum`) is the main investigation. Seven puzzles open in order, and breaking
   them earns clearance, the redaction de-scrambler and the finale.
 - **Gateway Transmission** (header ▸ TRANSMISSION) is a four-step guided beginner trail. It deliberately
   grants no clearance.
+- **OPERATION SILENTIUM** (`/directives`) is the directive (quest) layer: five chapters and fourteen
+  directives with auto-tracked steps that order the whole investigation and pay out FIELD INTEL lore on
+  completion. It adds no answers and grants no clearance — it sequences, tracks and rewards what the two
+  tracks already do.
 
 Logic is kept separate from presentation:
 
-| Concern                                           | Where                                                                      |
-| ------------------------------------------------- | -------------------------------------------------------------------------- |
-| Puzzle definitions (data)                         | `src/content/puzzles/definitions.ts` (built from `seals.ts`, `gateway.ts`) |
-| Seal lore, clue pointers, hints                   | `src/content/puzzles/seals.ts`                                             |
-| Terminal text, downloads                          | `src/content/puzzles/terminal-text.ts`, `downloads.ts`                     |
-| Answer validation (pure)                          | `src/lib/puzzles/validate.ts`                                              |
-| Progression store (pure reducer + persistence)    | `src/lib/puzzles/progression.ts`                                           |
-| Derived selectors (earned clearance, seal order…) | `src/lib/puzzles/investigation.ts`                                         |
-| Ciphers / script helpers                          | `src/lib/puzzles/cipher.ts`, `choir-script.ts`                             |
-| React access                                      | `src/hooks/use-progression.ts`, `src/hooks/use-investigation.ts`           |
-| Widgets                                           | `src/components/puzzles/**`, `src/pages/sanctum-page.tsx`                  |
+| Concern                                           | Where                                                                                 |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Puzzle definitions (data)                         | `src/content/puzzles/definitions.ts` (built from `seals.ts`, `gateway.ts`)            |
+| Seal lore, clue pointers, hints                   | `src/content/puzzles/seals.ts`                                                        |
+| Directive chapters, steps, field intel            | `src/content/puzzles/directives.ts`                                                   |
+| Terminal text, downloads                          | `src/content/puzzles/terminal-text.ts`, `downloads.ts`                                |
+| Answer validation (pure)                          | `src/lib/puzzles/validate.ts`                                                         |
+| Progression store (pure reducer + persistence)    | `src/lib/puzzles/progression.ts`                                                      |
+| Derived selectors (earned clearance, seal order…) | `src/lib/puzzles/investigation.ts`                                                    |
+| Directive selectors (chapters, objectives…)       | `src/lib/puzzles/directives.ts`                                                       |
+| Ciphers / script helpers                          | `src/lib/puzzles/cipher.ts`, `choir-script.ts`                                        |
+| React access                                      | `src/hooks/use-progression.ts`, `src/hooks/use-investigation.ts`, `use-directives.ts` |
+| Widgets                                           | `src/components/puzzles/**`, `src/pages/sanctum-page.tsx`, `directives-page.tsx`      |
 
 Components never compare answers themselves. They call the hooks and render the result.
 
@@ -130,6 +136,61 @@ the previous one. The last step re-asks all three keys joined with `|`. Field no
 and the final screen offers `OriginProtocol_Gateway_Transmission.json` as a download. It has no clearance reward: only
 the seals raise clearance.
 
+## OPERATION SILENTIUM — the directive layer
+
+The directive layer turns the archive from a pile of records into one playable investigation. Content
+lives in `src/content/puzzles/directives.ts`; selectors in `src/lib/puzzles/directives.ts`; UI in
+`src/pages/directives-page.tsx` (Mission Control), `directive-tracker.tsx` (dashboard strip) and
+`directive-watcher.tsx` (completion toasts + journal lines).
+
+### Shape
+
+Five chapters, fourteen directives, ~38 steps. Chapters unlock strictly in order, directives within a
+chapter unlock in order, so the operator always has **exactly one CURRENT OBJECTIVE**:
+
+| Chapter | Title                  | Directives                                                                        |
+| ------- | ---------------------- | --------------------------------------------------------------------------------- |
+| CH-1    | Arrival Protocol       | OP-01 First Shift · OP-02 Gateway Transmission · OP-03 First Seal — Saturn        |
+| CH-2    | The Liturgy Beneath    | OP-04 Jupiter · OP-05 The Scattered Choir · OP-06 The Missing Founder             |
+| CH-3    | Three Voices, One Hymn | OP-07 The Chord · OP-08 The Redacted Hymn · OP-09 Dead Pages Whisper              |
+| CH-4    | Black Dossier          | OP-10 The Messenger's Wheel · OP-11 The Black Records · OP-12 The Attendance Roll |
+| CH-5    | Silentium              | OP-13 The Name That Ends the Song · OP-14 After the Song                          |
+
+### Steps are events, not inputs
+
+A step references an observable event and completes by itself when the event happens — the player never
+types anything into a directive. Event kinds:
+
+- `puzzle` — a puzzle id was completed (`seal-4`, `gateway-signal`, …)
+- `record` — a record was discovered (`doc-001`, `ovp-007`, `dead-03`, …)
+- `route` — a section was visited (stored as milestone `route:<tab>`)
+- `fragments` — at least N Choir Script fragments collected
+- `clearance` — earned clearance reached rank N (derived; nothing stored)
+- `milestone` — one of the named milestones below
+- `prologue` / `finale` — the dead-drop was read / the Counter-Rite performed
+
+Named milestones (`MILESTONE_IDS`) record environmental actions: `terminal-scan`, `terminal-codex`,
+`descrambler-on`, `audio-played`, `audio-station07`, `safe-opened`, `dump-retrieved`. The reducer only
+ever stores ids that `isKnownMilestone()` accepts; unknown ids are dropped on dispatch and again on load.
+Milestones survive `purge-case` (what was seen cannot be unseen) but not `reset`.
+
+### Rewards and sequencing
+
+- Each directive pays **FIELD INTEL** on completion — a lore paragraph revealed on the card and toasted.
+- Each chapter grants an operator **standing** (PROBATIONARY READER → … → SILENTIUM). Standing is
+  cosmetic; clearance still comes only from the seals.
+- Completion is watched by `DirectiveWatcher`, which writes the directive's journal line
+  (`kind: 'directive'`) and raises toasts — seeded on mount so reloads never re-announce.
+- Content-integrity tests pin that every directive step points at a real record, puzzle, tab or milestone.
+
+### Authoring a directive
+
+1. Append a `Directive` under the right chapter (or add a chapter at the end of
+   `DIRECTIVE_CHAPTERS` — indexes must stay contiguous).
+2. Write 2–4 steps whose events already exist in the game; never invent a new input surface.
+3. Add a `briefing`, `intel` and `journal` line in the Restoration Cell's voice.
+4. `npm run check` — integrity, selectors, routes and the render tests all pick it up automatically.
+
 ## Progression service
 
 `progressionStore` (singleton) is a framework-agnostic store around a pure `progressionReducer`.
@@ -143,15 +204,18 @@ the seals raise clearance.
 | unlocked routes / downloads | `unlockedRoutes`, `unlockedDownloads`                              |
 | access                      | `access.{clearance, chosenAt, unredacted}`                         |
 | investigation               | `investigation.{fragments, prologueSeen, finaleComplete, journal}` |
+| directive milestones        | `milestones[milestoneId] = ISO time` (validated against content)   |
 | preferences, callsign       | `preferences.{crt, sound}`, `callsign`                             |
 
 React hooks:
 
 - `useProgression()`: state, derived values (`earnedLevel`, `clearance`, `descramblerUnlocked`,
   `unredacted`, counts) and actions (`discover`, `complete`, `bypass`, `revealHint`, `setClearance`,
-  `setUnredacted`, `collectFragment`, `purgeCase`, `reset`, …).
+  `setUnredacted`, `collectFragment`, `milestone`, `purgeCase`, `reset`, …).
 - `useInvestigation()`: Seven Seals view (`solved`, `currentSeal`, `knownLetters`, `attemptSeal`,
   `isCorrect`, `revealHint`, `notify`, …).
+- `useDirectives()`: Mission Control view (`chapters`, `current`, `currentStep`, `isComplete`,
+  `isActive`, `progress`, `standing`, …).
 - `useDescrambler()`: `{ unredacted, unlocked, toggle }`.
 
 ### Reset and replay

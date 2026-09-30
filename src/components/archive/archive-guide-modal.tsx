@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { CheckCircle2, Circle, HelpCircle, Key, RotateCcw, Tv, Volume2, VolumeX } from 'lucide-react';
 import { DOCUMENTS, PUZZLES } from '@/content';
+import { pathForTab } from '@/config/navigation';
 import { FICTION_NOTICE } from '@/config/site';
 import { FEATURES } from '@/config/features';
 import { gpcAudio } from '@/lib/audio/audio-engine';
@@ -113,6 +115,34 @@ export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: 
               GO TO THE SEVEN SEALS →
             </button>
           )}
+        </section>
+
+        <section
+          className="p-3 bg-cyan-950/15 border border-cyan-900/50 rounded space-y-1.5 text-caption"
+          aria-labelledby="guide-directives"
+        >
+          <h3 id="guide-directives" className="text-cyan-300 font-bold tracking-wider">
+            MISSION CONTROL — OPERATION SILENTIUM
+          </h3>
+          <p>
+            The whole investigation is organised into{' '}
+            <span className="text-white font-bold">5 chapters and 14 directives</span> in Mission Control
+            (below the case file in the sidebar). Directives tell you exactly what to do next, and their
+            steps complete themselves as you work — open the record, visit the section, break the seal.
+          </p>
+          <p>
+            Chapters unlock in order, so there is always exactly one{' '}
+            <span className="text-cyan-300 font-bold">CURRENT OBJECTIVE</span>. Every directive pays{' '}
+            <span className="text-white font-bold">FIELD INTEL</span> on completion — the connective tissue
+            of the case. The seals remain the only source of clearance.
+          </p>
+          <Link
+            to={pathForTab('directives')}
+            onClick={onClose}
+            className="mt-1 inline-block px-3 py-1 rounded border border-cyan-700 text-cyan-300 hover:bg-cyan-950/50 cursor-pointer font-bold"
+          >
+            GO TO MISSION CONTROL →
+          </Link>
         </section>
 
         <section className="p-3 bg-inset border border-line rounded space-y-1.5 text-caption">

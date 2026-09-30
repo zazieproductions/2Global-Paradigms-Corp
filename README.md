@@ -32,6 +32,10 @@ recovered all of it. Clearance levels gate what you can open, and clearance is *
 Seals**, never granted by clicking. Seven cryptographic puzzles, each keyed to a planetary seal and a
 colour, escalate from a magic square to a hymn acrostic to a name spoken into the carrier signal.
 
+Over everything sits **OPERATION SILENTIUM**, the mission layer: five chapters and fourteen directives
+with auto-completing steps and FIELD INTEL payoffs, so the archive plays as one continuous, always-guided
+investigation rather than a shelf of files. There is always exactly one current objective.
+
 The project exists twice over: as a piece of fiction with an actual investigation arc (puzzles, ciphers,
 hidden Choir Script fragments on ordinary-looking corporate pages), and as an engineering artifact — a
 type-safe content pipeline, a redaction system that is correct at the DOM level, and a static build with
@@ -68,17 +72,17 @@ static files: `grep -rE "fetch\(|XMLHttpRequest|sendBeacon" src/` returns zero h
 ## Claims, with the command to check each one
 
 This README deliberately contains no unverifiable adjectives. Every count below was measured against this
-checkout on 2026-09-26; regenerate any of them with the listed command.
+checkout on 2026-09-30; regenerate any of them with the listed command.
 
-| Claim                                                                                                                        | Verify with                                    |
-| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`) | `npm run typecheck`                            |
-| ESLint (flat config) and Prettier are clean                                                                                  | `npm run lint && npm run format:check`         |
-| **85 tests in 8 files** pass (reducer, validation, search, routes, a11y, boot, digest script, content integrity)             | `npm test`                                     |
-| 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                              | `npm run validate:content`                     |
-| Every redaction has a de-scrambled counterpart                                                                               | part of the suite above (`content-integrity`)  |
-| No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                 | the greps shown in “Quick start”               |
-| Initial JS+CSS transfer ≈ **308 kB gzipped** incl. the entire corpus                                                         | `npm run build` and read the chunk table below |
+| Claim                                                                                                                          | Verify with                                    |
+| ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`)   | `npm run typecheck`                            |
+| ESLint (flat config) and Prettier are clean                                                                                    | `npm run lint && npm run format:check`         |
+| **111 tests in 11 files** pass (reducer, validation, directives, search, routes, a11y, boot, digest script, content integrity) | `npm test`                                     |
+| 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                                | `npm run validate:content`                     |
+| Every redaction has a de-scrambled counterpart                                                                                 | part of the suite above (`content-integrity`)  |
+| No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                   | the greps shown in “Quick start”               |
+| Initial JS+CSS transfer ≈ **308 kB gzipped** incl. the entire corpus                                                           | `npm run build` and read the chunk table below |
 
 ---
 
@@ -86,6 +90,10 @@ checkout on 2026-09-26; regenerate any of them with the listed command.
 
 All content is typed data in `src/content/**` — no story text lives in components. The sidebar badges and
 the counts below are **derived from the collections themselves**, so they cannot go stale.
+
+On top of the records sits the **mission layer** — OPERATION SILENTIUM (`/directives`): five chapters and
+fourteen directives whose steps auto-complete from archive events, with a FIELD INTEL lore payoff per
+directive (see “The investigation”).
 
 | Kind         | Count | Kind        | Count | Kind              | Count |
 | ------------ | ----: | ----------- | ----: | ----------------- | ----: |
@@ -98,9 +106,9 @@ the counts below are **derived from the collections themselves**, so they cannot
 
 - **174 documents** = 25 hand-authored core records (`doc-001…doc-025`), 140 templated catalogue entries
   (`doc-026…doc-165`), and 9 Ordo Vocis Profundae evidence files (`ovp-001…ovp-009`).
-- **Routing:** 19 lazy pages — 18 archive sections plus an in-world `FILE NOT FOUND` view — and 6 legacy
-  aliases that are 301s at the edge (`vercel.json`, `public/_redirects`) and `Navigate replace` in-app,
-  with query strings preserved (a route test pins that).
+- **Routing:** 20 lazy pages — 19 archive sections (including Mission Control, `/directives`) plus an
+  in-world `FILE NOT FOUND` view — and 6 legacy aliases that are 301s at the edge (`vercel.json`,
+  `public/_redirects`) and `Navigate replace` in-app, with query strings preserved (a route test pins that).
 - **Corpus:** ~239,000 characters of summaries + bodies across the normalised archive; in-world dates run
   1971–2026.
 - **Every audio artifact ships a transcript and a plain-language description** (validator-enforced) — the
@@ -110,8 +118,27 @@ the counts below are **derived from the collections themselves**, so they cannot
 
 ## The investigation
 
-Two puzzle tracks share one engine. Logic is pure and framework-free (`src/lib/puzzles/**`); widgets only
-render results. Components never compare answers themselves.
+Two puzzle tracks share one engine, and a mission layer sequences them into one playable arc. Logic is
+pure and framework-free (`src/lib/puzzles/**`); widgets only render results. Components never compare
+answers themselves.
+
+### OPERATION SILENTIUM (`/directives`) — the mission layer
+
+The archive is not left as a pile of records: everything the operator does is organised into **five
+chapters / fourteen directives** with auto-tracked steps, from _Arrival Protocol_ through _The Liturgy
+Beneath_, _Three Voices One Hymn_, _Black Dossier_ and _Silentium_.
+
+- **One current objective, always.** Chapters unlock in order and directives within a chapter unlock in
+  order, so there is exactly one thing to do next — surfaced on the dashboard, in the sidebar, and in
+  Mission Control.
+- **Steps complete themselves.** A step is an observable event (a record opened, a section visited, a
+  fragment collected, a seal broken, the terminal answering `scan`, the de-scrambler engaging…). Nothing
+  to submit, nothing to bookkeep; a `milestone` ledger in the progression store records the rest.
+- **Every directive pays FIELD INTEL** — a lore paragraph that stitches the case together — plus a journal
+  line and a toast; every chapter raises the operator's standing. Clearance still comes only from seals.
+- Content in `src/content/puzzles/directives.ts`, selectors in `src/lib/puzzles/directives.ts`, tests in
+  `src/tests/directives.test.ts` (selectors + reducer) and `src/tests/directives-ui.test.tsx` (page,
+  tracker, completion watcher).
 
 ### Clearance — earned, never chosen
 
@@ -228,16 +255,16 @@ autoplays. A persistent player bar carries playback; sound can be muted globally
 | Chunk          | Role                                            |            Raw |        Gzip |
 | -------------- | ----------------------------------------------- | -------------: | ----------: |
 | `react`        | react-dom + router                              |       315.7 kB |    100.7 kB |
-| `content`      | the entire 412-record corpus                    |       331.7 kB |    105.0 kB |
-| `index`        | app code                                        |       232.2 kB |     69.4 kB |
-| CSS            | tokens + archive + boot + occult                |       128.2 kB |     26.0 kB |
-| `icons`        | lucide subset                                   |        20.1 kB |      6.7 kB |
-| 24 more chunks | 19 lazy page chunks + 5 split shared components | 0.2–37 kB each | 0.2–11.6 kB |
+| `content`      | the entire 412-record corpus + directive layer  |       397.5 kB |    133.3 kB |
+| `index`        | app code                                        |       243.7 kB |     72.8 kB |
+| CSS            | tokens + archive + boot + occult                |       137.0 kB |     27.4 kB |
+| `icons`        | lucide subset                                   |        20.8 kB |      6.9 kB |
+| 26 more chunks | 20 lazy page chunks + 6 split shared components | 0.2–38 kB each | 0.2–11.7 kB |
 
-~308 kB gzipped of JS+CSS on first visit, _including the whole story_. Hashed bundles emit to `/static/*`
+~346 kB gzipped of JS+CSS on first visit, _including the whole story_. Hashed bundles emit to `/static/*`
 and are served `max-age=31536000, immutable`; the corpus chunk is intentionally one large cacheable object
 (`chunkSizeWarningLimit: 700` with the reason in a comment, not silenced). Fonts are self-hosted
-`@fontsource` subsets with `font-display: swap`. Total `dist/`: 66 files, 2.4 MB on disk.
+`@fontsource` subsets with `font-display: swap`. Total `dist/`: 67 files, 2.5 MB on disk.
 
 ### HTTP posture
 
@@ -250,13 +277,15 @@ out of reach by construction — and there are none to keep).
 
 ### Testing
 
-85 tests across 8 files, all `console.error`-hostile (the route suite fails if rendering logs one):
-`content-integrity` (ids, cross-refs, redaction pairing, clue targets), `progression` (reducer: ordering,
-clearance derivation, assisted upgrades, save migration/quota fallback), `puzzle-validation` (normalisation,
-revoked codes, requirement gating), `search` (AND semantics + the two client-safety rules), `routes` (every
-nav path renders, legacy redirects preserve query strings, `?doc=`/`?record=` deep links record
-discovery), `modal-boot` (focus trap, Escape, focus restore), `puzzles-ui`, and a test that the digest
-script matches `lib/puzzles/validate.ts` byte-for-byte semantics.
+111 tests across 11 files, all `console.error`-hostile (the route suite fails if rendering logs one):
+`content-integrity` (ids, cross-refs, redaction pairing, clue targets, directive step targets),
+`progression` (reducer: ordering, clearance derivation, assisted upgrades, save migration/quota fallback),
+`directives` (milestone ledger + chapter/directive unlocking, end-to-end to SILENTIUM),
+`puzzle-validation` (normalisation, revoked codes, requirement gating), `search` (AND semantics + the two
+client-safety rules), `routes` (every nav path renders, legacy redirects preserve query strings,
+`?doc=`/`?record=` deep links record discovery), `modal-boot` (focus trap, Escape, focus restore),
+`puzzles-ui`, `directives-ui` (Mission Control, tracker strip, completion watcher), `mobile-ux`, and a test
+that the digest script matches `lib/puzzles/validate.ts` byte-for-byte semantics.
 
 ### Accessibility (a product requirement, not a coat of paint)
 

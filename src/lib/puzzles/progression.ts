@@ -27,6 +27,7 @@ import { FEATURES } from '@/config/features';
 import { PUZZLE_SETTINGS } from '@/config/puzzles';
 import { SITE } from '@/config/site';
 import { FRAGMENTS, SEALS, sealPuzzleId } from '@/content/puzzles/seals';
+import { isKnownMilestone } from '@/content/puzzles/directives';
 import { clearanceTier } from '@/lib/archive/clearance';
 import { earnedLevel } from './investigation';
 import { getPuzzle, isPuzzleAvailable } from './validate';
@@ -41,7 +42,8 @@ export const createInitialState = (): ProgressionState => ({
   unlockedDownloads: [],
   access: { clearance: DEFAULT_CLEARANCE, chosenAt: 0, unredacted: false },
   preferences: { crt: false, sound: FEATURES.uiSoundsDefault },
-  investigation: { fragments: [], prologueSeen: false, finaleComplete: false, journal: [] }
+  investigation: { fragments: [], prologueSeen: false, finaleComplete: false, journal: [] },
+  milestones: {}
 });
 
 // ---------------------------------------------------------------------------
@@ -60,6 +62,8 @@ export type ProgressionAction =
   | { type: 'mark-prologue-seen'; at?: string }
   | { type: 'complete-finale'; at?: string }
   | { type: 'journal'; text: string; kind?: JournalKind; at?: string }
+  /** Record an environmental event for the directive system (unknown ids are ignored). */
+  | { type: 'milestone'; id: string; at?: string }
   /** Close the seals again: puzzles, hints, fragments, clearance. Keeps discoveries & preferences. */
   | { type: 'purge-case'; at?: string }
   | { type: 'reset'; keepPreferences?: boolean };
@@ -201,6 +205,12 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
     case 'journal':
       return withJournal(state, action.text.slice(0, 500), action.kind ?? 'system', action.at);
 
+    case 'milestone': {
+      // Only milestones the directives content knows by name are ever stored.
+      if (!isKnownMilestone(action.id) || state.milestones[action.id]) return state;
+      return { ...state, milestones: { ...state.milestones, [action.id]: now(action.at) } };
+    }
+
     case 'purge-case': {
       const fresh = createInitialState();
       return withJournal(
@@ -209,6 +219,9 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
           callsign: state.callsign,
           discovered: state.discovered,
           preferences: state.preferences,
+          // What the operator has seen cannot be unseen: environmental
+          // milestones survive the purge; the seals themselves re-close.
+          milestones: state.milestones,
           investigation: { ...fresh.investigation, prologueSeen: true }
         },
         'Investigation purged. The seals have closed again.',
@@ -229,7 +242,7 @@ export function progressionReducer(state: ProgressionState, action: ProgressionA
 // ---------------------------------------------------------------------------
 
 const VALID_LEVELS = new Set<string>(CLEARANCE_TIERS.map((t) => t.level));
-const JOURNAL_KINDS = new Set<string>(['seal', 'fragment', 'system', 'finale']);
+const JOURNAL_KINDS = new Set<string>(['seal', 'fragment', 'system', 'finale', 'directive']);
 
 const isRecord = (v: unknown): v is Record<string, unknown> =>
   !!v && typeof v === 'object' && !Array.isArray(v);
@@ -317,7 +330,12 @@ export function parseStoredState(raw: string | null): ProgressionState | null {
       prologueSeen: inv.prologueSeen === true,
       finaleComplete: inv.finaleComplete === true,
       journal: parseJournal(inv.journal)
-    }
+    },
+    milestones: Object.fromEntries(
+      Object.entries(isRecord(data.milestones) ? data.milestones : {}).filter(
+        (e): e is [string, string] => isKnownMilestone(e[0]) && typeof e[1] === 'string'
+      )
+    )
   };
   // A stored choice above what the completions justify is not honoured.
   if (clearanceTier(state.access.clearance) > earnedLevel(state)) {

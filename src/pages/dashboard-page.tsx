@@ -31,6 +31,7 @@ import { useProgression } from '@/hooks/use-progression';
 import { ArchivePage } from '@/components/ui/archive-page';
 import { ClassificationStamp } from '@/components/ui/classification-stamp';
 import { CaseBanner } from '@/components/puzzles/case-banner';
+import { DirectiveTracker } from '@/components/puzzles/directive-tracker';
 import { SealMark } from '@/components/archive/seal-mark';
 import { stripRedactions } from '@/lib/archive/redaction';
 
@@ -94,6 +95,7 @@ export default function DashboardPage() {
 
   return (
     <ArchivePage className="space-y-6">
+      <DirectiveTracker />
       <CaseBanner
         onOpen={() => {
           gpcAudio.playUiSound('click');

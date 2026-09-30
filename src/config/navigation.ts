@@ -4,6 +4,7 @@ import {
   Building2,
   Clock,
   Compass,
+  Crosshair,
   FileText,
   FolderLock,
   GraduationCap,
@@ -230,8 +231,21 @@ export const SANCTUM_NAV: NavItem = {
   badgeTone: 'purple'
 };
 
-/** Every routed section, including the case file. */
-export const NAV_ITEMS: NavItem[] = [SANCTUM_NAV, ...NAV_SECTIONS.flatMap((s) => s.items)];
+/**
+ * OPERATION SILENTIUM mission control — the directive/quest log that orders
+ * the whole investigation. Highlighted alongside the case file.
+ */
+export const DIRECTIVES_NAV: NavItem = {
+  id: 'directives',
+  path: '/directives',
+  label: 'Mission Control',
+  icon: Crosshair,
+  badge: 'OPS',
+  badgeTone: 'signal'
+};
+
+/** Every routed section, including the case file and mission control. */
+export const NAV_ITEMS: NavItem[] = [DIRECTIVES_NAV, SANCTUM_NAV, ...NAV_SECTIONS.flatMap((s) => s.items)];
 
 const PATH_BY_TAB = Object.fromEntries(NAV_ITEMS.map((i) => [i.id, i.path])) as Record<ActiveTab, string>;
 

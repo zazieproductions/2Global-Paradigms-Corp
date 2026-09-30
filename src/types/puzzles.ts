@@ -112,7 +112,7 @@ export interface AccessState {
   unredacted: boolean;
 }
 
-export type JournalKind = 'seal' | 'fragment' | 'system' | 'finale';
+export type JournalKind = 'seal' | 'fragment' | 'system' | 'finale' | 'directive';
 
 export interface JournalEntry {
   /** ISO timestamp. */
@@ -137,6 +137,10 @@ export interface Preferences {
 
 /** Persisted player progression. Bump `version` when the shape changes. */
 export interface ProgressionState {
+  /**
+   * v2 is kept: `milestones` was added additively and parses with a safe
+   * default, so older saves remain valid.
+   */
   version: 2;
   callsign: string;
   /** recordId → ISO timestamp of first discovery. */
@@ -149,6 +153,13 @@ export interface ProgressionState {
   access: AccessState;
   preferences: Preferences;
   investigation: InvestigationState;
+  /**
+   * Milestone id → ISO timestamp. Environmental events the directive system
+   * tracks (section visits, terminal commands, audio playback, …). Only ids
+   * known to the directives content are ever recorded; anything else is
+   * dropped on load.
+   */
+  milestones: Record<string, string>;
 }
 
 export type ValidationResult =

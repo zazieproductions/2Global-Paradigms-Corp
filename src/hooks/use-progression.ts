@@ -63,6 +63,8 @@ export function useProgression(store: ProgressionStore = progressionStore) {
   );
   const markPrologueSeen = useCallback(() => dispatch({ type: 'mark-prologue-seen' }), [dispatch]);
   const completeFinale = useCallback(() => dispatch({ type: 'complete-finale' }), [dispatch]);
+  /** Record an environmental milestone for the directive system (validated by the reducer). */
+  const milestone = useCallback((id: string) => dispatch({ type: 'milestone', id }), [dispatch]);
   const addJournal = useCallback(
     (text: string, kind: JournalKind = 'system') => dispatch({ type: 'journal', text, kind }),
     [dispatch]
@@ -111,6 +113,7 @@ export function useProgression(store: ProgressionStore = progressionStore) {
     collectFragment,
     markPrologueSeen,
     completeFinale,
+    milestone,
     addJournal,
     purgeCase,
     reset

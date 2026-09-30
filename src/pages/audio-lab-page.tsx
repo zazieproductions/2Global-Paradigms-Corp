@@ -87,7 +87,7 @@ export default function AudioLabPage() {
   );
   const { currentArtifactId: playingId, isSynthActive: isSynthRunning } = useAudioStatus();
   const reducedMotion = useReducedMotion();
-  const { state, setPreference } = useProgression();
+  const { state, setPreference, milestone } = useProgression();
   const soundOn = state.preferences.sound;
   const [synthFreq, setSynthFreq] = useState(14.8);
   const [synthWave, setSynthWave] = useState<OscillatorType>('sine');
@@ -128,7 +128,12 @@ export default function AudioLabPage() {
     gpcAudio.stopLiveSynth();
     if (playingId === artifact.id) return;
     setSelectedArtifact(artifact);
-    setAudioBlocked(!gpcAudio.playArtifact(artifact.synthesisPreset, artifact.id));
+    const blocked = !gpcAudio.playArtifact(artifact.synthesisPreset, artifact.id);
+    setAudioBlocked(blocked);
+    if (!blocked) {
+      milestone('audio-played');
+      if (artifact.id === 'audio-01') milestone('audio-station07');
+    }
   };
 
   const handleStopAll = () => {

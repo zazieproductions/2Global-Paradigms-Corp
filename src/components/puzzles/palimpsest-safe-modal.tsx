@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CheckCircle2, Download, Key, ShieldAlert } from 'lucide-react';
 import { PUZZLE_DOWNLOADS, SAFE_DECOYS } from '@/content/puzzles/downloads';
 import { getSeal } from '@/content/puzzles/seals';
@@ -28,11 +28,16 @@ interface PalimpsestSafeModalProps {
  * layer; it only turns once Seal V has been broken.
  */
 export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: PalimpsestSafeModalProps) {
-  const { isDownloadUnlocked } = useProgression();
+  const { isDownloadUnlocked, milestone } = useProgression();
   const { attemptSeal, isCorrect, isSolved } = useInvestigation();
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const unlocked = isSolved(6);
+
+  // Directive system: opening the safe room is an observable event.
+  useEffect(() => {
+    if (open) milestone('safe-opened');
+  }, [open, milestone]);
 
   const verify = (code: string) => {
     if (attemptSeal(6, code).ok) {
@@ -200,6 +205,7 @@ export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: Palimpsest
               onClick={() => {
                 gpcAudio.playUiSound('print');
                 downloadJson(download.filename, download.data);
+                milestone('dump-retrieved');
               }}
               className="flex items-center justify-center gap-2 py-2 px-4 bg-emerald-600 hover:bg-emerald-500 text-black font-bold rounded cursor-pointer transition-colors shadow-lg"
             >
