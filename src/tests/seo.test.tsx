@@ -49,7 +49,7 @@ describe('discovery files', () => {
   });
 
   it('allows crawling and advertises the absolute sitemap URL', () => {
-    expect(robotsTxt).toContain('User-agent: *\nAllow: /');
+    expect(robotsTxt.startsWith('User-agent: *\nAllow: /\n')).toBe(true);
     expect(robotsTxt).toContain(`Sitemap: ${SEO_SITE.origin}/sitemap.xml`);
     expect(robotsTxt).not.toMatch(/Disallow:\s*\//);
   });

@@ -42,11 +42,39 @@ If the canonical hostname changes, update `site.origin` in `seo-pages.json`, reg
 and update the constant JSON-LD block in `index.html`. Recalculate its CSP hash in both `vercel.json` and
 `public/_headers` after changing that JSON-LD block.
 
+## When production serves HTML for a discovery file
+
+Symptom: Search Console reports **"Sitemap could not be read"**, `curl -sI https://globalparadigmscorp.com/sitemap.xml`
+answers `Content-Type: text/html`, and opening the URL shows the application instead of raw XML. The files
+are valid — the deployed revision or the edge routing is not. Check in this order:
+
+1. **Is the deployed revision current?** Compare the live deployment's commit with `main`. The host's build
+   settings must be build command `npm run build`, output directory `dist`, production branch `main`.
+2. **Did the artifact keep the discovery files?** `npm run build` finishes with `verify:dist`, which fails
+   when `dist/sitemap.xml` is HTML, `dist/robots.txt` is missing or disallows crawling, a route entry point
+   is absent, or `dist/_redirects` contains a catch-all rewrite. It can also be run alone against any
+   build output: `npm run verify:dist -- --dist <dir>`.
+3. **Is a catch-all rewrite shadowing the files?** Remove `/*  /index.html  200` from `_redirects` **and**
+   from any hosting-dashboard rule. Every canonical route ships a static entry point, so the rule is not
+   needed; while it is active, unknown paths answer `200` as well, which turns real 404s into soft 404s.
+4. **Is the edge cache serving the old response?** Purge the CDN cache for `/`, `/sitemap.xml` and
+   `/robots.txt` after deploying, then confirm the raw responses:
+
+   ```sh
+   curl -s https://globalparadigmscorp.com/sitemap.xml | head -2   # <?xml version="1.0" ...
+   curl -s https://globalparadigmscorp.com/robots.txt | head -2    # User-agent: * / Allow: /
+   ```
+
+Only once those two commands print XML and plain text should the failed sitemap entry be removed in Search
+Console and `https://globalparadigmscorp.com/sitemap.xml` resubmitted. Submit the apex hostname only:
+`www.globalparadigmscorp.com` does not resolve, and a `www` property would collect errors instead of pages.
+
 ## Google Search Console relaunch checklist
 
 After deploying the build:
 
-1. Confirm the apex domain uses HTTPS and that any `www` hostname permanently redirects to the apex.
+1. Confirm the apex domain uses HTTPS. `www` is not served at all today — do not submit it; add a
+   `www → apex` redirect only once that hostname actually resolves.
 2. Open these URLs without authentication and verify they return `200`:
    - `https://globalparadigmscorp.com/robots.txt`
    - `https://globalparadigmscorp.com/sitemap.xml`

@@ -1,4 +1,3 @@
-# Global Paradigms Corp. is a public interactive-fiction archive.
 User-agent: *
 Allow: /
 
