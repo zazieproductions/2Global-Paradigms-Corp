@@ -16,13 +16,16 @@
     "test:watch": "vitest",
     "verify:dist": "node scripts/verify-dist.mjs",
     "validate:content": "vitest run src/tests/content-integrity.test.ts",
+    "validate:canon": "vitest run src/tests/canon.test.ts",
     "seo:render": "node scripts/render-static-block.mjs",
     "seo:generate": "node scripts/generate-seo.mjs --public --public-only",
     "seo:check": "npm run seo:check:static && npm run seo:check:discovery",
     "seo:check:static": "node scripts/render-static-block.mjs --check",
     "seo:check:discovery": "node scripts/generate-seo.mjs --check",
     "puzzle:digest": "node scripts/puzzle-digest.mjs",
-    "check": "npm run typecheck && npm run lint && npm run test && npm run seo:check && npm run build"
+    "archive:report": "node scripts/archive-report.mjs",
+    "archive:report:check": "node scripts/archive-report.mjs --check",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run seo:check && npm run archive:report:check && npm run build"
   },
   "dependencies": {
     "@fontsource/cinzel": "^5.3.0",

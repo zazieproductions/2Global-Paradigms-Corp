@@ -152,7 +152,8 @@ export const PERSONNEL: Personnel[] = [
       'Acoustic engineer by training, eighteen patents in sub-harmonic propagation, most of them filed in the four years after she joined. Designed the tone architecture behind Vesper and has spent the decade since telling people it is a comfort system.',
     classifiedNotes:
       'Objected to Oakhaven Phase 3 in writing, twice, in the fortnight before the trial was stopped. Both memos are in the AIRS vault, not this file. Has not attended a Level 5 review since 2012; sends a deputy. Considered reliable but not useful in a room with the board.',
-    linkedDocuments: ['DOC-2011-OAKHAVEN-AUDIT', 'DOC-2015-VESPER-SPECS', 'AUDIO-02-VESPER-TAPE'],
+    linkedDocuments: ['DOC-2011-OAKHAVEN-AUDIT', 'DOC-2015-VESPER-SPECS'],
+    links: [{ to: { kind: 'audio', id: 'audio-02' }, relation: 'mentions', note: 'the Vesper test tape' }],
     avatarSeed: 'NaomiChen'
   },
   {
@@ -194,10 +195,13 @@ export const PERSONNEL: Personnel[] = [
       'Borehole acoustics. Posted to Station 07 in 2017 on a two-year rotation and did not come back on schedule. His personnel file is four lines long because he never returned any of the forms.',
     classifiedNotes:
       'Left Longyearbyen 4 Nov 2019 with 48GB of station telemetry. Warrant issued under Directive 09; reward authorised at £250,000. Uses the handle "PalimpsestObserver" on the mirrors. Two notes for the duty officer: he is not armed, and he is not to be brought back conscious. See the Seventh Chamber minute of 12 Feb 2020 before doing anything.',
-    linkedDocuments: [
-      'DOC-2019-PALIMPSEST-LEAK',
-      'INC-2019-SVALBARD-STATION07',
-      'AUDIO-01-SVALBARD-INFRASOUND'
+    linkedDocuments: ['DOC-2019-PALIMPSEST-LEAK', 'INC-2019-SVALBARD-STATION07'],
+    links: [
+      {
+        to: { kind: 'audio', id: 'audio-01' },
+        relation: 'mentions',
+        note: 'the Station 07 permafrost capture'
+      }
     ],
     avatarSeed: 'EwanThorne'
   },
@@ -391,7 +395,14 @@ export const PERSONNEL: Personnel[] = [
       'Geophysicist. Built the Nordic array — Spitsbergen, Gotland, Yellowknife — and has spent twenty years defending its budget on the grounds that you cannot hear a thing that has been sounding for a million years without very good instruments.',
     classifiedNotes:
       'Reported an 18.4% amplitude rise over thirty-six months, 2024. His note is careful and does not speculate. Privately he has told two colleagues that the rise looks less like geology every year. Those conversations are known to us and have been left alone.',
-    linkedDocuments: ['DOC-2024-INFRASOUND-AMPLITUDE-STUDY', 'AUDIO-01-SVALBARD-INFRASOUND'],
+    linkedDocuments: ['DOC-2024-INFRASOUND-AMPLITUDE-STUDY'],
+    links: [
+      {
+        to: { kind: 'audio', id: 'audio-01' },
+        relation: 'mentions',
+        note: 'the Station 07 permafrost capture'
+      }
+    ],
     avatarSeed: 'HenrikLindqvist'
   },
   {
@@ -529,7 +540,7 @@ export const PERSONNEL: Personnel[] = [
     departmentName: 'Atmospheric Sensing & Infrasonic Array Network',
     clearance: 'Level 4 - Top Secret',
     stationId: 'st-09',
-    stationName: 'Indian Ocean Submerged Monitor - Diego Garcia Trench Hydrophone 12',
+    stationName: 'Indian Ocean Submerged Monitor - Diego Garcia Hydrophone 12',
     status: 'Active',
     hireDate: '2015-09-18',
     email: 't.almansoor@asian.globalparadigms.corp',
@@ -538,7 +549,8 @@ export const PERSONNEL: Personnel[] = [
       'Deep-water acoustics, SOFAR channel work. Listens to the ocean for a living and has said, more than once, that the ocean is mostly boring, which is what makes the interesting parts interesting.',
     classifiedNotes:
       'Logged the 54Hz pulse on the Diego Garcia array in November 2023 and spent five weeks ruling out everything before saying where it was coming from. Source is 8,400 metres below seabed in a trench with no known structure of that kind. Recommend the term "pulse" is not used in external documents; the oceanographic release calls it a sediment event.',
-    linkedDocuments: ['AUDIO-03-DIEGO-GARCIA-HYDROPHONE', 'DOC-2023-DIEGO-PULSE-MEMO'],
+    linkedDocuments: ['DOC-2023-DIEGO-PULSE-MEMO'],
+    links: [{ to: { kind: 'audio', id: 'audio-03' }, relation: 'mentions', note: 'the Hydrophone 12 pulse' }],
     avatarSeed: 'TariqAlMansoor'
   },
   {
@@ -622,7 +634,14 @@ export const PERSONNEL: Personnel[] = [
       'Geophysicist out of a state survey office. Monitors the old coal seams under Black Ridge, which move more than the local population would like, and files weekly.',
     classifiedNotes:
       'Recorded the Singing Seam during hydraulic injection testing — a sustained tone from an unmined panel three hundred metres down, on pitch, for eleven hours. Her write-up is in the audio archive. Two of the three people who listened to the raw file at full gain reported headaches within the hour; that detail is not in the write-up.',
-    linkedDocuments: ['AUDIO-05-BLACK-RIDGE-SEISMIC', 'DOC-2020-SINGING-SEAM'],
+    linkedDocuments: ['DOC-2020-SINGING-SEAM'],
+    links: [
+      {
+        to: { kind: 'audio', id: 'audio-05' },
+        relation: 'mentions',
+        note: 'the Black Ridge "singing seam" capture'
+      }
+    ],
     avatarSeed: 'ClaraZimmerman'
   },
   {
@@ -706,7 +725,14 @@ export const PERSONNEL: Personnel[] = [
       'Physician, rural practice in Finnmark for six years before this. Looks after thirty-two people living directly above a working borehole. Most of the job is sleep.',
     classifiedNotes:
       'Her 2023 crew study notes that around seventy per cent of long-serving staff report hearing words in the background drone, and that the words are the same words. She asked for the study to be repeated with a control group at Gotland. The request was granted. Gotland has since been removed from the comparison because of "operational constraints".',
-    linkedDocuments: ['DOC-2023-SVALBARD-CREW-HEALTH', 'AUDIO-01-SVALBARD-INFRASOUND'],
+    linkedDocuments: ['DOC-2023-SVALBARD-CREW-HEALTH'],
+    links: [
+      {
+        to: { kind: 'audio', id: 'audio-01' },
+        relation: 'mentions',
+        note: 'the Station 07 permafrost capture'
+      }
+    ],
     avatarSeed: 'AstridLindberg'
   },
   {
@@ -874,7 +900,14 @@ export const PERSONNEL: Personnel[] = [
       'Ran heavy drilling at Station 07 from 2010 until the 2019 breach. Eleven years of sinking shafts through permafrost and into whatever is under it. No relation to the Thorne family; the archive’s earlier cross-reference was an indexing error.',
     classifiedNotes:
       'In isolation at Yellowknife since December 2019. Does not sleep. Vocalises continuously at a pitch the medical officer measures, off the record, at 14.8Hz with harmonics. Two orderlies have asked to be reassigned. The isolation room is soundproofed to a standard that his voice does not respect.',
-    linkedDocuments: ['DOC-2020-HALLORAN-QUARANTINE-LOG', 'AUDIO-01-SVALBARD-INFRASOUND'],
+    linkedDocuments: ['DOC-2020-HALLORAN-QUARANTINE-LOG'],
+    links: [
+      {
+        to: { kind: 'audio', id: 'audio-01' },
+        relation: 'mentions',
+        note: 'the Station 07 permafrost capture'
+      }
+    ],
     avatarSeed: 'BruceHalloran'
   },
   {

@@ -158,7 +158,7 @@ export const ERA_TWO = {
   inWorldSpan: '1971 – 2026',
   records: 412,
   recordKinds: 17,
-  corpusCharacters: 239000,
+  corpusCharacters: 245000,
   seals: 7,
   clearanceTiers: 5,
   pages: 19,

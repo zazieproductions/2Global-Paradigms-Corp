@@ -29,3 +29,6 @@ coverage
 .env
 .env.*
 !.env.example
+
+# Agent scratch space (never committed)
+.arena/

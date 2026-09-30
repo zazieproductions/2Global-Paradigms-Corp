@@ -4,6 +4,8 @@ node_modules
 package-lock.json
 .vite-source-tags.js
 
+# Generated reference — scripts/archive-report.mjs is the formatter
+docs/generated
 # index.html carries two generated regions. The JSON-LD's sha256 (used as the
 # CSP script-src hash in public/_headers and vercel.json, and asserted by
 # npm run seo:check) is computed over the script's exact bytes, so an unrelated

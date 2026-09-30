@@ -11,6 +11,7 @@ browser's `localStorage`.
 
 ```
 .
+├── .github/workflows/ci.yml   six jobs: verify, content, canon, docs, seo, test — see CONTRIBUTING.md §4
 ├── index.html                 Vite entry. SEO/GEO head + generated crawlable block + JSON-LD
 │                              (see docs/SEO.md). No third-party scripts.
 ├── public/
@@ -24,6 +25,8 @@ browser's `localStorage`.
 ├── scripts/puzzle-digest.mjs          `npm run puzzle:digest` — hashes a puzzle answer for definitions.ts
 ├── scripts/render-static-block.mjs    `npm run seo:render` — regenerates index.html's generated regions
 │                                      and the JSON-LD CSP hash in public/_headers + vercel.json
+├── scripts/archive-report.mjs         `npm run archive:report` / `archive:report:check` — regenerates
+│                                      docs/generated/ from src/content/**; CI fails on drift
 ├── scripts/generate-seo.mjs           `npm run seo:generate` / `seo:check` — per-route static entry
 │                                      points, robots.txt, sitemap.xml, llms.txt
 ├── scripts/verify-dist.mjs            `npm run verify:dist` — fails the build if the artifact would not
@@ -35,7 +38,8 @@ browser's `localStorage`.
 ├── vite.config.ts             `@` alias → src, bundles to /static, manual vendor chunks
 ├── vitest.config.ts           jsdom, src/tests/setup.ts
 ├── eslint.config.js           flat config; bans `../` imports (use `@/…`)
-├── docs/                      you are here
+├── AGENTS.md                  operating contract for AI agents working in this repo
+├── docs/                      you are here — see docs/README.md for the map
 └── src/
     ├── main.tsx               mounts <App/>, imports self-hosted fonts + global CSS
     ├── app/                   application shell and routing
@@ -60,7 +64,8 @@ browser's `localStorage`.
     │   ├── puzzles/           definitions, seals, gateway, downloads, terminal text
     │   └── index.ts           barrel: every collection
     ├── lib/
-    │   ├── archive/           record normaliser (records.ts), clearance helpers, redaction, content validator
+    │   ├── archive/           record normaliser (records.ts), clearance helpers, redaction,
+    │   │                      canon registry (canon.ts) + the two validators
     │   ├── puzzles/           progression store, investigation selectors, validation, ciphers
     │   ├── search/            search index + query engine
     │   ├── audio/             Web Audio engine (procedural; no audio files)
@@ -177,9 +182,12 @@ The progression store is a tiny framework-agnostic external store (`getState` / 
 2. `lib/archive/records.ts` normalises every collection into a uniform `ArchiveEntry` (id, kind, code,
    title, date, year, classification, status, sourcePath, tags, related, links, route, summary, body…).
    Missing metadata is derived (e.g. `sourcePath`), and cross-references are resolved.
-3. `lib/archive/validate-content.ts` checks the whole archive: unique ids, dangling references, dates,
-   missing transcripts. It runs in the test suite (`npm run validate:content`).
-4. Pages read the typed collections directly. Search and "related records" read `ArchiveEntry`.
+3. `lib/archive/validate-content.ts` checks the whole archive _structurally_: unique ids, dangling
+   references, dates, missing transcripts (`npm run validate:content`).
+4. `lib/archive/validate-canon.ts` checks it _narratively_: chronology coherence, spine-event evidence,
+   entity naming, code hygiene, spelling and the seal machinery (`npm run validate:canon`). Both read the
+   declared facts in `lib/archive/canon.ts` — see [CONTINUITY.md](CONTINUITY.md).
+5. Pages read the typed collections directly. Search and "related records" read `ArchiveEntry`.
 
 ## Search
 
@@ -220,6 +228,9 @@ player isn't yet allowed to read. Both rules have tests (`search.test.ts`).
 | `npm run lint` / `lint:fix`       | ESLint (flat config, React hooks, a11y-minded rules) |
 | `npm run format` / `format:check` | Prettier (width 110)                                 |
 | `npm test` / `test:watch`         | Vitest (jsdom)                                       |
-| `npm run validate:content`        | content-integrity suite only                         |
+| `npm run validate:content`        | content-integrity suite only (structural)            |
+| `npm run validate:canon`          | canon suite only (narrative continuity)              |
 | `npm run puzzle:digest -- …`      | hash a puzzle answer                                 |
-| `npm run check`                   | typecheck → lint → test → build (what CI should run) |
+| `npm run archive:report`          | regenerate `docs/generated/` from the content        |
+| `npm run archive:report:check`    | fail if `docs/generated/` is stale                   |
+| `npm run check`                   | typecheck → lint → test → report check → build       |

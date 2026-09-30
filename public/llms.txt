@@ -26,7 +26,7 @@ carry this non-affiliation statement alongside any citation of this site.
 | Fictional clients (2006) | The Hanso Foundation · The Valenzetti Foundation · Halliburton |
 | Invented staff (2006) | Enrico Valenzetti · Michael Sontag · S. K. Nave · Gil Flores |
 | In-world company history | 1971 – 2026, founded 1971 |
-| Current corpus | 412 records · 17 kinds · ~239,000 characters |
+| Current corpus | 412 records · 17 kinds · ~245,000 characters |
 | Puzzle track | 7 Seals · 5 clearance tiers · Gateway Transmission beginner trail |
 | Platform | Static web app · no server · no accounts · no telemetry |
 | Cost | Free to play in any modern browser |

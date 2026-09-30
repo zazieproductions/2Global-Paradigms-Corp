@@ -37,6 +37,23 @@ export const TERMINAL_HELP: Array<{ cmd: string; desc: string; order?: boolean }
 ];
 
 /**
+ * Undocumented terminal aliases. They are deliberately absent from
+ * `TERMINAL_HELP`: each exists only so the fiction can react in-character to a
+ * move that will not work. Listed here (rather than buried in the component's
+ * switch) so the documentation generator can enumerate them and reviewers can
+ * see the whole surface in one place.
+ *
+ * Adding an alias: add the case in `components/puzzles/terminal-modal.tsx` and
+ * a row here in the same commit. Never let an alias grant anything.
+ */
+export const TERMINAL_ALIASES: Array<{ cmd: string; note: string }> = [
+  { cmd: 'override', note: 'Rejects a master key. Master Key 01 was revoked 1989-11-04 05:14 UTC.' },
+  { cmd: 'unredact', note: 'Alias of `decrypt`.' },
+  { cmd: 'ordo', note: "Prints the Order's name and Liber Carrier §I." },
+  { cmd: 'vox', note: 'Alias of `ordo`.' }
+];
+
+/**
  * The planchette: an in-world hint voice that changes as the case advances.
  * Index = active seal − 1; the last line plays after the finale.
  */
@@ -83,8 +100,8 @@ export const TERMINAL_LEAK_DUMP: TerminalLine[] = [
   },
   { code: 'DOC-1989-SVALBARD-EVENT', text: 'Disappearance of Dr. Arthur Sedley', tone: 'alert' },
   {
-    code: 'AUDIO-01-SVALBARD',
-    text: 'Raw 14.8Hz Permafrost Audio Tape with Thorne Voice Log',
+    code: 'ART-01-SVALBARD',
+    text: 'Raw 14.8Hz Permafrost Audio Tape with Thorne Voice Log (audio artifact — use `play 1`)',
     tone: 'alert'
   },
   { text: 'Type "cat <doc_code>" to read any record directly.', tone: 'muted' }
