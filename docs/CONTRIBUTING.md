@@ -115,7 +115,8 @@ three files away.
   corpus, or read the generated ledger. If it genuinely does not exist, add it to the canon registry with
   evidence rather than introducing it in prose.
 - **Never "fix" an unresolved reference by creating the missing record** without checking
-  [CONTINUITY.md](CONTINUITY.md) §3 first. 87 of them are deliberate.
+  [CONTINUITY.md](CONTINUITY.md) §3 first. They are deliberate — and they are the only kind of warning
+  `npm run validate:content` emits, so any other warning is a real defect.
 - **Never put an answer anywhere new.** Not in a comment, not in a test name, not in a variable name.
 - **Never weaken a validator to make it pass.** If a check is wrong, say so and change the check with a
   reason; do not delete the assertion.

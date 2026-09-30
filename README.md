@@ -84,7 +84,7 @@ date span, character count) are maintained in
 | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`)      | `npm run typecheck`                            |
 | ESLint (flat config) and Prettier are clean                                                                                       | `npm run lint && npm run format:check`         |
-| **102 tests in 10 files** pass (reducer, validation, search, routes, a11y, boot, mobile, digest script, content integrity, canon) | `npm test`                                     |
+| **103 tests in 10 files** pass (reducer, validation, search, routes, a11y, boot, mobile, digest script, content integrity, canon) | `npm test`                                     |
 | 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                                   | `npm run validate:content`                     |
 | Chronology, entity naming, seal machinery and terminology agree with the declared canon                                           | `npm run validate:canon`                       |
 | Every redaction has a de-scrambled counterpart                                                                                    | part of the suite above (`content-integrity`)  |
@@ -267,8 +267,9 @@ out of reach by construction — and there are none to keep).
 
 ### Testing
 
-102 tests across 10 files, all `console.error`-hostile (the route suite fails if rendering logs one):
-`content-integrity` (ids, cross-refs, redaction pairing, clue targets), `canon` (chronology coherence,
+103 tests across 10 files, all `console.error`-hostile (the route suite fails if rendering logs one):
+`content-integrity` (ids, cross-refs, redaction pairing, clue targets, and the exact set of tolerated
+validator warnings), `canon` (chronology coherence,
 spine evidence, seal order and Seal-Word initials, Choir coverage, degree alignment, entity naming),
 `progression` (reducer: ordering, clearance derivation, assisted upgrades, save migration/quota
 fallback), `puzzle-validation` (normalisation, revoked codes, requirement gating), `search` (AND

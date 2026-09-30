@@ -28,6 +28,26 @@ describe('content integrity', () => {
     expect(errors.map((e) => `${e.where}: ${e.message}`)).toEqual([]);
   });
 
+  /**
+   * See docs/CONTINUITY.md §3. Some `linkedDocuments` entries cite records that
+   * were deliberately never recovered; those surface as warnings and are
+   * load-bearing fiction. That is only a useful signal if every *other* warning
+   * shape has been fixed — so the tolerated shape is pinned here.
+   *
+   * If this test fails on a new message shape, one of two things happened: a real
+   * defect appeared (fix it), or a new deliberate gap was introduced (rule on it
+   * in CONTINUITY.md §3 and widen this pattern). Do not silence it.
+   */
+  it('warns only about references that were deliberately never recovered', () => {
+    const unexpected = warnings
+      .filter((w) => !/^linked document [A-Z0-9-]+ not recovered$/.test(w.message))
+      .map((w) => `${w.where}: ${w.message}`);
+    expect(unexpected).toEqual([]);
+    // The gap itself is canon. If this ever hits zero, someone added records to
+    // paper over an absence — read CONTINUITY.md §3 before accepting that.
+    expect(warnings.length).toBeGreaterThan(0);
+  });
+
   it('uses unique ids across the whole archive', () => {
     const seen = new Map<string, string>();
     for (const e of getArchiveEntries()) {

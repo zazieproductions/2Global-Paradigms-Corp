@@ -279,7 +279,7 @@ stubs, repairing personnel cross-references, quarantining a Palimpsest beacon ca
 six outbound URLs dead.
 
 The frame is what licenses the whole conceit: dead links are dead, some cross-references point at records
-that were never recovered (87 of them, listed as validator warnings on purpose), and some documents are
+that were never recovered (they surface as validator warnings on purpose), and some documents are
 `partial` or `corrupted`. Those gaps are authored, not bugs.
 
 **Rule.** The restorer is never named, never characterised and never speculates. `editorialNote` is

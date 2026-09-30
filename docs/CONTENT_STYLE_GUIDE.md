@@ -68,7 +68,7 @@ Both `14.8Hz` and `14.802 Hz` are canonical in their registers — this is why t
 
 **Never invent a code in prose.** If a code appears in text, it must resolve to a real record;
 `INV-REF-01` checks everything the terminal prints, and `validateContent()` warns on every unresolved
-`linkedDocuments` code. The 87 that remain are authored gaps, listed in
+`linkedDocuments` code. Those that remain are authored gaps, listed in
 [CONTINUITY.md](CONTINUITY.md) §3.
 
 ## 5. Redactions

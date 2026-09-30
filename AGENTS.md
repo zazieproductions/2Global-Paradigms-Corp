@@ -26,7 +26,7 @@ exists to keep that corpus consistent over long authoring sessions. Preserving t
 - **Never put a puzzle answer anywhere new.** Plaintext answers exist only in tier-3 hints,
   success/journal text, and `src/tests/seal-fixtures.ts`.
 - **Never weaken a validator to make it pass**, and never edit `docs/generated/**` (it is derived).
-- **Never "fix" an unresolved reference** without checking `docs/CONTINUITY.md` §3 — 87 of them are
+- **Never "fix" an unresolved reference** without checking `docs/CONTINUITY.md` §3 — they are
   deliberate in-world gaps.
 - **Never reorganise folders or restructure the content model** as a side effect of another task.
 - **Never retype a count into prose.** Link the generated table or run `npm run archive:report`.

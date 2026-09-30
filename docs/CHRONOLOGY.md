@@ -101,13 +101,13 @@ is unexplained and should stay that way.
 
 ## 5. Deliberate gaps
 
-| Gap                                   | Why                                                                                                                       |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| No 1990 entry                         | The era begins in 1990; the first entry is 1991. The year is a boundary, not an event.                                    |
-| No 2010 entry                         | Same. The Modern Hegemony era begins in 2010; the first entry is 2011.                                                    |
-| 1975–1977, 1980–1981, 1983            | The company was small and nothing was worth recording. Silence is evidence of scale.                                      |
-| 87 unresolved `linkedDocuments` codes | Records that were never recovered. Listed as validator **warnings** on purpose — they render in-world as "not recovered". |
-| Page 9 of the Cambridge baseline      | `tl-02` states it is not in the archive. It must never be written.                                                        |
+| Gap                                | Why                                                                                                                                                                           |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| No 1990 entry                      | The era begins in 1990; the first entry is 1991. The year is a boundary, not an event.                                                                                        |
+| No 2010 entry                      | Same. The Modern Hegemony era begins in 2010; the first entry is 2011.                                                                                                        |
+| 1975–1977, 1980–1981, 1983         | The company was small and nothing was worth recording. Silence is evidence of scale.                                                                                          |
+| Unresolved `linkedDocuments` codes | Records that were never recovered — the warnings `npm run validate:content` prints, currently 77. Listed as **warnings** on purpose; they render in-world as "not recovered". |
+| Page 9 of the Cambridge baseline   | `tl-02` states it is not in the archive. It must never be written.                                                                                                            |
 
 Adding an entry to fill a gap is allowed. Removing the "not recovered" behaviour for a code that does
 resolve is a bug fix; adding the missing record is a canon change and needs a drift-log entry.
