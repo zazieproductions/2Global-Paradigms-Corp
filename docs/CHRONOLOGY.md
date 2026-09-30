@@ -71,13 +71,13 @@ instead.
 
 These are authored resonances, and each one is stated in-world:
 
-| Interval                     | Length                                                                   | Where it is stated                     |
-| ---------------------------- | ------------------------------------------------------------------------ | -------------------------------------- |
-| Descent → exfiltration       | 30 years to the day (1989-11-04 → 2019-11-04)                            | Seal VII transmission; `tl-46`         |
-| Descent → predicted crossing | 37 years to the minute (1989-11-04 04:32 → 2026-11-04 04:32 UTC)         | `ovp-009` (de-scrambled)               |
-| Charter → Liber Carrier      | 1 year, 7 months — the Order's rule predates the company's first product | `ovp-003`                              |
-| Descent → Vesper charter     | 16 days                                                                  | `tl-11` → `tl-12`; Seal III revelation |
-| Foundation → 55th year       | 1971-04-12 → 2026-01-10 entry is titled "Fifty-five years…"              | `tl-52`                                |
+| Interval                     | Length                                                                   | Where it is stated                                 |
+| ---------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------- |
+| Descent → exfiltration       | 30 years to the day (1989-11-04 → 2019-11-04)                            | Seal VII transmission; `tl-46`                     |
+| Descent → predicted crossing | 37 years to the minute (1989-11-04 04:32 → 2026-11-04 04:32 UTC)         | `ovp-009` (de-scrambled)                           |
+| Charter → Liber Carrier      | 1 year, 7 months — the Order's rule predates the company's first product | `ovp-003`                                          |
+| Descent → Vesper charter     | 16 days (1989-11-04 → 1989-11-20)                                        | `tl-11` → `tl-12`; arithmetic, not stated in-world |
+| Foundation → 55th year       | 1971-04-12 → 2026-01-10 entry is titled "Fifty-five years…"              | `tl-52`                                            |
 
 If a date moves, every interval above must be re-checked by hand — `validateCanon()` proves the _dates_
 agree with their evidence, not the _intervals_ between spine events.
