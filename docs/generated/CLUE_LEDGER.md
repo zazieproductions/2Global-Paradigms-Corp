@@ -176,6 +176,24 @@ Recognised solely so the fiction can refuse them. None grants anything.
 | `3120` | `override`, the master-key prompt |
 | `sedley` | `override`, the master-key prompt |
 
+## Tape salvage — Directive 17
+
+The only mechanic whose payoff is a *document* rather than a clearance or a degree. Its sources are the unresolved references themselves: a dossier cites a code the live index cannot produce, and the code is recoverable from the spool. Shards are spliced into ascending locator order.
+
+| Source (where it is found) | Payoff | Shards |
+| --- | --- | ---: |
+| dossier `p-001` cites `MEMO-1989-EXEC-TERMINATION`, which the index refuses | Executive Contract 0001 — Termination Memorandum (A. Sedley) | 7 |
+| dossier `p-009` cites `INC-2019-SVALBARD-STATION07`, which the index refuses | Incident Report — Station 07, Borehole 4, night of 3–4 November 2019 | 7 |
+| dossier `p-010` cites `DOC-2019-COHORT-ALPHA`, which the index refuses | Cohort Alpha — Tier-1 Heritage Continuity Register (header pages) | 6 |
+
+### Recorded Seal-Word collisions in ghost text
+
+`INV-TAPE-04` fails CI if a Seal-Word appears in the salvage layer, which promises to carry no answers. These are the deliberate, reviewed exceptions — flagged as warnings, never silent.
+
+| Ghost | Seal-Word | Why it is allowed |
+| --- | --- | --- |
+| `ghost-003` | `ECHO` | The Cohort Alpha register names its alternates column "ECHO" alongside soprano/alto/tenor/bass — ordinary choral usage in-world, in a document about a choir. It is also the Seal V Seal-Word. Flagged, not resolved: if this is meant to be a plant, it is the only Seal-Word reachable before Seal V and should be treated as a clue; if it is not, rename the column. Decided by the narrative author, not by tooling. |
+
 ## Choir Script fragments
 
 | Fragment | Tab | Letters | Riddle |

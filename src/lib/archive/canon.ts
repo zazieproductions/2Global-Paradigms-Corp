@@ -505,6 +505,55 @@ export const CANON_INVARIANTS: CanonInvariant[] = [
     id: 'INV-COUNT-01',
     statement: 'The declared structural counts match the live collections.',
     enforcedBy: 'validate-canon'
+  },
+  {
+    id: 'INV-TAPE-01',
+    statement:
+      'A purged record is struck, not deleted: its code stays unresolved in the live index and survives only as shards on the Postojna spool.',
+    enforcedBy: 'validate-canon'
+  },
+  {
+    id: 'INV-TAPE-02',
+    statement:
+      'Every ghost code is cited by a real personnel dossier, so the salvage layer stays discoverable from the archive itself.',
+    enforcedBy: 'validate-canon'
+  },
+  {
+    id: 'INV-TAPE-03',
+    statement:
+      'Ghost shards are numbered 1..n with unique, ascending locators, so a splice has exactly one correct answer.',
+    enforcedBy: 'validate-canon'
+  },
+  {
+    id: 'INV-TAPE-04',
+    statement:
+      'The salvage layer carries no seal answers: no Seal-Word appears in Directive 17 or any ghost text, except where recorded in CANON_TAPE_EXCEPTIONS.',
+    enforcedBy: 'validate-canon'
+  }
+];
+
+/**
+ * Reviewable exceptions to `INV-TAPE-04`.
+ *
+ * A Seal-Word appearing in ghost text is worth stopping on, because the salvage
+ * layer promises to carry no answers. Most collisions are accidents. One is not
+ * obviously an accident, so it is recorded here with its reason rather than
+ * either deleted or ignored: if the author intended it as a plant, this is the
+ * note that says so; if not, this is the note that says where to look.
+ *
+ * Adding an entry is a narrative decision and belongs in `docs/CONTINUITY.md`
+ * §4 as well. Anything *not* listed here still fails CI.
+ */
+export const CANON_TAPE_EXCEPTIONS: ReadonlyArray<{
+  ghostId: string;
+  sealWord: string;
+  reason: string;
+}> = [
+  {
+    ghostId: 'ghost-003',
+    sealWord: 'ECHO',
+    reason:
+      'The Cohort Alpha register names its alternates column "ECHO" alongside soprano/alto/tenor/bass — ordinary choral usage in-world, in a document about a choir. It is also the Seal V Seal-Word. Flagged, not resolved: if this is meant to be a plant, it is the only Seal-Word reachable before Seal V and should be treated as a clue; if it is not, rename the column. Decided by the narrative author, not by tooling.'
   }
 ];
 

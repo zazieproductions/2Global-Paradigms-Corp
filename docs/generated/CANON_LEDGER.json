@@ -408,6 +408,26 @@
       "id": "INV-COUNT-01",
       "statement": "The declared structural counts match the live collections.",
       "enforcedBy": "validate-canon"
+    },
+    {
+      "id": "INV-TAPE-01",
+      "statement": "A purged record is struck, not deleted: its code stays unresolved in the live index and survives only as shards on the Postojna spool.",
+      "enforcedBy": "validate-canon"
+    },
+    {
+      "id": "INV-TAPE-02",
+      "statement": "Every ghost code is cited by a real personnel dossier, so the salvage layer stays discoverable from the archive itself.",
+      "enforcedBy": "validate-canon"
+    },
+    {
+      "id": "INV-TAPE-03",
+      "statement": "Ghost shards are numbered 1..n with unique, ascending locators, so a splice has exactly one correct answer.",
+      "enforcedBy": "validate-canon"
+    },
+    {
+      "id": "INV-TAPE-04",
+      "statement": "The salvage layer carries no seal answers: no Seal-Word appears in Directive 17 or any ghost text, except where recorded in CANON_TAPE_EXCEPTIONS.",
+      "enforcedBy": "validate-canon"
     }
   ],
   "terminology": [

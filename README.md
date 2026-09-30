@@ -80,17 +80,18 @@ checkout on 2026-09-30; regenerate any of them with the listed command. Corpus f
 date span, character count) are maintained in
 [`docs/generated/CORPUS.md`](docs/generated/CORPUS.md) and fail CI if they go stale.
 
-| Claim                                                                                                                             | Verify with                                    |
-| --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`)      | `npm run typecheck`                            |
-| ESLint (flat config) and Prettier are clean                                                                                       | `npm run lint && npm run format:check`         |
-| **103 tests in 10 files** pass (reducer, validation, search, routes, a11y, boot, mobile, digest script, content integrity, canon) | `npm test`                                     |
-| 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                                   | `npm run validate:content`                     |
-| Chronology, entity naming, seal machinery and terminology agree with the declared canon                                           | `npm run validate:canon`                       |
-| Every redaction has a de-scrambled counterpart                                                                                    | part of the suite above (`content-integrity`)  |
-| The derived reference in `docs/generated/` matches the source                                                                     | `npm run archive:report:check`                 |
-| No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                      | the greps shown in “Quick start”               |
-| Initial JS+CSS transfer ≈ **333 kB gzipped** incl. the entire corpus                                                              | `npm run build` and read the chunk table below |
+| Claim                                                                                                                         | Verify with                                    |
+| ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `tsc -b` passes with zero errors under `strict: true` (+ `noUnusedLocals`/`noUnusedParameters`/`noFallthroughCasesInSwitch`)  | `npm run typecheck`                            |
+| ESLint (flat config) and Prettier are clean                                                                                   | `npm run lint && npm run format:check`         |
+| **139 tests in 14 files** pass (reducer, validation, search, routes, a11y, boot, tape salvage, SEO, content integrity, canon) | `npm test`                                     |
+| 412 records, 17 kinds, no duplicate ids, no dangling cross-refs                                                               | `npm run validate:content`                     |
+| Chronology, entity naming, seal machinery and terminology agree with the declared canon                                       | `npm run validate:canon`                       |
+| Every redaction has a de-scrambled counterpart                                                                                | part of the suite above (`content-integrity`)  |
+| The derived reference in `docs/generated/` matches the source                                                                 | `npm run archive:report:check`                 |
+| Deployed artifact stays crawlable                                                                                             | `npm run seo:check` and `npm run verify:dist`  |
+| No runtime network calls; no `dangerouslySetInnerHTML`/`innerHTML`/`eval` anywhere in `src/`                                  | the greps shown in “Quick start”               |
+| Initial JS+CSS transfer ≈ **341 kB gzipped** incl. the entire corpus                                                          | `npm run build` and read the chunk table below |
 
 ---
 
@@ -161,12 +162,20 @@ live is [`docs/REVELATION.md`](docs/REVELATION.md) §6; the only place they are 
 - **Choir Script fragments** — glyph pairs hidden faintly on seven _public_ pages (newsletters, careers,
   timeline, values, products, reports, dead links). Collecting one teaches its letters; Order documents
   carry marginalia readable only for letters you know.
+- **Directive 17 — the Unquiet Tape** — a hidden salvage layer. Files the dossiers cite but the vault
+  “never recovered” were _struck, not deleted_: they survive as tape ghosts on the Postojna spool, and you
+  splice one back together by ordering its reel fragments (`salvage <code>` in the terminal’s undocumented
+  dead channels, or from a dossier’s “not in vault” citation — purged codes also answer `?doc=` with
+  “Ghost on the tape” instead of a 404). Splice all three and the spool replays the purge order itself.
+  No clearance and no answers: the ghosts are not records (they never enter search or exports), and a test
+  pins that the layer cannot leak anything still sealed.
 - **Hints are tiered and no-shame:** `ASK THORNE → ASK AGAIN → TELL ME`. Tier 3 hands over the answer, the
   completion is marked **ASSISTED**, every reward is still granted, and a later unassisted replay upgrades
   the record — an assisted replay never downgrades an unassisted one.
 - **Terminal (`~`)** — 21 documented commands (`whoami`, `cat <doc-code>`, `scan`, `gematria`, `codex`,
-  `invoke`…), plus a few undocumented aliases that exist only to react in-fiction to the wrong moves.
-  Seven legacy “executive override” codes are recognised **solely so they can be refused**.
+  `invoke`…), plus a few undocumented aliases that exist only to react in-fiction to the wrong moves, and
+  two dead channels (`purge` / `salvage`) that answer for the files Directive 17 struck. Seven legacy
+  “executive override” codes are recognised **solely so they can be refused**.
 - **Persistence** — `localStorage["gpc.progression.v1"]`, validated on load: unknown ids, malformed
   entries, and stored clearance above earned clearance are dropped; a pre-restructure save key is migrated
   once, read-only. Private mode / quota exceeded degrades silently to memory. No accounts, no sync, no
@@ -240,21 +249,20 @@ autoplays. A persistent player bar carries playback; sound can be muted globally
 
 ### Build & performance (measured, `npm run build`, ~5 s)
 
-| Chunk          | Role                                            |              Raw |        Gzip |
-| -------------- | ----------------------------------------------- | ---------------: | ----------: |
-| `content`      | the entire 412-record corpus                    |         377.7 kB |    127.1 kB |
-| `react`        | react-dom + router                              |         315.7 kB |    100.7 kB |
-| `index`        | app code                                        |         237.8 kB |     70.9 kB |
-| CSS            | tokens + archive + boot + occult                |         132.5 kB |     27.0 kB |
-| `icons`        | lucide subset                                   |          20.5 kB |      6.8 kB |
-| 24 more chunks | 19 lazy page chunks + 5 split shared components | 0.2–37.6 kB each | 0.2–11.7 kB |
+| Chunk          | Role                                            |            Raw |        Gzip |
+| -------------- | ----------------------------------------------- | -------------: | ----------: |
+| `react`        | react-dom + router                              |       315.7 kB |    100.6 kB |
+| `content`      | the 412-record corpus + the tape ghosts         |       384.8 kB |    130.4 kB |
+| `index`        | app code                                        |       255.4 kB |     75.6 kB |
+| CSS            | tokens + archive + boot + occult                |       134.1 kB |     27.2 kB |
+| `icons`        | lucide subset                                   |        21.1 kB |      7.1 kB |
+| 24 more chunks | 19 lazy page chunks + 5 split shared components | 0.2–38 kB each | 0.2–11.7 kB |
 
-~333 kB gzipped of JS+CSS on first visit (`react`, `content` and `icons` are `modulepreload`ed),
-_including the whole story_. These are read from `npm run build` output and will move; re-measure before
-quoting them. Hashed bundles emit to `/static/*`
+~341 kB gzipped of JS+CSS on first visit, _including the whole story_. Hashed bundles emit to `/static/*`
 and are served `max-age=31536000, immutable`; the corpus chunk is intentionally one large cacheable object
 (`chunkSizeWarningLimit: 700` with the reason in a comment, not silenced). Fonts are self-hosted
-`@fontsource` subsets with `font-display: swap`. Total `dist/`: 66 files, 2.4 MB on disk.
+`@fontsource` subsets with `font-display: swap`. Total `dist/`: 105 files, 2.8 MB on disk (including the
+static SEO route pages emitted by `scripts/generate-seo.mjs`).
 
 ### HTTP posture
 
@@ -267,16 +275,18 @@ out of reach by construction — and there are none to keep).
 
 ### Testing
 
-103 tests across 10 files, all `console.error`-hostile (the route suite fails if rendering logs one):
+139 tests across 14 files, all `console.error`-hostile (the route suite fails if rendering logs one):
 `content-integrity` (ids, cross-refs, redaction pairing, clue targets, and the exact set of tolerated
-validator warnings), `canon` (chronology coherence,
-spine evidence, seal order and Seal-Word initials, Choir coverage, degree alignment, entity naming),
-`progression` (reducer: ordering, clearance derivation, assisted upgrades, save migration/quota
-fallback), `puzzle-validation` (normalisation, revoked codes, requirement gating), `search` (AND
-semantics + the two client-safety rules), `routes` (every nav path renders, legacy redirects preserve
-query strings, `?doc=`/`?record=` deep links record discovery), `modal-boot` (focus trap, Escape, focus
-restore), `mobile-ux`, `puzzles-ui`, and a test that the digest script matches
-`lib/puzzles/validate.ts` byte-for-byte semantics.
+validator warnings), `canon` (chronology coherence, spine evidence, seal order and Seal-Word initials,
+Choir coverage, degree alignment, entity naming), `progression` (reducer: ordering,
+clearance derivation, assisted upgrades, save migration/quota fallback), `puzzle-validation` (normalisation,
+revoked codes, requirement gating), `search` (AND semantics + the two client-safety rules), `routes` (every
+nav path renders, legacy redirects preserve query strings, `?doc=`/`?record=` deep links record
+discovery), `modal-boot` (focus trap, Escape, focus restore), `puzzles-ui`, `mobile-ux`, `salvage` + `salvage-ui`
+(Directive 17 ghost content, the splice engine, the spool interaction, and the rule that the hidden layer
+never leaks sealed answers), `seo` (manifest, sitemap, robots, raw-HTML metadata), `verify-dist` (the build
+artifact stays crawlable), and a test that the digest script matches `lib/puzzles/validate.ts` byte-for-byte
+semantics.
 
 ### Accessibility (a product requirement, not a coat of paint)
 
@@ -310,10 +320,14 @@ silently override base styles — the escape hatch is Tailwind's `!` suffix, del
 
 ## Deployment
 
-It is a folder of static files. `npm run build` → serve `dist/` anywhere with an SPA fallback; the repo
-ships ready-made config for **Vercel** (`vercel.json`), **Netlify/Cloudflare Pages** (`public/_headers`,
-`public/_redirects` — keep the redirect tables in all three places in sync; a routes test covers the
-in-app half), and `npm run preview` serves the exact production output locally. `public/assets/**`
+It is a folder of static files. `npm run build` emits a crawlable HTML entry point for every public route
+and a real noindex 404, then runs `verify:dist` and fails if the artifact would not be crawlable (missing
+discovery file, HTML sitemap, or a catch-all rewrite). No broad SPA fallback is needed — and a
+`/*  /index.html  200` rule, in `_redirects` or in a hosting dashboard, hides `/sitemap.xml` and
+`/robots.txt` behind the application shell. The repo ships ready-made config for **Vercel**
+(`vercel.json`) and **Netlify/Cloudflare Pages** (`public/_headers`, `public/_redirects` — keep the redirect
+tables in all three places in sync; a routes test covers the in-app half). `npm run preview` serves the
+built artifact locally; host rules in `_redirects`/`_headers` only apply once deployed. `public/assets/**`
 directories are intentionally empty: media is optional garnish on a procedurally-synthesised, text-first
 corpus (drop files in, set `src` on an `AudioArtifact`, and see
 [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) §7). Build-time flags: `VITE_FEATURE_BOOT_SEQUENCE`, `VITE_FEATURE_PERSIST_PROGRESS`,

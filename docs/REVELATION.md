@@ -137,6 +137,13 @@ The canonical playthrough as a knowledge state machine. Use it to check any new 
 **Rule.** New content must be placeable in this table. If it cannot be — if it is knowledge with no stage
 at which it belongs — it is either redundant or premature.
 
+**The salvage layer is deliberately not in this table.** Tape salvage is orthogonal to the seal spine: it
+is gated by _noticing_, not by clearance. A Level 1 player who reads `p-001`'s dossier closely can find a
+struck record and splice it before breaking Seal I. That is intentional — the purge is a company secret,
+not an Order one, and the Order's progression should not be the only door. What the layer must never do is
+pay out a Seal-Word, a degree, or a clearance (`INV-TAPE-04`); its reward is testimony, and testimony is
+worth less than a key.
+
 ## 6. Spoiler containment
 
 This is a static site: the whole truth ships to the browser. Containment is about _friction and

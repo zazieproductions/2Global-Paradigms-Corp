@@ -31,6 +31,7 @@ true, that is a bug.
 | [PUZZLE_SYSTEM.md](PUZZLE_SYSTEM.md) | You are adding or changing a puzzle. The puzzle model, validation, hints, rewards, progression, persistence. |
 | [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | You are building or restyling UI. Tokens, components, accessibility, responsive behaviour.                   |
 | [DEPLOYMENT.md](DEPLOYMENT.md)       | You are shipping. Host requirements, redirects, headers, caching, environment flags, media.                  |
+| [SEO.md](SEO.md)                     | You are touching metadata, the static route output, the sitemap, or Search Console.                          |
 
 ### Process
 

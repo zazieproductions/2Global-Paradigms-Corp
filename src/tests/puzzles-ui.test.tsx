@@ -80,7 +80,13 @@ describe('Command terminal', () => {
   const renderTerminal = (onInvoke = () => {}) =>
     render(
       <MemoryRouter>
-        <TerminalModal open onClose={() => {}} onOpenDocument={() => {}} onInvoke={onInvoke} />
+        <TerminalModal
+          open
+          onClose={() => {}}
+          onOpenDocument={() => {}}
+          onInvoke={onInvoke}
+          onOpenSalvage={() => {}}
+        />
       </MemoryRouter>
     );
 

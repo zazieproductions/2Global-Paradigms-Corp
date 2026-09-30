@@ -67,6 +67,24 @@ Two structural facts worth keeping:
 - **Seal III's source is the only one on public pages.** It is therefore the only seal solvable at
   Level 1, and the only one whose clue surface is fragment collection rather than record reading.
 
+### The one family whose payoff is a document
+
+Every seal pays in clearance, a degree, or a tool. Tape salvage pays in a _record_. Its sources are not
+planted objects but the archive's own broken references: a dossier cites a code the live index cannot
+produce, and that code is recoverable from the spool under Directive 17.
+
+| Source                                    | Transformation                                 | Payoff                                |
+| ----------------------------------------- | ---------------------------------------------- | ------------------------------------- |
+| A dossier citing a code the index refuses | Splice the shards into ascending locator order | The struck document, readable at last |
+
+The three instances, the shard counts and the citing dossiers are in
+[generated/CORPUS.md §Directive 17](generated/CORPUS.md) and
+[generated/CLUE_LEDGER.md §Tape salvage](generated/CLUE_LEDGER.md) — do not retype them here.
+
+**When you change one of these:** the code must stay unresolved (`INV-TAPE-01`), the citing dossier must
+still cite it (`INV-TAPE-02`), and the shard orders must stay a solvable permutation (`INV-TAPE-03`). The
+checks run in `npm run validate:canon`.
+
 ## 3. Change-impact analysis
 
 Before changing anything in the table below, read the "breaks" column.

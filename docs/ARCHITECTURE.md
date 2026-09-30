@@ -92,7 +92,7 @@ main.tsx
              ├─ <Outlet/>  →  lazy page (Suspense + ErrorBoundary per page)
              ├─ AudioPlayerBar
              └─ dialogs: DocumentViewer (?doc=), GlobalSearch, Terminal, Safe, Clearance, Guide,
-                 DeadLinkViewer, Gateway, Finale, RevelationToasts
+                 DeadLinkViewer, Gateway, TapeSpool (Directive 17), Finale, RevelationToasts
 ```
 
 - **Dialogs** are coordinated by `ArchiveUiContext`: exactly one is open at a time; `openDialog`,

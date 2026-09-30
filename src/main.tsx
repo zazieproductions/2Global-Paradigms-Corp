@@ -13,6 +13,10 @@ import { App } from '@/app/app';
 const root = document.getElementById('root');
 if (!root) throw new Error('GPC: #root element missing from index.html');
 
+// Production HTML contains crawlable, no-JavaScript route content. React owns
+// the root once the interactive archive starts, so remove that fallback first.
+root.replaceChildren();
+
 createRoot(root).render(
   <StrictMode>
     <App />

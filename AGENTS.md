@@ -26,27 +26,29 @@ exists to keep that corpus consistent over long authoring sessions. Preserving t
 - **Never put a puzzle answer anywhere new.** Plaintext answers exist only in tier-3 hints,
   success/journal text, and `src/tests/seal-fixtures.ts`.
 - **Never weaken a validator to make it pass**, and never edit `docs/generated/**` (it is derived).
-- **Never "fix" an unresolved reference** without checking `docs/CONTINUITY.md` §3 — they are
-  deliberate in-world gaps.
+- **Never "fix" an unresolved reference** without checking `docs/CONTINUITY.md` §3. Most are deliberate
+  in-world gaps; three are records _struck_ under Directive 17 and recoverable only through the
+  tape-salvage mechanic. Adding either to the live index is a canon error, not a fix.
 - **Never reorganise folders or restructure the content model** as a side effect of another task.
 - **Never retype a count into prose.** Link the generated table or run `npm run archive:report`.
 
 ## Verify before you report
 
 ```sh
-npm run validate:canon      # narrative continuity — expect 0 errors
+npm run validate:canon      # narrative continuity — expect 0 errors; 1 warning is recorded and allowed
 npm run validate:content    # structural integrity — expect 0 errors; warnings are authored
 npm run archive:report      # regenerate docs/generated/, then read `git diff docs/generated`
 npm test                    # full suite
-npm run check               # typecheck → lint → test → report check → build
+npm run check               # typecheck → lint → test → seo check → report check → build
 ```
 
 `git diff docs/generated` is the real changelog: it shows what your content change did downstream. If it
 contains something you did not intend, that is the bug.
 
 When you report, state the command you ran and the number it returned — "`npm run validate:canon` →
-0 errors, 0 warnings", not "checks pass". Say plainly what you could not check. A confident guess in this
-repository produces a contradiction that nobody notices until a player does.
+0 errors, 1 warning (the recorded `ECHO` exception)", not "checks pass". Say plainly what you could not
+check. A confident guess in this repository produces a contradiction that nobody notices until a player
+does.
 
 ## Where spoilers go
 

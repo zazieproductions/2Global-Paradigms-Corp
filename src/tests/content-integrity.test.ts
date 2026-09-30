@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { AUDIO_ARTIFACTS, DOCUMENTS, PERSONNEL, PUZZLES } from '@/content';
 import { FRAGMENTS, SEALS } from '@/content/puzzles/seals';
 import { NAV_ITEMS, pathForTab } from '@/config/navigation';
+import { GHOSTS } from '@/content/restoration/purge-manifest';
 import { REDACTION_PATTERN } from '@/lib/archive/redaction';
 import { getArchiveEntries } from '@/lib/archive/records';
 import { validateContent } from '@/lib/archive/validate-content';
@@ -30,9 +31,9 @@ describe('content integrity', () => {
 
   /**
    * See docs/CONTINUITY.md §3. Some `linkedDocuments` entries cite records that
-   * were deliberately never recovered; those surface as warnings and are
-   * load-bearing fiction. That is only a useful signal if every *other* warning
-   * shape has been fixed — so the tolerated shape is pinned here.
+   * were deliberately never recovered; those surface as warnings. That is only a
+   * useful signal if every *other* warning shape has been fixed — so the
+   * tolerated shape is pinned here.
    *
    * If this test fails on a new message shape, one of two things happened: a real
    * defect appeared (fix it), or a new deliberate gap was introduced (rule on it
@@ -46,6 +47,29 @@ describe('content integrity', () => {
     // The gap itself is canon. If this ever hits zero, someone added records to
     // paper over an absence — read CONTINUITY.md §3 before accepting that.
     expect(warnings.length).toBeGreaterThan(0);
+  });
+
+  /**
+   * Directive 17 splits the unresolved set in two, and the split is the hook.
+   *
+   * Three of the unresolved codes are *purged* records: struck from the live
+   * index under Executive Directive 17 but surviving as shards on the Postojna
+   * spool, recoverable through the tape-salvage mechanic. The rest were simply
+   * never recovered and must stay that way.
+   *
+   * So the floor on this warning count is not zero and not the full set — it is
+   * "every ghost still struck, plus the permanent gaps". A ghost that starts
+   * resolving means someone put the record back in the live index, which
+   * contradicts the directive and makes the spool redundant. See INV-TAPE-01.
+   */
+  it('keeps every purged record struck from the live index', () => {
+    const unresolved = new Set(
+      warnings.map((w) => w.message.match(/^linked document (\S+) not recovered$/)?.[1] ?? '')
+    );
+    expect(GHOSTS.length).toBeGreaterThan(0);
+    for (const ghost of GHOSTS) {
+      expect(unresolved.has(ghost.code), `${ghost.id} ${ghost.code}`).toBe(true);
+    }
   });
 
   it('uses unique ids across the whole archive', () => {

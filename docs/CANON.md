@@ -117,6 +117,31 @@ The ten departments are fixed and their codes are load-bearing (the timeline cit
 Note the frame irony that the archive is authored against: `AIRS` is the department that redacted this
 corpus, and the restoration logs (`rst-*`) are written by the people who undid its work in 2026.
 
+### Executive Directive 17 — the standing purge order
+
+`DIR-1989-DIRECTIVE-17`, signed by E. Cross for Executive Governance, authorised at **1989-11-04 05:14
+UTC** — the same hour Master Key 01 was revoked. The keys died first; the papers died second.
+
+Its distinction is load-bearing and must not be flattened: records are **struck, not deleted**. Deletion
+invites a search; striking invites forgetting. A struck record survives in exactly one copy, as scrambled
+shards on the Postojna spool vaults, and the ledger stays exact even where the world is required to forget.
+
+Three records are struck, and their codes are the codes the personnel dossiers still cite:
+
+| Code                          | Original   | Struck on  | Cited by         |
+| ----------------------------- | ---------- | ---------- | ---------------- |
+| `MEMO-1989-EXEC-TERMINATION`  | 1989-11-04 | 1990-02-11 | `p-001` (Sedley) |
+| `INC-2019-SVALBARD-STATION07` | 2019-11-04 | 2019-11-20 | `p-009` (Thorne) |
+| `DOC-2019-COHORT-ALPHA`       | 2019-06-30 | 2025-03-02 | `p-010`          |
+
+So the unresolved references in [CONTINUITY.md §3](CONTINUITY.md) are not all the same thing: these three
+are _recoverable_ through the tape-salvage mechanic, and the rest were simply never recovered. `INV-TAPE-01`
+fails CI if any of the three starts resolving in the live index — that would put the record back where the
+directive says it must not be, and make the spool redundant.
+
+Directive 17 carries no seal answers and must not (`INV-TAPE-04`). One Seal-Word collision is recorded and
+flagged rather than fixed — see [generated/CLUE_LEDGER.md](generated/CLUE_LEDGER.md).
+
 ## 4. The Order
 
 `ORDO VOCIS PROFUNDAE` — _the Order of the Deep Voice_. The exoteric shell is the corporation; the

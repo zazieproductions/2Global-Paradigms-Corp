@@ -112,7 +112,7 @@ export interface AccessState {
   unredacted: boolean;
 }
 
-export type JournalKind = 'seal' | 'fragment' | 'system' | 'finale';
+export type JournalKind = 'seal' | 'fragment' | 'system' | 'finale' | 'salvage';
 
 export interface JournalEntry {
   /** ISO timestamp. */
@@ -125,6 +125,8 @@ export interface JournalEntry {
 export interface InvestigationState {
   /** Choir Script fragment ids found on the public pages. */
   fragments: string[];
+  /** Directive 17 tape ghosts spliced back together (`PurgedGhost.id`). */
+  salvaged: string[];
   prologueSeen: boolean;
   finaleComplete: boolean;
   journal: JournalEntry[];

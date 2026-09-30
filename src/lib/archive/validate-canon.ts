@@ -31,6 +31,7 @@ import {
   SEAL_FOR_RANK
 } from '@/content/puzzles/seals';
 import { CHOIR_ALPHABET } from '@/lib/puzzles/choir-script';
+import { DIRECTIVE_17, GHOSTS } from '@/content/restoration/purge-manifest';
 import { TERMINAL_LEAK_DUMP, TERMINAL_SCAN, TERMINAL_STATUS } from '@/content/puzzles/terminal-text';
 import { CLEARANCE_TIERS } from '@/config/clearance';
 import { NAV_ITEMS } from '@/config/navigation';
@@ -43,6 +44,7 @@ import {
   CANON_ERAS,
   CANON_ORDER,
   CANON_SPINE,
+  CANON_TAPE_EXCEPTIONS,
   CANON_TERMS,
   NARRATION_WINDOW_DAYS
 } from './canon';
@@ -406,6 +408,81 @@ export function validateCanon(): ContentIssue[] {
       err(`puzzle:${p.id}`, 'gateway steps must never grant clearance — only the seals do');
     }
   }
+
+  // -------------------------------------------------------------------------
+  // 9b. Directive 17 — the purge/salvage layer
+  //
+  // The ghost codes in `purge-manifest.ts` are the same codes the personnel
+  // dossiers cite and the content validator reports as "not recovered". That is
+  // the hook, not an oversight — but it only works if the two sides stay in
+  // step. These checks are what keep them in step.
+  // -------------------------------------------------------------------------
+  const liveCodes = new Set(getArchiveEntries().map((e) => e.code));
+  const personnelById = new Map(PERSONNEL.map((p) => [p.id, p]));
+  const sealWords = SEALS.map((s) => s.sealWord);
+
+  for (const ghost of GHOSTS) {
+    const w = `purge:${ghost.id}`;
+
+    // INV-TAPE-01 — struck, not deleted. If the code ever resolves in the live
+    // index, the fiction ("deletion is insufficient; struck things are
+    // forgotten") is contradicted and the spool becomes redundant.
+    if (liveCodes.has(ghost.code))
+      err(w, `code "${ghost.code}" resolves in the live index; a purged record must stay struck`);
+
+    // INV-TAPE-02 — discoverable. Every dossier that cites the code must exist
+    // and must actually cite it, or the mechanic cannot be found by playing.
+    if (!ghost.citedBy.length) err(w, 'cited by nobody, so it cannot be discovered');
+    for (const pid of ghost.citedBy) {
+      const person = personnelById.get(pid);
+      if (!person) {
+        err(w, `cited by unknown personnel id "${pid}"`);
+        continue;
+      }
+      if (!person.linkedDocuments?.includes(ghost.code))
+        err(w, `${pid} is listed as citing "${ghost.code}" but does not`);
+    }
+
+    // INV-TAPE-03 — one correct splice. Orders must be exactly 1..n and the
+    // locators must be unique and ascending, because `isSpliceCorrect` and the
+    // in-world hint ("splice so the offsets count up") both assume it.
+    const orders = ghost.shards.map((sh) => sh.order);
+    const want = ghost.shards.map((_, i) => i + 1);
+    if (JSON.stringify([...orders].sort((a, b) => a - b)) !== JSON.stringify(want))
+      err(w, `shard orders are not exactly 1..${ghost.shards.length}: ${orders.join(',')}`);
+    const locators = ghost.shards.map((sh) => sh.locator);
+    if (new Set(locators).size !== locators.length) err(w, 'duplicate shard locators');
+    if (!locators.every((l, i) => i === 0 || locators[i - 1] < l))
+      err(w, 'shard locators do not ascend, so the stated splice rule is unsolvable');
+
+    // INV-TAPE-04 — no answers in the salvage layer. The file header promises
+    // this; the check makes the promise enforceable.
+    const ghostText = [
+      ghost.title,
+      ghost.preamble,
+      ghost.locatorNote,
+      ...ghost.shards.map((sh) => sh.text)
+    ].join('\n');
+    for (const word of sealWords) {
+      if (!word || !new RegExp(`\\b${word}\\b`).test(ghostText)) continue;
+      const allowed = CANON_TAPE_EXCEPTIONS.some((x) => x.ghostId === ghost.id && x.sealWord === word);
+      if (allowed) {
+        warn(
+          w,
+          `ghost text contains the Seal-Word "${word}", allowed by CANON_TAPE_EXCEPTIONS — see docs/CONTINUITY.md §4`
+        );
+        continue;
+      }
+      err(w, `ghost text contains the Seal-Word "${word}"; the salvage layer carries no answers`);
+    }
+  }
+
+  // Directive 17 itself is corpus text and carries the same promise.
+  for (const word of sealWords) {
+    if (word && DIRECTIVE_17.lines.some((l) => new RegExp(`\\b${word}\\b`).test(l)))
+      err(`purge:${DIRECTIVE_17.code}`, `directive text contains the Seal-Word "${word}"`);
+  }
+  if (!GHOSTS.length) err('purge:manifest', 'no purged records declared');
 
   // -------------------------------------------------------------------------
   // 10. Structural counts

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/generate-seo.mjs && node scripts/verify-dist.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -b",
     "lint": "eslint .",
@@ -14,12 +14,16 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
+    "verify:dist": "node scripts/verify-dist.mjs",
     "validate:content": "vitest run src/tests/content-integrity.test.ts",
     "validate:canon": "vitest run src/tests/canon.test.ts",
+    "seo:generate": "node scripts/generate-seo.mjs --public --public-only",
+    "seo:check": "node scripts/generate-seo.mjs --check",
+    "seo:image": "node scripts/generate-og-image.mjs",
     "puzzle:digest": "node scripts/puzzle-digest.mjs",
     "archive:report": "node scripts/archive-report.mjs",
     "archive:report:check": "node scripts/archive-report.mjs --check",
-    "check": "npm run typecheck && npm run lint && npm run test && npm run archive:report:check && npm run build"
+    "check": "npm run typecheck && npm run lint && npm run test && npm run seo:check && npm run archive:report:check && npm run build"
   },
   "dependencies": {
     "@fontsource/cinzel": "^5.3.0",

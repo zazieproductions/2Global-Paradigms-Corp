@@ -43,6 +43,24 @@ fails CI if they disagree.
 
 Id prefixes are stable and never reused. `documents` spans three id spaces — `doc-001…doc-025` (hand-authored core), `doc-026…doc-165` (templated catalogue) and `ovp-001…ovp-009` (the Order's own evidence files) — which is why its id range reads `doc-001 … ovp-009`.
 
+## Directive 17 — records the live index refuses
+
+The totals above count what the live index holds. Under Executive Directive 17 (standing, 1989-11-04 05:14 UTC) some records are not deleted but **struck**: they survive in one copy only, as scrambled shards on the Postojna spool vaults, and are recovered through the tape-salvage mechanic (`src/lib/puzzles/salvage.ts`). They are deliberately absent from the counts above and deliberately present in the unresolved-reference warnings — that overlap is the hook.
+
+| Measure | Value |
+| --- | ---: |
+| Standing order | `DIR-1989-DIRECTIVE-17` |
+| Purged records (ghosts) | 3 |
+| Shards across all ghosts | 20 |
+
+| Ghost | Code the index refuses | Original | Struck on | Cited by | Shards |
+| --- | --- | --- | --- | --- | ---: |
+| `ghost-001` | `MEMO-1989-EXEC-TERMINATION` | 1989-11-04 | 1990-02-11 | `p-001` | 7 |
+| `ghost-002` | `INC-2019-SVALBARD-STATION07` | 2019-11-04 | 2019-11-20 | `p-009` | 7 |
+| `ghost-003` | `DOC-2019-COHORT-ALPHA` | 2019-06-30 | 2025-03-02 | `p-010` | 6 |
+
+Each ghost code is also cited by the personnel dossier listed above, which is how the mechanic is found: the dossier points at a document the index cannot produce. `INV-TAPE-01…04` keep the two sides in step — a ghost that starts resolving in the live index is a canon error, not a fix.
+
 ## Clearance distribution
 
 | Tier | Records | Share |

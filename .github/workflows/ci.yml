@@ -64,6 +64,20 @@ jobs:
       # the output. Run `npm run archive:report` and commit the diff.
       - run: npm run archive:report:check
 
+  seo:
+    name: Crawlable metadata (seo:check)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # The generated route metadata, sitemap and robots.txt are committed and
+      # must match src/config/seo-pages.json; see docs/SEO.md.
+      - run: npm run seo:check
+
   test:
     name: Tests and build
     runs-on: ubuntu-latest
@@ -76,6 +90,9 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+      # Fails if the emitted artifact would not be crawled — the one check that
+      # can only run against dist/.
+      - run: npm run verify:dist
       - uses: actions/upload-artifact@v4
         with:
           name: dist

@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
 // https://vite.dev/config/
-export default defineConfig(async () => {
+export default defineConfig(async ({ isPreview }) => {
   const plugins: PluginOption[] = [react(), tailwindcss()];
 
   // Optional local tooling (element tagging for hosted editors). Opt-in only,
@@ -20,6 +20,9 @@ export default defineConfig(async () => {
   }
 
   return {
+    // Production preview should expose real 404s, not Vite's SPA fallback.
+    // Development stays an SPA so direct route work remains convenient.
+    appType: isPreview ? ('mpa' as const) : ('spa' as const),
     plugins,
     resolve: {
       alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) }

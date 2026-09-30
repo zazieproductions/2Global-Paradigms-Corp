@@ -20,6 +20,7 @@ Logic is kept separate from presentation:
 | Puzzle definitions (data)                         | `src/content/puzzles/definitions.ts` (built from `seals.ts`, `gateway.ts`) |
 | Seal lore, clue pointers, hints                   | `src/content/puzzles/seals.ts`                                             |
 | Terminal text, downloads                          | `src/content/puzzles/terminal-text.ts`, `downloads.ts`                     |
+| Directive 17 tape ghosts (hidden salvage layer)   | `src/content/restoration/purge-manifest.ts`                                |
 | Answer validation (pure)                          | `src/lib/puzzles/validate.ts`                                              |
 | Progression store (pure reducer + persistence)    | `src/lib/puzzles/progression.ts`                                           |
 | Derived selectors (earned clearance, seal order…) | `src/lib/puzzles/investigation.ts`                                         |
@@ -129,6 +130,40 @@ teaches all of them. Order documents carry Choir marginalia that is readable onl
 optional), every widget is keyboard-operable with labelled inputs, and nothing depends on colour, hover
 or motion alone. Animations respect `prefers-reduced-motion`.
 
+## Directive 17 — the Unquiet Tape (hidden salvage layer)
+
+A side layer that grants **no clearance** and touches no seal. The fiction kept saying records were
+"purged under Directive 17" (personnel dossiers, the missing-record notices, the 404 page); this is the
+payoff. A purged record is **struck, not deleted**: it survives as a tape ghost on the Postojna spool,
+returned in out-of-order shard fragments.
+
+- **The ghosts.** `GHOSTS` in `src/content/restoration/purge-manifest.ts` — three records whose codes the
+  dossiers cite but the live index refuses (`MEMO-1989-EXEC-TERMINATION`, `INC-2019-SVALBARD-STATION07`,
+  `DOC-2019-COHORT-ALPHA`). Each shard carries a reel locator (reel offsets, watch timestamps or frame
+  numbers). The codes are deliberately the validator's existing "linked document not recovered" warnings;
+  the gap is the hook. Ghosts are **not archive records** — they never enter `DOCUMENTS`, search or export.
+- **The splice.** The tape spool dialog (terminal: `salvage <code>`) returns the shards scrambled. The
+  player reorders them so the locators ascend and presses SPLICE. `isSpliceCorrect()` in
+  `src/lib/puzzles/salvage.ts` judges the order — components never compare anything themselves. The
+  scramble is deterministic (seeded per ghost) and never presented already solved.
+- **Discovery.** Three entry points, all in-fiction: `purge` / `salvage` in the terminal (undocumented —
+  deliberately absent from `help`), the anomalous missing-record states (`?doc=<purged code>` answers
+  "Ghost on the tape" instead of a flat 404; `cat <purged code>` replies "THE TAPE REMEMBERS"), and the
+  personnel dossiers, whose "not in vault" citations become replay buttons.
+- **The payoff.** Splice all three and the spool replays `DIRECTIVE_17` — the purge order itself,
+  authorised the same minute Master Key 01 was revoked. Journal entries use the `salvage` kind;
+  progress is `investigation.salvaged` (validated on load like everything else).
+- **The rules.** No clearance reward, no answer typed, no seal surface changed. A test pins that the
+  layer never contains the answers that stay behind the seals (the Name, the safe combination).
+
+### Adding a tape ghost
+
+1. Append a `PurgedGhost` to `GHOSTS` in `src/content/restoration/purge-manifest.ts`: unique `code`, 4–8
+   shards with unique `locator`s and `order` values that are a permutation of 1..n, and `citedBy`
+   personnel ids that actually cite the code in their `linkedDocuments`.
+2. Keep the code **out of `DOCUMENTS`** — the index must refuse it. Personnel citations surface it.
+3. Run `npm test` (`src/tests/salvage.test.ts` validates all of the above, plus the no-leak rule).
+
 ## Gateway Transmission
 
 `gateway-sequence` → `gateway-signal` → `gateway-waveform` → `gateway-transmission`. Each step requires
@@ -140,16 +175,16 @@ the seals raise clearance.
 
 `progressionStore` (singleton) is a framework-agnostic store around a pure `progressionReducer`.
 
-| Tracks                      | Field                                                              |
-| --------------------------- | ------------------------------------------------------------------ |
-| discovered files            | `discovered[recordId] = ISO time`                                  |
-| completed puzzles           | `completed[puzzleId] = { at, method, assisted }`                   |
-| assisted completions        | `completed[…].assisted`, `assistedCount`                           |
-| hints                       | `hintsRevealed[puzzleId]`                                          |
-| unlocked routes / downloads | `unlockedRoutes`, `unlockedDownloads`                              |
-| access                      | `access.{clearance, chosenAt, unredacted}`                         |
-| investigation               | `investigation.{fragments, prologueSeen, finaleComplete, journal}` |
-| preferences, callsign       | `preferences.{crt, sound}`, `callsign`                             |
+| Tracks                      | Field                                                                        |
+| --------------------------- | ---------------------------------------------------------------------------- |
+| discovered files            | `discovered[recordId] = ISO time`                                            |
+| completed puzzles           | `completed[puzzleId] = { at, method, assisted }`                             |
+| assisted completions        | `completed[…].assisted`, `assistedCount`                                     |
+| hints                       | `hintsRevealed[puzzleId]`                                                    |
+| unlocked routes / downloads | `unlockedRoutes`, `unlockedDownloads`                                        |
+| access                      | `access.{clearance, chosenAt, unredacted}`                                   |
+| investigation               | `investigation.{fragments, salvaged, prologueSeen, finaleComplete, journal}` |
+| preferences, callsign       | `preferences.{crt, sound}`, `callsign`                                       |
 
 React hooks:
 
@@ -163,7 +198,8 @@ React hooks:
 ### Reset and replay
 
 - **Purge case** (`purge-case`, from the case file) closes the seals again: puzzles, hints, fragments and
-  clearance. It keeps discoveries, callsign and preferences and skips the prologue.
+  clearance. It keeps discoveries, callsign, preferences and the spliced tape ghosts, and skips the
+  prologue.
 - **Reset / replay** (`reset`, from the Archive Guide) wipes everything, optionally keeping preferences.
 
 ### Persistence and migration

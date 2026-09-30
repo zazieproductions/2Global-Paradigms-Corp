@@ -27,6 +27,8 @@ export default function NotFoundPage() {
       >
         <span className="text-amber-300 break-all">{pathname}</span> is not mounted on VAULT0. The folder may
         have been purged under Directive 17 or never existed. Use the sidebar or archive search to continue.
+        Nothing purged is ever gone: the tape remembers what the index refuses (terminal:{' '}
+        <span className="text-cyan-300">salvage</span>).
       </SystemNotice>
     </ArchivePage>
   );

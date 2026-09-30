@@ -35,6 +35,7 @@ const canon = await server.ssrLoadModule('@/lib/archive/canon');
 const investigation = await server.ssrLoadModule('@/lib/puzzles/investigation');
 const termMod = await server.ssrLoadModule('@/content/puzzles/terminal-text');
 const puzzlesConfig = await server.ssrLoadModule('@/config/puzzles');
+const purge = await server.ssrLoadModule('@/content/restoration/purge-manifest');
 
 await server.close();
 
@@ -123,6 +124,37 @@ function corpusDoc() {
     'Id prefixes are stable and never reused. `documents` spans three id spaces — `doc-001…doc-025` ' +
       '(hand-authored core), `doc-026…doc-165` (templated catalogue) and `ovp-001…ovp-009` ' +
       "(the Order's own evidence files) — which is why its id range reads `doc-001 … ovp-009`."
+  );
+  out.push('');
+  out.push('## Directive 17 — records the live index refuses\n');
+  out.push(
+    'The totals above count what the live index holds. Under Executive Directive 17 (standing, ' +
+      '1989-11-04 05:14 UTC) some records are not deleted but **struck**: they survive in one copy only, ' +
+      'as scrambled shards on the Postojna spool vaults, and are recovered through the tape-salvage ' +
+      'mechanic (`src/lib/puzzles/salvage.ts`). They are deliberately absent from the counts above and ' +
+      'deliberately present in the unresolved-reference warnings — that overlap is the hook.'
+  );
+  out.push('');
+  out.push(`| Measure | Value |`);
+  out.push(`| --- | ---: |`);
+  out.push(`| Standing order | \`${purge.DIRECTIVE_17.code}\` |`);
+  out.push(`| Purged records (ghosts) | ${purge.GHOSTS.length} |`);
+  out.push(`| Shards across all ghosts | ${purge.GHOSTS.reduce((n, g) => n + g.shards.length, 0)} |`);
+  out.push('');
+  out.push('| Ghost | Code the index refuses | Original | Struck on | Cited by | Shards |');
+  out.push('| --- | --- | --- | --- | --- | ---: |');
+  for (const g of purge.GHOSTS) {
+    out.push(
+      `| \`${g.id}\` | \`${g.code}\` | ${g.date} | ${g.purgedOn} | ${g.citedBy
+        .map((p) => `\`${p}\``)
+        .join(', ')} | ${g.shards.length} |`
+    );
+  }
+  out.push('');
+  out.push(
+    'Each ghost code is also cited by the personnel dossier listed above, which is how the mechanic is ' +
+      'found: the dossier points at a document the index cannot produce. `INV-TAPE-01…04` keep the two ' +
+      'sides in step — a ghost that starts resolving in the live index is a canon error, not a fix.'
   );
   out.push('');
 
@@ -399,6 +431,38 @@ function clueLedgerDoc() {
   out.push('| --- | --- |');
   for (const c of puzzlesConfig.REVOKED_CODES) out.push(`| \`${c}\` | \`override\`, the master-key prompt |`);
   out.push('');
+
+  out.push('## Tape salvage — Directive 17\n');
+  out.push(
+    'The only mechanic whose payoff is a *document* rather than a clearance or a degree. Its sources are ' +
+      'the unresolved references themselves: a dossier cites a code the live index cannot produce, and the ' +
+      'code is recoverable from the spool. Shards are spliced into ascending locator order.'
+  );
+  out.push('');
+  out.push('| Source (where it is found) | Payoff | Shards |');
+  out.push('| --- | --- | ---: |');
+  for (const g of purge.GHOSTS) {
+    const who = g.citedBy.join(', ');
+    out.push(
+      `| dossier \`${who}\` cites \`${g.code}\`, which the index refuses | ${esc(g.title)} | ${
+        g.shards.length
+      } |`
+    );
+  }
+  out.push('');
+  const exc = canon.CANON_TAPE_EXCEPTIONS;
+  if (exc.length) {
+    out.push('### Recorded Seal-Word collisions in ghost text\n');
+    out.push(
+      '`INV-TAPE-04` fails CI if a Seal-Word appears in the salvage layer, which promises to carry no ' +
+        'answers. These are the deliberate, reviewed exceptions — flagged as warnings, never silent.'
+    );
+    out.push('');
+    out.push('| Ghost | Seal-Word | Why it is allowed |');
+    out.push('| --- | --- | --- |');
+    for (const x of exc) out.push(`| \`${x.ghostId}\` | \`${x.sealWord}\` | ${esc(x.reason)} |`);
+    out.push('');
+  }
 
   out.push('## Choir Script fragments\n');
   out.push('| Fragment | Tab | Letters | Riddle |');
