@@ -8,4 +8,8 @@
 /offices        /stations   301
 
 # Canonical routes are emitted as static /<route>/index.html entry points by
-# scripts/generate-seo.mjs. Unknown paths therefore retain a real 404 response.
+# scripts/generate-seo.mjs, and robots.txt, sitemap.xml and llms.txt are real
+# files in the publish directory. Unknown paths therefore retain a real 404
+# response. Do not add `/*  /index.html  200` here: it shadows every discovery
+# file above and turns 404s into soft 404s. `npm run verify:dist` fails the
+# build if that rule comes back.

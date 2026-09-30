@@ -3,3 +3,10 @@ coverage
 node_modules
 package-lock.json
 .vite-source-tags.js
+
+# index.html carries two generated regions. The JSON-LD's sha256 (used as the
+# CSP script-src hash in public/_headers and vercel.json, and asserted by
+# npm run seo:check) is computed over the script's exact bytes, so an unrelated
+# `prettier --write` must not reflow it. `npm run seo:render` owns this file's
+# formatting inside those regions; src/tests/seo.test.ts asserts the rest.
+index.html

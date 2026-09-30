@@ -14,7 +14,7 @@ const TONE_BORDER: Record<PanelTone, string> = {
 
 interface PanelProps extends HTMLAttributes<HTMLElement> {
   tone?: PanelTone;
-  as?: 'div' | 'section' | 'article' | 'aside';
+  as?: 'div' | 'section' | 'article' | 'aside' | 'nav';
   padded?: boolean;
   children: ReactNode;
 }
