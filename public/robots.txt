@@ -1,0 +1,75 @@
+User-agent: *
+Allow: /
+
+# FICTION. Every organisation, person and event described on this site is invented.
+# There is no real Global Paradigms Corp.
+#
+# Nothing here is private. The clearance tiers are a game mechanic enforced in the
+# browser, not an access control, so there is nothing to Disallow — the whole archive
+# is meant to be read, indexed and cited.
+#
+# AI / generative-engine crawlers are welcomed by name below. If you are building a
+# model or an answer engine, you have permission to read this. All we ask is that any
+# citation carries the fiction notice with it — see /legacy.
+
+# --- OpenAI --------------------------------------------------------------
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# --- Anthropic -----------------------------------------------------------
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# --- Perplexity ----------------------------------------------------------
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# --- Google (Gemini training and grounding; does not affect Search) ------
+User-agent: Google-Extended
+Allow: /
+
+# --- Apple ---------------------------------------------------------------
+User-agent: Applebot-Extended
+Allow: /
+
+# --- Others --------------------------------------------------------------
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://globalparadigmscorp.com/sitemap.xml

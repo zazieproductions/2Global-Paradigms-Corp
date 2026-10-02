@@ -24,6 +24,8 @@ export type ArchiveDialog =
   | { type: 'finale' }
   /** Gateway Transmission — the guided beginner trail. */
   | { type: 'gateway' }
+  /** The tape spool — replaying a Directive 17 tape ghost. */
+  | { type: 'tape-spool'; ghostId: string }
   | { type: 'training'; module: TrainingModule }
   | { type: 'job'; job: JobPosting }
   | { type: 'dead-link'; link: DeadLink };

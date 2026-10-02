@@ -394,3 +394,52 @@ export interface RestorationLog extends RecordMeta {
   notes: string;
   tags: string[];
 }
+
+// ---------------------------------------------------------------------------
+// Directive 17 — purge salvage ("the unquiet tape")
+// ---------------------------------------------------------------------------
+
+/** One out-of-order shard line of a purged record, as the tape spool returns it. */
+export interface SalvageShard {
+  /**
+   * Player-visible reel locator (reel offset, timestamp or frame number).
+   * Ascending locator = original reading order; this is the splice key.
+   */
+  locator: string;
+  /** 1-based position on the original tape. The splice target. */
+  order: number;
+  text: string;
+}
+
+/**
+ * A record purged under Directive 17 that survives only as a tape ghost.
+ * Ghosts are NOT archive records: the live index refuses them, search cannot
+ * surface them, and only the tape spool can give them back.
+ */
+export interface PurgedGhost {
+  id: string;
+  /** The cited-but-missing archive code this ghost answers for. */
+  code: string;
+  title: string;
+  /** In-world date of the original record (`YYYY-MM-DD`). */
+  date: string;
+  /** When the purge struck it from the live index. */
+  purgedOn: string;
+  /** Personnel record ids whose dossiers still cite this code. */
+  citedBy: string[];
+  /** What the index remembers instead of a body. */
+  preamble: string;
+  /** How to order the shards (shown before the splice). */
+  locatorNote: string;
+  shards: SalvageShard[];
+  /** Printed once the splice holds. */
+  closing: string;
+}
+
+/** The payoff: the purge order itself, recovered from the same spool. */
+export interface Directive17Record {
+  code: string;
+  title: string;
+  signatory: string;
+  lines: string[];
+}

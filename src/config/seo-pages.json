@@ -1,0 +1,129 @@
+{
+  "site": {
+    "origin": "https://globalparadigmscorp.com",
+    "name": "Global Paradigms Corp.",
+    "defaultTitle": "Global Paradigms Corp. // 2006 Lost ARG Hoax — Reopened",
+    "description": "The bankrupt-corporation hoax that misled Lost fans in 2006 — client of the Hanso and Valenzetti Foundations — reopened in 2026 as a new playable ARG.",
+    "image": "/assets/images/og-card.jpg",
+    "imageAlt": "A dark terminal reading GLOBAL PARADIGMS CORP., with 2006 struck through and 2026 lit beneath it.",
+    "language": "en",
+    "locale": "en_US",
+    "lastModified": "2026-09-30"
+  },
+  "pages": [
+    {
+      "path": "/",
+      "title": "Global Paradigms Corp. // 2006 Lost ARG Hoax — Reopened",
+      "heading": "Global Paradigms Corp. Recovered Archive",
+      "description": "The bankrupt-corporation hoax that misled Lost fans in 2006 — client of the Hanso and Valenzetti Foundations — reopened in 2026 as a new playable ARG."
+    },
+    {
+      "path": "/legacy",
+      "title": "The Legacy File: 2006 Hoax, 2026 Reopening | GPC",
+      "heading": "The Legacy File",
+      "description": "Provenance of globalparadigmscorp.com: the 2006 hoax during The Lost Experience, twenty years offline, and the 2026 original interactive-fiction ARG."
+    },
+    {
+      "path": "/documents",
+      "title": "Classified Document Vault | Global Paradigms Corp.",
+      "heading": "Master Classified Document Vault",
+      "description": "Search 174 recovered memos, dossiers, field reports and classified records in the fictional Global Paradigms Corp. interactive archive."
+    },
+    {
+      "path": "/personnel",
+      "title": "Personnel Directory | Global Paradigms Corp.",
+      "heading": "Personnel Roster and Biometric Directory",
+      "description": "Browse 45 fictional personnel files, biographies and linked evidence from the recovered Global Paradigms Corp. interactive archive."
+    },
+    {
+      "path": "/stations",
+      "title": "Field Stations and Arrays | Global Paradigms Corp.",
+      "heading": "Regional Field Stations and Borehole Arrays",
+      "description": "Investigate 22 fictional monitoring stations, subterranean facilities and borehole arrays in the Global Paradigms Corp. archive."
+    },
+    {
+      "path": "/programs",
+      "title": "Black Budget Project Dossiers | Global Paradigms Corp.",
+      "heading": "Internal Program Dossiers and Black Budget Projects",
+      "description": "Open 14 fictional project dossiers covering covert research, strategic operations and the mysteries beneath Global Paradigms Corp."
+    },
+    {
+      "path": "/departments",
+      "title": "Corporate Departments | Global Paradigms Corp.",
+      "heading": "Corporate Directorates and Organizational Charters",
+      "description": "Explore 10 fictional corporate departments, their charters, personnel and concealed roles inside the Global Paradigms Corp. story."
+    },
+    {
+      "path": "/products",
+      "title": "Recalled Products Archive | Global Paradigms Corp.",
+      "heading": "Discontinued and Recalled Products Archive",
+      "description": "Review eight fictional recalled products, incident audits and disposal records recovered from the Global Paradigms Corp. archive."
+    },
+    {
+      "path": "/audio",
+      "title": "Infrasound Audio Lab | Global Paradigms Corp.",
+      "heading": "Infrasound Acoustic Lab and DSP Scanner",
+      "description": "Examine six accessible audio artifacts, transcripts and an interactive sub-audible synthesizer in this browser-based fiction archive."
+    },
+    {
+      "path": "/tools",
+      "title": "Interactive Archive Tools | Global Paradigms Corp.",
+      "heading": "Sub-Audible Software Tools and Intranet Utilities",
+      "description": "Use four interactive diagnostics, signal calculators and telemetry decoders while investigating the Global Paradigms Corp. mystery."
+    },
+    {
+      "path": "/reports",
+      "title": "Annual Strategic Reports | Global Paradigms Corp.",
+      "heading": "Annual Strategic Reports and Continuity Audits",
+      "description": "Read six fictional annual reports, fiscal disclosures and scrubbed archival footnotes spanning the Global Paradigms Corp. timeline."
+    },
+    {
+      "path": "/communications",
+      "title": "Emails and Board Minutes | Global Paradigms Corp.",
+      "heading": "Communications Archive: Emails and Board Minutes",
+      "description": "Search 24 recovered email chains and meeting records that reveal the story behind the fictional Global Paradigms Corp. archive."
+    },
+    {
+      "path": "/timeline",
+      "title": "Historical Timeline 1971–2026 | Global Paradigms Corp.",
+      "heading": "Historical Timeline: Fifty-Five Years of Certainty",
+      "description": "Follow 52 fictional milestones, discoveries and covert crises from 1971 to 2026 in the Global Paradigms Corp. story timeline."
+    },
+    {
+      "path": "/newsletters",
+      "title": "Staff Newsletters | Global Paradigms Corp.",
+      "heading": "Internal Staff Newsletters and Bulletins",
+      "description": "Read six fictional staff newsletters containing company updates, safety bulletins and hidden clues for the archive investigation."
+    },
+    {
+      "path": "/training",
+      "title": "Employee Training Modules | Global Paradigms Corp.",
+      "heading": "Employee Onboarding and Compliance Modules",
+      "description": "Complete four fictional onboarding and compliance modules with interactive quizzes inside the Global Paradigms Corp. archive."
+    },
+    {
+      "path": "/careers",
+      "title": "Classified Job Postings | Global Paradigms Corp.",
+      "heading": "Classified Recruitment Opportunities",
+      "description": "Browse 12 entirely fictional job postings and uncover narrative clues within the Global Paradigms Corp. interactive story."
+    },
+    {
+      "path": "/values",
+      "title": "Five Pillars of Certainty | Global Paradigms Corp.",
+      "heading": "The Five Pillars of Pre-Emptive Certainty",
+      "description": "Discover the five fictional corporate values and coded doctrine that shape the Global Paradigms Corp. interactive mystery."
+    },
+    {
+      "path": "/deadlinks",
+      "title": "Dead Links and Seized Mirrors | Global Paradigms Corp.",
+      "heading": "Dead External Links and Seized Mirror Archives",
+      "description": "Explore seven fictional dead links, seized mirrors and reconstructed web fragments preserved as evidence in the recovered archive."
+    },
+    {
+      "path": "/sanctum",
+      "title": "The Seven Seals Puzzle | Global Paradigms Corp.",
+      "heading": "The Seven Seals",
+      "description": "Solve seven escalating ciphers and cryptographic puzzles to unlock the central mystery of the Global Paradigms Corp. fiction archive."
+    }
+  ]
+}

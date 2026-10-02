@@ -10,6 +10,7 @@ export type * from './search';
  */
 export type ActiveTab =
   | 'dashboard'
+  | 'legacy'
   | 'documents'
   | 'personnel'
   | 'stations'

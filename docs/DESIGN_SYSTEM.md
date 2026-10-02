@@ -193,4 +193,11 @@ Nothing may be keyboard-only or hover-only. Phones have neither.
 ## Voice in UI states
 
 Empty, loading, missing and denied states are written in character. Use `SystemNotice` rather than a bare
-"No results". See [CONTENT_STYLE_GUIDE.md](CONTENT_STYLE_GUIDE.md).
+"No results". The five states, their codes and the rules for writing them are in
+[CONTENT_STYLE_GUIDE.md](CONTENT_STYLE_GUIDE.md) §7.
+
+---
+
+**Related:** [CONTENT_STYLE_GUIDE.md](CONTENT_STYLE_GUIDE.md) — voice and typography ·
+[REVELATION.md](REVELATION.md) — what the UI may and may not reveal ·
+[ARCHITECTURE.md](ARCHITECTURE.md) — where the components sit

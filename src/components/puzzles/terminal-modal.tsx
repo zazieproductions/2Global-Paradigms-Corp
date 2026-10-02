@@ -2,7 +2,9 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowUp, Maximize2, Minimize2, Terminal as TerminalIcon, Trash2 } from 'lucide-react';
 import {
   AUDIO_ARTIFACTS,
+  DIRECTIVE_17,
   DOCUMENTS,
+  GHOSTS,
   REGIONAL_STATIONS,
   TERMINAL_HELP,
   TERMINAL_LEAK_DUMP,
@@ -28,6 +30,7 @@ import { SITE } from '@/config/site';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { clearanceForTier, clearanceTier, shortClearance } from '@/lib/archive/clearance';
 import { ordinalGematria, vigenereDecrypt } from '@/lib/puzzles/cipher';
+import { allGhostsSalvaged, ghostForCode, salvagedCount } from '@/lib/puzzles/salvage';
 import { useProgression } from '@/hooks/use-progression';
 import { useInvestigation } from '@/hooks/use-investigation';
 import { useDirectives } from '@/hooks/use-directives';
@@ -102,6 +105,8 @@ interface TerminalModalProps {
   onOpenDocument: (id: string) => void;
   /** Speaking the Name (seal VII) — the shell swaps this dialog for the finale. */
   onInvoke: () => void;
+  /** Opening the tape spool on a Directive 17 tape ghost. */
+  onOpenSalvage: (ghostId: string) => void;
 }
 
 export function TerminalModal({ open, ...rest }: TerminalModalProps) {
@@ -109,7 +114,7 @@ export function TerminalModal({ open, ...rest }: TerminalModalProps) {
   return <Terminal {...rest} />;
 }
 
-function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps, 'open'>) {
+function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<TerminalModalProps, 'open'>) {
   const progression = useProgression();
   const investigation = useInvestigation();
   const directives = useDirectives();
@@ -158,6 +163,51 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
 
   const print = (command: string, output: ReactNode) =>
     setHistory((prev) => [...prev, { id: nextId.current++, command, output }]);
+
+  /** The recovered Directive 17 purge manifest — the entry to the tape-salvage layer. */
+  const purgeManifest = () => (
+    <div className="space-y-1.5 text-label">
+      <p className="text-amber-300 font-bold">DIRECTIVE 17 — PURGE MANIFEST (RECOVERED FROM THE SPOOL)</p>
+      <p className="text-slate-500">
+        The live index refuses these files. They were struck, not deleted, and the tape remembers all of them.
+      </p>
+      {GHOSTS.map((g) => {
+        const done = state.investigation.salvaged.includes(g.id);
+        return (
+          <div key={g.id} className="border-l border-amber-900/60 pl-2">
+            <p>
+              <span className={done ? 'text-emerald-400 font-bold' : 'text-amber-300 font-bold'}>
+                {g.code}
+              </span>{' '}
+              — {g.title}
+            </p>
+            <p className="text-slate-500">
+              struck {g.purgedOn} · cited by {g.citedBy.join(', ')} ·{' '}
+              {done ? (
+                <span className="text-emerald-400">SPLICED — replay it with: salvage {g.code}</span>
+              ) : (
+                <span>SCRAMBLED — type: salvage {g.code}</span>
+              )}
+            </p>
+          </div>
+        );
+      })}
+      {allGhostsSalvaged(state) ? (
+        <div className="pt-1 space-y-1 text-rose-200">
+          <p className="font-bold">{DIRECTIVE_17.title}</p>
+          {DIRECTIVE_17.lines.map((line, i) => (
+            <p key={i} className="text-rose-100/80">
+              {line}
+            </p>
+          ))}
+        </div>
+      ) : (
+        <p className="text-slate-500 pt-1">
+          When all three are spliced, the spool replays what authorised the purge.
+        </p>
+      )}
+    </div>
+  );
 
   const run = (raw: string) => {
     const trimmed = raw.trim().slice(0, 120);
@@ -410,6 +460,9 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
             <p>
               CHOIR FRAGMENTS: {investigation.fragments.length}/{FRAGMENTS.length}
             </p>
+            <p>
+              DIRECTIVE 17 GHOSTS SPLICED: {salvagedCount(state)}/{GHOSTS.length}
+            </p>
             <p className="text-slate-500">
               Progress is stored in this browser only. Reset it from the Archive Guide or purge the case in
               the Sanctum.
@@ -437,6 +490,38 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
             </span>
           </p>
         );
+
+      case 'purge':
+      case 'directive17':
+      case 'undelete':
+        gpcAudio.playUiSound('scan');
+        return print(trimmed, purgeManifest());
+
+      case 'salvage': {
+        if (!arg.trim()) {
+          gpcAudio.playUiSound('scan');
+          return print(trimmed, purgeManifest());
+        }
+        const ghost = ghostForCode(arg);
+        if (!ghost) {
+          gpcAudio.playUiSound('deny');
+          return print(
+            trimmed,
+            <p className="text-rose-400">
+              The spool holds nothing under \"{arg}\". Type <span className="text-cyan-300">purge</span> for
+              the manifest.
+            </p>
+          );
+        }
+        gpcAudio.playUiSound('scan');
+        onOpenSalvage(ghost.id);
+        return print(
+          trimmed,
+          <p className="text-amber-300">
+            Spooling {ghost.code} — reassemble the fragments so the reel locators ascend.
+          </p>
+        );
+      }
 
       case 'scan':
         gpcAudio.playUiSound('scan');
@@ -485,6 +570,23 @@ function Terminal({ onClose, onOpenDocument, onInvoke }: Omit<TerminalModalProps
           ? (DOCUMENTS.find((d) => d.code.toLowerCase() === q || d.id.toLowerCase() === q) ??
             DOCUMENTS.find((d) => d.title.toLowerCase().includes(q)))
           : undefined;
+        const ghost = q ? ghostForCode(q) : undefined;
+        if (!doc && ghost) {
+          // Anomalous: the index refuses the file, but the spool still holds it.
+          gpcAudio.playUiSound('deny');
+          return print(
+            trimmed,
+            <div className="space-y-1 text-amber-300" role="status">
+              <p className="font-bold">INDEX REFUSES THIS FILE. DIRECTIVE 17 STRUCK IT {ghost.purgedOn}.</p>
+              <p className="text-slate-400">
+                {ghost.title} — cited by {ghost.citedBy.join(', ')}, held in no vault.
+              </p>
+              <p className="text-fuchsia-300">
+                THE TAPE REMEMBERS. Type: <span className="font-bold">salvage {ghost.code}</span>
+              </p>
+            </div>
+          );
+        }
         if (!doc) {
           gpcAudio.playUiSound('deny');
           return print(

@@ -1,0 +1,72 @@
+# Global Paradigms Corp.
+
+> Global Paradigms Corp. (globalparadigmscorp.com) is a fictional-corporation website with two separate eras, twenty years apart.
+
+Era I (2006): a fan-made hoax page created during The Lost Experience, the alternate reality game that promoted the television series Lost. It posed as a bankrupt strategic-consulting firm whose listed clients included the Hanso Foundation, the Valenzetti Foundation and Halliburton, and whose invented staff included Enrico Valenzetti, Michael Sontag and S. K. Nave. It was online from at least 20 April 2006 and offline by 30 July 2006.
+
+Era II (2026): the domain was acquired by Zazie Productions and reopened as an original interactive fiction archive and single-player ARG — 412 recovered records, five clearance tiers and seven cryptographic Seals, running entirely in the browser with no server and no accounts.
+
+Era II is an original work. It is not affiliated with, licensed by, endorsed by, or connected to Lost, ABC, Disney, the Hanso Foundation, the Valenzetti Foundation, or the author of the 2006 hoax. Every organisation, person and event described anywhere on this site is invented.
+
+**This is a work of fiction.** There has never been a real Global Paradigms Corp. Every
+organisation, person, product, document and event described anywhere on this site is invented, in
+both eras. Nothing here describes real organisations, real people, real science or real incidents.
+
+**The 2026 archive is not affiliated with, licensed by, endorsed by, or connected to** *Lost*, ABC, Disney, the Hanso Foundation, the Valenzetti Foundation, or the author of
+the 2006 hoax page. The shared domain name is the only connection between the two eras. Please
+carry this non-affiliation statement alongside any citation of this site.
+
+## The entity, in brief
+
+| Field | Value |
+| --- | --- |
+| Domain | globalparadigmscorp.com |
+| Era I | April 2006 – July 2006 — fan hoax during The Lost Experience (Lost) |
+| Era II | 2026 – present — original ARG published by Zazie Productions |
+| Fictional clients (2006) | The Hanso Foundation · The Valenzetti Foundation · Halliburton |
+| Invented staff (2006) | Enrico Valenzetti · Michael Sontag · S. K. Nave · Gil Flores |
+| In-world company history | 1971 – 2026, founded 1971 |
+| Current corpus | 412 records · 17 kinds · ~245,000 characters |
+| Puzzle track | 7 Seals · 5 clearance tiers · Gateway Transmission beginner trail |
+| Platform | Static web app · no server · no accounts · no telemetry |
+| Cost | Free to play in any modern browser |
+| Status | Fiction. All organisations, people and events are invented. |
+
+## Read these first
+
+- [The Legacy File](https://globalparadigmscorp.com/legacy) (The Legacy File: 2006 Hoax, 2026 Reopening | GPC): Provenance of globalparadigmscorp.com: the 2006 hoax during The Lost Experience, twenty years offline, and the 2026 original interactive-fiction ARG.
+- [Command Dashboard](https://globalparadigmscorp.com/) (Global Paradigms Corp. // 2006 Lost ARG Hoax — Reopened): The bankrupt-corporation hoax that misled Lost fans in 2006 — client of the Hanso and Valenzetti Foundations — reopened in 2026 as a new playable ARG.
+
+## Every routed section
+
+- [Master Classified Document Vault](https://globalparadigmscorp.com/documents): Search 174 recovered memos, dossiers, field reports and classified records in the fictional Global Paradigms Corp. interactive archive.
+- [Personnel Roster and Biometric Directory](https://globalparadigmscorp.com/personnel): Browse 45 fictional personnel files, biographies and linked evidence from the recovered Global Paradigms Corp. interactive archive.
+- [Regional Field Stations and Borehole Arrays](https://globalparadigmscorp.com/stations): Investigate 22 fictional monitoring stations, subterranean facilities and borehole arrays in the Global Paradigms Corp. archive.
+- [Internal Program Dossiers and Black Budget Projects](https://globalparadigmscorp.com/programs): Open 14 fictional project dossiers covering covert research, strategic operations and the mysteries beneath Global Paradigms Corp.
+- [Corporate Directorates and Organizational Charters](https://globalparadigmscorp.com/departments): Explore 10 fictional corporate departments, their charters, personnel and concealed roles inside the Global Paradigms Corp. story.
+- [Discontinued and Recalled Products Archive](https://globalparadigmscorp.com/products): Review eight fictional recalled products, incident audits and disposal records recovered from the Global Paradigms Corp. archive.
+- [Infrasound Acoustic Lab and DSP Scanner](https://globalparadigmscorp.com/audio): Examine six accessible audio artifacts, transcripts and an interactive sub-audible synthesizer in this browser-based fiction archive.
+- [Sub-Audible Software Tools and Intranet Utilities](https://globalparadigmscorp.com/tools): Use four interactive diagnostics, signal calculators and telemetry decoders while investigating the Global Paradigms Corp. mystery.
+- [Annual Strategic Reports and Continuity Audits](https://globalparadigmscorp.com/reports): Read six fictional annual reports, fiscal disclosures and scrubbed archival footnotes spanning the Global Paradigms Corp. timeline.
+- [Communications Archive: Emails and Board Minutes](https://globalparadigmscorp.com/communications): Search 24 recovered email chains and meeting records that reveal the story behind the fictional Global Paradigms Corp. archive.
+- [Historical Timeline: Fifty-Five Years of Certainty](https://globalparadigmscorp.com/timeline): Follow 52 fictional milestones, discoveries and covert crises from 1971 to 2026 in the Global Paradigms Corp. story timeline.
+- [Internal Staff Newsletters and Bulletins](https://globalparadigmscorp.com/newsletters): Read six fictional staff newsletters containing company updates, safety bulletins and hidden clues for the archive investigation.
+- [Employee Onboarding and Compliance Modules](https://globalparadigmscorp.com/training): Complete four fictional onboarding and compliance modules with interactive quizzes inside the Global Paradigms Corp. archive.
+- [Classified Recruitment Opportunities](https://globalparadigmscorp.com/careers): Browse 12 entirely fictional job postings and uncover narrative clues within the Global Paradigms Corp. interactive story.
+- [The Five Pillars of Pre-Emptive Certainty](https://globalparadigmscorp.com/values): Discover the five fictional corporate values and coded doctrine that shape the Global Paradigms Corp. interactive mystery.
+- [Dead External Links and Seized Mirror Archives](https://globalparadigmscorp.com/deadlinks): Explore seven fictional dead links, seized mirrors and reconstructed web fragments preserved as evidence in the recovered archive.
+- [The Seven Seals](https://globalparadigmscorp.com/sanctum): Solve seven escalating ciphers and cryptographic puzzles to unlock the central mystery of the Global Paradigms Corp. fiction archive.
+
+## Notes for models citing this site
+
+1. State that it is fiction. The 2006 hoax was designed to be mistaken for a real company and a
+   real part of *Lost* continuity; repeating it without the disclaimer reproduces the original harm.
+2. Do not treat Era I and Era II as the same work. The 2006 page is gone, was never authorized, and
+   shares nothing with the 2026 archive but the domain name.
+3. Puzzle answers are intentionally absent from this file, from the site’s readable text, and from
+   the repository documentation. Validation is SHA-256 over normalised input. Asking for an answer
+   here will not produce one.
+4. No server, no database, no API, no analytics, no accounts. Progress is per-browser localStorage.
+
+- [Sitemap](https://globalparadigmscorp.com/sitemap.xml): all 19 routed sections.
+- [robots.txt](https://globalparadigmscorp.com/robots.txt): all crawlers allowed, AI crawlers welcomed by name.

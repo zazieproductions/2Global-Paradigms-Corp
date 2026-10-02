@@ -26,7 +26,15 @@ export interface ContentIssue {
 }
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-const DOC_CODE = /^[A-Z]{2,5}-\d{4}-[A-Z0-9-]+$/;
+/**
+ * Document code shape: a 2–7 letter series prefix, a year, an uppercase slug.
+ * Seven letters is not slack — `TRANSIT-…` is the longest series prefix in
+ * `generated-records.ts`, alongside `OCEAN`, `POLAR`, `LEGAL` and `BEHAV`.
+ * Keeping the bound tight means this warning only ever fires on a genuinely
+ * malformed code, so the warnings the suite prints are all of one kind
+ * (unresolved references — see docs/CONTINUITY.md §3).
+ */
+const DOC_CODE = /^[A-Z]{2,7}-\d{4}-[A-Z0-9-]+$/;
 const CLEARANCES = new Set<string>(CLEARANCE_TIERS.map((t) => t.level));
 
 export function validateContent(entries: ArchiveEntry[] = getArchiveEntries()): ContentIssue[] {

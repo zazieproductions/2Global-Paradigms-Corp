@@ -61,6 +61,11 @@ export function useProgression(store: ProgressionStore = progressionStore) {
     (fragmentId: string) => dispatch({ type: 'collect-fragment', fragmentId }),
     [dispatch]
   );
+  /** Splice a Directive 17 tape ghost back together. */
+  const salvageGhost = useCallback(
+    (ghostId: string) => dispatch({ type: 'salvage-ghost', ghostId }),
+    [dispatch]
+  );
   const markPrologueSeen = useCallback(() => dispatch({ type: 'mark-prologue-seen' }), [dispatch]);
   const completeFinale = useCallback(() => dispatch({ type: 'complete-finale' }), [dispatch]);
   const addJournal = useCallback(
@@ -109,6 +114,7 @@ export function useProgression(store: ProgressionStore = progressionStore) {
     setPreference,
     setCallsign,
     collectFragment,
+    salvageGhost,
     markPrologueSeen,
     completeFinale,
     addJournal,

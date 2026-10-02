@@ -6,8 +6,7 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import { FEATURES } from '@/config/features';
-import { NAV_ITEMS, tabForPath } from '@/config/navigation';
-import { SITE } from '@/config/site';
+import { tabForPath } from '@/config/navigation';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { useProgression } from '@/hooks/use-progression';
 import { useDirectiveWatcher, useDirectives } from '@/hooks/use-directives';
@@ -27,6 +26,7 @@ import { PrologueModal } from '@/components/puzzles/prologue-modal';
 import { FinaleOverlay } from '@/components/puzzles/finale-overlay';
 import { GatewayModal } from '@/components/puzzles/gateway/gateway-modal';
 import { HiddenSigilLayer } from '@/components/puzzles/hidden-sigil-layer';
+import { TapeSpoolModal } from '@/components/puzzles/tape-spool-modal';
 import { RevelationToasts } from '@/components/puzzles/revelation-toasts';
 import { SigilWatermark } from '@/components/ui/sigils';
 import { TrainingModuleModal } from '@/components/corporate/training-module-modal';
@@ -34,6 +34,7 @@ import { ApplicationModal } from '@/components/corporate/application-modal';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { FictionNotice } from '@/components/ui/fiction-notice';
 import { SystemNotice } from '@/components/ui/system-notice';
+import { RouteMetadata } from '@/components/seo/route-metadata';
 import { useArchiveUi } from './archive-ui-context';
 import { cn } from '@/lib/utils/cn';
 
@@ -101,11 +102,8 @@ export function ArchiveShell() {
     if (tab) visitSection(tab);
   }, [pathname, visitSection]);
 
-  // Title + focus management on navigation.
+  // Focus management on navigation. RouteMetadata owns the document head.
   useEffect(() => {
-    const tab = tabForPath(pathname);
-    const label = NAV_ITEMS.find((i) => i.id === tab)?.label ?? 'Missing File';
-    document.title = tab === 'dashboard' ? SITE.title : `${label} // ${SITE.name}`;
     if (firstRoute.current) {
       firstRoute.current = false;
       return;
@@ -140,6 +138,7 @@ export function ArchiveShell() {
 
   return (
     <>
+      <RouteMetadata />
       {!bootDone && (
         <BootSequence
           onComplete={(callsign) => {
@@ -203,6 +202,7 @@ export function ArchiveShell() {
         onClose={closeDialog}
         onOpenDocument={ui.openDocument}
         onInvoke={() => openDialog({ type: 'finale' })}
+        onOpenSalvage={(ghostId) => openDialog({ type: 'tape-spool', ghostId })}
       />
       <PalimpsestSafeModal open={dialog?.type === 'safe'} onClose={closeDialog} onGoToSanctum={goToSanctum} />
       <ClearanceModal open={dialog?.type === 'clearance'} onClose={closeDialog} onOpenSanctum={goToSanctum} />
@@ -218,6 +218,7 @@ export function ArchiveShell() {
           closeDialog();
         }}
       />
+      <TapeSpoolModal ghostId={dialog?.type === 'tape-spool' ? dialog.ghostId : null} onClose={closeDialog} />
       <GatewayModal
         open={dialog?.type === 'gateway'}
         onClose={closeDialog}
