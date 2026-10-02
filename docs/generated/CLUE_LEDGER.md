@@ -117,6 +117,8 @@ the aliases below are undocumented on purpose and exist only to react in-fiction
 | `status` | yes | Field stations & telemetry state |
 | `hint [confirm]` | yes | Ask Thorne about the active seal |
 | `progress` | yes | Show investigation progress |
+| `directives` | Order | Thorne's field directives & the step you are on |
+| `intel [n]` | Order | Read the FIELD INTEL you have recovered |
 | `seals` | Order | Progress of the Seven Seals |
 | `codex` | Order | Your Choir Script key |
 | `gematria <text>` | Order | Ordinal letter-sum (A=1…Z=26) |

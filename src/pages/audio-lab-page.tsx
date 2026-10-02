@@ -6,6 +6,7 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 import { CANVAS_COLORS, SPECTRUM_STOPS } from '@/lib/audio/palette';
 import { useAudioStatus } from '@/hooks/use-audio-status';
 import { useProgression } from '@/hooks/use-progression';
+import { useDirectives } from '@/hooks/use-directives';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { pickRecord, useRecordParam } from '@/hooks/use-record-param';
 import { ArchivePage } from '@/components/ui/archive-page';
@@ -88,6 +89,7 @@ export default function AudioLabPage() {
   const { currentArtifactId: playingId, isSynthActive: isSynthRunning } = useAudioStatus();
   const reducedMotion = useReducedMotion();
   const { state, setPreference } = useProgression();
+  const { audioPlayed } = useDirectives();
   const soundOn = state.preferences.sound;
   const [synthFreq, setSynthFreq] = useState(14.8);
   const [synthWave, setSynthWave] = useState<OscillatorType>('sine');
@@ -128,7 +130,10 @@ export default function AudioLabPage() {
     gpcAudio.stopLiveSynth();
     if (playingId === artifact.id) return;
     setSelectedArtifact(artifact);
-    setAudioBlocked(!gpcAudio.playArtifact(artifact.synthesisPreset, artifact.id));
+    const started = gpcAudio.playArtifact(artifact.synthesisPreset, artifact.id);
+    setAudioBlocked(!started);
+    // Playing a capture is an observable step in the field directives run.
+    if (started) audioPlayed(artifact.id);
   };
 
   const handleStopAll = () => {
@@ -143,6 +148,7 @@ export default function AudioLabPage() {
     }
     gpcAudio.stopAllArtifacts();
     gpcAudio.startLiveSynth(synthFreq, synthWave, synthModFreq, synthModDepth, synthResonance);
+    audioPlayed();
   };
 
   const handleSynthParamChange = (freq: number, modF: number, res: number) => {

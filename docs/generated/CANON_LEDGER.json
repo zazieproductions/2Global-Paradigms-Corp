@@ -33,7 +33,7 @@
     "programs": 14,
     "stations": 22,
     "personnel": 45,
-    "terminalCommands": 21
+    "terminalCommands": 23
   },
   "measured": {
     "records": 412,
@@ -802,6 +802,16 @@
       {
         "cmd": "progress",
         "desc": "Show investigation progress"
+      },
+      {
+        "cmd": "directives",
+        "desc": "Thorne's field directives & the step you are on",
+        "order": true
+      },
+      {
+        "cmd": "intel [n]",
+        "desc": "Read the FIELD INTEL you have recovered",
+        "order": true
       },
       {
         "cmd": "seals",

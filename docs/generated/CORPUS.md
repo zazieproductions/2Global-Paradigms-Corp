@@ -16,7 +16,7 @@ fails CI if they disagree.
 | In-world date span | 1971 – 2026 |
 | Narrative characters (summaries + bodies) | 244,923 |
 | Puzzle definitions | 11 |
-| Terminal commands listed by `help` | 21 |
+| Terminal commands listed by `help` | 23 |
 | Choir Script glyphs | 26 |
 
 ## Records by kind

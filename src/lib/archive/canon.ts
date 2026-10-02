@@ -266,7 +266,7 @@ export const CANON_COUNTS = {
   stations: 22,
   personnel: 45,
   /** Terminal commands listed by `help`. Undocumented aliases are not counted. */
-  terminalCommands: 21
+  terminalCommands: 23
 } as const;
 
 // ---------------------------------------------------------------------------

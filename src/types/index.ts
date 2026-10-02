@@ -1,6 +1,7 @@
 export type * from './records';
 export type * from './content';
 export type * from './puzzles';
+export type * from './directives';
 export type * from './search';
 
 /**

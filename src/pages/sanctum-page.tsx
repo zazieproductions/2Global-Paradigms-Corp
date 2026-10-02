@@ -13,6 +13,7 @@ import { ChoirCipherPuzzle } from '@/components/puzzles/seals/choir-cipher-puzzl
 import { ToneLockPuzzle } from '@/components/puzzles/seals/tone-lock-puzzle';
 import { MercuryWheelPuzzle } from '@/components/puzzles/seals/mercury-wheel-puzzle';
 import { HymnPuzzle, NamePuzzle } from '@/components/puzzles/seals/simple-puzzles';
+import { DirectiveBoard } from '@/components/puzzles/directive-board';
 import { useArchiveUi } from '@/app/archive-ui-context';
 import { useDescrambler, useInvestigation } from '@/hooks/use-investigation';
 import { gpcAudio } from '@/lib/audio/audio-engine';
@@ -165,6 +166,9 @@ export default function SanctumPage() {
             </div>
           </div>
         )}
+
+        {/* ------------------------------------------------- FIELD DIRECTIVES */}
+        <DirectiveBoard onNavigateTab={onNavigateTab} />
 
         <div className="grid grid-cols-1 xl:grid-cols-[360px_1fr] gap-6">
           {/* ---------------------------------------------------------- LEFT: CIRCLE */}

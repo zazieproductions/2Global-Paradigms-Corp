@@ -1,6 +1,14 @@
 # Puzzle system
 
-The archive has two puzzle tracks built on one engine:
+The archive has two puzzle tracks built on one engine, and one story layer laid over both:
+
+- **THE SEVEN SEALS** (`/sanctum`) is the main investigation. Seven puzzles open in order, and breaking
+  them earns clearance, the redaction de-scrambler and the finale.
+- **Gateway Transmission** (header ▸ TRANSMISSION) is a four-step guided beginner trail. It deliberately
+  grants no clearance.
+- **FIELD DIRECTIVES** is the spine that connects them: a run of fourteen in-world instructions whose
+  steps complete themselves from observable events, and whose payoffs are the FIELD INTEL filings that
+  make the mystery cohere. Directives never grant clearance — only the seals do.
 
 - **THE SEVEN SEALS** (`/sanctum`) is the main investigation. Seven puzzles open in order, and breaking
   them earns clearance, the redaction de-scrambler and the finale.
@@ -15,18 +23,21 @@ legitimately live. The exhaustive clue/hint/reward tables are generated:
 
 Logic is kept separate from presentation:
 
-| Concern                                           | Where                                                                      |
-| ------------------------------------------------- | -------------------------------------------------------------------------- |
-| Puzzle definitions (data)                         | `src/content/puzzles/definitions.ts` (built from `seals.ts`, `gateway.ts`) |
-| Seal lore, clue pointers, hints                   | `src/content/puzzles/seals.ts`                                             |
-| Terminal text, downloads                          | `src/content/puzzles/terminal-text.ts`, `downloads.ts`                     |
-| Directive 17 tape ghosts (hidden salvage layer)   | `src/content/restoration/purge-manifest.ts`                                |
-| Answer validation (pure)                          | `src/lib/puzzles/validate.ts`                                              |
-| Progression store (pure reducer + persistence)    | `src/lib/puzzles/progression.ts`                                           |
-| Derived selectors (earned clearance, seal order…) | `src/lib/puzzles/investigation.ts`                                         |
-| Ciphers / script helpers                          | `src/lib/puzzles/cipher.ts`, `choir-script.ts`                             |
-| React access                                      | `src/hooks/use-progression.ts`, `src/hooks/use-investigation.ts`           |
-| Widgets                                           | `src/components/puzzles/**`, `src/pages/sanctum-page.tsx`                  |
+| Concern                                           | Where                                                                       |
+| ------------------------------------------------- | --------------------------------------------------------------------------- |
+| Puzzle definitions (data)                         | `src/content/puzzles/definitions.ts` (built from `seals.ts`, `gateway.ts`)  |
+| Seal lore, clue pointers, hints                   | `src/content/puzzles/seals.ts`                                              |
+| Terminal text, downloads                          | `src/content/puzzles/terminal-text.ts`, `downloads.ts`                      |
+| Directive 17 tape ghosts (hidden salvage layer)   | `src/content/restoration/purge-manifest.ts`                                 |
+| Answer validation (pure)                          | `src/lib/puzzles/validate.ts`                                               |
+| Progression store (pure reducer + persistence)    | `src/lib/puzzles/progression.ts`                                            |
+| Derived selectors (earned clearance, seal order…) | `src/lib/puzzles/investigation.ts`                                          |
+| Ciphers / script helpers                          | `src/lib/puzzles/cipher.ts`, `choir-script.ts`                              |
+| React access                                      | `src/hooks/use-progression.ts`, `src/hooks/use-investigation.ts`            |
+| Field directives (data & lore)                    | `src/content/puzzles/directives.ts`                                         |
+| Milestones ledger (pure)                          | `src/lib/puzzles/directives.ts`                                             |
+| React access to the run                           | `src/hooks/use-directives.ts`, `src/components/puzzles/directive-board.tsx` |
+| Widgets                                           | `src/components/puzzles/**`, `src/pages/sanctum-page.tsx`                   |
 
 Components never compare answers themselves. They call the hooks and render the result.
 
@@ -184,6 +195,7 @@ the seals raise clearance.
 | unlocked routes / downloads | `unlockedRoutes`, `unlockedDownloads`                                        |
 | access                      | `access.{clearance, chosenAt, unredacted}`                                   |
 | investigation               | `investigation.{fragments, salvaged, prologueSeen, finaleComplete, journal}` |
+| field directives            | `directives.{ledger, completed, intel, chapters}`                            |
 | preferences, callsign       | `preferences.{crt, sound}`, `callsign`                                       |
 
 React hooks:
@@ -194,6 +206,10 @@ React hooks:
 - `useInvestigation()`: Seven Seals view (`solved`, `currentSeal`, `knownLetters`, `attemptSeal`,
   `isCorrect`, `revealHint`, `notify`, …).
 - `useDescrambler()`: `{ unredacted, unlocked, toggle }`.
+- `useDirectives()`: the Field Directives read model (`chapters`, `current`, `intel`, `ledger`, counts)
+  plus the observation dispatchers (`visitSection`, `scanRun`, `audioPlayed`, `safeOpened`,
+  `downloadTaken`, `observe`). `useDirectiveWatcher()` is mounted once in the shell and turns newly
+  closed directives and chapters into revelation toasts.
 
 ### Reset and replay
 
@@ -201,16 +217,80 @@ React hooks:
   clearance. It keeps discoveries, callsign, preferences and the spliced tape ghosts, and skips the
   prologue.
 - **Reset / replay** (`reset`, from the Archive Guide) wipes everything, optionally keeping preferences.
+- **Purge keeps the intel.** Purging the case closes the seals again (puzzles, hints, fragments,
+  clearance) but FIELD INTEL is knowledge, not clearance, so the directives already closed and their
+  filings survive. A full reset clears them.
 
 ### Persistence and migration
 
-- `localStorage["gpc.progression.v1"]` holds a v1 or v2 save, which is upgraded in place on load.
+- `localStorage["gpc.progression.v1"]` holds a v1, v2 or v3 save, which is upgraded in place on load.
+  v3 added the Field Directives case file; older saves get theirs rebuilt (and their intel filed) by
+  `syncCase()` on the first load.
 - On first load with no current save, a case file from the pre-restructure build
   (`ovp.investigation.v1`) is migrated once. It is read-only and never written.
 - All stored data is **validated on load**: unknown puzzles, fragments, levels and malformed entries are
   dropped, and a stored clearance above what the completions earn is ignored.
 - Storage is best-effort. In private mode, when the quota is exceeded, or with storage disabled, play
   falls back to memory silently. `VITE_FEATURE_PERSIST_PROGRESS=false` disables persistence.
+
+## FIELD DIRECTIVES — the milestones ledger
+
+The seals are the puzzles; the directives are the _run_. Thorne leaves fourteen numbered instructions
+("open the commissioning log", "run `scan`", "lift the bars", "take the dump"), grouped into five
+chapters, and the archive watches for the observable event behind each step. The operator keeps no notes:
+nothing is checked off by hand, and no step can be missed because a surface forgot to file it.
+
+### What can be a step
+
+| Event kind            | Fired by                                                      |
+| --------------------- | ------------------------------------------------------------- |
+| `prologue-read`       | dismissing or beginning Thorne's dead drop                    |
+| `record-opened`       | the dossier viewer / `cat` discovering a record               |
+| `section-visited`     | the shell, on navigation (`tabForPath`)                       |
+| `fragment-collected`  | taking a Choir Script fragment (counted, not enumerated)      |
+| `seal-broken`         | a seal completion, with its rewards                           |
+| `terminal-scan`       | `scan` in the terminal                                        |
+| `descrambler-engaged` | switching the de-scrambler ON once it is earned               |
+| `audio-played`        | an artifact actually starting (terminal `play`, Acoustic Lab) |
+| `safe-opened`         | the whistleblower safe turning                                |
+| `download-taken`      | the master dump (or any record export)                        |
+| `finale-complete`     | the Counter-Rite                                              |
+
+### The three validations
+
+1. **On observation.** `observeEvent()` records an event only if it matches a milestone in
+   `MILESTONES`. An unknown event, or an event whose target the catalogue does not contain, returns the
+   state unchanged — a stray dispatch cannot write into the case file.
+2. **On sync.** `progressionReducer()` runs `syncCase()` after every action. It backfills the ledger from
+   durable state (discoveries, seals, fragments, prologue, de-scrambler), closes every directive whose
+   steps are done, files its FIELD INTEL, writes the directive's journal line and announces a completed
+   chapter — once, idempotently. So directives also close for a save written before this layer existed.
+3. **On load.** `parseDirectivesState()` discards unknown ids, malformed rows, duplicates and mystery
+   intel from a stored save.
+
+### What a directive pays
+
+- **FIELD INTEL** — a filing of one or more lore paragraphs, added to `directives.intel` and readable on
+  the board, in the terminal (`intel <n>`) and in the whole-case review. The run answers the questions the
+  corpus raises: the 15.000 Hz Completion of the Square, the 211 pulls on the seized mirror, and who is
+  really in the Seventh Chamber.
+- **A journal line** (`kind: 'directive'`) written the moment the directive closes.
+- **A revelation toast**, raised by `useDirectiveWatcher()` from a pure diff (`directivePulse`).
+- **A chapter-complete announcement** (toast + `kind: 'intel'` journal line) when a chapter's last
+  directive closes.
+
+There is no bookkeeping UI: the board renders state, the ledger is an audit trail
+(`/sanctum` → FIELD DIRECTIVES → MILESTONES LEDGER), and the terminal's `directives` command prints the
+run with its steps ticked.
+
+### Authoring a directive
+
+1. Add the `MilestoneDef` first (rule + label + nudge), then the `DirectiveDef` that requires it and the
+   `FieldIntel` filing it pays, then list the directive in a chapter.
+2. Keep the rule _observable_: a step must correspond to something the player physically does in the UI.
+3. `npm run validate:content` cross-references everything: milestone ids, record ids, sections, fragments,
+   seals, audio ids, download ids, intel uniqueness and chapter membership. An unreachable step is an
+   error; an unused milestone or filing is a warning.
 
 ## Limitations (client-only stack)
 

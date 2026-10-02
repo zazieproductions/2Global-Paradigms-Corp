@@ -7,6 +7,7 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 import { downloadJson } from '@/lib/utils/download';
 import { useProgression } from '@/hooks/use-progression';
 import { useInvestigation } from '@/hooks/use-investigation';
+import { useDirectives } from '@/hooks/use-directives';
 import { Modal } from '@/components/ui/modal';
 import { OrderSigil } from '@/components/ui/sigils';
 import { cn } from '@/lib/utils/cn';
@@ -30,6 +31,7 @@ interface PalimpsestSafeModalProps {
 export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: PalimpsestSafeModalProps) {
   const { isDownloadUnlocked } = useProgression();
   const { attemptSeal, isCorrect, isSolved } = useInvestigation();
+  const { safeOpened, downloadTaken } = useDirectives();
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const unlocked = isSolved(6);
@@ -37,6 +39,8 @@ export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: Palimpsest
   const verify = (code: string) => {
     if (attemptSeal(6, code).ok) {
       gpcAudio.playSealBreak();
+      // Observable step: the door came open.
+      safeOpened();
       setError('');
     } else if (isCorrect(6, code)) {
       gpcAudio.playUiSound('deny');
@@ -200,6 +204,8 @@ export function PalimpsestSafeModal({ open, onClose, onGoToSanctum }: Palimpsest
               onClick={() => {
                 gpcAudio.playUiSound('print');
                 downloadJson(download.filename, download.data);
+                // Observable step: the operator took a copy out of the safe.
+                downloadTaken(download.id);
               }}
               className="flex items-center justify-center gap-2 py-2 px-4 bg-emerald-600 hover:bg-emerald-500 text-black font-bold rounded cursor-pointer transition-colors shadow-lg"
             >

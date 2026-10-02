@@ -6,6 +6,7 @@
  * `validatePuzzleAnswer()` and render the result.
  */
 import type { ClearanceLevel, RecordRef } from './records';
+import type { DirectivesState } from './directives';
 
 /** Normalisation steps applied to player input before hashing. Order matters. */
 export type NormalizeStep =
@@ -112,7 +113,7 @@ export interface AccessState {
   unredacted: boolean;
 }
 
-export type JournalKind = 'seal' | 'fragment' | 'system' | 'finale' | 'salvage';
+export type JournalKind = 'seal' | 'fragment' | 'system' | 'finale' | 'directive' | 'intel' | 'salvage';
 
 export interface JournalEntry {
   /** ISO timestamp. */
@@ -139,7 +140,7 @@ export interface Preferences {
 
 /** Persisted player progression. Bump `version` when the shape changes. */
 export interface ProgressionState {
-  version: 2;
+  version: 3;
   callsign: string;
   /** recordId → ISO timestamp of first discovery. */
   discovered: Record<string, string>;
@@ -151,6 +152,8 @@ export interface ProgressionState {
   access: AccessState;
   preferences: Preferences;
   investigation: InvestigationState;
+  /** FIELD DIRECTIVES case file: the validated milestone ledger and its intel. */
+  directives: DirectivesState;
 }
 
 export type ValidationResult =

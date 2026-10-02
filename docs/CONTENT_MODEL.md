@@ -1,8 +1,8 @@
 # Content model
 
 All archive content is **typed data** in `src/content/**`. Components never embed story text beyond UI
-chrome. The types live in `src/types/` (`records.ts`, `content.ts`, `puzzles.ts`, `search.ts`) and are
-re-exported from `@/types`.
+chrome. The types live in `src/types/` (`records.ts`, `content.ts`, `puzzles.ts`, `directives.ts`,
+`search.ts`) and are re-exported from `@/types`.
 
 ## Principles
 
@@ -76,14 +76,16 @@ Aliases for the brief's vocabulary: `OfficeRecord = RegionalStation` (offices an
 
 ### Supporting types
 
-| Type                                                                  | Where              | Purpose                                                                           |
-| --------------------------------------------------------------------- | ------------------ | --------------------------------------------------------------------------------- |
-| `DocumentRevision`                                                    | `types/content.ts` | prior versions of a document (`revisions?: DocumentRevision[]`)                   |
-| `DocumentLink`                                                        | `types/records.ts` | annotated cross-reference                                                         |
-| `ClearanceLevel`                                                      | `types/records.ts` | `Level 1 - General` … `Level 5 - Black Dossier` (+ suffixes)                      |
-| `AccessState`                                                         | `types/puzzles.ts` | chosen clearance + de-scrambler request                                           |
-| `SearchFilters`                                                       | `types/search.ts`  | kinds, formats, clearance tiers, dept, project, office, status, media, date range |
-| `PuzzleDefinition`, `Clue`, `Hint`, `UnlockCondition`, `PuzzleReward` | `types/puzzles.ts` | see PUZZLE_SYSTEM                                                                 |
+| Type                                                                  | Where                 | Purpose                                                                           |
+| --------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------- |
+| `DocumentRevision`                                                    | `types/content.ts`    | prior versions of a document (`revisions?: DocumentRevision[]`)                   |
+| `DocumentLink`                                                        | `types/records.ts`    | annotated cross-reference                                                         |
+| `ClearanceLevel`                                                      | `types/records.ts`    | `Level 1 - General` … `Level 5 - Black Dossier` (+ suffixes)                      |
+| `AccessState`                                                         | `types/puzzles.ts`    | chosen clearance + de-scrambler request                                           |
+| `SearchFilters`                                                       | `types/search.ts`     | kinds, formats, clearance tiers, dept, project, office, status, media, date range |
+| `PuzzleDefinition`, `Clue`, `Hint`, `UnlockCondition`, `PuzzleReward` | `types/puzzles.ts`    | see PUZZLE_SYSTEM                                                                 |
+| `MilestoneDef`, `MilestoneEvent`                                      | `types/directives.ts` | observable steps the ledger records (no player bookkeeping)                       |
+| `DirectiveDef`, `FieldIntel`, `ChapterDef`                            | `types/directives.ts` | the field run: objectives, lore payoffs, chapter structure                        |
 
 ## Documents in detail
 
