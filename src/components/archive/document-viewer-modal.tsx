@@ -160,7 +160,7 @@ function DocumentSheet({
         `TAGS: ${document.tags.join(', ')}`,
         `SECURITY VERIFICATION HASH: SHA256-${hash.toUpperCase()}`,
         '',
-        '-- Fictional record from Global Paradigms Corp., an original story by Zazie Productions. --'
+        '-- LOCAL EXPORT // GENERATED FROM THE GPC ARCHIVE RECORD. --'
       ].join('\n')
     );
   };

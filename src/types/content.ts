@@ -350,7 +350,7 @@ export type DeadLinkError =
   '404 Not Found' | '410 Gone / Subpoenaed' | 'Domain Seized' | 'Redirection Blocked' | 'Wayback Mirror 1998';
 
 /**
- * A fictional, non-resolving URL recovered from the archive.
+ * A non-resolving URL recovered from the archive.
  * These are NEVER rendered as clickable links.
  */
 export interface DeadLink extends RecordMeta {

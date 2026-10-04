@@ -3,7 +3,7 @@ import { useProgression } from '@/hooks/use-progression';
 import { getPuzzle } from '@/lib/puzzles/validate';
 
 // ============================================================================
-// Shared ARG-puzzle UI primitives — reused across every puzzle step.
+// Shared cipher-interface primitives, reused across every puzzle step.
 // ----------------------------------------------------------------------------
 //  * ScrambleText    left-to-right scramble-in reveal (static phrase)
 //  * TypedText       character-level "live transmission" typing loop

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="background" x1="44" y1="28" x2="1160" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071017"/>
+      <stop offset=".52" stop-color="#0B151D"/>
+      <stop offset="1" stop-color="#050A10"/>
+    </linearGradient>
+    <radialGradient id="aura" cx="0" cy="0" r="1" gradientTransform="matrix(590 0 0 430 855 302)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#286A6A" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#071017" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="80" y1="90" x2="121" y2="139" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D5C18E"/>
+      <stop offset="1" stop-color="#87734C"/>
+    </linearGradient>
+    <linearGradient id="signal" x1="589" y1="244" x2="1031" y2="453" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#65C6BE" stop-opacity=".08"/>
+      <stop offset=".55" stop-color="#65C6BE" stop-opacity=".68"/>
+      <stop offset="1" stop-color="#D3BD86" stop-opacity=".28"/>
+    </linearGradient>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M42 0H0v42" stroke="#6D8990" stroke-opacity=".12" stroke-width="1"/>
+      <circle cx="1" cy="1" r="1" fill="#9DB7B5" fill-opacity=".14"/>
+    </pattern>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <rect width="1200" height="630" fill="url(#aura)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <g opacity=".34" stroke="#578282" stroke-width="1">
+    <circle cx="917" cy="337" r="208"/>
+    <circle cx="917" cy="337" r="173"/>
+    <circle cx="917" cy="337" r="134"/>
+    <ellipse cx="917" cy="337" rx="72" ry="208"/>
+    <ellipse cx="917" cy="337" rx="137" ry="208"/>
+    <path d="M710 337h414M738 264c48 23 108 35 179 35 72 0 132-12 180-35M738 410c48-23 108-35 179-35 72 0 132 12 180 35"/>
+  </g>
+
+  <rect x="28" y="28" width="1144" height="574" rx="4" stroke="#9A875C" stroke-opacity=".56" stroke-width="1.3"/>
+  <path d="M42 67h1116M42 563h1116" stroke="#49666B" stroke-opacity=".5"/>
+  <path d="M42 67h85M1073 563h85" stroke="#6DC2B9" stroke-opacity=".75" stroke-width="2"/>
+
+  <g transform="translate(65 82)">
+    <path d="M17 0h54l17 17v54L71 88H17L0 71V17L17 0Z" fill="#0A151B" stroke="url(#metal)" stroke-width="2"/>
+    <circle cx="44" cy="37" r="25" stroke="#6B9995" stroke-width="1.35"/>
+    <ellipse cx="44" cy="37" rx="10.8" ry="25" stroke="#557B79" stroke-width="1"/>
+    <path d="M19 37h50M23 24c6 3.2 13 4.8 21 4.8s15-1.6 21-4.8M23 50c6-3.2 13-4.8 21-4.8s15 1.6 21 4.8" stroke="#557B79" stroke-width="1"/>
+    <path d="m22 53 10-5 9-8 8 3 13-16" stroke="#A8D2C9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="62" cy="27" r="2.4" fill="#D5C18E"/>
+    <path d="M26 64h36" stroke="#9A8559" stroke-width="1"/>
+    <text x="44" y="80" text-anchor="middle" fill="#E4D5B0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" letter-spacing="3">GPC</text>
+  </g>
+
+  <g font-family="DejaVu Sans Mono, monospace">
+    <text x="178" y="112" fill="#E4E9E6" font-size="26" font-weight="700" letter-spacing="4.2">GLOBAL PARADIGMS CORP.</text>
+    <text x="180" y="143" fill="#89A5A5" font-size="12" letter-spacing="3.2">STRATEGIC FORECASTING  //  CIVIC CONTINUITY</text>
+    <text x="1128" y="108" text-anchor="end" fill="#C9B27B" font-size="13" letter-spacing="2.2">PARADIGM-OS  //  8.4.2</text>
+    <text x="1128" y="133" text-anchor="end" fill="#668082" font-size="11" letter-spacing="2.2">POSTOJNA MIRROR  //  NODE 09</text>
+
+    <text x="83" y="305" fill="#D8E1DC" font-size="59" font-weight="500" letter-spacing="6.4">RECOVERED</text>
+    <text x="80" y="388" fill="#72C7BF" font-size="75" font-weight="700" letter-spacing="5.2">ARCHIVE</text>
+    <path d="M84 417h392" stroke="#A18B5C" stroke-width="1.5"/>
+    <path d="M84 417h123" stroke="#7BC9C0" stroke-width="2.5"/>
+    <text x="85" y="456" fill="#99ACAA" font-size="14" letter-spacing="3.2">RECORD INDEX  //  1971–2026</text>
+    <text x="85" y="519" fill="#748687" font-size="12" letter-spacing="2.8">RESTORATION IN PROGRESS</text>
+    <text x="1116" y="519" text-anchor="end" fill="#C8B27D" font-size="12" letter-spacing="2.4">CLEARANCE REQUIRED</text>
+  </g>
+
+  <path d="M578 453c57 0 51-78 101-78 42 0 37 52 74 52 40 0 53-148 97-148 41 0 27 92 69 92 41 0 44-57 84-57" stroke="url(#signal)" stroke-width="2.1" filter="url(#softGlow)"/>
+  <g fill="#8FC9C0" opacity=".78">
+    <circle cx="679" cy="375" r="3"/>
+    <circle cx="753" cy="427" r="3"/>
+    <circle cx="850" cy="279" r="3.5"/>
+    <circle cx="993" cy="371" r="3"/>
+  </g>
+
+  <g font-family="DejaVu Sans Mono, monospace" fill="#607677" font-size="10" letter-spacing="1.5">
+    <text x="82" y="581">VOLUME 0  /  INTEGRITY PARTIAL</text>
+    <text x="1118" y="581" text-anchor="end">GPC ARCHIVE NET</text>
+  </g>
+</svg>

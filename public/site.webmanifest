@@ -1,12 +1,12 @@
 {
   "name": "Global Paradigms Corp. Recovered Archive",
   "short_name": "GPC Archive",
-  "description": "An original interactive-fiction archive and ARG by Zazie Productions.",
+  "description": "Browse recovered records, sealed dossiers and restoration logs from Global Paradigms Corp.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#04060a",
-  "theme_color": "#04060a",
+  "background_color": "#071017",
+  "theme_color": "#0b151d",
   "lang": "en",
   "icons": [
     {

@@ -122,7 +122,7 @@ export interface JournalEntry {
   kind: JournalKind;
 }
 
-/** The Seven Seals case file (ARG investigation layer). */
+/** The Seven Seals case-file investigation layer. */
 export interface InvestigationState {
   /** Choir Script fragment ids found on the public pages. */
   fragments: string[];

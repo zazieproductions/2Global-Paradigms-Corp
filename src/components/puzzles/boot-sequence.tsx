@@ -5,11 +5,10 @@ import { gpcAudio } from '@/lib/audio/audio-engine';
 import { REVOKED_CODES } from '@/config/puzzles';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useInvestigation } from '@/hooks/use-investigation';
-import { FictionNotice } from '@/components/ui/fiction-notice';
 import { OrderSigil } from '@/components/ui/sigils';
 
 // ============================================================================
-// GPC COLD BOOT TERMINAL — ARG-style interactive boot / loading sequence
+// GPC COLD BOOT TERMINAL — interactive boot / loading sequence
 // ----------------------------------------------------------------------------
 //   * CRT power-on → BIOS-style POST → staged boot log with progress bars
 //   * Scramble-in corporate title, random signal glitches, intercepted packets
@@ -672,14 +671,22 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
           {/* ------------------------------------------------ main terminal */}
           <div className="flex-1 min-h-0 flex flex-col items-center px-3 sm:px-6 py-2 relative">
             {/* Title */}
-            <div className="w-full max-w-3xl text-center mt-1 mb-2">
-              <div className="boot-glow text-cyan-300 font-black text-[13px] sm:text-lg md:text-2xl tracking-[0.28em] whitespace-pre">
-                {title}
+            <div className="w-full max-w-3xl mt-1 mb-2 flex items-center justify-center gap-3">
+              <img
+                src="/favicon.svg"
+                alt=""
+                aria-hidden="true"
+                className="hidden sm:block w-10 h-10 shrink-0 drop-shadow-[0_0_12px_rgba(107,198,190,0.22)]"
+              />
+              <div className="flex-1 min-w-0 text-center">
+                <div className="boot-glow text-cyan-300 font-black text-[13px] sm:text-lg md:text-2xl tracking-[0.28em] whitespace-pre">
+                  {title}
+                </div>
+                <div className="text-amber-400/80 text-[7px] sm:text-micro tracking-[0.4em] mt-1 whitespace-pre">
+                  {subtitle}
+                </div>
+                <div className="mt-2 h-px bg-gradient-to-r from-transparent via-cyan-500/60 to-transparent" />
               </div>
-              <div className="text-amber-400/80 text-[7px] sm:text-micro tracking-[0.4em] mt-1 whitespace-pre">
-                {subtitle}
-              </div>
-              <div className="mt-2 h-px bg-gradient-to-r from-transparent via-cyan-500/60 to-transparent" />
             </div>
 
             {/* Intercepted anomaly flash */}
@@ -845,8 +852,6 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
             </span>
             <span>BIOS 8.4.2 // THORNE-CRYPTO R4</span>
           </div>
-          {/* Out-of-world disclaimer — kept visible during boot (CONTENT_STYLE_GUIDE). */}
-          <FictionNotice className="px-3 sm:px-5 pb-2 text-nano sm:text-micro text-slate-600 z-10 text-center" />
         </div>
       </div>
 

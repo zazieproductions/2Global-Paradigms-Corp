@@ -45,12 +45,13 @@ describe('Modal', () => {
 });
 
 describe('Boot sequence', () => {
-  it('shows the fiction notice and can be skipped from the keyboard', async () => {
+  it('keeps the boot screen focused on the archive terminal and can be skipped', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const onComplete = vi.fn();
     render(<BootSequence onComplete={onComplete} />);
-    expect(screen.getByRole('dialog', { name: /Cold Boot/i })).toBeInTheDocument();
-    expect(screen.getByRole('note')).toHaveTextContent(/FICTION/);
+    const bootDialog = screen.getByRole('dialog', { name: /Cold Boot/i });
+    expect(bootDialog).toBeInTheDocument();
+    expect(screen.queryByRole('note')).not.toBeInTheDocument();
     await act(async () => {
       await vi.advanceTimersByTimeAsync(1500);
     });

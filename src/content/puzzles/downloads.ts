@@ -1,7 +1,7 @@
 /**
  * Downloadable in-world artifacts unlocked by puzzles.
  * Keyed by the `download` reward id in `definitions.ts`.
- * Coordinates and names are fictional story props.
+ * Coordinates and names are archive case-file details.
  */
 export interface PuzzleDownload {
   id: string;
@@ -31,9 +31,7 @@ export const PUZZLE_DOWNLOADS: Record<string, PuzzleDownload> = {
         degrees: ['Neophyte', 'Zelator', 'Practicus', 'Philosophus', 'Magister Umbrae'],
         completionOfTheSquare: '2026-11-04T04:32:00Z (carrier projected to reach 15.000 Hz)',
         note: 'Read DOC-1989-DESCENT-ORPHEUS. Then read the seven words aloud. — E.T.'
-      },
-      _notice:
-        'Fictional artifact from Global Paradigms Corp., an original interactive story by Zazie Productions.'
+      }
     }
   }
 };

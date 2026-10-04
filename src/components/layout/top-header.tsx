@@ -102,14 +102,12 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
           {sidebarOpen ? <X className="w-4 h-4" aria-hidden /> : <Menu className="w-4 h-4" aria-hidden />}
         </button>
         <div className="flex items-center gap-2.5 min-w-0">
-          <div
-            className="w-8 h-8 shrink-0 rounded bg-gradient-to-br from-cyan-500 via-indigo-600 to-rose-600 p-0.5 shadow-glow shadow-signal/35 flex items-center justify-center"
-            aria-hidden
-          >
-            <div className="w-full h-full bg-inset rounded-[2px] flex items-center justify-center">
-              <span className="text-cyan-400 font-black text-xs tracking-tighter">GPC</span>
-            </div>
-          </div>
+          <img
+            src="/favicon.svg"
+            alt=""
+            aria-hidden="true"
+            className="w-9 h-9 shrink-0 drop-shadow-[0_0_12px_rgba(111,188,178,0.18)]"
+          />
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-2">
               <span className="font-bold text-slate-100 tracking-wider text-sm truncate">

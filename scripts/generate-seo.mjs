@@ -204,7 +204,7 @@ if (!check && !process.argv.includes('--public-only')) {
     title: `File Not Found | ${site.name}`,
     heading: 'Archive File Not Found',
     description:
-      'The requested Global Paradigms Corp. archive path does not exist. Return to the recovered interactive-fiction archive.'
+      'The requested Global Paradigms Corp. archive path does not exist. Return to the recovered archive index.'
   };
   await writeFile(path.join(distDir, '404.html'), renderPage(template, notFound, false));
 

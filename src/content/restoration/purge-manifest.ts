@@ -2,9 +2,9 @@
 // DIRECTIVE 17 — THE UNQUIET TAPE
 // ----------------------------------------------------------------------------
 // Everything the live index refuses. Under Executive Directive 17 (standing,
-// 1989-11-04 05:14 UTC) records are not deleted — they are STRUCK. The fiction
-// insists on the difference, and so does this file: a purged record survives in
-// exactly one copy, as scrambled shards on the Postojna spool vaults.
+// 1989-11-04 05:14 UTC) records are not deleted — they are STRUCK. The archive
+// marks that distinction here: a purged record survives in exactly one copy,
+// as scrambled shards on the Postojna spool vaults.
 //
 // The ghost codes below are the very codes the personnel dossiers cite and the
 // validator reports as "not recovered" — that gap is the hook, not an oversight.

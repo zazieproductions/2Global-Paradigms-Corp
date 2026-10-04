@@ -35,6 +35,7 @@ import {
   NEWSLETTERS,
   PERSONNEL,
   REGIONAL_STATIONS,
+  RESTORATION_LOGS,
   TIMELINE_ENTRIES,
   TRAINING_MODULES
 } from '@/content';
@@ -231,25 +232,17 @@ export const SANCTUM_NAV: NavItem = {
   badgeTone: 'purple'
 };
 
-/**
- * The out-of-world provenance page. Everything else in the navigation is
- * in-world — a repository of a fictional company's records. This one is not:
- * it documents the real history of the real domain (a 2006 fan hoax, twenty
- * years dark, a 2026 reopening), which is why it is rendered apart from the
- * sections and marked as an archival note rather than a repository.
- *
- * It also carries the site's SEO/GEO weight. See docs/SEO.md.
- */
+/** The restoration ledger, surfaced alongside the archive repositories. */
 export const LEGACY_NAV: NavItem = {
   id: 'legacy',
   path: '/legacy',
-  label: 'The Legacy File',
+  label: 'Restoration Ledger',
   icon: History,
-  badge: '2006→2026',
+  badge: `${RESTORATION_LOGS.length} LOGS`,
   badgeTone: 'warning'
 };
 
-/** Every routed section, including the case file and the out-of-world legacy file. */
+/** Every routed section, including the case file and restoration ledger. */
 export const NAV_ITEMS: NavItem[] = [SANCTUM_NAV, LEGACY_NAV, ...NAV_SECTIONS.flatMap((s) => s.items)];
 
 const PATH_BY_TAB = Object.fromEntries(NAV_ITEMS.map((i) => [i.id, i.path])) as Record<ActiveTab, string>;

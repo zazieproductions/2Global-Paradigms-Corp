@@ -2,128 +2,128 @@
   "site": {
     "origin": "https://globalparadigmscorp.com",
     "name": "Global Paradigms Corp.",
-    "defaultTitle": "Global Paradigms Corp. // 2006 Lost ARG Hoax — Reopened",
-    "description": "The bankrupt-corporation hoax that misled Lost fans in 2006 — client of the Hanso and Valenzetti Foundations — reopened in 2026 as a new playable ARG.",
+    "defaultTitle": "Global Paradigms Corp. // Recovered Archive",
+    "description": "Access the recovered records of Global Paradigms Corp. Search sealed dossiers, station telemetry, redacted correspondence and restoration logs from 1971–2026.",
     "image": "/assets/images/og-card.jpg",
-    "imageAlt": "A dark terminal reading GLOBAL PARADIGMS CORP., with 2006 struck through and 2026 lit beneath it.",
+    "imageAlt": "A dark archive terminal and the Global Paradigms Corp. insignia; record recovery remains in progress.",
     "language": "en",
     "locale": "en_US",
-    "lastModified": "2026-09-30"
+    "lastModified": "2026-10-04"
   },
   "pages": [
     {
       "path": "/",
-      "title": "Global Paradigms Corp. // 2006 Lost ARG Hoax — Reopened",
-      "heading": "Global Paradigms Corp. Recovered Archive",
-      "description": "The bankrupt-corporation hoax that misled Lost fans in 2006 — client of the Hanso and Valenzetti Foundations — reopened in 2026 as a new playable ARG."
+      "title": "Global Paradigms Corp. // Recovered Archive",
+      "heading": "Global Paradigms Corp. — Recovered Archive",
+      "description": "Access the recovered records of Global Paradigms Corp. Search sealed dossiers, station telemetry, redacted correspondence and restoration logs from 1971–2026."
     },
     {
       "path": "/legacy",
-      "title": "The Legacy File: 2006 Hoax, 2026 Reopening | GPC",
-      "heading": "The Legacy File",
-      "description": "Provenance of globalparadigmscorp.com: the 2006 hoax during The Lost Experience, twenty years offline, and the 2026 original interactive-fiction ARG."
+      "title": "Restoration Ledger | Global Paradigms Corp.",
+      "heading": "Restoration Ledger",
+      "description": "Follow the archive's recovery through operator logs, damaged records and missing cross-references. Integrity estimates are provisional; files remain unresolved."
     },
     {
       "path": "/documents",
       "title": "Classified Document Vault | Global Paradigms Corp.",
       "heading": "Master Classified Document Vault",
-      "description": "Search 174 recovered memos, dossiers, field reports and classified records in the fictional Global Paradigms Corp. interactive archive."
+      "description": "Search recovered memos, field reports, technical files and black-dossier records. Clearance reveals deeper files; damaged references remain part of the index."
     },
     {
       "path": "/personnel",
       "title": "Personnel Directory | Global Paradigms Corp.",
       "heading": "Personnel Roster and Biometric Directory",
-      "description": "Browse 45 fictional personnel files, biographies and linked evidence from the recovered Global Paradigms Corp. interactive archive."
+      "description": "Browse staff profiles, service histories, departmental links and restricted notes. Follow cross-references through a personnel index with unresolved gaps."
     },
     {
       "path": "/stations",
       "title": "Field Stations and Arrays | Global Paradigms Corp.",
       "heading": "Regional Field Stations and Borehole Arrays",
-      "description": "Investigate 22 fictional monitoring stations, subterranean facilities and borehole arrays in the Global Paradigms Corp. archive."
+      "description": "Map the regional stations, subterranean facilities and monitoring arrays. Compare coordinates, operating status and telemetry across the network."
     },
     {
       "path": "/programs",
       "title": "Black Budget Project Dossiers | Global Paradigms Corp.",
       "heading": "Internal Program Dossiers and Black Budget Projects",
-      "description": "Open 14 fictional project dossiers covering covert research, strategic operations and the mysteries beneath Global Paradigms Corp."
+      "description": "Review internal program charters, field objectives and sanitized results. Follow the links between strategic forecasting, acoustic research and continuity planning."
     },
     {
       "path": "/departments",
       "title": "Corporate Departments | Global Paradigms Corp.",
       "heading": "Corporate Directorates and Organizational Charters",
-      "description": "Explore 10 fictional corporate departments, their charters, personnel and concealed roles inside the Global Paradigms Corp. story."
+      "description": "Explore directorate charters, staff assignments and reporting lines. Several mandates overlap in ways the published organization chart cannot explain."
     },
     {
       "path": "/products",
       "title": "Recalled Products Archive | Global Paradigms Corp.",
       "heading": "Discontinued and Recalled Products Archive",
-      "description": "Review eight fictional recalled products, incident audits and disposal records recovered from the Global Paradigms Corp. archive."
+      "description": "Inspect withdrawn devices, safety notices and incident audits. Each product record includes recovered specifications, linked reports and the reason for recall."
     },
     {
       "path": "/audio",
-      "title": "Infrasound Audio Lab | Global Paradigms Corp.",
+      "title": "Acoustic Records and Audio Lab | Global Paradigms Corp.",
       "heading": "Infrasound Acoustic Lab and DSP Scanner",
-      "description": "Examine six accessible audio artifacts, transcripts and an interactive sub-audible synthesizer in this browser-based fiction archive."
+      "description": "Review recovered audio artifacts, transcripts and signal traces; compare accessible playback captures with the frequency data preserved in station logs."
     },
     {
       "path": "/tools",
-      "title": "Interactive Archive Tools | Global Paradigms Corp.",
+      "title": "Archive Diagnostic Tools | Global Paradigms Corp.",
       "heading": "Sub-Audible Software Tools and Intranet Utilities",
-      "description": "Use four interactive diagnostics, signal calculators and telemetry decoders while investigating the Global Paradigms Corp. mystery."
+      "description": "Run archive calculators, signal diagnostics and telemetry decoders. Each utility operates locally and returns results from the values you enter."
     },
     {
       "path": "/reports",
       "title": "Annual Strategic Reports | Global Paradigms Corp.",
       "heading": "Annual Strategic Reports and Continuity Audits",
-      "description": "Read six fictional annual reports, fiscal disclosures and scrubbed archival footnotes spanning the Global Paradigms Corp. timeline."
+      "description": "Read annual disclosures, continuity audits and scrubbed footnotes from across the firm's operations. Contradictions surface between figures, dates and notes."
     },
     {
       "path": "/communications",
       "title": "Emails and Board Minutes | Global Paradigms Corp.",
       "heading": "Communications Archive: Emails and Board Minutes",
-      "description": "Search 24 recovered email chains and meeting records that reveal the story behind the fictional Global Paradigms Corp. archive."
+      "description": "Search recovered correspondence, meeting minutes and executive notices. Follow names, dates and redactions across the archive's internal communications."
     },
     {
       "path": "/timeline",
       "title": "Historical Timeline 1971–2026 | Global Paradigms Corp.",
       "heading": "Historical Timeline: Fifty-Five Years of Certainty",
-      "description": "Follow 52 fictional milestones, discoveries and covert crises from 1971 to 2026 in the Global Paradigms Corp. story timeline."
+      "description": "Trace the firm's milestones, site openings and internal crises from its founding through the latest restoration events; several years remain incomplete."
     },
     {
       "path": "/newsletters",
       "title": "Staff Newsletters | Global Paradigms Corp.",
       "heading": "Internal Staff Newsletters and Bulletins",
-      "description": "Read six fictional staff newsletters containing company updates, safety bulletins and hidden clues for the archive investigation."
+      "description": "Read internal bulletins, safety announcements and department updates. Marginal notes and recurring phrases connect routine staff notices to missing files."
     },
     {
       "path": "/training",
       "title": "Employee Training Modules | Global Paradigms Corp.",
       "heading": "Employee Onboarding and Compliance Modules",
-      "description": "Complete four fictional onboarding and compliance modules with interactive quizzes inside the Global Paradigms Corp. archive."
+      "description": "Complete onboarding and compliance modules, then test your recall in certification quizzes. Training records link policy language to daily operations."
     },
     {
       "path": "/careers",
       "title": "Classified Job Postings | Global Paradigms Corp.",
       "heading": "Classified Recruitment Opportunities",
-      "description": "Browse 12 entirely fictional job postings and uncover narrative clues within the Global Paradigms Corp. interactive story."
+      "description": "Review open requisitions, clearance requirements and station placements. Submit a local application receipt without transmitting or storing personal data."
     },
     {
       "path": "/values",
       "title": "Five Pillars of Certainty | Global Paradigms Corp.",
       "heading": "The Five Pillars of Pre-Emptive Certainty",
-      "description": "Discover the five fictional corporate values and coded doctrine that shape the Global Paradigms Corp. interactive mystery."
+      "description": "Examine the company's five operating principles, executive quotations and department guidance. Compare the public language with procedures in the archive."
     },
     {
       "path": "/deadlinks",
       "title": "Dead Links and Seized Mirrors | Global Paradigms Corp.",
       "heading": "Dead External Links and Seized Mirror Archives",
-      "description": "Explore seven fictional dead links, seized mirrors and reconstructed web fragments preserved as evidence in the recovered archive."
+      "description": "Inspect dead intranet links, cached fragments and seized mirror notices. Reconstructed pages preserve titles, dates and the records that point to them."
     },
     {
       "path": "/sanctum",
-      "title": "The Seven Seals Puzzle | Global Paradigms Corp.",
+      "title": "The Seven Seals | Global Paradigms Corp.",
       "heading": "The Seven Seals",
-      "description": "Solve seven escalating ciphers and cryptographic puzzles to unlock the central mystery of the Global Paradigms Corp. fiction archive."
+      "description": "Open a sequence of seven cryptographic case files. Each seal draws on records elsewhere in the archive and advances clearance when its pattern is verified."
     }
   ]
 }

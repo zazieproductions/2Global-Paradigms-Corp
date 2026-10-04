@@ -30,11 +30,11 @@ describe('routeSeo()', () => {
     }
   });
 
-  it('describes the legacy file as the provenance of this domain', () => {
-    const legacy = routeSeo('/legacy');
-    expect(legacy.title).toContain('Legacy File');
-    expect(legacy.description).toContain('2006');
-    expect(legacy.description).not.toBe(SEO_DESCRIPTION);
+  it('routes the stable legacy path to the Restoration Ledger metadata', () => {
+    const ledger = routeSeo('/legacy');
+    expect(ledger.title).toContain('Restoration Ledger');
+    expect(ledger.description).toContain('recovery');
+    expect(ledger.description).not.toBe(SEO_DESCRIPTION);
   });
 
   it('never describes a missing route as content', () => {

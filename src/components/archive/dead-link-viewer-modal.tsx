@@ -8,7 +8,7 @@ interface DeadLinkViewerModalProps {
   onClose: () => void;
 }
 
-/** Simulated proxy browser for a fictional dead URL. Nothing is fetched. */
+/** Simulated proxy browser for an unreachable address. Nothing is fetched. */
 export function DeadLinkViewerModal({ deadLink, onClose }: DeadLinkViewerModalProps) {
   if (!deadLink) return null;
   const close = () => {
@@ -48,7 +48,7 @@ export function DeadLinkViewerModal({ deadLink, onClose }: DeadLinkViewerModalPr
         </div>
         <div className="flex items-center gap-2 bg-canvas border border-line-strong px-3 py-1.5 rounded text-label text-slate-300">
           <Globe className="w-3.5 h-3.5 text-rose-400 shrink-0" aria-hidden />
-          <span className="truncate flex-1 text-rose-300" title="Fictional address — not a real site">
+          <span className="truncate flex-1 text-rose-300" title="Unreachable external host">
             {deadLink.url}
           </span>
           <span className="text-micro px-1.5 py-px rounded bg-rose-950 text-rose-400 border border-rose-800 font-bold shrink-0">

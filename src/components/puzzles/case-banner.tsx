@@ -7,9 +7,9 @@ import { OrderSigil, PlanetGlyph } from '@/components/ui/sigils';
 
 /** Dashboard banner that keeps the investigation front-and-centre. */
 export const CaseBanner: FC<{ onOpen: () => void }> = ({ onOpen }) => {
-  const arg = useInvestigation();
+  const investigation = useInvestigation();
   const dir = useDirectives();
-  const cur = arg.currentSeal ? getSeal(arg.currentSeal) : null;
+  const cur = investigation.currentSeal ? getSeal(investigation.currentSeal) : null;
   const step = dir.current?.milestones.find((m) => !m.done);
   return (
     <button
@@ -30,7 +30,7 @@ export const CaseBanner: FC<{ onOpen: () => void }> = ({ onOpen }) => {
           </div>
           <div>
             <p className="text-[10px] tracking-[0.35em] text-fuchsia-400">
-              {arg.finaleComplete ? 'CASE CLOSED' : 'ACTIVE INVESTIGATION'} · THE SEVEN SEALS
+              {investigation.finaleComplete ? 'CASE CLOSED' : 'ACTIVE INVESTIGATION'} · THE SEVEN SEALS
             </p>
             {cur ? (
               <>
@@ -63,23 +63,27 @@ export const CaseBanner: FC<{ onOpen: () => void }> = ({ onOpen }) => {
           </div>
         </div>
         <div className="flex items-center gap-4 shrink-0">
-          <div className="flex gap-1" role="img" aria-label={`${arg.solved.length} of 7 seals broken`}>
+          <div
+            className="flex gap-1"
+            role="img"
+            aria-label={`${investigation.solved.length} of 7 seals broken`}
+          >
             {SEALS.map((s) => (
               <PlanetGlyph
                 key={s.id}
                 glyph={s.glyph}
                 className="text-base"
                 style={{
-                  color: arg.isSolved(s.id) ? s.accent : 'var(--color-seal-sealed)',
-                  textShadow: arg.isSolved(s.id) ? `0 0 8px ${s.accent}` : undefined
+                  color: investigation.isSolved(s.id) ? s.accent : 'var(--color-seal-sealed)',
+                  textShadow: investigation.isSolved(s.id) ? `0 0 8px ${s.accent}` : undefined
                 }}
               />
             ))}
           </div>
           <span className="flex items-center gap-1.5 px-3 py-2 rounded bg-fuchsia-700 group-hover:bg-fuchsia-600 text-white text-[11px] font-bold tracking-wider">
-            {arg.solved.length === 0
+            {investigation.solved.length === 0
               ? 'OPEN THE CASE FILE'
-              : arg.finaleComplete
+              : investigation.finaleComplete
                 ? 'REVIEW THE CASE'
                 : 'CONTINUE'}{' '}
             <ArrowRight className="w-3.5 h-3.5" aria-hidden />

@@ -70,7 +70,7 @@ export interface DocumentLink {
 export interface RecordMeta {
   /** Recovery state. Defaults to `recovered` (or `redacted` when cleartext exists). */
   contentStatus?: ContentStatus;
-  /** Fictional in-world path, e.g. `//POSTOJNA/VAULT0/DOCS/1971/...`. Derived when omitted. */
+  /** Archive path, e.g. `//POSTOJNA/VAULT0/DOCS/1971/...`. Derived when omitted. */
   sourcePath?: string;
   /** Loose relationships (in addition to any collection-specific id arrays). */
   related?: RecordRef[];
