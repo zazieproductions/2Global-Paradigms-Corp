@@ -26,7 +26,7 @@ const STEP_LABEL: Record<StepId, string> = {
 };
 
 // ============================================================================
-// GATEWAY TRANSMISSION — the beginner ARG puzzle host.
+// GATEWAY TRANSMISSION — the guided opening-case host.
 // ----------------------------------------------------------------------------
 // Owns the stage machine: contact → sequence → signal → waveform → gate.
 // A persistent "VSFTRACE" film counter doubles as the step map (pulsing on

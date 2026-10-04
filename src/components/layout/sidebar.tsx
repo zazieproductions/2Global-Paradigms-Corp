@@ -8,7 +8,6 @@ import { clearanceTier, shortClearance } from '@/lib/archive/clearance';
 import { useInvestigation } from '@/hooks/use-investigation';
 import { Badge } from '@/components/ui/badge';
 import { OrderSigil, PlanetGlyph } from '@/components/ui/sigils';
-import { FictionNotice } from '@/components/ui/fiction-notice';
 import { cn } from '@/lib/utils/cn';
 
 interface SidebarProps {
@@ -190,12 +189,10 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
             </div>
           ))}
 
-          {/* Out-of-world: the provenance of the domain itself. Deliberately
-              styled apart from the repositories — amber, not cyan — because it
-              is the one entry that is not a record of the fictional company. */}
+          {/* Restoration activity is surfaced separately from the record repositories. */}
           <div className="flex flex-col gap-1">
             <h2 className="px-2 py-1 text-micro font-bold tracking-widest text-amber-600/80 uppercase">
-              OUT OF WORLD
+              RECOVERY OPERATIONS
             </h2>
             <NavLink
               to={LEGACY_NAV.path}
@@ -244,7 +241,6 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
               Borehole 4 amplitude surge +18.4% above baseline. Executive Directive 01 standby confirmed.
             </p>
           </div>
-          <FictionNotice className="border-t border-line-subtle pt-2" />
         </div>
       </aside>
     </>

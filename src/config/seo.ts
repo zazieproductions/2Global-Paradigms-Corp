@@ -4,7 +4,7 @@
  *
  * Three layers, on purpose:
  *
- *   ./seo-copy        the prose: both eras, the FAQ, the legacy narrative.
+ *   ./seo-copy        the archive summary, FAQ and public metadata.
  *                     Deliberately import-free so the Node toolchain
  *                     (`scripts/lib/load-seo.mjs`) can bundle it without
  *                     dragging React in, and so `src/tests/seo.test.ts` can
@@ -23,11 +23,11 @@
  */
 import seoData from './seo-pages.json';
 import { NAV_ITEMS } from '@/config/navigation';
-import { FICTION_NOTICE, SITE } from '@/config/site';
+import { SITE } from '@/config/site';
 import { SEO_DESCRIPTION, SEO_TITLE, absoluteUrl } from './seo-copy';
 
 export * from './seo-copy';
-export { FICTION_NOTICE, SITE };
+export { SITE };
 
 export interface SeoPage {
   path: string;
@@ -107,7 +107,7 @@ export function routeSeo(pathname: string): RouteSeo {
       canonical: null,
       indexable: false,
       title: `File Not Found // ${SITE.name}`,
-      description: `No record is mounted at ${path} on ${SITE.name}. Return to the Command Dashboard, or read the domain's 2006 hoax and 2026 reopening in the Legacy File.`
+      description: `No record is mounted at ${path} on ${SITE.name}. Return to the Command Dashboard or search the Master Document Vault.`
     };
   }
 

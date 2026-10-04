@@ -1,5 +1,5 @@
 /**
- * CANON — the machine-readable spine of the fiction.
+ * CANON — the machine-readable spine of the archive setting.
  *
  * This module is the single place where the facts that must never drift are
  * *declared* rather than implied. It is data, not behaviour: `validate-canon.ts`
@@ -251,7 +251,7 @@ export const CANON_SPINE: CanonSpineEvent[] = [
 // ---------------------------------------------------------------------------
 
 /**
- * Counts the fiction is built around. These are *assertions*, not measurements:
+ * Counts the archive is built around. These are *assertions*, not measurements:
  * `validateCanon()` compares each against the live collection and fails on
  * mismatch, so the sidebar badges, the docs and the corpus cannot disagree.
  */
@@ -355,7 +355,7 @@ export interface CanonInvariant {
 }
 
 /**
- * The invariants the fiction depends on. `validateCanon()` and
+ * The invariants the archive depends on. `validateCanon()` and
  * `validateContent()` between them check every `enforcedBy` value other than
  * `convention`; the convention rows are for reviewers and are restated in
  * docs/CONTINUITY.md.

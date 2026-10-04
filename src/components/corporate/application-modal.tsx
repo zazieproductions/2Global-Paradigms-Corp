@@ -68,8 +68,8 @@ function ApplicationForm({ job, onClose }: { job: JobPosting; onClose: () => voi
         'to schedule your preliminary hearing and neurological resonance evaluation.',
         'Do not disclose this application to unauthorized external entities.',
         rule,
-        '-- Fictional document. Global Paradigms Corp. is an original story by Zazie Productions.',
-        '-- Nothing you typed was transmitted or stored.'
+        '-- GENERATED LOCALLY BY THE ARCHIVE TERMINAL.',
+        '-- Nothing entered here was transmitted or stored.'
       ].join('\n')
     );
   };
@@ -99,15 +99,15 @@ function ApplicationForm({ job, onClose }: { job: JobPosting; onClose: () => voi
           >
             <Info className="w-3.5 h-3.5 shrink-0 mt-px" aria-hidden />
             <span>
-              OUT OF STORY: this form is part of a work of fiction. Nothing is sent or saved — use an invented
-              name. Your entry is only printed onto the receipt you can download.
+              LOCAL FORM: nothing is transmitted or retained. Use a callsign and non-personal contact handle;
+              your entry is printed only on the receipt generated in this browser.
             </span>
           </p>
 
           <div className="space-y-3">
             <div>
               <label htmlFor="app-name" className="block text-caption text-slate-400 mb-1">
-                APPLICANT FULL NAME (IN-STORY):
+                APPLICANT NAME / CALLSIGN:
               </label>
               <div className="field flex items-center gap-2 focus-within:border-cyan-500">
                 <User className="w-3.5 h-3.5 text-slate-500" aria-hidden />

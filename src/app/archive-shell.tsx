@@ -32,7 +32,6 @@ import { SigilWatermark } from '@/components/ui/sigils';
 import { TrainingModuleModal } from '@/components/corporate/training-module-modal';
 import { ApplicationModal } from '@/components/corporate/application-modal';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
-import { FictionNotice } from '@/components/ui/fiction-notice';
 import { SystemNotice } from '@/components/ui/system-notice';
 import { RouteMetadata } from '@/components/seo/route-metadata';
 import { useArchiveUi } from './archive-ui-context';
@@ -184,7 +183,6 @@ export function ArchiveShell() {
                 <Outlet key={record} />
               </Suspense>
             </ErrorBoundary>
-            <FictionNotice className="md:hidden px-3 py-1.5 border-t border-line bg-inset" />
           </main>
         </div>
 

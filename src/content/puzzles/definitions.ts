@@ -3,7 +3,7 @@ import { DOCUMENTS } from '@/content/documents';
 import { SEALS, sealPuzzleId, type SealDef, type SealId } from './seals';
 
 /**
- * ARG puzzle definitions.
+ * Cipher and access puzzle definitions.
  *
  * ANSWERS ARE NEVER STORED HERE IN PLAIN TEXT. `digests` holds SHA-256 hashes
  * of each accepted answer after the listed `normalize` steps. Generate one with:

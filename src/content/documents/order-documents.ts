@@ -3,7 +3,7 @@ import type { DocumentRecord } from '@/types';
 // ============================================================================
 // ORDO VOCIS PROFUNDAE — liturgical & whistleblower records
 // These are the in-world evidence trail for THE SEVEN SEALS investigation.
-// Fiction: every name, place-use and quotation below is invented for the ARG.
+// The names, place references and quotations below belong to the archive's case files.
 //
 // EDITORIAL NOTE: the liturgical papers are transcribed from physical copies
 // and keep their original line breaks. Do not tidy the grammar of the Rule.

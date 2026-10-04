@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { NAV_ITEMS } from '@/config/navigation';
 import { canonicalUrl, SEO_PAGES, SEO_SITE } from '@/config/seo';
 import { renderArchive } from './render';
@@ -67,9 +67,16 @@ describe('discovery files', () => {
     expect(indexHtml).toContain('href="/documents"');
   });
 
-  it('lists the legacy file in the route manifest and the navigation', () => {
-    expect(SEO_PAGES.some((page) => page.path === '/legacy')).toBe(true);
-    expect(NAV_ITEMS.some((item) => item.path === '/legacy')).toBe(true);
+  it('keeps /legacy as the Restoration Ledger in metadata, navigation and the live app', async () => {
+    expect(SEO_PAGES.find((page) => page.path === '/legacy')?.heading).toBe('Restoration Ledger');
+    expect(NAV_ITEMS.find((item) => item.path === '/legacy')).toMatchObject({
+      id: 'legacy',
+      label: 'Restoration Ledger'
+    });
+
+    renderArchive('/legacy');
+    expect(await screen.findByRole('heading', { name: 'Restoration Ledger' })).toBeInTheDocument();
+    expect(screen.getByText('Six outbound URLs confirmed dead')).toBeInTheDocument();
   });
 });
 

@@ -1,7 +1,7 @@
 import type { RestorationLog } from '@/types';
 
 /**
- * Operator logs from the (fictional) restoration of the recovered archive.
+ * Operator logs from the restoration of the recovered archive.
  * These frame the site itself: the player is browsing a mirror that is still
  * being repaired. Keep entries short, dated, and in operator voice.
  */

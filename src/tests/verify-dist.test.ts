@@ -65,8 +65,9 @@ const writeArtefact = (redirects: Redirects = {}, overrides: ArtefactOverrides =
   write(
     'llms.txt',
     overrides.llms ??
-      '# Global Paradigms Corp.\n\n> fiction, not affiliated with any prior site.\n\n' +
-        pages.map((page) => `${canonicalUrl(page.path)}`).join('\n')
+      '# Global Paradigms Corp.\n\n## Archive sections\n\n' +
+        pages.map((page) => `${canonicalUrl(page.path)}`).join('\n') +
+        '\n\nCase-file answer keys are not included in this index.\n'
   );
   write('robots.txt', overrides.robots ?? `User-agent: *\nAllow: /\n\nSitemap: ${site.origin}/sitemap.xml\n`);
   write(
@@ -146,12 +147,13 @@ describe('verify:dist script', () => {
     }
   });
 
-  it('rejects an llms.txt that lost the non-affiliation statement', () => {
-    const dir = writeArtefact({}, { llms: '# Global Paradigms Corp.\n\nno disclaimer here\n' });
+  it('rejects an llms.txt that omits the archive section index and case-file note', () => {
+    const dir = writeArtefact({}, { llms: '# Global Paradigms Corp.\n\nno archive index here\n' });
     try {
       const result = verify(dir);
       expect(result.ok).toBe(false);
-      expect(result.output).toContain('non-affiliation');
+      expect(result.output).toContain('archive section index');
+      expect(result.output).toContain('case-file answer keys');
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

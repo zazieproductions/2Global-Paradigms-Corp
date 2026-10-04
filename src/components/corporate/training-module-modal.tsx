@@ -59,7 +59,7 @@ function TrainingPortal({ module, onClose }: { module: TrainingModule; onClose: 
         `DATE: ${date}`,
         `VALIDATION HASH: GPC-CERT-${sha256Hex(`${module.moduleCode}|${date}|${score}`).slice(0, 8).toUpperCase()}`,
         rule,
-        '-- Fictional certificate. Global Paradigms Corp. is an original story by Zazie Productions.'
+        '-- CERTIFICATE GENERATED LOCALLY BY PARADIGM-OS.'
       ].join('\n')
     );
   };

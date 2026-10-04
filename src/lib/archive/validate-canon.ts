@@ -1,5 +1,5 @@
 /**
- * Canon validation — continuity checking for the fiction itself.
+ * Canon validation — continuity checking for the archive setting.
  *
  * `validate-content.ts` proves the archive is *structurally* sound (ids unique,
  * references resolve, digests well-formed). This module proves it is
@@ -425,7 +425,7 @@ export function validateCanon(): ContentIssue[] {
     const w = `purge:${ghost.id}`;
 
     // INV-TAPE-01 — struck, not deleted. If the code ever resolves in the live
-    // index, the fiction ("deletion is insufficient; struck things are
+    // index, the archive record ("deletion is insufficient; struck things are
     // forgotten") is contradicted and the spool becomes redundant.
     if (liveCodes.has(ghost.code))
       err(w, `code "${ghost.code}" resolves in the live index; a purged record must stay struck`);

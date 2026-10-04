@@ -40,8 +40,8 @@ export const TERMINAL_HELP: Array<{ cmd: string; desc: string; order?: boolean }
 
 /**
  * Undocumented terminal aliases. They are deliberately absent from
- * `TERMINAL_HELP`: each exists only so the fiction can react in-character to a
- * move that will not work. Listed here (rather than buried in the component's
+ * `TERMINAL_HELP`: each exists only so the terminal can react in-character to
+ * a move that will not work. Listed here (rather than buried in the component's
  * switch) so the documentation generator can enumerate them and reviewers can
  * see the whole surface in one place.
  *

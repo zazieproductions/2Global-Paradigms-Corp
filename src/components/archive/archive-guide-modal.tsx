@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { CheckCircle2, Circle, HelpCircle, Key, RotateCcw, Tv, Volume2, VolumeX } from 'lucide-react';
 import { DOCUMENTS, PUZZLES } from '@/content';
-import { FICTION_NOTICE } from '@/config/site';
 import { FEATURES } from '@/config/features';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { useProgression } from '@/hooks/use-progression';
@@ -22,7 +21,7 @@ const Kbd = ({ children }: { children: string }) => (
 
 const Code = ({ children }: { children: string }) => <code className="text-cyan-300">{children}</code>;
 
-/** Help, operator settings, investigation progress and reset — plus the out-of-world notice. */
+/** Help, operator settings, investigation progress and reset controls. */
 export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: ArchiveGuideModalProps) {
   const p = useProgression();
   const { crt, sound } = p.state.preferences;
@@ -52,14 +51,6 @@ export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: 
           <strong className="text-white">Global Paradigms Corporation (GPC)</strong>, an international
           strategic-forecasting, civic-continuity, and environmental-psychoacoustics consultancy operating
           from 1971 to 2026.
-        </p>
-
-        <p
-          className="p-2.5 border border-amber-600/40 bg-amber-950/20 rounded text-caption text-amber-200"
-          role="note"
-        >
-          <strong className="block mb-0.5">OUT OF STORY</strong>
-          {FICTION_NOTICE.long}
         </p>
 
         <div className="flex gap-4 items-start">
@@ -156,7 +147,7 @@ export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: 
           </p>
           <p>
             • <span className="text-white font-bold">Employee Modules &amp; Careers:</span> interactive
-            compliance quizzes with printable certificates, and (fictional) job applications.
+            compliance quizzes with printable certificates, and job applications.
           </p>
           <p>
             • <span className="text-white font-bold">Keyboard:</span> <Kbd>Esc</Kbd> closes the top-most

@@ -161,7 +161,7 @@ async function main() {
     if (!html.includes('<div class="gpc-static">')) {
       problems.push(`${target} carries no crawlable block for non-JS crawlers`);
     }
-    // The fictional company is a CreativeWork, never an Organization node.
+    // The archive is a CreativeWork; the Organization node belongs to its publisher.
     const organisations = [...html.matchAll(/"@type":\s*"Organization"/g)].length;
     const publisherNamed = /"@type":\s*"Organization"[\s\S]{0,200}?"name":\s*"Zazie Productions"/.test(html);
     if (organisations !== 1 || !publisherNamed) {
@@ -216,8 +216,16 @@ async function main() {
     if (!llms.startsWith('# Global Paradigms Corp.\n')) {
       problems.push('llms.txt does not open with the entity heading');
     }
-    if (!llms.includes('not affiliated with')) {
-      problems.push('llms.txt does not carry the non-affiliation statement models are asked to repeat');
+    if (!llms.includes('## Archive sections')) {
+      problems.push('llms.txt does not include the archive section index');
+    }
+    if (!llms.includes('Case-file answer keys are not included in this index.')) {
+      problems.push('llms.txt must omit case-file answer keys');
+    }
+    for (const page of pages) {
+      if (!llms.includes(canonicalUrl(page.path))) {
+        problems.push(`llms.txt is missing the ${page.path} route`);
+      }
     }
   }
 

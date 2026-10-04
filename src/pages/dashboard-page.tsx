@@ -297,11 +297,11 @@ export default function DashboardPage() {
             </nav>
           </div>
 
-          {/* ARG Backdoors & Interactive Tools Box */}
+          {/* Archive access channels and system utilities */}
           <div className="p-4 bg-panel border border-amber-500/30 rounded-lg space-y-3">
             <h2 className="font-bold text-xs text-amber-400 border-b border-line pb-2 flex items-center gap-1.5">
               <Terminal className="w-4 h-4" />
-              INTERACTIVE ARG BACKDOORS
+              ARCHIVE ACCESS CHANNELS
             </h2>
             <div className="space-y-2 text-label">
               <button

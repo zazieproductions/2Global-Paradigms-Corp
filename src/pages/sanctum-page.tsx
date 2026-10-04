@@ -19,22 +19,22 @@ import { useDescrambler, useInvestigation } from '@/hooks/use-investigation';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 
 export default function SanctumPage() {
-  const arg = useInvestigation();
+  const investigation = useInvestigation();
   const ui = useArchiveUi();
   const { unredacted: isUnredacted, toggle: onToggleUnredacted } = useDescrambler();
   const onNavigateTab = ui.navigateToTab;
   const onOpenDocCode = (code: string) => ui.openDocument(code);
   const onOpenSafe = () => ui.openDialog({ type: 'safe' });
-  const [selected, setSelected] = useState<SealId>(arg.currentSeal ?? 7);
-  const [showPrologue, setShowPrologue] = useState(!arg.solved.length);
+  const [selected, setSelected] = useState<SealId>(investigation.currentSeal ?? 7);
+  const [showPrologue, setShowPrologue] = useState(!investigation.solved.length);
   const [confirmReset, setConfirmReset] = useState(false);
 
   const seal = SEALS.find((s) => s.id === selected)!;
-  const solved = arg.isSolved(seal.id);
-  const open = arg.isSealOpen(seal.id);
-  const hintLevel = arg.hintsRevealed[seal.id] || 0;
+  const solved = investigation.isSolved(seal.id);
+  const open = investigation.isSealOpen(seal.id);
+  const hintLevel = investigation.hintsRevealed[seal.id] || 0;
 
-  const onAttempt = (answer: string) => arg.attemptSeal(seal.id, answer).ok;
+  const onAttempt = (answer: string) => investigation.attemptSeal(seal.id, answer).ok;
 
   const renderPuzzle = () => {
     switch (seal.id) {
@@ -62,7 +62,7 @@ export default function SanctumPage() {
             onAttempt={onAttempt}
             onOpenDoc={onOpenDocCode}
             isUnredacted={isUnredacted}
-            descramblerUnlocked={arg.descramblerUnlocked}
+            descramblerUnlocked={investigation.descramblerUnlocked}
             onToggleUnredacted={onToggleUnredacted}
           />
         );
@@ -73,9 +73,9 @@ export default function SanctumPage() {
           <NamePuzzle
             solved={solved}
             accent={seal.accent}
-            solvedIds={arg.solved}
+            solvedIds={investigation.solved}
             onAttempt={(name) => {
-              if (!arg.attemptSeal(7, name).ok) return false;
+              if (!investigation.attemptSeal(7, name).ok) return false;
               gpcAudio.playUiSound('alarm');
               ui.openDialog({ type: 'finale' });
               return true;
@@ -125,10 +125,12 @@ export default function SanctumPage() {
               <Radio className="w-3.5 h-3.5" /> {showPrologue ? 'HIDE' : 'RE-READ'} THORNE'S DEAD-DROP
             </button>
             <div className="px-3 py-1.5 rounded border border-slate-800 text-slate-400">
-              SEALS BROKEN: <span className="text-fuchsia-300 font-bold">{arg.solved.length}/7</span>
+              SEALS BROKEN:{' '}
+              <span className="text-fuchsia-300 font-bold">{investigation.solved.length}/7</span>
             </div>
             <div className="px-3 py-1.5 rounded border border-slate-800 text-slate-400">
-              EARNED CLEARANCE: <span className="text-amber-300 font-bold">LEVEL {arg.earnedLevel}</span>
+              EARNED CLEARANCE:{' '}
+              <span className="text-amber-300 font-bold">LEVEL {investigation.earnedLevel}</span>
             </div>
           </div>
         </div>
@@ -193,7 +195,7 @@ export default function SanctumPage() {
                 <path d={starPath(C, C, R, 7, 3)} fill="none" stroke="#a21caf" strokeOpacity={0.25} />
                 {/* light the lines between broken seals in week order */}
                 {SEALS.map((s, i) => {
-                  if (!arg.isSolved(s.id) || i === 0) return null;
+                  if (!investigation.isSolved(s.id) || i === 0) return null;
                   const [x1, y1] = polar(C, C, R, i - 1, 7);
                   const [x2, y2] = polar(C, C, R, i, 7);
                   return (
@@ -211,13 +213,17 @@ export default function SanctumPage() {
                 })}
               </svg>
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className={`text-fuchsia-300/70 ${arg.finaleComplete ? '' : 'ovp-spin-rev'}`}>
-                  <OrderSigil size={110} color={arg.finaleComplete ? '#e2e8f0' : undefined} />
+                <div className={`text-fuchsia-300/70 ${investigation.finaleComplete ? '' : 'ovp-spin-rev'}`}>
+                  <OrderSigil size={110} color={investigation.finaleComplete ? '#e2e8f0' : undefined} />
                 </div>
               </div>
               {SEALS.map((s, i) => {
                 const [x, y] = polar(C, C, R, i, 7);
-                const st = arg.isSolved(s.id) ? 'broken' : arg.isSealOpen(s.id) ? 'open' : 'sealed';
+                const st = investigation.isSolved(s.id)
+                  ? 'broken'
+                  : investigation.isSealOpen(s.id)
+                    ? 'open'
+                    : 'sealed';
                 const isSel = s.id === selected;
                 return (
                   <button
@@ -257,7 +263,7 @@ export default function SanctumPage() {
               <p className="text-[9px] tracking-[0.3em] text-slate-500 mb-2">SEAL-WORDS RECOVERED</p>
               <div className="grid grid-cols-2 gap-1.5">
                 {SEALS.map((s) => {
-                  const have = arg.isSolved(s.id);
+                  const have = investigation.isSolved(s.id);
                   return (
                     <div key={s.id} className="flex items-center gap-2 text-[11px]">
                       <PlanetGlyph
@@ -286,10 +292,10 @@ export default function SanctumPage() {
                 tabIndex={0}
                 aria-label="Investigator's journal, newest first"
               >
-                {arg.journal.length === 0 && (
+                {investigation.journal.length === 0 && (
                   <p className="text-[10px] text-slate-600 italic">Nothing recorded yet.</p>
                 )}
-                {[...arg.journal].reverse().map((j, i) => (
+                {[...investigation.journal].reverse().map((j, i) => (
                   <div key={`${j.t}-${i}`} className="text-[10px] leading-snug">
                     <span className="text-slate-600">{j.t.slice(0, 16).replace('T', ' ')} </span>
                     <span
@@ -327,7 +333,7 @@ export default function SanctumPage() {
                     type="button"
                     autoFocus
                     onClick={() => {
-                      arg.purgeCase();
+                      investigation.purgeCase();
                       setConfirmReset(false);
                       setSelected(1);
                     }}
@@ -376,7 +382,7 @@ export default function SanctumPage() {
                     className="px-2 py-1 rounded border"
                     style={{ color: seal.accent, borderColor: seal.accent }}
                   >
-                    BROKEN{arg.isAssisted(seal.id) ? ' · ASSISTED' : ''}
+                    BROKEN{investigation.isAssisted(seal.id) ? ' · ASSISTED' : ''}
                   </span>
                 ) : open ? (
                   <span className="px-2 py-1 rounded border border-amber-600 text-amber-300 animate-pulse">
@@ -397,7 +403,7 @@ export default function SanctumPage() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => arg.currentSeal && setSelected(arg.currentSeal)}
+                  onClick={() => investigation.currentSeal && setSelected(investigation.currentSeal)}
                   className="text-[11px] text-fuchsia-300 underline cursor-pointer"
                 >
                   go to the active seal
@@ -494,7 +500,7 @@ export default function SanctumPage() {
                         type="button"
                         onClick={() => {
                           gpcAudio.playUiSound('unredact');
-                          arg.revealHint(seal.id);
+                          investigation.revealHint(seal.id);
                         }}
                         className="flex items-center gap-1.5 text-[10px] text-amber-400/80 hover:text-amber-300 cursor-pointer"
                       >

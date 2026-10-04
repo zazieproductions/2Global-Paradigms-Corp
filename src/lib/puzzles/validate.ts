@@ -68,7 +68,7 @@ export function isPuzzleAvailable(puzzle: PuzzleDefinition, state?: ProgressionS
 
 /**
  * True if `input` is an accepted answer, ignoring unlock requirements. Used
- * where the fiction reacts to a correct-but-premature answer ("NOT YET").
+ * where the terminal reacts to a correct-but-premature answer ("NOT YET").
  */
 export function checkAnswer(puzzleId: string, input: string): boolean {
   const puzzle = getPuzzle(puzzleId);

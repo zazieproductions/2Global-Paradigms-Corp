@@ -1,5 +1,5 @@
 // ============================================================================
-// ARG PUZZLE — "GATEWAY TRANSMISSION"
+// OPENING PUZZLE — "GATEWAY TRANSMISSION"
 // ----------------------------------------------------------------------------
 // A beginner-grade, guided sequence that starts the moment the Cold Boot
 // Terminal hands off to the archive and rewards the player with an

@@ -218,7 +218,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
 
     const [head, ...rest] = trimmed.split(/\s+/);
     const cmd = head.toLowerCase();
-    const arg = rest.join(' ');
+    const argument = rest.join(' ');
 
     switch (cmd) {
       case 'help':
@@ -277,7 +277,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
         );
 
       case 'clearance': {
-        const tier = Number.parseInt(arg, 10);
+        const tier = Number.parseInt(argument, 10);
         const level = clearanceForTier(tier);
         if (!level) {
           gpcAudio.playUiSound('deny');
@@ -301,7 +301,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
       case 'override':
         gpcAudio.playUiSound('deny');
         return print(
-          arg ? `override ${'•'.repeat(Math.min(arg.length, 8))}` : trimmed,
+          argument ? `override ${'•'.repeat(Math.min(argument.length, 8))}` : trimmed,
           <div className="text-rose-300 space-y-1" role="status">
             <p className="font-bold">*** OVERRIDE REJECTED ***</p>
             <p>MASTER KEY 01 (DAME E. CROSS) — REVOKED 1989-11-04 05:14 UTC.</p>
@@ -333,7 +333,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
             </p>
           );
         }
-        if (tier === last && arg.toLowerCase() !== 'confirm') {
+        if (tier === last && argument.toLowerCase() !== 'confirm') {
           return print(
             trimmed,
             <p className="text-slate-400">
@@ -401,7 +401,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
             </p>
           );
         }
-        const which = arg.trim();
+        const which = argument.trim();
         const index = Number.parseInt(which, 10);
         const chosen = which
           ? (filed.find((f) => f.id === which || f.code.toLowerCase().includes(which.toLowerCase())) ??
@@ -498,18 +498,18 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
         return print(trimmed, purgeManifest());
 
       case 'salvage': {
-        if (!arg.trim()) {
+        if (!argument.trim()) {
           gpcAudio.playUiSound('scan');
           return print(trimmed, purgeManifest());
         }
-        const ghost = ghostForCode(arg);
+        const ghost = ghostForCode(argument);
         if (!ghost) {
           gpcAudio.playUiSound('deny');
           return print(
             trimmed,
             <p className="text-rose-400">
-              The spool holds nothing under \"{arg}\". Type <span className="text-cyan-300">purge</span> for
-              the manifest.
+              The spool holds nothing under \"{argument}\". Type <span className="text-cyan-300">purge</span>{' '}
+              for the manifest.
             </p>
           );
         }
@@ -529,7 +529,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
         return print(trimmed, <Lines lines={TERMINAL_SCAN} />);
 
       case 'play': {
-        const idx = Number.parseInt(arg, 10);
+        const idx = Number.parseInt(argument, 10);
         const artifact = AUDIO_ARTIFACTS[idx - 1];
         if (!artifact) {
           return print(
@@ -565,7 +565,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
         return print(trimmed, <Lines lines={TERMINAL_LEAK_DUMP} />);
 
       case 'cat': {
-        const q = arg.toLowerCase();
+        const q = argument.toLowerCase();
         const doc = q
           ? (DOCUMENTS.find((d) => d.code.toLowerCase() === q || d.id.toLowerCase() === q) ??
             DOCUMENTS.find((d) => d.title.toLowerCase().includes(q)))
@@ -591,7 +591,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
           gpcAudio.playUiSound('deny');
           return print(
             trimmed,
-            <p className="text-rose-400">Error: Document "{arg}" not found in local index.</p>
+            <p className="text-rose-400">Error: Document "{argument}" not found in local index.</p>
           );
         }
         if (clearanceTier(doc.clearance) > clearanceTier(clearance)) {
@@ -629,12 +629,12 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
       }
 
       case 'ls': {
-        const [sub, pageArg] = arg.split(/\s+/);
+        const [sub, pageArgument] = argument.split(/\s+/);
         if (sub && sub !== 'docs') {
           return print(trimmed, <p className="text-slate-400">Usage: ls docs [page]</p>);
         }
         const pages = Math.max(1, Math.ceil(DOCUMENTS.length / LS_PAGE_SIZE));
-        const page = Math.min(pages, Math.max(1, Number.parseInt(pageArg ?? '1', 10) || 1));
+        const page = Math.min(pages, Math.max(1, Number.parseInt(pageArgument ?? '1', 10) || 1));
         const slice = DOCUMENTS.slice((page - 1) * LS_PAGE_SIZE, page * LS_PAGE_SIZE);
         return print(
           trimmed,
@@ -725,24 +725,24 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
       }
 
       case 'gematria': {
-        if (!arg.trim()) {
+        if (!argument.trim()) {
           return print(
             trimmed,
             <p className="text-slate-400">Usage: gematria &lt;text&gt; (ordinal: A=1 … Z=26)</p>
           );
         }
-        const v = ordinalGematria(arg);
+        const v = ordinalGematria(argument);
         return print(
           trimmed,
           <p className="text-fuchsia-200">
-            ORDINAL GEMATRIA of "{arg.toUpperCase()}" = <span className="font-bold text-white">{v}</span>
+            ORDINAL GEMATRIA of "{argument.toUpperCase()}" = <span className="font-bold text-white">{v}</span>
             {GEMATRIA_NOTES[v] && <span className="text-fuchsia-400/80"> — {GEMATRIA_NOTES[v]}</span>}
           </p>
         );
       }
 
       case 'wheel': {
-        if (!arg.trim()) {
+        if (!argument.trim()) {
           return print(
             trimmed,
             <div className="text-label text-slate-300">
@@ -753,9 +753,9 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
             </div>
           );
         }
-        const plain = vigenereDecrypt(MERCURY_CIPHERTEXT, arg);
+        const plain = vigenereDecrypt(MERCURY_CIPHERTEXT, argument);
         // The courier key is the Venus seal's answer; check it by digest.
-        const ok = investigation.isCorrect(5, arg);
+        const ok = investigation.isCorrect(5, argument);
         if (ok) gpcAudio.playUiSound('grant');
         return print(
           trimmed,
@@ -786,7 +786,7 @@ function Terminal({ onClose, onOpenDocument, onInvoke, onOpenSalvage }: Omit<Ter
         );
 
       case 'invoke': {
-        const name = arg.trim();
+        const name = argument.trim();
         if (!name) return print(trimmed, <p className="text-slate-400">Usage: invoke &lt;name&gt;</p>);
         if (!investigation.isCorrect(7, name)) {
           gpcAudio.playUiSound('deny');
