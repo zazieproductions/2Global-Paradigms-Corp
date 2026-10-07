@@ -12,7 +12,13 @@ import { progressionStore } from '@/lib/puzzles/progression';
 import { renderArchive } from './render';
 
 vi.mock('@/config/features', () => ({
-  FEATURES: { bootSequence: false, persistProgress: false, assistedBypass: true, uiSoundsDefault: false }
+  FEATURES: {
+    bootSequence: false,
+    archiveShell: false,
+    persistProgress: false,
+    assistedBypass: true,
+    uiSoundsDefault: false
+  }
 }));
 
 beforeEach(() => {

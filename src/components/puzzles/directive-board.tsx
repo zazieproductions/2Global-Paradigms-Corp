@@ -188,7 +188,7 @@ export function DirectiveBoard({ onNavigateTab }: DirectiveBoardProps) {
 
   return (
     <section
-      className="rounded border border-cyan-900/40 bg-gradient-to-br from-cyan-950/10 via-black/50 to-black/70 p-4 space-y-3"
+      className="rounded border border-cyan-900/40 bg-inset p-4 space-y-3"
       aria-labelledby="field-directives"
     >
       {/* ------------------------------------------------------------ HEADER */}

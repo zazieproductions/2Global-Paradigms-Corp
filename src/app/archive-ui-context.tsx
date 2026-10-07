@@ -32,6 +32,11 @@ export type ArchiveDialog =
 
 export interface ArchiveUi {
   dialog: ArchiveDialog | null;
+  /** The docked navigation shell. Non-modal, so it is state here, not a dialog. */
+  shellOpen: boolean;
+  openShell: () => void;
+  closeShell: () => void;
+  toggleShell: () => void;
   openDialog: (dialog: ArchiveDialog) => void;
   closeDialog: () => void;
   /** Toggle a simple dialog (used by the `~` terminal shortcut). */
@@ -49,6 +54,7 @@ const ArchiveUiContext = createContext<ArchiveUi | null>(null);
 
 export function ArchiveUiProvider({ children }: { children: ReactNode }) {
   const [dialog, setDialog] = useState<ArchiveDialog | null>(null);
+  const [shellOpen, setShellOpen] = useState(false);
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -90,6 +96,9 @@ export function ArchiveUiProvider({ children }: { children: ReactNode }) {
   );
 
   const closeDialog = useCallback(() => setDialog(null), []);
+  const openShell = useCallback(() => setShellOpen(true), []);
+  const closeShell = useCallback(() => setShellOpen(false), []);
+  const toggleShell = useCallback(() => setShellOpen((v) => !v), []);
   const toggleDialog = useCallback(
     (type: 'terminal' | 'search') => setDialog((d) => (d?.type === type ? null : { type })),
     []
@@ -98,6 +107,10 @@ export function ArchiveUiProvider({ children }: { children: ReactNode }) {
   const value = useMemo<ArchiveUi>(
     () => ({
       dialog,
+      shellOpen,
+      openShell,
+      closeShell,
+      toggleShell,
       openDialog: setDialog,
       closeDialog,
       toggleDialog,
@@ -109,6 +122,10 @@ export function ArchiveUiProvider({ children }: { children: ReactNode }) {
     }),
     [
       dialog,
+      shellOpen,
+      openShell,
+      closeShell,
+      toggleShell,
       closeDialog,
       toggleDialog,
       documentParam,

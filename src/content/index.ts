@@ -27,6 +27,7 @@ export { RESTORATION_LOGS } from './restoration/restoration-logs';
 export { GHOSTS, DIRECTIVE_17 } from './restoration/purge-manifest';
 export { PUZZLES } from './puzzles/definitions';
 export { PUZZLE_DOWNLOADS } from './puzzles/downloads';
+export { SHELL_ALIASES, SHELL_COMMANDS, SHELL_HELP_HEADING, SHELL_INTRO } from './shell/commands';
 export {
   TERMINAL_HELP,
   TERMINAL_ALIASES,

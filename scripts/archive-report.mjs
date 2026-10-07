@@ -390,6 +390,29 @@ function clueLedgerDoc() {
   }
   out.push('');
 
+  out.push('## Navigation shell surface\n');
+  out.push(
+    'The docked archive shell (`` ` ``, dropped in a few seconds after load) navigates and reports. It is\n' +
+      '**not** a puzzle surface: no command here grants clearance, reveals a redaction or moves the case on.\n' +
+      'Anything that would is handed off to the backdoor (`cli` → `~`), which owns all of that.\n'
+  );
+  out.push('| Command | Argument | Purpose | Hand-off |');
+  out.push('| --- | --- | --- | :--: |');
+  for (const c of content.SHELL_COMMANDS) {
+    out.push(
+      `| \`${c.cmd}\` | ${c.arg ? `\`${esc(c.arg)}\`` : '—'} | ${esc(c.desc)} | ${c.handoff ? 'yes' : '—'} |`
+    );
+  }
+  out.push('');
+  out.push('Section aliases (`cd <alias>` reserves no command name):');
+  out.push('');
+  out.push(
+    Object.entries(content.SHELL_ALIASES)
+      .map(([alias, id]) => `\`${alias}\`→\`${id}\``)
+      .join(' · ')
+  );
+  out.push('');
+
   out.push('## Terminal surface\n');
   out.push(
     'The terminal (`~`) is a puzzle surface in its own right. `help` lists the documented commands;\nthe aliases below are undocumented on purpose and exist only to react in-fiction to the wrong move.\n'

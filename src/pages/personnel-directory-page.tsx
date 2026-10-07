@@ -27,7 +27,7 @@ const getStatusBadge = (status: Personnel['status']) => {
     case 'Active':
       return 'bg-emerald-950/80 text-emerald-300 border-emerald-700';
     case 'Missing':
-      return 'bg-rose-950/80 text-rose-300 border-rose-600 animate-pulse font-bold';
+      return 'bg-rose-950/80 text-rose-300 border-rose-600 font-bold';
     case 'Terminated':
       return 'bg-slate-900 text-slate-500 border-slate-700';
     case 'Quarantined':

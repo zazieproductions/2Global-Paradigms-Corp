@@ -19,6 +19,7 @@ import { GlobalSearchModal } from '@/components/archive/global-search-modal';
 import { DeadLinkViewerModal } from '@/components/archive/dead-link-viewer-modal';
 import { ArchiveGuideModal } from '@/components/archive/archive-guide-modal';
 import { TerminalModal } from '@/components/puzzles/terminal-modal';
+import { ArchiveShellTerminal } from '@/components/archive/shell-terminal';
 import { PalimpsestSafeModal } from '@/components/puzzles/palimpsest-safe-modal';
 import { ClearanceModal } from '@/components/puzzles/clearance-modal';
 import { BootSequence } from '@/components/puzzles/boot-sequence';
@@ -37,6 +38,9 @@ import { RouteMetadata } from '@/components/seo/route-metadata';
 import { useArchiveUi } from './archive-ui-context';
 import { cn } from '@/lib/utils/cn';
 
+/** Delay before the archive shell drops in on a fresh page load. */
+const SHELL_AUTO_OPEN_MS = 3200;
+
 const isTypingTarget = (t: EventTarget | null) =>
   t instanceof HTMLElement && (t.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(t.tagName));
 
@@ -54,7 +58,7 @@ export function ArchiveShell() {
   const { pathname } = useLocation();
   const [params] = useSearchParams();
   const ui = useArchiveUi();
-  const { dialog, openDialog, closeDialog, toggleDialog } = ui;
+  const { dialog, openDialog, closeDialog, toggleDialog, shellOpen, openShell, closeShell, toggleShell } = ui;
   const progression = useProgression();
   const { state, discover, setCallsign, markPrologueSeen, completeFinale } = progression;
   const { unredacted, toggle: toggleDescrambler } = useDescrambler();
@@ -67,7 +71,12 @@ export function ArchiveShell() {
     ui.navigateToTab('sanctum');
   };
 
-  const [bootDone, setBootDone] = useState(!FEATURES.bootSequence);
+  const [booting, setBooting] = useState(FEATURES.bootSequence);
+  // Read inside the auto-open timer without re-arming it.
+  const bootingRef = useRef(booting);
+  useEffect(() => {
+    bootingRef.current = booting;
+  }, [booting]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
   const toggleDescramblerRef = useRef(() => {});
@@ -112,7 +121,7 @@ export function ArchiveShell() {
 
   // Global keyboard shortcuts (never while typing or while a dialog is open).
   useEffect(() => {
-    if (!bootDone) return;
+    if (booting) return;
     const onKeyDown = (e: KeyboardEvent) => {
       if (isTypingTarget(e.target)) return;
       if (document.querySelector('[aria-modal="true"]')) return;
@@ -120,7 +129,13 @@ export function ArchiveShell() {
         e.preventDefault();
         gpcAudio.playUiSound('click');
         openDialog({ type: 'search' });
-      } else if (e.key === '`' || e.key === '~') {
+      } else if (e.key === '`') {
+        // Backtick drops the navigation shell; shift-backtick (~) is the deeper
+        // in-world backdoor, which the shell can also hand off to (`cli`).
+        e.preventDefault();
+        gpcAudio.playUiSound('scan');
+        toggleShell();
+      } else if (e.key === '~') {
         e.preventDefault();
         gpcAudio.playUiSound('scan');
         toggleDialog('terminal');
@@ -131,21 +146,35 @@ export function ArchiveShell() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [bootDone, openDialog, toggleDialog]);
+  }, [booting, openDialog, toggleDialog, toggleShell]);
+
+  // The archive shell drops in a few seconds after load — once per page load,
+  // never over a dialog, a deep-linked document or an operator already typing.
+  useEffect(() => {
+    if (!FEATURES.archiveShell) return;
+    const id = window.setTimeout(() => {
+      if (bootingRef.current || document.querySelector('[aria-modal="true"]')) return;
+      if (isTypingTarget(document.activeElement)) return;
+      openShell();
+      gpcAudio.playUiSound('scan');
+    }, SHELL_AUTO_OPEN_MS);
+    return () => window.clearTimeout(id);
+  }, [openShell]);
 
   const record = params.get('record') ?? '';
 
   return (
     <>
       <RouteMetadata />
-      {!bootDone && (
+      {booting && (
         <BootSequence
           onComplete={(callsign) => {
             setCallsign(callsign);
-            setBootDone(true);
+            setBooting(false);
+            closeShell();
             gpcAudio.playUiSound('grant');
-            // First visit: Thorne's dead-drop breaks in right after the boot.
-            if (!state.investigation.prologueSeen) openDialog({ type: 'prologue' });
+            // First visit: the unscheduled transmission waits on the backdoor,
+            // announced by the shell's login banner rather than breaking in.
           }}
         />
       )}
@@ -155,7 +184,7 @@ export function ArchiveShell() {
           'flex flex-col w-full h-dvh bg-void text-slate-200 overflow-hidden font-mono',
           state.preferences.crt && 'crt-scanlines'
         )}
-        inert={!bootDone}
+        inert={booting}
       >
         <a
           href="#archive-main"
@@ -185,6 +214,14 @@ export function ArchiveShell() {
             </ErrorBoundary>
           </main>
         </div>
+
+        <ArchiveShellTerminal
+          open={shellOpen}
+          onClose={closeShell}
+          onOpenCli={() => openDialog({ type: 'terminal' })}
+          onOpenTransmission={() => openDialog({ type: 'prologue' })}
+          onReplayBoot={() => setBooting(true)}
+        />
 
         <AudioPlayerBar />
       </div>
@@ -243,6 +280,10 @@ export function ArchiveShell() {
         open={dialog?.type === 'help'}
         onClose={closeDialog}
         onOpenSafe={() => openDialog({ type: 'safe' })}
+        onOpenShell={() => {
+          closeDialog();
+          openShell();
+        }}
         onOpenSanctum={goToSanctum}
       />
       <TrainingModuleModal

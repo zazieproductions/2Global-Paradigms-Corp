@@ -64,7 +64,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
         ref={asideRef}
       >
         {/* Archive status box */}
-        <div className="p-3 bg-gradient-to-b from-raised to-inset border-b border-line">
+        <div className="p-3 bg-shell border-b border-line">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-caption text-cyan-400 font-bold tracking-widest flex items-center gap-1.5">
               <HardDrive className="w-3.5 h-3.5 text-cyan-400" aria-hidden />
@@ -76,10 +76,6 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
             <div className="flex justify-between">
               <dt className="text-slate-500">DATABASE:</dt>
               <dd className="text-slate-300">GPC_POSTOJNA_MASTER</dd>
-            </div>
-            <div className="flex justify-between">
-              <dt className="text-slate-500">HASH ROOT:</dt>
-              <dd className="text-cyan-400 truncate max-w-[120px]">0x7F4A...9E02</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-slate-500">CLEARANCE:</dt>
@@ -114,7 +110,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
               cn(
                 'tap-row w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded border transition-all text-left',
                 isActive
-                  ? 'bg-fuchsia-500/15 border-fuchsia-500/60 shadow-glow-sm shadow-order/25'
+                  ? 'bg-fuchsia-500/15 border-fuchsia-500/60'
                   : 'bg-fuchsia-950/10 border-fuchsia-900/50 hover:border-fuchsia-600/60'
               )
             }
@@ -234,7 +230,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
         <div className="mt-auto p-3 border-t border-line bg-canvas space-y-2">
           <div>
             <div className="flex items-center gap-2 text-rose-400 text-caption font-bold mb-1">
-              <ShieldAlert className="w-3.5 h-3.5 animate-pulse" aria-hidden />
+              <ShieldAlert className="w-3.5 h-3.5" aria-hidden />
               <span>STATION 07 ALERT</span>
             </div>
             <p className="text-micro text-slate-500 leading-tight">

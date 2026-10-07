@@ -1,5 +1,15 @@
 import { useState } from 'react';
-import { CheckCircle2, Circle, HelpCircle, Key, RotateCcw, Tv, Volume2, VolumeX } from 'lucide-react';
+import {
+  CheckCircle2,
+  ChevronsUp,
+  Circle,
+  HelpCircle,
+  Key,
+  RotateCcw,
+  Tv,
+  Volume2,
+  VolumeX
+} from 'lucide-react';
 import { DOCUMENTS, PUZZLES } from '@/content';
 import { FEATURES } from '@/config/features';
 import { gpcAudio } from '@/lib/audio/audio-engine';
@@ -12,6 +22,8 @@ interface ArchiveGuideModalProps {
   open: boolean;
   onClose: () => void;
   onOpenSafe: () => void;
+  /** Drops the docked navigation shell. */
+  onOpenShell: () => void;
   onOpenSanctum?: () => void;
 }
 
@@ -22,7 +34,13 @@ const Kbd = ({ children }: { children: string }) => (
 const Code = ({ children }: { children: string }) => <code className="text-cyan-300">{children}</code>;
 
 /** Help, operator settings, investigation progress and reset controls. */
-export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: ArchiveGuideModalProps) {
+export function ArchiveGuideModal({
+  open,
+  onClose,
+  onOpenSafe,
+  onOpenShell,
+  onOpenSanctum
+}: ArchiveGuideModalProps) {
   const p = useProgression();
   const { crt, sound } = p.state.preferences;
   const [confirmReset, setConfirmReset] = useState(false);
@@ -191,6 +209,13 @@ export function ArchiveGuideModal({ open, onClose, onOpenSafe, onOpenSanctum }: 
                 <VolumeX className="w-3.5 h-3.5" aria-hidden />
               )}{' '}
               SOUND: {sound ? 'ON' : 'OFF'}
+            </button>
+            <button
+              type="button"
+              onClick={onOpenShell}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded border border-line-bright text-slate-200 hover:bg-hover"
+            >
+              <ChevronsUp className="w-3.5 h-3.5" aria-hidden /> OPEN ARCHIVE SHELL (<Code> </Code>)
             </button>
             <button
               type="button"

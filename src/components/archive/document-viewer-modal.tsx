@@ -213,7 +213,7 @@ function DocumentSheet({
         className={cn(
           'tap-target flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded text-label font-semibold border cursor-pointer transition-all',
           showUnredacted
-            ? 'bg-rose-950 text-rose-300 border-rose-500 animate-pulse'
+            ? 'bg-rose-950 text-rose-300 border-rose-500'
             : 'bg-hover hover:bg-active text-slate-300 border-line-bright'
         )}
       >
@@ -390,7 +390,7 @@ function DocumentSheet({
               className="mb-6 p-3 bg-rose-950/40 border border-rose-500/60 rounded flex items-center gap-3"
               role="note"
             >
-              <AlertOctagon className="w-5 h-5 text-rose-400 shrink-0 animate-pulse" aria-hidden />
+              <AlertOctagon className="w-5 h-5 text-rose-400 shrink-0" aria-hidden />
               <p className="text-label text-rose-200">
                 <span className="font-bold">UNAUTHORIZED EXFILTRATION RECORD:</span> This document is indexed
                 under Project Palimpsest counter-leak operations. Possession by un-cleared personnel

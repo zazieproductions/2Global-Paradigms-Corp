@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ShieldAlert,
@@ -20,7 +19,8 @@ import {
   INTERNAL_PROGRAMS,
   PERSONNEL,
   PUZZLES,
-  REGIONAL_STATIONS
+  REGIONAL_STATIONS,
+  RESTORATION_LOGS
 } from '@/content';
 import { pathForTab, TOOLS_LAB_COUNT } from '@/config/navigation';
 import { clearanceTier } from '@/lib/archive/clearance';
@@ -38,18 +38,6 @@ const documents = DOCUMENTS;
 const personnel = PERSONNEL;
 const stations = REGIONAL_STATIONS;
 const programs = INTERNAL_PROGRAMS;
-
-const TELEMETRY_LOGS = [
-  'STATION 07 [SVALBARD]: BOREHOLE 4 INFRASOUND AMPLITUDE: +18.4% (94.2 dB)',
-  'SITE 19 [UTAH]: CHAMBER 04 BARITE GROUT INJECTION: COMPLETED (32.4 Hz CONTAINED)',
-  'DIEGO GARCIA [HYDROPHONE 12]: 54Hz MANTLE RAMP INTERCEPTED (PHASE-LOCKED)',
-  'POSTOJNA REPOSITORY: DIGITAL HASH TREE VALIDATION: 100% PURE (SHA256)',
-  'ROSSLYN SUB-COMPLEX: MUNICIPAL TRANSIT ENTRAINMENT CYCLE: 18:00 STANDBY'
-];
-
-const CARRIER_BASE_HZ = 14.802;
-const CARRIER_JITTER_HZ = 0.012;
-const CARRIER_TICK_MS = 2000;
 
 const urgentDocs = documents.filter((d) => clearanceTier(d.clearance) >= 4).slice(0, 5);
 
@@ -79,18 +67,9 @@ function JumpLink({
 }
 
 export default function DashboardPage() {
-  const { openDocument, openDialog, navigateToTab } = useArchiveUi();
+  const { openDocument, openDialog, navigateToTab, openShell } = useArchiveUi();
   const { discoveredCount, completedCount, clearance, unredacted, state } = useProgression();
   const finaleComplete = state.investigation.finaleComplete;
-  const [carrierHz, setCarrierHz] = useState(CARRIER_BASE_HZ);
-  const [bootTime] = useState(() => new Date().toISOString().split('T')[1].slice(0, 8));
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCarrierHz(Number((CARRIER_BASE_HZ + (Math.random() - 0.5) * CARRIER_JITTER_HZ).toFixed(3)));
-    }, CARRIER_TICK_MS);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <ArchivePage className="space-y-6">
@@ -101,10 +80,10 @@ export default function DashboardPage() {
         }}
       />
       {/* Top Banner / Executive Alert */}
-      <div className="p-4 bg-gradient-to-r from-rose-950/40 via-hover to-raised border border-rose-500/40 rounded-lg shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="p-4 bg-panel border border-rose-500/40 border-l-2 rounded-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
-          <div className="p-2 rounded bg-rose-950/80 border border-rose-600 text-rose-400 shrink-0 mt-0.5 animate-pulse">
-            <ShieldAlert className="w-6 h-6" />
+          <div className="p-2 rounded bg-rose-950/60 border border-rose-800 text-rose-400 shrink-0 mt-0.5">
+            <ShieldAlert className="w-5 h-5" aria-hidden />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -133,9 +112,9 @@ export default function DashboardPage() {
               gpcAudio.playUiSound('scan');
               navigateToTab('audio');
             }}
-            className="tap-target w-full md:w-auto justify-center px-3.5 py-2.5 md:py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded cursor-pointer transition-colors shadow-md text-xs flex items-center gap-1.5"
+            className="tap-target w-full md:w-auto justify-center px-3.5 py-2.5 md:py-2 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded cursor-pointer transition-colors text-xs flex items-center gap-1.5"
           >
-            <Radio className="w-3.5 h-3.5" />
+            <Radio className="w-3.5 h-3.5" aria-hidden />
             <span>LAUNCH AUDIO SCANNER</span>
           </button>
         </div>
@@ -146,10 +125,10 @@ export default function DashboardPage() {
         <div className="p-3.5 bg-panel border border-line-strong rounded-lg space-y-1">
           <div className="flex items-center justify-between text-slate-500 text-caption">
             <span>PLANETARY CARRIER</span>
-            <Activity className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            <Activity className="w-3.5 h-3.5 text-cyan-400" aria-hidden />
           </div>
           <div className="text-lg md:text-xl font-bold text-cyan-300 font-mono">
-            {finaleComplete ? '0.000' : carrierHz} Hz
+            {finaleComplete ? '0.000' : '14.802'} Hz
           </div>
           <div
             className={cn(
@@ -176,7 +155,7 @@ export default function DashboardPage() {
         <div className="p-3.5 bg-panel border border-line-strong rounded-lg space-y-1">
           <div className="flex items-center justify-between text-slate-500 text-caption">
             <span>INDEXED ARCHIVE FILES</span>
-            <FileText className="w-3.5 h-3.5 text-indigo-400" />
+            <FileText className="w-3.5 h-3.5 text-indigo-400" aria-hidden />
           </div>
           <div className="text-lg md:text-xl font-bold text-indigo-300">{documents.length} Records</div>
           <div className="text-caption text-slate-400">100% Postojna Hash Synced</div>
@@ -251,23 +230,25 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Real-time Telemetry Stream */}
-          <div className="p-4 bg-canvas border border-line rounded-lg space-y-2">
+          {/* Filing notes — static, dated by the records themselves. */}
+          <div className="p-4 bg-panel border border-line rounded-lg space-y-2">
             <div className="flex items-center justify-between border-b border-line-subtle pb-2">
-              <span className="text-label font-bold text-cyan-400 flex items-center gap-2">
-                <Activity className="w-3.5 h-3.5 text-cyan-400" />
-                PLANETARY ARRAY TELEMETRY STREAM (LIVE PACKET FEED)
+              <span className="text-label font-bold text-slate-200 flex items-center gap-2">
+                <Activity className="w-3.5 h-3.5 text-slate-500" aria-hidden />
+                RECENTLY RESTORED VOLUMES
               </span>
-              <span className="text-micro text-emerald-400 font-bold animate-pulse">REC: ONLINE</span>
+              <Link to="/legacy" className="text-caption text-cyan-400 hover:text-cyan-300">
+                Restoration ledger
+              </Link>
             </div>
-            <div className="bg-void p-3 rounded border border-slate-900 font-mono text-caption space-y-1 text-slate-400 max-h-36 overflow-y-auto">
-              {TELEMETRY_LOGS.map((log, idx) => (
-                <div key={log} className="flex items-center gap-2">
-                  <span className="text-slate-600">[{bootTime}]</span>
-                  <span className={idx === 0 ? 'text-rose-400 font-bold' : 'text-slate-300'}>{log}</span>
-                </div>
+            <ul className="space-y-1.5 text-caption text-slate-400">
+              {RESTORATION_LOGS.slice(0, 5).map((log) => (
+                <li key={log.id} className="flex gap-2">
+                  <span className="text-slate-600 shrink-0">{log.date}</span>
+                  <span className="text-slate-300 truncate">{log.title}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
 
@@ -304,6 +285,18 @@ export default function DashboardPage() {
               ARCHIVE ACCESS CHANNELS
             </h2>
             <div className="space-y-2 text-label">
+              <button
+                type="button"
+                onClick={() => {
+                  gpcAudio.playUiSound('scan');
+                  openShell();
+                }}
+                className="w-full p-2 bg-hover hover:bg-active border border-line-bright hover:border-cyan-500/50 rounded text-left flex items-center justify-between text-slate-200 cursor-pointer"
+              >
+                <span>Archive Shell — navigate by command</span>
+                <span className="text-micro px-1.5 py-0.5 bg-slate-800 rounded text-slate-400">`</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => {

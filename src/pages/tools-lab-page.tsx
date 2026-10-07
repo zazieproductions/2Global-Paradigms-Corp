@@ -202,7 +202,7 @@ export default function ToolsLabPage() {
               <span
                 className={`text-xl font-bold font-mono ${
                   evacuationFailureProb > 65
-                    ? 'text-rose-400 animate-pulse'
+                    ? 'text-rose-400'
                     : evacuationFailureProb > 40
                       ? 'text-amber-400'
                       : 'text-emerald-400'
@@ -332,7 +332,7 @@ export default function ToolsLabPage() {
                     className={`text-base font-bold font-mono px-3 py-1 rounded border ${
                       syncScore >= SYNC_PASS_SCORE
                         ? 'bg-emerald-950 text-emerald-300 border-emerald-600'
-                        : 'bg-rose-950 text-rose-300 border-rose-600 animate-pulse'
+                        : 'bg-rose-950 text-rose-300 border-rose-600'
                     }`}
                   >
                     {syncScore}% ({syncScore >= SYNC_PASS_SCORE ? 'COMPLIANT' : 'REMEDIATION REQUIRED'})

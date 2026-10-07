@@ -9,8 +9,14 @@ const envFlag = (name: string, fallback: boolean): boolean => {
 };
 
 export const FEATURES = {
-  /** Play the cold-boot terminal on every load. */
-  bootSequence: envFlag('BOOT_SEQUENCE', true),
+  /**
+   * Gate the archive behind the cold-boot terminal on every load. Off by
+   * default: visitors land in the archive and the navigation shell drops in a
+   * few seconds later. The boot is still reachable — `boot` in the shell.
+   */
+  bootSequence: envFlag('BOOT_SEQUENCE', false),
+  /** Drop the interactive navigation shell in a few seconds after load. */
+  archiveShell: envFlag('ARCHIVE_SHELL', true),
   /** Persist progression (discoveries, puzzles, clearance) to localStorage. */
   persistProgress: envFlag('PERSIST_PROGRESS', true),
   /** Offer the no-shame "assisted" bypass on every puzzle that defines one. */

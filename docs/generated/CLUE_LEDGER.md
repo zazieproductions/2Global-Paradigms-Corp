@@ -96,6 +96,37 @@ Tier 3 is the assisted route. Opening it before a correct answer marks the compl
 | `gateway-waveform` | _none_ |
 | `gateway-transmission` | _none_ |
 
+## Navigation shell surface
+
+The docked archive shell (`` ` ``, dropped in a few seconds after load) navigates and reports. It is
+**not** a puzzle surface: no command here grants clearance, reveals a redaction or moves the case on.
+Anything that would is handed off to the backdoor (`cli` → `~`), which owns all of that.
+
+| Command | Argument | Purpose | Hand-off |
+| --- | --- | --- | :--: |
+| `help` | `[command]` | Command index, or the usage of one command | — |
+| `ls` | `[section]` | List sections, or the route a section mounts at | — |
+| `cd` | `<section>` | Change section (aliases: open, goto) | — |
+| `pwd` | — | Print the route the archive is currently showing | — |
+| `open` | `<section\|record>` | Open a section, a record code, or a hit from `find` | — |
+| `find` | `<terms>` | Search every recovered record; `open <n>` opens hit n | — |
+| `read` | `<document>` | Open a document in the viewer | — |
+| `back` | — | Return to the previous route | — |
+| `history` | — | Commands typed in this session | — |
+| `clear` | — | Clear the screen (Ctrl+L) | — |
+| `whoami` | — | Operator, clearance and case progress | — |
+| `callsign` | `[name]` | Show or set the operator callsign | — |
+| `crt` | `[on\|off]` | CRT scanline display | — |
+| `sound` | `[on\|off]` | Interface sounds | — |
+| `transmission` | — | Read the unscheduled Channel 9 message | yes |
+| `cli` | — | Open the Channel 9 backdoor (~) | yes |
+| `boot` | — | Replay the cold-boot sequence | yes |
+| `exit` | — | Close the shell (Esc) | — |
+
+Section aliases (`cd <alias>` reserves no command name):
+
+`docs`→`documents` · `vault`→`documents` · `vault0`→`documents` · `people`→`personnel` · `staff`→`personnel` · `roster`→`personnel` · `sites`→`stations` · `arrays`→`stations` · `projects`→`programs` · `dossiers`→`programs` · `depts`→`departments` · `recalls`→`products` · `acoustics`→`audio` · `apps`→`tools` · `financials`→`reports` · `comms`→`communications` · `email`→`communications` · `minutes`→`communications` · `bulletins`→`newsletters` · `courses`→`training` · `jobs`→`careers` · `hiring`→`careers` · `doctrine`→`values` · `pillars`→`values` · `case`→`sanctum` · `ledger`→`legacy` · `restoration`→`legacy` · `home`→`dashboard` · `root`→`dashboard`
+
 ## Terminal surface
 
 The terminal (`~`) is a puzzle surface in its own right. `help` lists the documented commands;

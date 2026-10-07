@@ -38,7 +38,7 @@ export default function StationsMapPage() {
       case 'Operational':
         return 'bg-emerald-950/80 text-emerald-300 border-emerald-700';
       case 'Elevated Alert':
-        return 'bg-amber-950/80 text-amber-300 border-amber-600 animate-pulse font-bold';
+        return 'bg-amber-950/80 text-amber-300 border-amber-600 font-bold';
       case 'Under Containment':
         return 'bg-rose-950/80 text-rose-300 border-rose-600 font-bold';
       default:
@@ -131,7 +131,7 @@ export default function StationsMapPage() {
               {/* Frequency Band Callout */}
               <div className="p-3 bg-cyan-950/20 border border-cyan-500/40 rounded flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 text-cyan-300">
-                  <Radio className="w-4 h-4 text-cyan-400 animate-pulse" />
+                  <Radio className="w-4 h-4 text-cyan-400" aria-hidden />
                   <span>ACOUSTIC FREQUENCY BAND:</span>
                   <span className="font-bold text-white">{selectedStation.frequencyBand}</span>
                 </div>

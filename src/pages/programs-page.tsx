@@ -24,7 +24,7 @@ export default function ProgramsPage() {
   const getThreatBadge = (level: InternalProgram['threatLevel']) => {
     switch (level) {
       case 'Existential':
-        return 'bg-rose-950 text-rose-300 border-rose-600 animate-pulse font-bold';
+        return 'bg-rose-950 text-rose-300 border-rose-600 font-bold';
       case 'Critical':
         return 'bg-red-950 text-red-300 border-red-600 font-bold';
       case 'High':
