@@ -103,7 +103,7 @@ export function AudioPlayerBar() {
         <canvas ref={canvasRef} width={400} height={32} className="w-full h-full block" />
       </div>
 
-      <span className="text-caption text-slate-500 shrink-0 hidden md:inline">DSP ANALYSIS: ONLINE</span>
+      <span className="text-caption text-slate-500 shrink-0 hidden md:inline">ANALYSER</span>
     </div>
   );
 }

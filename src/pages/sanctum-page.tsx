@@ -137,9 +137,9 @@ export default function SanctumPage() {
 
         {/* ------------------------------------------------------------ PROLOGUE */}
         {showPrologue && (
-          <div className="relative p-5 rounded border border-fuchsia-900/50 bg-gradient-to-br from-fuchsia-950/20 via-black/60 to-black/80 ovp-revelation">
+          <div className="relative p-5 rounded border border-fuchsia-900/50 bg-inset ovp-revelation">
             <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] text-fuchsia-400 mb-3">
-              <span className="w-2 h-2 rounded-full bg-fuchsia-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-fuchsia-500" aria-hidden />
               INTERCEPTED DEAD-DROP · SENDER: E. THORNE · ROUTED VIA WAYBACK MIRROR 1998 · INTEGRITY: PARTIAL
             </div>
             <p className="whitespace-pre-line text-[12px] leading-relaxed text-slate-300 max-w-3xl">
@@ -355,7 +355,7 @@ export default function SanctumPage() {
 
           {/* ---------------------------------------------------------- RIGHT: SEAL */}
           <div
-            className="rounded-lg border bg-gradient-to-b from-black/70 to-[#07060c]/90 overflow-hidden"
+            className="rounded-lg border bg-inset overflow-hidden"
             style={{ borderColor: `${seal.accent}44`, boxShadow: `0 0 40px ${seal.accent}14 inset` }}
           >
             {/* seal header */}
@@ -385,9 +385,7 @@ export default function SanctumPage() {
                     BROKEN{investigation.isAssisted(seal.id) ? ' · ASSISTED' : ''}
                   </span>
                 ) : open ? (
-                  <span className="px-2 py-1 rounded border border-amber-600 text-amber-300 animate-pulse">
-                    ACTIVE
-                  </span>
+                  <span className="px-2 py-1 rounded border border-amber-600 text-amber-300">ACTIVE</span>
                 ) : (
                   <span className="px-2 py-1 rounded border border-slate-700 text-slate-500">SEALED</span>
                 )}

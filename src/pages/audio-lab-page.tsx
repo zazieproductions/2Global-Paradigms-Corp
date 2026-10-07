@@ -176,7 +176,7 @@ export default function AudioLabPage() {
               <button
                 type="button"
                 onClick={handleStopAll}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-rose-950 text-rose-300 border border-rose-600 rounded font-bold cursor-pointer transition-colors shadow-md text-xs motion-safe:animate-pulse"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-rose-950 text-rose-300 border border-rose-600 rounded font-bold cursor-pointer transition-colors text-xs"
               >
                 <Square className="w-3.5 h-3.5" />
                 <span>STOP ALL STREAMS</span>
@@ -386,7 +386,7 @@ export default function AudioLabPage() {
                       <span className="flex items-center gap-2">
                         <span className="font-bold text-cyan-300 text-label font-mono">{art.code}</span>
                         {isPlaying && (
-                          <span className="text-nano px-1 py-px rounded bg-cyan-400 text-black font-bold motion-safe:animate-pulse">
+                          <span className="text-nano px-1 py-px rounded bg-cyan-400 text-black font-bold">
                             PLAYING
                           </span>
                         )}

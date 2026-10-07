@@ -15,7 +15,7 @@ export const CaseBanner: FC<{ onOpen: () => void }> = ({ onOpen }) => {
     <button
       type="button"
       onClick={onOpen}
-      className="w-full text-left relative overflow-hidden p-4 rounded-lg border border-fuchsia-800/50 bg-gradient-to-r from-fuchsia-950/40 via-[#0c0914] to-[#0b0d16] hover:border-fuchsia-500/70 transition-colors cursor-pointer group"
+      className="w-full text-left relative overflow-hidden p-4 rounded-lg border border-fuchsia-800/50 bg-panel hover:border-fuchsia-500/70 transition-colors cursor-pointer group"
     >
       <div
         className="absolute -right-10 -top-10 text-fuchsia-400/10 ovp-spin-slow pointer-events-none"

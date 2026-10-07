@@ -46,11 +46,12 @@ browser's `localStorage`.
     │   ├── app.tsx                RouterProvider
     │   ├── router.tsx             route table (lazy pages) + legacy redirects + 404
     │   ├── route-elements.tsx     RootLayout, LegacyRedirect, RouteError
-    │   ├── archive-shell.tsx      boot gate, skip link, header/sidebar, global keys, all dialogs
-    │   └── archive-ui-context.tsx which dialog is open; openDocument(); navigateToTab()
+    │   ├── archive-shell.tsx      skip link, header/sidebar, global keys, all dialogs, boot replay
+    │   └── archive-ui-context.tsx which dialog / the docked shell is open; openDocument(); navigateToTab()
     ├── pages/                 one file per route (default export, lazy-loaded)
     ├── components/
-    │   ├── archive/           document viewer, search, dead-link viewer, guide, RedactedText, SealMark
+    │   ├── archive/           document viewer, search, dead-link viewer, guide, shell terminal,
+    │   │                      RedactedText, SealMark
     │   ├── audio/             persistent audio player bar
     │   ├── corporate/         training-module + job-application modals
     │   ├── layout/            top header, sidebar
@@ -63,6 +64,7 @@ browser's `localStorage`.
     │   ├── documents/ personnel/ offices/ projects/ departments/ audio/ communications/
     │   ├── corporate/ history/ restoration/ tools/ web/
     │   ├── puzzles/           definitions, seals, directives (field run), gateway, downloads, terminal text
+    │   ├── shell/             the navigation shell's command index, aliases and session copy
     │   └── index.ts           barrel: every collection
     ├── lib/
     │   ├── archive/           record normaliser (records.ts), clearance helpers, redaction,
@@ -109,21 +111,30 @@ main.tsx
  └─ <App>  →  RouterProvider(routes)
      └─ RootLayout
          └─ <ArchiveShell>                          (app/archive-shell.tsx)
-             ├─ BootSequence (FEATURES.bootSequence) → onComplete(callsign) → PrologueModal (first visit)
              ├─ skip link → <main id="main-content">
              ├─ TopHeader · Sidebar
              ├─ <Outlet/>  →  lazy page (Suspense + ErrorBoundary per page)
+             ├─ ArchiveShellTerminal  →  navigates only (cd/ls/open/find); hands off to the backdoor
              ├─ AudioPlayerBar
+             ├─ BootSequence (FEATURES.bootSequence, or `boot` in the shell) → onComplete(callsign)
              └─ dialogs: DocumentViewer (?doc=), GlobalSearch, Terminal, Safe, Clearance, Guide,
                  DeadLinkViewer, Gateway, TapeSpool (Directive 17), Finale, RevelationToasts
 ```
 
 - **Dialogs** are coordinated by `ArchiveUiContext`: exactly one is open at a time; `openDialog`,
   `closeDialog`, `toggleDialog`.
+- **The unscheduled transmission is announced, not imposed.** First run prints one line in the shell's
+  login banner; `transmission` opens Thorne's dead-drop. With `FEATURES.bootSequence` on, the boot gate
+  still precedes it.
 - **Documents open by URL**: `openDocument(doc)` sets `?doc=<id>`, so a record can be deep-linked, and
   Back closes it. `?record=<id>` does the same for personnel/stations/programs via `useRecordParam`.
-- **Global keys** (ignored while typing in a field): `/` or Ctrl/Cmd-K search, `` ` `` / `~` terminal,
-  `u` de-scrambler, `Esc` closes the top-most dialog.
+- **Global keys** (ignored while typing in a field): `/` or Ctrl/Cmd-K search, `` ` `` the navigation
+  shell, `~` the Channel 9 backdoor, `u` de-scrambler, `Esc` closes the top-most dialog.
+- **The shell is not a dialog.** It docks into the column above the audio bar, so it can stay open while a
+  record is read; only `Esc` with focus inside it closes it. `ArchiveUiContext` holds its open state so
+  the dashboard and the guide can raise it too. The shell never changes progression state — anything that
+  would (`transmission`, `cli`, `boot`) is a hand-off, and the backdoor in `components/puzzles/` stays the
+  only surface that grants anything.
 - **The `<head>` is rewritten on every navigation.** `<RouteMetadata/>` (`components/seo/route-metadata.tsx`,
   mounted by `ArchiveShell`) runs `routeSeo(pathname)` and writes the title, canonical, robots directive,
   Open Graph and Twitter tags into the live document, because Google renders JavaScript and therefore

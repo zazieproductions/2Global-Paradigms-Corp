@@ -5,7 +5,13 @@ import { canonicalUrl, SEO_PAGES, SEO_SITE } from '@/config/seo';
 import { renderArchive } from './render';
 
 vi.mock('@/config/features', () => ({
-  FEATURES: { bootSequence: false, persistProgress: false, assistedBypass: true, uiSoundsDefault: false }
+  FEATURES: {
+    bootSequence: false,
+    archiveShell: false,
+    persistProgress: false,
+    assistedBypass: true,
+    uiSoundsDefault: false
+  }
 }));
 
 const indexHtml = Object.values(

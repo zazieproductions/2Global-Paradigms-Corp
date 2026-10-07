@@ -123,7 +123,8 @@ The canonical playthrough as a knowledge state machine. Use it to check any new 
 
 | Stage                | Knows                                                                                 | Does not know                                               |
 | -------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| Cold boot            | The company exists; PARADIGM-OS; a callsign                                           | That there is a puzzle at all                               |
+| Landing (shell)      | The company exists; the sections; a callsign; that a transmission is waiting           | That there is a puzzle at all                               |
+| Cold boot (`boot`)   | PARADIGM-OS boots; a callsign is chosen; Channel 9 exists                              | That there is a puzzle at all                               |
 | Gateway Transmission | There is an "Origin Protocol"; three keys; the case file exists                       | What the keys mean; anything about the Order                |
 | Prologue (Thorne)    | There is an Order; there are seven seals; clearance is earned by breaking them        | Any specific fact                                           |
 | After Seal I         | Saturn's constant is 15; the carrier drifts toward 15.000; "Completion of the Square" | That the Order is inside the company rather than beneath it |

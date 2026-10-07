@@ -124,19 +124,25 @@ cheaper as one immutable file than as a hundred requests.
 
 ## 6. Environment variables
 
-Build-time only, all optional, all defaulting to on. `envPrefix: ['VITE_']` means nothing else reaches
-client code — and there are no secrets to leak, because there is no server.
+Build-time only, all optional. `envPrefix: ['VITE_']` means nothing else reaches client code — and there
+are no secrets to leak, because there is no server.
 
-| Variable                        | Default | Effect                                           |
-| ------------------------------- | ------- | ------------------------------------------------ |
-| `VITE_FEATURE_BOOT_SEQUENCE`    | `true`  | Play the cold-boot terminal on load              |
-| `VITE_FEATURE_PERSIST_PROGRESS` | `true`  | Write progression to `localStorage`              |
-| `VITE_FEATURE_ASSISTED_BYPASS`  | `true`  | Offer the no-shame assisted route                |
-| `VITE_FEATURE_UI_SOUNDS`        | `true`  | Default UI click sounds on (still gesture-gated) |
+| Variable                        | Default | Effect                                                 |
+| ------------------------------- | ------- | ------------------------------------------------------ |
+| `VITE_FEATURE_BOOT_SEQUENCE`    | `false` | Gate the archive behind the cold-boot terminal on load |
+| `VITE_FEATURE_ARCHIVE_SHELL`    | `true`  | Drop the navigation shell in a few seconds after load  |
+| `VITE_FEATURE_PERSIST_PROGRESS` | `true`  | Write progression to `localStorage`                    |
+| `VITE_FEATURE_ASSISTED_BYPASS`  | `true`  | Offer the no-shame assisted route                      |
+| `VITE_FEATURE_UI_SOUNDS`        | `true`  | Default UI click sounds on (still gesture-gated)       |
 
 ```sh
-VITE_FEATURE_BOOT_SEQUENCE=false npm run build   # skip the boot for a demo or a screenshot
+VITE_FEATURE_BOOT_SEQUENCE=true npm run build   # boot-first build for a demo or a teaser
+VITE_FEATURE_ARCHIVE_SHELL=false npm run build  # plain archive, no console
 ```
+
+With the boot off (the default), a visitor lands in the archive and the shell drops in ~3 s later. The cold
+boot is still reachable at any time by typing `boot` in the shell, and it is what the
+`VITE_FEATURE_BOOT_SEQUENCE=true` deployment shows instead.
 
 There is no `.env` file and none is needed. `.gitignore` excludes `.env*` except `.env.example`, which
 does not exist because there is nothing to exemplify.

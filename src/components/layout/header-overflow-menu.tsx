@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import {
   Check,
+  ChevronsUp,
   HelpCircle,
   Key,
   MoreVertical,
@@ -28,6 +29,7 @@ interface HeaderOverflowMenuProps {
   onToggleCrt: () => void;
   onToggleSound: () => void;
   onOpenTerminal: () => void;
+  onOpenShell: () => void;
   onOpenSafe: () => void;
   onOpenGuide: () => void;
 }
@@ -48,6 +50,7 @@ export function HeaderOverflowMenu({
   onToggleCrt,
   onToggleSound,
   onOpenTerminal,
+  onOpenShell,
   onOpenSafe,
   onOpenGuide
 }: HeaderOverflowMenuProps) {
@@ -78,6 +81,13 @@ export function HeaderOverflowMenu({
   }, [open]);
 
   const items: Item[] = [
+    {
+      icon: ChevronsUp,
+      label: 'ARCHIVE SHELL',
+      hint: 'Navigate by command',
+      iconClassName: 'text-slate-300',
+      onSelect: onOpenShell
+    },
     {
       icon: Terminal,
       label: 'GPC://CLI',

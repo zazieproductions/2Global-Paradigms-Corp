@@ -11,7 +11,13 @@ import { renderArchive } from './render';
 import { SEAL_ANSWERS } from './seal-fixtures';
 
 vi.mock('@/config/features', () => ({
-  FEATURES: { bootSequence: false, persistProgress: false, assistedBypass: true, uiSoundsDefault: false }
+  FEATURES: {
+    bootSequence: false,
+    archiveShell: false,
+    persistProgress: false,
+    assistedBypass: true,
+    uiSoundsDefault: false
+  }
 }));
 
 const state = () => progressionStore.getState();

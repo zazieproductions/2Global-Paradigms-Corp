@@ -16,8 +16,6 @@ import {
   X
 } from 'lucide-react';
 import type { ClearanceLevel } from '@/types';
-import { REGIONAL_STATIONS } from '@/content';
-import { SITE } from '@/config/site';
 import { gpcAudio } from '@/lib/audio/audio-engine';
 import { clearanceTier } from '@/lib/archive/clearance';
 import { useProgression } from '@/hooks/use-progression';
@@ -27,7 +25,7 @@ import { HeaderOverflowMenu } from './header-overflow-menu';
 import { cn } from '@/lib/utils/cn';
 
 const CLEARANCE_PILL: Record<number, string> = {
-  5: 'bg-rose-950 text-rose-300 border-rose-600 animate-pulse',
+  5: 'bg-rose-950 text-rose-300 border-rose-600',
   4: 'bg-amber-950 text-amber-300 border-amber-500',
   3: 'bg-cyan-950 text-cyan-300 border-cyan-500',
   2: 'bg-blue-950 text-blue-300 border-blue-500',
@@ -37,35 +35,18 @@ const pillFor = (lvl: ClearanceLevel) => CLEARANCE_PILL[clearanceTier(lvl)] ?? C
 
 const ICON_BTN = 'tap-target p-1.5 rounded transition-all cursor-pointer border';
 
-/** Live UTC clock + simulated 14.8 Hz carrier drift (decorative). */
-function CarrierStatus() {
+/** UTC clock for the archive header. Nothing here is simulated. */
+function UtcClock() {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
-  const drift = (14.802 + Math.sin(now.getTime() * 0.0005) * 0.006).toFixed(3);
 
   return (
-    <div
-      className="hidden xl:flex items-center gap-4 bg-canvas border border-line-subtle px-3 py-1 rounded"
-      aria-hidden
-    >
-      <div className="flex items-center gap-1.5 text-label">
-        <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-        <span className="text-slate-400">PLANETARY CARRIER:</span>
-        <span className="text-cyan-300 font-bold">{drift} Hz</span>
-      </div>
-      <span className="text-slate-600">|</span>
-      <div className="flex items-center gap-1.5 text-label">
-        <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-glow-sm shadow-phosphor" />
-        <span className="text-slate-400">{REGIONAL_STATIONS.length} STATIONS ONLINE</span>
-      </div>
-      <span className="text-slate-600">|</span>
-      <span className="text-caption text-amber-400 font-semibold">
-        {now.toUTCString().replace('GMT', 'UTC')}
-      </span>
-    </div>
+    <span className="hidden xl:inline text-caption text-slate-500 font-mono" aria-hidden>
+      {now.toUTCString().replace('GMT', 'UTC')}
+    </span>
   );
 }
 
@@ -77,7 +58,7 @@ interface TopHeaderProps {
 export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
   const { state, clearance, setPreference } = useProgression();
   const { unredacted, unlocked: descramblerUnlocked, toggle: toggleDescrambler } = useDescrambler();
-  const { openDialog } = useArchiveUi();
+  const { openDialog, openShell } = useArchiveUi();
   const { crt, sound } = state.preferences;
 
   const click =
@@ -102,30 +83,21 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
           {sidebarOpen ? <X className="w-4 h-4" aria-hidden /> : <Menu className="w-4 h-4" aria-hidden />}
         </button>
         <div className="flex items-center gap-2.5 min-w-0">
-          <img
-            src="/favicon.svg"
-            alt=""
-            aria-hidden="true"
-            className="w-9 h-9 shrink-0 drop-shadow-[0_0_12px_rgba(111,188,178,0.18)]"
-          />
+          <img src="/favicon.svg" alt="" aria-hidden="true" className="w-8 h-8 shrink-0" />
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-2">
               <span className="font-bold text-slate-100 tracking-wider text-sm truncate">
                 GLOBAL PARADIGMS CORP.
               </span>
-              <span className="hidden sm:inline-block text-micro px-1.5 py-px rounded bg-cyan-950/80 text-cyan-400 border border-cyan-800/80">
-                {SITE.osVersion}
-              </span>
             </div>
-            <span className="hidden sm:block text-caption text-slate-400 truncate max-w-[200px] md:max-w-none">
-              ARCHIVE NET // OPERATOR: {state.callsign.toUpperCase()} // STRATEGIC FORECASTING & CIVIC
-              CONTINUITY
+            <span className="hidden sm:block text-caption text-slate-500 truncate max-w-[200px] md:max-w-none">
+              RECOVERED ARCHIVE · OPERATOR {state.callsign.toUpperCase()}
             </span>
           </div>
         </div>
       </div>
 
-      <CarrierStatus />
+      <UtcClock />
 
       {/* Controls */}
       <div className="flex items-center gap-1 md:gap-2 shrink-0">
@@ -133,18 +105,18 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
         <button
           type="button"
           onClick={click(() => openDialog({ type: 'gateway' }), 'unredact')}
-          className="tap-target flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 bg-fuchsia-950/40 hover:bg-fuchsia-900/50 text-fuchsia-300 border border-fuchsia-500/50 hover:border-fuchsia-400 rounded transition-all cursor-pointer text-xs shadow-glow-sm shadow-order/15"
+          className="tap-target flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 bg-fuchsia-950/40 hover:bg-fuchsia-900/50 text-fuchsia-300 border border-fuchsia-500/50 hover:border-fuchsia-400 rounded transition-colors cursor-pointer text-xs"
           title="Replay the buffered Gateway Transmission"
           aria-label="Gateway Transmission"
         >
-          <Radio className="w-3.5 h-3.5 text-fuchsia-400 motion-safe:animate-pulse" aria-hidden />
-          <span className="hidden md:inline text-label font-bold tracking-wider">▸ TRANSMISSION</span>
+          <Radio className="w-3.5 h-3.5 text-fuchsia-400" aria-hidden />
+          <span className="hidden md:inline text-label font-bold tracking-wider">TRANSMISSION</span>
         </button>
 
         <button
           type="button"
           onClick={click(() => openDialog({ type: 'search' }))}
-          className="tap-target flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 bg-hover hover:bg-active text-slate-200 border border-line-bright hover:border-cyan-500/50 rounded transition-all cursor-pointer text-xs"
+          className="tap-target flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 bg-hover hover:bg-active text-slate-200 border border-line-bright hover:border-cyan-500/50 rounded transition-colors cursor-pointer text-xs"
           title="Global Archive Search (Ctrl+K or /)"
           aria-label="Search archive"
           aria-keyshortcuts="/ Control+K"
@@ -164,7 +136,7 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
           className={cn(
             'tap-target flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded text-xs font-semibold transition-all cursor-pointer border',
             unredacted
-              ? 'bg-rose-950/80 text-rose-300 border-rose-500 shadow-glow-sm shadow-alert/40 animate-pulse'
+              ? 'bg-rose-950/80 text-rose-300 border-rose-500'
               : 'bg-hover text-slate-300 hover:text-white border-line-bright'
           )}
           title={
@@ -293,6 +265,7 @@ export function TopHeader({ sidebarOpen, onToggleSidebar }: TopHeaderProps) {
             gpcAudio.playUiSound('click');
           }}
           onOpenTerminal={click(() => openDialog({ type: 'terminal' }), 'scan')}
+          onOpenShell={click(openShell, 'scan')}
           onOpenSafe={click(() => openDialog({ type: 'safe' }))}
           onOpenGuide={click(() => openDialog({ type: 'help' }))}
         />

@@ -101,7 +101,25 @@ with `shadow-<colour>/<alpha>`. Layout: `--spacing-header` (3.5rem), `--spacing-
 | `sigils.tsx`                           | `OrderSigil`, `PlanetGlyph`, `SealEmblem`, `ChoirGlyph`, `ChoirText`, `AlchemicalRow`, `SigilWatermark`                                                                                                                                                        |
 
 Archive-specific building blocks live in `components/archive` (`RedactedText`, `SealMark`, the document
-viewer and search). Audio controls are in `components/audio/audio-player-bar.tsx`.
+viewer, search, and the navigation shell). Audio controls are in `components/audio/audio-player-bar.tsx`.
+
+### The navigation shell (`components/archive/shell-terminal.tsx`)
+
+A docked console that opens a few seconds after load (`` ` `` toggles it). It is deliberately _not_ styled
+as a film terminal: no scanlines, no glow, no blinking cursor — one hairline frame, one scrollback, one
+prompt, in the same mono face and type scale as the rest of the chrome. Rules:
+
+- **Non-modal.** It is a `<section aria-label="Archive shell">` inside the layout column above the audio
+  bar, so the page behind it stays readable and scrollable while it is open. No focus trap; `Esc` closes
+  it only while focus is inside it.
+- **State is visible.** The prompt carries operator, host and route (`operator@vault0:/documents$`), and
+  the header row carries the current route, so the console never needs a decorative "LIVE" badge.
+- **Motion is for state only.** The shell does not animate in. `animate-pulse` in this codebase means a
+  live process (audio playing, a capture running) — never "look here".
+- **Nothing grants.** Every command navigates or reports. Hand-offs (`cli`, `transmission`, `boot`) open
+  another surface rather than reaching into progression.
+- **Touch parity.** Below `sm` the prompt collapses to `$`, with a visible RUN button and an `↑` recall
+  button, because a phone has no keyboard `Enter` or arrow key (same rule as the CLI).
 
 ### Utilities
 
