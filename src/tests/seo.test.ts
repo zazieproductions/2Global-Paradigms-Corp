@@ -10,6 +10,7 @@ import {
   ERA_TWO,
   FACT_TABLE,
   FAQ,
+  RELATED_WORK,
   SEO_DESCRIPTION,
   SEO_H1,
   SEO_SOCIAL,
@@ -190,6 +191,24 @@ describe('crawlable archive summary', () => {
       expect(STATIC_TEXT, `question: ${entry.q}`).toContain(squash(entry.q));
       expect(STATIC_TEXT, `answer: ${entry.q}`).toContain(squash(entry.a));
     }
+  });
+
+  it('renders the creator link in the static HTML for every public route', () => {
+    const script = `
+      import { loadSeo } from './scripts/lib/load-seo.mjs';
+      import { renderStaticBlock } from './scripts/lib/seo-surfaces.mjs';
+      const seo = await loadSeo();
+      console.log(JSON.stringify(seo.SEO_PAGES.map(page => renderStaticBlock(seo, page))));
+    `;
+    const blocks = JSON.parse(
+      execFileSync('node', ['--input-type=module', '-e', script], { encoding: 'utf8' })
+    ) as string[];
+    expect(blocks).toHaveLength(SEO_PAGES.length);
+    for (const block of blocks) {
+      expect(block).toContain(RELATED_WORK.intro);
+      expect(block).toContain(`<a href="${RELATED_WORK.url}">${RELATED_WORK.label}</a>`);
+    }
+    expect(STATIC_BLOCK).toContain(`<a href="${RELATED_WORK.url}">${RELATED_WORK.label}</a>`);
   });
 
   it('links every routed archive section exactly once', () => {

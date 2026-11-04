@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
 import { NAV_ITEMS } from '@/config/navigation';
-import { canonicalUrl, SEO_PAGES, SEO_SITE } from '@/config/seo';
+import { canonicalUrl, RELATED_WORK, SEO_PAGES, SEO_SITE } from '@/config/seo';
 import { renderArchive } from './render';
 
 vi.mock('@/config/features', () => ({
@@ -83,6 +83,16 @@ describe('discovery files', () => {
     renderArchive('/legacy');
     expect(await screen.findByRole('heading', { name: 'Restoration Ledger' })).toBeInTheDocument();
     expect(screen.getByText('Six outbound URLs confirmed dead')).toBeInTheDocument();
+  });
+});
+
+describe('creator credit', () => {
+  it.each(['/', '/documents', '/sanctum'])('links to the related work on %s', async (path) => {
+    renderArchive(path);
+    const link = await screen.findByRole('link', { name: RELATED_WORK.label });
+    expect(link).toHaveAttribute('href', RELATED_WORK.url);
+    expect(link.closest('footer')).toHaveTextContent(RELATED_WORK.intro);
+    expect(link).not.toHaveAttribute('rel', 'nofollow');
   });
 });
 
