@@ -17,6 +17,7 @@ import { DirectiveBoard } from '@/components/puzzles/directive-board';
 import { useArchiveUi } from '@/app/archive-ui-context';
 import { useDescrambler, useInvestigation } from '@/hooks/use-investigation';
 import { gpcAudio } from '@/lib/audio/audio-engine';
+import { RelatedWorkFooter } from '@/components/ui/related-work-footer';
 
 export default function SanctumPage() {
   const investigation = useInvestigation();
@@ -517,6 +518,9 @@ export default function SanctumPage() {
             )}
           </div>
         </div>
+      </div>
+      <div className="px-3 md:px-6 pb-6">
+        <RelatedWorkFooter />
       </div>
     </div>
   );

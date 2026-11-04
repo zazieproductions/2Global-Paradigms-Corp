@@ -193,7 +193,13 @@ export function renderStaticBlock(seo, page = homePage(seo)) {
     );
   }
 
-  lines.push(...renderSectionIndex(seo, page.path), '  </div>', '</div>');
+  lines.push(
+    ...renderSectionIndex(seo, page.path),
+    '',
+    `    <footer><p>${escapeHtml(seo.RELATED_WORK.intro)} <a href="${escapeHtml(seo.RELATED_WORK.url)}">${escapeHtml(seo.RELATED_WORK.label)}</a></p></footer>`,
+    '  </div>',
+    '</div>'
+  );
   return lines.join('\n');
 }
 

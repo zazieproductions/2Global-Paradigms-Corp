@@ -12,6 +12,13 @@ export const WORK_TITLE = 'Global Paradigms Corp. // Recovered Archive';
 export const WORK_ABSTRACT =
   'A recovered records archive for Global Paradigms Corp., tracing a strategic-forecasting firm from 1971 through 2026. The index contains classified reports, station telemetry, redacted correspondence, restoration logs and seven sealed case files. Clearance is earned through the archive investigation.';
 
+/** A real-world creator credit, kept separate from the archive's fiction. */
+export const RELATED_WORK = {
+  intro: 'Explore more from Zazie Productions:',
+  label: 'Zazie Productions Horror',
+  url: 'https://horror.zazieproductions.com'
+} as const;
+
 /** The domain this build is deployed to. No trailing slash. */
 export const CANONICAL_ORIGIN = 'https://globalparadigmscorp.com';
 
